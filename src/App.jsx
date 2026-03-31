@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { STOPS, JOURNEYS, BOOKING, CALENDAR } from "./data/tripData";
+import { STOPS, JOURNEYS, BOOKING, CALENDAR, TRIP_BUDGET } from "./data/tripData";
 import { useRates } from "./utils/useRates";
 import { generateStopPdf, generateFullTripPdf } from "./utils/generatePdf";
 import "./styles/app.css";
 
-import { CITY_IMAGES, LANDMARK_IMAGES, ROUTE_MAPS } from "./data/imageData";
-import { TIPS } from "./data/tipsData";
+import { CITY_IMAGES, LANDMARK_IMAGES } from "./data/imageData";
+import { TIPS, PACKING_CHECKLIST } from "./data/tipsData";
 import { DOCS, MUST_TRY } from "./data/docsData";
+import { PRACTICAL } from "./data/practicalData";
 
 const getCityHero = (id) => CITY_IMAGES?.[id]?.hero || null;
 const getCityMap = (id) => CITY_IMAGES?.[id]?.mapEmbed || null;
@@ -33,7 +34,7 @@ const CAL_TYPES = {
   travel:  { border: "#3A0A30", dot: "#F06292", glow: "rgba(240,98,146,0.08)", text: "#F48FB1" },
 };
 
-const TAB_ORDER = ["destinations", "story", "itinerary", "must try", "compare", "getting here", "stay & eat", "weather", "tips", "docs"];
+const TAB_ORDER = ["destinations", "story", "itinerary", "must try", "compare", "getting here", "stay & eat", "weather", "tips", "budget", "checklist", "phrasebook", "docs"];
 
 export default function App() {
   const { rates, src, npr } = useRates();
@@ -103,17 +104,11 @@ export default function App() {
             <div className="header-subtitle">16 Jun – 6 Jul · 5 travellers · Kathmandu</div>
           </div>
           <div className="header-actions">
-            <button
-              className="pill"
-              onClick={toggleTheme}
-              title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-              style={{ fontSize: 16 }}
-            >
-              {theme === "light" ? "🌙" : "☀️"} {theme === "light" ? "Dark" : "Light"}
+            <button className="pill" onClick={toggleTheme} title={`Switch to ${theme === "light" ? "dark" : "light"} mode`} style={{ padding: "8px 12px" }}>
+              {theme === "light" ? "🌙" : "☀️"}
             </button>
-            <span className="rate-badge">{src}</span>
-            <button className={`pill pill-npr${showNPR ? "" : " off"}`} onClick={() => setShowNPR((p) => !p)}>
-              ₨ NPR {showNPR ? "ON" : "OFF"}
+            <button className={`pill${showNPR ? " active" : ""}`} onClick={() => setShowNPR((p) => !p)} style={{ fontSize: 12 }}>
+              ₨ {showNPR ? "ON" : "OFF"}
             </button>
             {["calendar", "journeys", "bookings"].map((t) => (
               <button key={t} className={`pill${topTab === t ? " active" : ""}`} onClick={() => setTopTab((p) => (p === t ? null : t))}>
@@ -121,10 +116,10 @@ export default function App() {
               </button>
             ))}
             <button className="pdf-btn" onClick={() => { setView("docs"); setTopTab(null); }} title="Visa & Documentation Guide" style={{ background: "#2E7D32" }}>
-              📋 Visa & Docs
+              Visa & Docs
             </button>
-            <button className="pdf-btn" onClick={() => generateFullTripPdf(STOPS, CALENDAR)} title="Download complete trip PDF">
-              📄 Full Trip PDF
+            <button className="pdf-btn" onClick={() => generateFullTripPdf(STOPS, CALENDAR, { journeys: JOURNEYS, tripBudget: TRIP_BUDGET, packingChecklist: PACKING_CHECKLIST, practical: PRACTICAL })} title="Download complete trip PDF">
+              Full Trip PDF
             </button>
           </div>
         </div>
@@ -165,7 +160,6 @@ export default function App() {
                     </span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ fontSize: 14 }}>{day.icon}</span>
                     <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>{day.city}</span>
                   </div>
                 </div>
@@ -282,32 +276,13 @@ export default function App() {
                 </div>
               )}
 
-              {/* Mini route indicator */}
-              <div style={{ display: "flex", justifyContent: "center", gap: 6, marginBottom: 12, flexWrap: "wrap" }}>
-                {STOPS.map((s, si) => (
-                  <span
-                    key={s.id}
-                    style={{
-                      fontSize: si === idx ? 14 : 10,
-                      opacity: si === idx ? 1 : 0.4,
-                      cursor: "pointer",
-                      transition: "all 0.2s",
-                    }}
-                    onClick={() => handleStopChange(s.id)}
-                    title={s.city}
-                  >
-                    {s.flag}
-                  </span>
-                ))}
-              </div>
-
               <div className="hero-meta">
                 <span style={heroImg ? { color: "rgba(255,255,255,0.8)" } : {}}>{stop.country}</span>
                 <span className="dot" style={heroImg ? { color: "rgba(255,255,255,0.4)" } : {}}>·</span>
                 <span style={heroImg ? { color: "rgba(255,255,255,0.8)" } : {}}>{stop.duration}</span>
               </div>
               <h1 className="hero-title" style={heroImg ? { color: "#fff", textShadow: "0 2px 12px rgba(0,0,0,0.5)" } : {}}>
-                {stop.flag} {stop.city}
+                {stop.city}
               </h1>
               <p className="hero-tagline" style={heroImg ? { color: "rgba(255,255,255,0.85)" } : {}}>"{stop.tagline}"</p>
               <div className="hero-stats">
@@ -322,7 +297,7 @@ export default function App() {
                   <div className="sub" style={heroImg ? { color: "rgba(255,255,255,0.7)" } : {}}>{stop.weather.rain}</div>
                 </div>
                 <button className="pdf-btn" onClick={() => generateStopPdf(stop, calDay)} title={`Download ${stop.city} PDF`}>
-                  📄 Download PDF
+                  Download PDF
                 </button>
               </div>
             </div>
@@ -347,6 +322,9 @@ export default function App() {
           {view === "weather" && <WeatherView stop={stop} />}
           {view === "tips" && <TipsView stop={stop} />}
           {view === "must try" && <MustTryView stop={stop} />}
+          {view === "budget" && <BudgetView stop={stop} stops={STOPS} showNPR={showNPR} npr={npr} />}
+          {view === "checklist" && <ChecklistView />}
+          {view === "phrasebook" && <PhrasebookView stop={stop} />}
           {view === "docs" && <DocsView />}
         </main>
       </div>
@@ -383,19 +361,6 @@ function StoryView({ stop }) {
           }}>
             {stop.flag} {stop.city}
           </div>
-        </div>
-      )}
-
-      {/* City Map */}
-      {getCityMap(stop.id) && (
-        <div style={{
-          borderRadius: "var(--radius)", overflow: "hidden",
-          border: "1px solid var(--border-light)", marginBottom: 24,
-          boxShadow: "var(--shadow)",
-        }}>
-          <iframe src={getCityMap(stop.id)} title={`${stop.city} map`}
-            style={{ width: "100%", height: 180, border: "none", display: "block" }}
-            loading="lazy" />
         </div>
       )}
 
@@ -452,8 +417,64 @@ function StoryView({ stop }) {
           )}
         </div>
         <div>
+          {/* Google Maps — interactive, searchable */}
+          <div className="card" style={{ padding: 0, overflow: "hidden", marginBottom: 16 }}>
+            <div style={{ padding: "12px 16px", borderBottom: "1px solid var(--border)" }}>
+              <h3 className="card-title" style={{ margin: 0 }}>Map — {stop.city}</h3>
+            </div>
+            <iframe
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(stop.city + " tourist attractions")}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+              title={`${stop.city} map`}
+              style={{ width: "100%", height: 450, border: "none", display: "block" }}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <div style={{
+              padding: "8px 16px", borderTop: "1px solid var(--border)",
+              display: "flex", gap: 8, flexWrap: "wrap",
+            }}>
+              <a
+                href={`https://www.google.com/maps/search/things+to+do+in+${encodeURIComponent(stop.city)}`}
+                target="_blank" rel="noreferrer"
+                style={{
+                  fontSize: 11, padding: "4px 10px", borderRadius: 6,
+                  background: "var(--accent)", color: "#fff", fontWeight: 600,
+                  fontFamily: "var(--sans)", textDecoration: "none",
+                }}
+              >Open in Google Maps</a>
+              <a
+                href={`https://www.google.com/maps/search/restaurants+in+${encodeURIComponent(stop.city)}`}
+                target="_blank" rel="noreferrer"
+                style={{
+                  fontSize: 11, padding: "4px 10px", borderRadius: 6,
+                  background: "var(--bg-hover)", color: "var(--text)", fontWeight: 600,
+                  fontFamily: "var(--sans)", textDecoration: "none", border: "1px solid var(--border)",
+                }}
+              >Restaurants</a>
+              <a
+                href={`https://www.google.com/maps/search/hotels+in+${encodeURIComponent(stop.city)}`}
+                target="_blank" rel="noreferrer"
+                style={{
+                  fontSize: 11, padding: "4px 10px", borderRadius: 6,
+                  background: "var(--bg-hover)", color: "var(--text)", fontWeight: 600,
+                  fontFamily: "var(--sans)", textDecoration: "none", border: "1px solid var(--border)",
+                }}
+              >Hotels</a>
+              <a
+                href={`https://www.google.com/maps/search/train+station+in+${encodeURIComponent(stop.city)}`}
+                target="_blank" rel="noreferrer"
+                style={{
+                  fontSize: 11, padding: "4px 10px", borderRadius: 6,
+                  background: "var(--bg-hover)", color: "var(--text)", fontWeight: 600,
+                  fontFamily: "var(--sans)", textDecoration: "none", border: "1px solid var(--border)",
+                }}
+              >Train Station</a>
+            </div>
+          </div>
+
           <div className="card">
-            <h3 className="card-title">🍽 Where to Eat</h3>
+            <h3 className="card-title">Where to Eat</h3>
             {stop.eat.map((e, i) => (
               <div key={i} className="eat-item">
                 <div className="eat-header">
@@ -466,7 +487,7 @@ function StoryView({ stop }) {
             ))}
           </div>
           <div className="card">
-            <h3 className="card-title">🌤 June Weather</h3>
+            <h3 className="card-title">Weather in June</h3>
             <div className="weather-temp">{stop.weather.temp}</div>
             <div className="weather-rain">{stop.weather.rain}</div>
             <div className="tip-box">{stop.weather.tip}</div>
@@ -502,41 +523,23 @@ function DestinationsView({ stop, idx, stops, journeys, onStopChange }) {
     }
   }
 
-  const routeMapUrl = ROUTE_MAPS?.fullRoute || null;
-
   return (
     <div className="panel">
       <h2 className="story-title">Route Overview</h2>
 
-      {/* Embedded OpenStreetMap */}
-      {routeMapUrl ? (
-        <div style={{ marginBottom: 28, borderRadius: "var(--radius-lg)", overflow: "hidden", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-md)" }}>
-          <iframe
-            src={routeMapUrl}
-            title="Trip route map"
-            style={{ width: "100%", height: 400, border: "none", display: "block" }}
-            loading="lazy"
-            allowFullScreen
-          />
-        </div>
-      ) : (
-        <div style={{
-          marginBottom: 28, borderRadius: "var(--radius-lg)", overflow: "hidden",
-          border: "1px solid var(--border-light)", boxShadow: "var(--shadow-md)",
-          height: 400, width: "100%",
-        }}>
-          <iframe
-            src="https://www.openstreetmap.org/export/embed.html?bbox=2.0%2C41.0%2C17.0%2C53.0&layer=mapnik"
-            title="Europe trip route"
-            style={{ width: "100%", height: "100%", border: "none", display: "block" }}
-            loading="lazy"
-            allowFullScreen
-          />
-        </div>
-      )}
+      {/* Route Map — Google Maps */}
+      <div style={{ marginBottom: 28, borderRadius: "var(--radius-lg)", overflow: "hidden", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-md)" }}>
+        <iframe
+          src={`https://maps.google.com/maps?q=${encodeURIComponent(stop.city)}&t=&z=12&ie=UTF8&iwloc=&output=embed`}
+          title="Trip route map"
+          style={{ width: "100%", height: 400, border: "none", display: "block" }}
+          loading="lazy"
+          allowFullScreen
+        />
+      </div>
 
       {/* Visual Route Timeline — Vertical */}
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--text)", marginBottom: 20, fontFamily: "var(--sans)" }}>
+      <h3 style={{ fontSize: 18, fontWeight: 800, color: "var(--text)", marginBottom: 20, fontFamily: "var(--sans)", letterSpacing: "-0.3px" }}>
         Full Route Timeline
       </h3>
       <div style={{ position: "relative", paddingLeft: 40, marginBottom: 32 }}>
@@ -758,18 +761,21 @@ function ItineraryView({ stop }) {
         </div>
       )}
 
-      {/* Embedded Map */}
-      {mapEmbed && (
-        <div style={{
-          borderRadius: "var(--radius)", overflow: "hidden",
-          border: "1px solid var(--border-light)", marginBottom: 24,
-          boxShadow: "var(--shadow)",
-        }}>
-          <iframe src={mapEmbed} title={`${stop.city} map`}
-            style={{ width: "100%", height: 200, border: "none", display: "block" }}
-            loading="lazy" />
-        </div>
-      )}
+      {/* Google Maps — interactive */}
+      <div style={{
+        borderRadius: "var(--radius-lg)", overflow: "hidden",
+        border: "1px solid var(--border-light)", marginBottom: 24,
+        boxShadow: "var(--shadow-md)",
+      }}>
+        <iframe
+          src={`https://maps.google.com/maps?q=${encodeURIComponent(stop.city + " city center")}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+          title={`${stop.city} map`}
+          style={{ width: "100%", height: 300, border: "none", display: "block" }}
+          loading="lazy"
+          allowFullScreen
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      </div>
 
       <h2 className="story-title">Day by Day</h2>
       <p className="itin-desc">Everything planned. Every timing verified. Tips from experience.</p>
@@ -785,7 +791,7 @@ function ItineraryView({ stop }) {
               <h3 className="itin-title">{item.title}</h3>
             </div>
             <p className="itin-desc-text">{item.desc}</p>
-            <div className="itin-tip">💡 {item.tip}</div>
+            <div className="itin-tip">{item.tip}</div>
           </div>
         </div>
       ))}
@@ -1070,7 +1076,6 @@ function ConnectionsView({ stop }) {
           <div className="leg-card">
             <div>
               <div className="leg-train-name">
-                <span style={{ fontSize: 18 }}>🚄</span>
                 <h3>{leg.train}</h3>
               </div>
               <div className="leg-times">
@@ -1097,7 +1102,7 @@ function ConnectionsView({ stop }) {
           </div>
           {i < c.legs.length - 1 && (
             <div className="change-indicator">
-              <span>🔄</span>
+              <span>→</span>
               <span>Change here — follow station signs to next platform</span>
             </div>
           )}
@@ -1105,7 +1110,7 @@ function ConnectionsView({ stop }) {
       ))}
       <div className="tip-box" style={{ marginTop: 24, fontSize: 14, lineHeight: 1.85, color: "#C0B0A0", padding: "20px 24px", borderRadius: 12 }}>
         <div style={{ fontSize: 12, color: "var(--accent)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>
-          💡 Practical Tip
+          Practical Tip
         </div>
         {c.tip}
       </div>
@@ -1214,7 +1219,7 @@ function StayEatView({ stop }) {
         <div>
           <h2 className="story-title">Where to Stay</h2>
           <div className="card">
-            <div className="stay-area">📍 {stop.stay.area}</div>
+            <div className="stay-area">{stop.stay.area}</div>
             <div className="stay-budget">{stop.stay.budget}</div>
             <p className="stay-why">{stop.stay.why}</p>
             <div className="stay-search-box">
@@ -1504,7 +1509,7 @@ function TipsView({ stop }) {
                 boxShadow: "var(--shadow)",
               }}>
                 <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                  <span style={{ fontSize: 18, flexShrink: 0 }}>💡</span>
+                  <span style={{ fontSize: 14, flexShrink: 0, color: "var(--accent)", fontWeight: 700 }}>*</span>
                   <div style={{ fontSize: 13, color: "var(--text)", lineHeight: 1.6, fontFamily: "var(--sans)" }}>
                     {typeof hack === "string" ? hack : (hack.text || hack.tip || hack.title)}
                     {typeof hack === "object" && hack.savings && (
@@ -1533,7 +1538,7 @@ function TipsView({ stop }) {
               marginBottom: 10, borderLeft: "4px solid #DC2626",
             }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                <span style={{ fontSize: 16, flexShrink: 0, color: "#DC2626" }}>⚠</span>
+                <span style={{ fontSize: 13, flexShrink: 0, color: "#DC2626", fontWeight: 700 }}>!</span>
                 <div>
                   {typeof scam === "string" ? (
                     <div style={{ fontSize: 13, color: "var(--text)", lineHeight: 1.6, fontFamily: "var(--sans)" }}>{scam}</div>
@@ -1602,7 +1607,7 @@ function MustTryView({ stop }) {
       </p>
 
       {/* Food */}
-      <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)", marginBottom: 14 }}>🍽 Food & Drink</h3>
+      <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)", marginBottom: 14 }}>Food & Drink</h3>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 12, marginBottom: 28 }}>
         {countryData.food.map((f, i) => (
           <div key={i} style={{
@@ -1621,7 +1626,7 @@ function MustTryView({ stop }) {
       </div>
 
       {/* Shopping */}
-      <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)", marginBottom: 14 }}>🛍 Shopping & Souvenirs</h3>
+      <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)", marginBottom: 14 }}>Shopping & Souvenirs</h3>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 12 }}>
         {countryData.shopping.map((s, i) => (
           <div key={i} style={{
@@ -1781,6 +1786,378 @@ function DocsView() {
           </div>
         ))}
       </Section>
+    </div>
+  );
+}
+
+/* ── BUDGET VIEW ── */
+function BudgetView({ stop, stops, showNPR, npr }) {
+  const allStops = stops.filter(s => s.budgetBreakdown && s.budgetBreakdown.days > 0);
+  const currentBb = stop?.budgetBreakdown;
+
+  return (
+    <div className="panel">
+      <h2 className="story-title">Trip Budget</h2>
+      <p style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--sans)", marginBottom: 24, lineHeight: 1.7 }}>
+        Estimated costs for 5 travellers · All prices approximate · June 2026
+      </p>
+
+      {/* Total Summary Card */}
+      {TRIP_BUDGET && (
+        <div style={{
+          background: "var(--accent)", borderRadius: "var(--radius-lg)", padding: "24px 28px",
+          marginBottom: 28, color: "#fff",
+        }}>
+          <div style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.8, marginBottom: 8 }}>
+            Estimated Total Budget
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 16 }}>
+            <div>
+              <div style={{ fontSize: 32, fontWeight: 800 }}>€{TRIP_BUDGET.summary.perPersonTotal.toLocaleString()}</div>
+              <div style={{ fontSize: 13, opacity: 0.8 }}>per person</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 24, fontWeight: 700 }}>₨{TRIP_BUDGET.summary.perPersonNPR.toLocaleString()}</div>
+              <div style={{ fontSize: 13, opacity: 0.8 }}>per person in NPR</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 20, fontWeight: 700 }}>€{TRIP_BUDGET.summary.groupTotal.toLocaleString()}</div>
+              <div style={{ fontSize: 13, opacity: 0.8 }}>group total (5 ppl)</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Category Breakdown */}
+      {TRIP_BUDGET && (
+        <div style={{ marginBottom: 28 }}>
+          <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)", marginBottom: 14 }}>
+            Cost Breakdown by Category
+          </h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {[
+              { label: "Flights (KTM↔Europe)", total: TRIP_BUDGET.flights.total, pp: TRIP_BUDGET.flights.perPerson, currency: "$", note: TRIP_BUDGET.flights.note },
+              { label: "Schengen Visa", total: TRIP_BUDGET.visa.perPerson * 5, pp: TRIP_BUDGET.visa.perPerson, currency: "€", note: TRIP_BUDGET.visa.note },
+              { label: "Travel Insurance", total: TRIP_BUDGET.insurance.perPerson * 5, pp: TRIP_BUDGET.insurance.perPerson, currency: "€", note: TRIP_BUDGET.insurance.note },
+              { label: "Train Journeys (16 total)", total: TRIP_BUDGET.trainTotal.total, pp: TRIP_BUDGET.trainTotal.perPerson, currency: "€", note: TRIP_BUDGET.trainTotal.note },
+              { label: `Accommodation (${TRIP_BUDGET.accommodationTotal.totalNights} nights)`, total: TRIP_BUDGET.accommodationTotal.perNight * TRIP_BUDGET.accommodationTotal.totalNights, pp: Math.round(TRIP_BUDGET.accommodationTotal.perNight * TRIP_BUDGET.accommodationTotal.totalNights / 5), currency: "€", note: TRIP_BUDGET.accommodationTotal.note },
+              { label: "Food (21 days)", total: TRIP_BUDGET.foodDaily.perPerson * 21 * 5, pp: TRIP_BUDGET.foodDaily.perPerson * 21, currency: "€", note: TRIP_BUDGET.foodDaily.note },
+              { label: "Activities & Attractions", total: TRIP_BUDGET.activitiesTotal.perPerson * 5, pp: TRIP_BUDGET.activitiesTotal.perPerson, currency: "€", note: TRIP_BUDGET.activitiesTotal.note },
+              { label: "Misc (souvenirs, tips)", total: TRIP_BUDGET.miscDaily.perPerson * 21 * 5, pp: TRIP_BUDGET.miscDaily.perPerson * 21, currency: "€", note: TRIP_BUDGET.miscDaily.note },
+            ].map((item, i) => (
+              <div key={i} style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                padding: "12px 16px", borderRadius: 10,
+                background: "var(--bg-raised)", border: "1px solid var(--border)",
+              }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text)", fontFamily: "var(--sans)" }}>{item.label}</div>
+                  <div style={{ fontSize: 11, color: "var(--text-dim)", fontFamily: "var(--sans)", marginTop: 2 }}>{item.note}</div>
+                </div>
+                <div style={{ textAlign: "right", minWidth: 100 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--accent)", fontFamily: "var(--sans)" }}>{item.currency}{item.total.toLocaleString()}</div>
+                  <div style={{ fontSize: 11, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>{item.currency}{item.pp}/pp</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Per City Comparison */}
+      <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)", marginBottom: 14 }}>
+        Daily Cost by City (per person)
+      </h3>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: "var(--sans)" }}>
+          <thead>
+            <tr style={{ borderBottom: "2px solid var(--border-light)" }}>
+              <th style={{ padding: "10px 12px", textAlign: "left", color: "var(--text-dim)", fontSize: 11, textTransform: "uppercase" }}>City</th>
+              <th style={{ padding: "10px 8px", textAlign: "center", color: "var(--text-dim)", fontSize: 11 }}>Days</th>
+              <th style={{ padding: "10px 8px", textAlign: "center", color: "var(--text-dim)", fontSize: 11 }}>Accom</th>
+              <th style={{ padding: "10px 8px", textAlign: "center", color: "var(--text-dim)", fontSize: 11 }}>Food</th>
+              <th style={{ padding: "10px 8px", textAlign: "center", color: "var(--text-dim)", fontSize: 11 }}>Transport</th>
+              <th style={{ padding: "10px 8px", textAlign: "center", color: "var(--text-dim)", fontSize: 11 }}>Activities</th>
+              <th style={{ padding: "10px 8px", textAlign: "right", color: "var(--accent)", fontSize: 11, fontWeight: 700 }}>Daily/pp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allStops.map((s, i) => {
+              const bb = s.budgetBreakdown;
+              const sym = bb.currency === "CHF" ? "CHF" : "€";
+              const daily = bb.food + bb.transport + bb.activities + bb.misc;
+              const isActive = s.id === stop?.id;
+              return (
+                <tr key={s.id} style={{
+                  borderBottom: "1px solid var(--border-light)",
+                  background: isActive ? "var(--accent-bg)" : i % 2 === 1 ? "var(--bg-hover)" : "transparent",
+                }}>
+                  <td style={{ padding: "10px 12px", fontWeight: isActive ? 700 : 400, color: "var(--text)" }}>{s.flag} {s.city}</td>
+                  <td style={{ padding: "10px 8px", textAlign: "center", color: "var(--text-muted)" }}>{bb.days}</td>
+                  <td style={{ padding: "10px 8px", textAlign: "center", color: "var(--text-muted)" }}>{sym}{bb.accommodation}</td>
+                  <td style={{ padding: "10px 8px", textAlign: "center", color: "var(--text-muted)" }}>{sym}{bb.food}</td>
+                  <td style={{ padding: "10px 8px", textAlign: "center", color: "var(--text-muted)" }}>{sym}{bb.transport}</td>
+                  <td style={{ padding: "10px 8px", textAlign: "center", color: "var(--text-muted)" }}>{sym}{bb.activities}</td>
+                  <td style={{ padding: "10px 8px", textAlign: "right", fontWeight: 700, color: "var(--accent)" }}>{sym}{daily}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {currentBb && currentBb.days > 0 && (
+        <div className="tip-box" style={{ marginTop: 20, padding: "16px 20px", borderRadius: 12 }}>
+          <div style={{ fontSize: 12, color: "var(--accent)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>
+            {stop.flag} {stop.city} Budget Note
+          </div>
+          <div style={{ fontSize: 14, color: "var(--text)", lineHeight: 1.7 }}>{currentBb.note}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── CHECKLIST VIEW ── */
+function ChecklistView() {
+  const [checked, setChecked] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("jamnata-checklist") || "{}"); } catch { return {}; }
+  });
+
+  const toggle = (key) => {
+    setChecked(prev => {
+      const next = { ...prev, [key]: !prev[key] };
+      localStorage.setItem("jamnata-checklist", JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const resetAll = () => {
+    setChecked({});
+    localStorage.removeItem("jamnata-checklist");
+  };
+
+  if (!PACKING_CHECKLIST) {
+    return <div className="panel" style={{ textAlign: "center", padding: "60px" }}>
+      <div style={{ fontSize: 40, marginBottom: 16 }}>📋</div>
+      <div style={{ fontSize: 18, color: "var(--text-dim)" }}>Checklist loading...</div>
+    </div>;
+  }
+
+  const categories = [
+    { key: "documents", title: "Documents", icon: "📄" },
+    { key: "electronics", title: "Electronics", icon: "🔌" },
+    { key: "clothing", title: "Clothing", icon: "👕" },
+    { key: "toiletries", title: "Toiletries & Medicine", icon: "🧴" },
+    { key: "misc", title: "Miscellaneous", icon: "🎒" },
+  ];
+
+  const allItems = categories.flatMap(c => (PACKING_CHECKLIST[c.key] || []).map((item, i) => `${c.key}-${i}`));
+  const checkedCount = allItems.filter(k => checked[k]).length;
+  const totalCount = allItems.length;
+  const progress = totalCount > 0 ? Math.round((checkedCount / totalCount) * 100) : 0;
+
+  return (
+    <div className="panel">
+      <h2 className="story-title">Packing Checklist</h2>
+      <p style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--sans)", marginBottom: 8 }}>
+        21 days · 7 countries · 5 people · Check items as you pack
+      </p>
+
+      {/* Progress bar */}
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)" }}>
+            {checkedCount}/{totalCount} packed ({progress}%)
+          </div>
+          <button onClick={resetAll} style={{
+            fontSize: 11, padding: "4px 12px", borderRadius: 6,
+            background: "var(--bg-hover)", border: "1px solid var(--border)",
+            color: "var(--text-dim)", fontFamily: "var(--sans)", cursor: "pointer",
+          }}>Reset All</button>
+        </div>
+        <div style={{ height: 8, borderRadius: 4, background: "var(--bg-hover)", overflow: "hidden" }}>
+          <div style={{
+            height: "100%", borderRadius: 4,
+            background: progress === 100 ? "var(--green)" : "var(--accent)",
+            width: `${progress}%`, transition: "width 0.3s ease",
+          }} />
+        </div>
+      </div>
+
+      {categories.map((cat) => {
+        const items = PACKING_CHECKLIST[cat.key] || [];
+        const catChecked = items.filter((_, i) => checked[`${cat.key}-${i}`]).length;
+        return (
+          <div key={cat.key} style={{ marginBottom: 20 }}>
+            <div style={{
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+              marginBottom: 10, padding: "8px 0",
+              borderBottom: "1px solid var(--border-light)",
+            }}>
+              <span style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)" }}>
+                {cat.icon} {cat.title}
+              </span>
+              <span style={{ fontSize: 12, color: catChecked === items.length ? "var(--green)" : "var(--text-dim)", fontFamily: "var(--sans)", fontWeight: 600 }}>
+                {catChecked}/{items.length}
+              </span>
+            </div>
+            {items.map((item, i) => {
+              const key = `${cat.key}-${i}`;
+              const isChecked = checked[key];
+              return (
+                <label key={key} style={{
+                  display: "flex", alignItems: "flex-start", gap: 10,
+                  padding: "8px 12px", borderRadius: 8, cursor: "pointer",
+                  background: isChecked ? "var(--green-bg)" : "transparent",
+                  transition: "background 0.15s",
+                }}
+                onMouseEnter={(e) => { if (!isChecked) e.currentTarget.style.background = "var(--bg-hover)"; }}
+                onMouseLeave={(e) => { if (!isChecked) e.currentTarget.style.background = "transparent"; }}
+                >
+                  <input type="checkbox" checked={isChecked || false} onChange={() => toggle(key)}
+                    style={{ marginTop: 2, accentColor: "var(--accent)", width: 16, height: 16 }} />
+                  <span style={{
+                    fontSize: 13, fontFamily: "var(--sans)", lineHeight: 1.5,
+                    color: isChecked ? "var(--text-dim)" : "var(--text)",
+                    textDecoration: isChecked ? "line-through" : "none",
+                  }}>{item}</span>
+                </label>
+              );
+            })}
+          </div>
+        );
+      })}
+
+      {PACKING_CHECKLIST.preTripTasks && (
+        <div style={{ marginTop: 28 }}>
+          <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)", marginBottom: 14 }}>
+            Pre-Trip Tasks
+          </h3>
+          {PACKING_CHECKLIST.preTripTasks.map((t, i) => {
+            const key = `pretask-${i}`;
+            const isChecked = checked[key];
+            return (
+              <label key={key} style={{
+                display: "flex", alignItems: "flex-start", gap: 10,
+                padding: "10px 14px", borderRadius: 8, marginBottom: 6,
+                background: isChecked ? "var(--green-bg)" : "var(--bg-raised)",
+                border: `1px solid ${isChecked ? "var(--green-border)" : "var(--border)"}`,
+                cursor: "pointer",
+              }}>
+                <input type="checkbox" checked={isChecked || false} onChange={() => toggle(key)}
+                  style={{ marginTop: 2, accentColor: "var(--accent)", width: 16, height: 16 }} />
+                <div style={{ flex: 1 }}>
+                  <div style={{
+                    fontSize: 13, fontWeight: 600, fontFamily: "var(--sans)",
+                    color: isChecked ? "var(--text-dim)" : "var(--text)",
+                    textDecoration: isChecked ? "line-through" : "none",
+                  }}>{t.task}</div>
+                  <div style={{ fontSize: 11, color: "var(--accent)", fontFamily: "var(--sans)", marginTop: 2 }}>
+                    Deadline: {t.deadline}
+                  </div>
+                </div>
+              </label>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── PHRASEBOOK VIEW ── */
+function PhrasebookView({ stop }) {
+  const countryMap = { "Italy": "italy", "Switzerland": "switzerland", "Austria": "austria", "Czech Republic": "czech", "Germany": "germany", "Netherlands": "netherlands" };
+  const activeCountryKey = countryMap[stop?.country] || null;
+
+  const countries = [
+    { key: "italy", name: "Italian", flag: "🇮🇹", country: "Italy" },
+    { key: "switzerland", name: "Swiss German / French", flag: "🇨🇭", country: "Switzerland" },
+    { key: "austria", name: "German (Austrian)", flag: "🇦🇹", country: "Austria" },
+    { key: "czech", name: "Czech", flag: "🇨🇿", country: "Czech Republic" },
+    { key: "germany", name: "German", flag: "🇩🇪", country: "Germany" },
+    { key: "netherlands", name: "Dutch", flag: "🇳🇱", country: "Netherlands" },
+  ];
+
+  const sorted = [...countries].sort((a, b) => {
+    if (a.key === activeCountryKey) return -1;
+    if (b.key === activeCountryKey) return 1;
+    return 0;
+  });
+
+  return (
+    <div className="panel">
+      <h2 className="story-title">Phrasebook</h2>
+      <p style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--sans)", marginBottom: 24, lineHeight: 1.7 }}>
+        Essential phrases for each country. Locals always appreciate any attempt at their language!
+      </p>
+
+      {sorted.map((c) => {
+        const info = PRACTICAL?.[c.key];
+        if (!info || !info.phrases) return null;
+        const isActive = c.key === activeCountryKey;
+
+        return (
+          <div key={c.key} style={{
+            marginBottom: 24, borderRadius: "var(--radius-lg)", overflow: "hidden",
+            border: isActive ? "2px solid var(--accent)" : "1px solid var(--border)",
+            background: "var(--bg-raised)",
+          }}>
+            <div style={{
+              padding: "14px 20px",
+              background: isActive ? "var(--accent-bg)" : "var(--bg-hover)",
+              borderBottom: "1px solid var(--border)",
+            }}>
+              <span style={{ fontSize: 16, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)" }}>
+                {c.flag} {c.name}
+              </span>
+              {isActive && <span style={{ marginLeft: 10, fontSize: 11, fontWeight: 700, color: "var(--accent)", padding: "2px 8px", borderRadius: 10, background: "var(--accent-bg)", border: "1px solid var(--accent-border)" }}>CURRENT</span>}
+            </div>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: "var(--sans)" }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid var(--border-light)" }}>
+                    <th style={{ padding: "10px 16px", textAlign: "left", color: "var(--text-dim)", fontSize: 11, textTransform: "uppercase", fontWeight: 600 }}>English</th>
+                    <th style={{ padding: "10px 16px", textAlign: "left", color: "var(--text-dim)", fontSize: 11, textTransform: "uppercase", fontWeight: 600 }}>Local</th>
+                    <th style={{ padding: "10px 16px", textAlign: "left", color: "var(--text-dim)", fontSize: 11, textTransform: "uppercase", fontWeight: 600 }}>Pronunciation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {info.phrases.map((p, i) => (
+                    <tr key={i} style={{ borderBottom: "1px solid var(--border)", background: i % 2 === 1 ? "var(--bg-hover)" : "transparent" }}>
+                      <td style={{ padding: "8px 16px", color: "var(--text)" }}>{p.en}</td>
+                      <td style={{ padding: "8px 16px", fontWeight: 600, color: "var(--accent)" }}>{p.local}</td>
+                      <td style={{ padding: "8px 16px", fontStyle: "italic", color: "var(--text-muted)" }}>{p.pronunciation}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {info.tipping && (
+              <div style={{ padding: "12px 20px", borderTop: "1px solid var(--border)", fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--sans)" }}>
+                <strong style={{ color: "var(--text)" }}>Tipping:</strong> {info.tipping}
+              </div>
+            )}
+            {info.simCard && (
+              <div style={{ padding: "12px 20px", borderTop: "1px solid var(--border)", fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--sans)" }}>
+                <strong style={{ color: "var(--text)" }}>SIM Card:</strong> {info.simCard.provider} · {info.simCard.cost} · {info.simCard.data} · Buy at: {info.simCard.where}
+              </div>
+            )}
+            {info.powerAdapter && (
+              <div style={{ padding: "12px 20px", borderTop: "1px solid var(--border)", fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--sans)" }}>
+                <strong style={{ color: "var(--text)" }}>Power:</strong> {info.powerAdapter.type} · {info.powerAdapter.voltage} · {info.powerAdapter.note}
+              </div>
+            )}
+            {info.emergency && (
+              <div style={{ padding: "12px 20px", borderTop: "1px solid var(--border)", fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--sans)" }}>
+                <strong style={{ color: "var(--red, #D32F2F)" }}>Emergency:</strong> {Object.entries(info.emergency).map(([k, v]) => `${k}: ${v}`).join(" · ")}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -1963,7 +2340,7 @@ function BookingsPanel() {
                   </span>
                 </div>
                 <div className="booking-detail">{b.detail}</div>
-                <div className="booking-date">📅 {b.date}</div>
+                <div className="booking-date">{b.date}</div>
               </div>
               <span className="booking-arrow">→</span>
             </a>

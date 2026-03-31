@@ -5,6 +5,7 @@ export const STOPS = [
     duration:"3 hrs · Wed 17 Jun · 07:00–12:00",
     tagline:"First European morning — Mediterranean sea, Italian coffee, no luggage",
     color:"#0277BD", bg:"#E1F5FE", currency:"EUR", budget:"€7/bag storage only",
+    budgetBreakdown: { accommodation: 0, food: 5, transport: 14, activities: 7, misc: 3, currency: "EUR", days: 0.15, note: "Transit stop: luggage storage €7/bag, Leonardo Express €14pp, coffee €3" },
     story:"You have been on a plane for 14–16 hours. It is 07:00 and you are in Italy for the first time. The worst possible thing to do is drag five suitcases straight into Rome in the heat. Instead: drop everything at the airport, walk ten minutes, and spend your first European morning at a real Italian fishing harbour on the Mediterranean Sea. Fiumicino is a working port town — fishing boats, nets, seagulls, locals arguing over espresso. The water in front of you is the Tyrrhenian Sea, part of the Mediterranean. You eat your first Italian cornetto. By 12:00 you board the Leonardo Express feeling human.",
     history:"Fiumicino was the ancient port of Rome, called Portus, built by Emperor Claudius in 42 AD to handle grain shipments from Egypt that fed the Roman Empire. The canal still follows the original Roman layout. The airport is officially named Aeroporto Leonardo da Vinci.",
     itinerary:[
@@ -66,6 +67,7 @@ export const STOPS = [
     duration:"1.5 days · Jun 17–19",
     tagline:"Where 2,500 years of history still breathes",
     color:"#C62828", bg:"#FFF8F8", currency:"EUR", budget:"€95–125/night",
+    budgetBreakdown: { accommodation: 110, food: 30, transport: 5, activities: 25, misc: 10, currency: "EUR", days: 1.5, note: "Colosseum €16, Vatican €17, Pantheon €5. Trastevere meals €10-15" },
     story:"Rome is the only city in the world where you can eat lunch next to ruins older than most countries. The Colosseum was completed in 80 AD and hosted gladiatorial combat for 400 years. Julius Caesar was cremated in the Roman Forum — his cremation site still has fresh flowers left by visitors every day. Michelangelo painted the Sistine Chapel ceiling lying on scaffolding for four years and nearly went blind from the paint dripping into his eyes. Trastevere, where you will sleep, was the working-class neighbourhood of ancient Rome — sailors, Jewish merchants, immigrants from Egypt and Syria. The cobblestones under your feet are the same cobblestones they walked on.",
     history:"Founded 753 BC according to Roman tradition. Capital of the Roman Republic then Empire for 800 years. Home of the Pope since the 4th century AD. Sacked by the Visigoths 410 AD, the Vandals 455 AD. Rebuilt as capital of unified Italy 1871. Called the Eternal City because Romans believed it would outlast all other civilisations.",
     itinerary:[
@@ -145,6 +147,7 @@ export const STOPS = [
     duration:"1 day · Fri 19 – Sat 20 Jun",
     tagline:"Where the Alps meet the Mediterranean",
     color:"#1565C0", bg:"#F0F7FF", currency:"EUR", budget:"€55–80/night",
+    budgetBreakdown: { accommodation: 65, food: 25, transport: 8, activities: 10, misc: 5, currency: "EUR", days: 1, note: "Boat tickets €10, lakeside dining moderate" },
     story:"Lake Como sits at a latitude where palm trees and glaciers coexist — which is why the Romans built their summer villas here in the 1st century BC. Pliny the Younger, writing around 100 AD, called it 'the most beautiful lake in the world.' The lake is 410 metres deep, carved by glaciers 10,000 years ago. The Alps rise steeply on all sides. The microclimate is Mediterranean — warm summers, mild winters, plants that have no business growing this far north. George Clooney's Villa Oleandra is on the western shore near Laglio. You don't need the famous resort villages to experience this — Como city itself is on the same water, flat, practical, and extraordinary.",
     history:"Settled by Celts, then Romans as Comum in 196 BC. Julius Caesar gave Como full Roman citizenship. Como silk weaving made the city one of the wealthiest in Italy for 400 years from the Renaissance onward — the silk mills still operate and Como produces most of the world's finest silk. Alessandro Volta, inventor of the electric battery, was born here in 1745.",
     itinerary:[
@@ -223,6 +226,7 @@ export const STOPS = [
     duration:"45 min transit · Sat 20 Jun · 09:20–10:15",
     tagline:"Chapel Bridge, Lion Monument, Brünig Line — then onward",
     color:"#7B1717", bg:"#FFF5F5", currency:"CHF", budget:"No overnight — bags in lockers",
+    budgetBreakdown: { accommodation: 0, food: 20, transport: 15, activities: 0, misc: 5, currency: "CHF", days: 0.5, note: "Day transit. Switzerland is expensive — budget lunch" },
     story:"Lucerne has been on the Grand Tour since the 18th century — the obligatory European journey for wealthy young British and Americans. Mark Twain visited and wrote that the Lion Monument was 'the most mournful and moving piece of stone in the world.' J.M.W. Turner painted the lake. Queen Victoria stayed at the Grand National Hotel. The city sits at the point where the Reuss river flows out of Lake Lucerne — the mountains are so close and so steep that they are reflected in the water on calm mornings.",
     history:"Founded as a Benedictine monastery in the 8th century. Part of the Old Swiss Confederation from 1332. The Chapel Bridge (1333) is the oldest wooden covered bridge in Europe. The Lion Monument was carved in 1820 to commemorate the Swiss Guard killed defending Louis XVI during the French Revolution. Lucerne hosted the first Winter Olympics in 1928 (actually Montreux — disputed).",
     itinerary:[
@@ -281,6 +285,7 @@ export const STOPS = [
     duration:"4.5 hours · Sat 20 Jun · 12:55–17:20",
     tagline:"The valley J.R.R. Tolkien drew in his notebook — he called it Rivendell",
     color:"#1A237E", bg:"#ECEFF1", currency:"CHF", budget:"No overnight — sleep in Interlaken",
+    budgetBreakdown: { accommodation: 70, food: 25, transport: 20, activities: 15, misc: 5, currency: "CHF", days: 1, note: "Valley entry free, cable cars/trains €15-30pp" },
     story:"J.R.R. Tolkien visited Lauterbrunnen in 1911, age 19, on a walking tour of Switzerland with a group from his school. He sketched the valley in his notebooks. The sheer walls, the waterfalls coming off the clifftops, the hidden valley floor — these became Rivendell, the hidden elven city in The Lord of the Rings. There are 72 named waterfalls in this valley. The Staubach Falls drop 300 metres from the cliff directly into the village — one of the highest free-falling waterfalls in Europe. The Trümmelbach Falls are ten glacier waterfalls inside the mountain itself, carved through the rock by meltwater from the Jungfrau glacier above.",
     history:"The valley was first documented in medieval records as 'luterbrunnen' — clear springs. The cogwheel railways and cable cars were built from the 1890s onward to serve wealthy British tourists who came to see the Alpine scenery. Mürren, above the valley on the cliff, became a centre of British skiing in the 1920s — Sir Arnold Lunn invented slalom racing here in 1922.",
     itinerary:[
@@ -344,6 +349,7 @@ export const STOPS = [
     duration:"1 night · Sat 20 Jun",
     tagline:"Between two lakes, beneath three 4,000m peaks",
     color:"#283593", bg:"#F0F4FF", currency:"CHF", budget:"CHF 80–120/night",
+    budgetBreakdown: { accommodation: 70, food: 25, transport: 15, activities: 30, misc: 10, currency: "CHF", days: 2, note: "Imst Alpine Coaster €10pp. Interlaken activities vary widely" },
     story:"Interlaken sits on the narrow strip of land between Lake Thun and Lake Brienz — 'inter lacus' is Latin for 'between the lakes.' Stand in the Höhematte meadow in the town centre and look south: the Eiger (3,967m), Mönch (4,107m), and Jungfrau (4,158m) are directly in front of you, completely filling the horizon. The Eiger's North Face — one of the most feared climbs in the Alps — is visible on the left. 64 people died attempting the first ascent of the Eiger North Face before it was finally climbed in 1938.",
     history:"First mentioned in records as a monastery in 1133. The town became a major stop on the Victorian Grand Tour after Thomas Cook organized the first package tour here in 1863. The Jungfrau Railway (to the highest railway station in Europe, 3,454m) was completed in 1912 after 16 years of construction.",
     itinerary:[
@@ -558,6 +564,7 @@ export const STOPS = [
     duration:"2 nights · Tue 23 – Thu 25 Jun",
     tagline:"Mozart was born here. The Schafbergbahn has been running since 1893.",
     color:"#E65100", bg:"#FFF8F0", currency:"EUR", budget:"€65–90/night",
+    budgetBreakdown: { accommodation: 55, food: 20, transport: 5, activities: 15, misc: 5, currency: "EUR", days: 1, note: "Festung €13, Mozart birthplace €12. Austrian food reasonable" },
     story:"Wolfgang Amadeus Mozart was born at Getreidegasse 9 on 27 January 1756. He composed his first piece at age 5 and had performed before the Habsburg court by age 6. He died in Vienna aged 35 and was buried in an unmarked pauper's grave — at his own request. The Schafbergbahn steam cogwheel railway has been running since 1893, using some of the oldest working steam locomotives in the world. At the summit (1,783m), you can see 11 lakes simultaneously. The Sound of Music was filmed in Mirabell Gardens, in the fountain, on these steps, on this mountain.",
     history:"Roman settlement Iuvavum from 15 BC. Seat of the Archbishop of Salzburg for 1,200 years — they ruled as princes with their own army. Mozart born here 1756, lived here until age 25. Old City UNESCO World Heritage since 1997. The Salzburg Festival (opera, theatre) has run every August since 1920, bringing 200,000 visitors annually.",
     itinerary:[
@@ -640,6 +647,7 @@ export const STOPS = [
     duration:"2 nights · Thu 25 – Sat 27 Jun",
     tagline:"The Habsburg Empire's greatest gift — 640 years of art, music and coffee",
     color:"#C62828", bg:"#FFF5F5", currency:"EUR", budget:"€80–110/night",
+    budgetBreakdown: { accommodation: 60, food: 20, transport: 8, activities: 20, misc: 10, currency: "EUR", days: 2, note: "Schönbrunn €16, Belvedere €16. Excellent public transport" },
     story:"For 640 years the Habsburg dynasty ruled an empire from Vienna that at its peak stretched from Spain to Turkey and had 50 million subjects. They paid for everything — Mozart, Beethoven, Brahms, Schubert, Mahler all composed in Vienna. They built Schönbrunn Palace (1,441 rooms, 40 formal state rooms open to the public) as their summer residence. Gustav Klimt painted The Kiss in 1907–08 using real gold leaf — two figures wrapped in gold on a cliff edge. The painting has never left the Belvedere. The Vienna State Opera stages 50–60 different operas every season with the Vienna Philharmonic. Standing tickets cost €3.",
     history:"Celtic settlement on the Danube. Roman garrison Vindobona 15 BC. Habsburg capital from 1438. The Congress of Vienna (1814–15) redrew the map of Europe after Napoleon. Sigmund Freud developed psychoanalysis here. The Austro-Hungarian Empire collapsed in 1918. Vienna was occupied by the Soviet Union 1945–1955. Today it is Austria's capital with 1.9 million people.",
     itinerary:[
@@ -717,6 +725,7 @@ export const STOPS = [
     duration:"1 night · Sat 27 – Sun 28 Jun",
     tagline:"The most beautiful city in Europe that nobody bombed in WWII",
     color:"#283593", bg:"#F0F4FF", currency:"CZK", budget:"CZK 2,500–3,800/night",
+    budgetBreakdown: { accommodation: 40, food: 15, transport: 5, activities: 10, misc: 8, currency: "CZK", days: 2, note: "Cheapest city! Beer €2, meals €5-8. Castle free grounds" },
     story:"Prague was not bombed in World War II. While Dresden, Warsaw, Berlin, and most European cities were destroyed, Prague was spared. What you see today — the Charles Bridge, the astronomical clock, the old town square, the castle — is essentially unchanged from what medieval travellers saw. The Charles Bridge was built in 1357 on orders from Charles IV, who was King of Bohemia and Holy Roman Emperor. The clock has been keeping time since 1410. The castle complex above the city is the largest in the world by area. And if you set an alarm for 05:45 and walk to the Charles Bridge at dawn, you will have it almost to yourself, in the morning mist, with the castle glowing orange above you — and this is the moment you will tell people about.",
     history:"Founded 9th century as a Bohemian settlement. Charles IV made it the capital of the Holy Roman Empire 1355 — the most powerful position in medieval Europe. The Defenestration of Prague (1618) — Catholics threw Protestant nobles from a castle window — started the Thirty Years' War. Franz Kafka born here 1883, wrote and died here. Prague Spring (1968) — Alexander Dubček's reform movement ended when Soviet tanks arrived on 21 August.",
     itinerary:[
@@ -794,6 +803,7 @@ export const STOPS = [
     duration:"5 nights · Sun 28 Jun – Fri 3 Jul",
     tagline:"History happened here — and the city refuses to look away from it",
     color:"#212121", bg:"#FAFAFA", currency:"EUR", budget:"€80–110/night",
+    budgetBreakdown: { accommodation: 50, food: 18, transport: 8, activities: 15, misc: 8, currency: "EUR", days: 2, note: "Museum Island €19, Wall memorial free. Great street food" },
     story:"The Berlin Wall fell on the night of 9 November 1989. East Berliners crossed freely for the first time in 28 years. By morning, people were standing on top of the wall with hammers. The East Side Gallery is 1.3km of the original wall, now the world's largest open-air gallery — 105 paintings by artists from 21 countries, painted in 1990. One of them shows Brezhnev and Honecker kissing, in the socialist fraternal greeting they actually used. Konnopke's Imbiss has been selling currywurst under the elevated U-Bahn railway bridge since 1930 — through the Nazi period, through the division, through reunification, still there. The Memorial to the Murdered Jews of Europe (2005) is 2,711 concrete slabs of varying heights spread over a city block — you can walk into it and become disoriented by the changing ground levels and the disappearing sight lines. There are no names on anything.",
     history:"Founded 1237. Prussian capital. Capital of the German Empire 1871. Destroyed in WWII — 80% of the old city centre was rubble by 1945. Divided 1961 by the Berlin Wall. Reunified German capital since 1991. Berlin is a city that has consciously decided to document everything — the Holocaust, the Stasi, the division — and put it where everyone walks.",
     itinerary:[
@@ -875,6 +885,7 @@ export const STOPS = [
     duration:"2 nights · Sat 4 – Mon 6 Jul",
     tagline:"A city of canals, tolerance, and the most important diary ever written",
     color:"#1B5E20", bg:"#F1F8E9", currency:"EUR", budget:"€130–185/night",
+    budgetBreakdown: { accommodation: 65, food: 22, transport: 10, activities: 18, misc: 8, currency: "EUR", days: 1.5, note: "Rijksmuseum €22.50, Anne Frank €16. Bike rental €12/day" },
     story:"The Anne Frank House on Prinsengracht 263 is where Anne Frank, her family, and four others hid for 761 days from July 1942. Anne was 13 when they went into hiding, 15 when the Gestapo arrived on 4 August 1944. She died in Bergen-Belsen concentration camp in February 1945, three months before the end of the war. Miep Gies, who had helped hide them, found Anne's diaries on the floor after the arrest and kept them without reading them. Anne's father Otto, the sole survivor of the eight people in the annex, agreed to publish the diary in 1947. It has since been translated into 70 languages. You must book months ahead — there is no walk-in option, not ever, not even at opening time.",
     history:"Fishing village established ~1270. Dutch Golden Age (17th century) — the East India Company (VOC) made Amsterdam the wealthiest city in the world. The canal ring (165 canals, 1,281 bridges) was built 1613–1665 and is UNESCO World Heritage. During WWII, 75% of Dutch Jews were murdered — the highest percentage in Western Europe. Anne Frank's diary was published 1947.",
     itinerary:[
@@ -1003,3 +1014,22 @@ export const CALENDAR = [
   { date:"Sun 5 Jul",  dayN:19, type:"explore", icon:"🎨",  stop:"amsterdam",     city:"Amsterdam — Full Day",            flag:"🇳🇱",    summary:"⭐ Van Gogh Museum 09:00 (pre-booked months ahead) · ⭐⭐ Anne Frank House (MONTHS ahead — NO walk-in ever) · Canal boat tour €15pp · Vondelpark free · Brown café evening" },
   { date:"Mon 6 Jul",  dayN:20, type:"travel",  icon:"✈",  stop:"ktm",           city:"Amsterdam → Kathmandu",           flag:"🇳🇱✈",   summary:"Check out · IC Direct Centraal → Schiphol Airport 17min · Allow 3hrs before departure · Qatar/Turkish → Kathmandu · 21 days, 14 cities, done 🏔", move:true },
 ];
+
+export const TRIP_BUDGET = {
+  flights: { total: 850, perPerson: 170, currency: "USD", note: "KTM→Rome FCO, Amsterdam→KTM return" },
+  visa: { perPerson: 80, currency: "EUR", note: "Schengen Type C via German Embassy" },
+  insurance: { perPerson: 40, currency: "EUR", note: "€30,000 coverage Schengen insurance" },
+  trainTotal: { total: 650, perPerson: 130, currency: "EUR", note: "All 16 train journeys combined" },
+  accommodationTotal: { perNight: 65, totalNights: 18, currency: "EUR", note: "Average across all cities for 5 people" },
+  foodDaily: { perPerson: 22, currency: "EUR", note: "Mix of restaurants, street food, supermarket" },
+  activitiesTotal: { perPerson: 180, currency: "EUR", note: "All museums, tours, transport passes" },
+  miscDaily: { perPerson: 8, currency: "EUR", note: "Snacks, souvenirs, tips, laundry" },
+  summary: {
+    perPersonTotal: 1850,
+    groupTotal: 9250,
+    currency: "EUR",
+    perPersonNPR: 265000,
+    groupTotalNPR: 1325000,
+    note: "Approximate total including flights, visa, insurance, accommodation, food, activities, transport, misc"
+  }
+};
