@@ -1,0 +1,2 @@
+/* Reset only — all styles are in styles/app.css */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
