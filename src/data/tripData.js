@@ -139,6 +139,26 @@ export const STOPS = [
       {mode:"walk", icon:"🚶", name:"Walking", detail:"Most things in centro storico are walkable. Termini to Colosseum 20 min, to Trastevere 35 min, to Vatican 40 min", cost:"Free", tip:"Rome is flat in the centre. Walking is the best way to discover side streets, fountains, and piazzas you would miss on the metro."},
     ],
     weather:{temp:"28–30°C",rain:"4–5 days/month only — very dry",best:"June is perfect. Hot, sunny, long evenings until 21:30.",tip:"Rome in June is 28–30°C and dry. Drink constantly. The public drinking fountains (nasoni — 'big noses') are everywhere in the historic centre — the water is cold, clean, and free. The UNESCO-listed nasoni have been running continuously since Roman times."},
+    hiddenGems:[
+      {title:"Aventine Keyhole",desc:"Peer through the keyhole of the Priory of the Knights of Malta for a perfectly framed view of St. Peter's dome through a garden tunnel.",cost:"Free",tip:"Walk from Circo Massimo metro. Best early morning."},
+      {title:"Free Caravaggio Churches",desc:"San Luigi dei Francesi has 3 Caravaggio masterpieces. Santa Maria del Popolo has 2 more. World-class art, zero cost.",cost:"Free",tip:"Bring coins for the light box to illuminate the paintings."},
+      {title:"Gianicolo Hill Sunset",desc:"Better than Pincian Hill. Walk up from Trastevere for the best panoramic view of Rome. Cannon fired at noon daily.",cost:"Free",tip:"Free puppet show (Pulcinella) on weekend afternoons."},
+      {title:"Testaccio Market",desc:"Rome's authentic working-class food district. Trapizzino €3-5, supplì €1.50. Far cheaper than Trastevere tourist spots.",cost:"€3-5",tip:"Box 56 for the best supplì. Trattoria Da Bucatino for cacio e pepe €8-9."},
+      {title:"Supermarket Picnic at Orange Garden",desc:"Buy bread, prosciutto, mozzarella at Conad. Picnic at Parco degli Aranci on Aventine Hill — free viewpoint.",cost:"€3pp",tip:"The Orange Garden (Giardino degli Aranci) is itself a hidden viewpoint over Rome."},
+    ],
+    workspaces:[
+      {name:"Biblioteca Casanatense",type:"Library",area:"Near Pantheon",cost:"Free",wifi:"Good",power:true,hours:"Mon-Fri 8:30-19:00",note:"Stunning 17th-century baroque reading room. Steps from the Pantheon."},
+      {name:"Biblioteca Angelica",type:"Library",area:"Near Piazza Navona",cost:"Free",wifi:"Good",power:true,hours:"Mon-Fri 8:30-19:00",note:"One of Europe's oldest public libraries (1604). 5 min from Piazza Navona."},
+      {name:"Chiostro del Bramante Cafe",type:"Cafe",area:"Near Piazza Navona",cost:"€4-8",wifi:"Yes",power:false,hours:"10:00-20:00",note:"Renaissance cloister setting. Quiet weekday mornings. Inspiring atmosphere."},
+    ],
+    activities:[
+      {name:"Cooking Class: Pizza & Gelato",type:"Food",duration:"3 hrs",cost:"€90-119",desc:"Hands-on class making pasta, pizza, or gelato in Trastevere with a local chef.",book:"The Tour Guy or GetYourGuide"},
+      {name:"Vespa Tour of Rome",type:"Tour",duration:"3-4 hrs",cost:"€50-160",desc:"Ride pillion through iconic landmarks, hidden piazzas, and panoramic viewpoints.",book:"Scooteroma or Viator"},
+      {name:"Catacombs of San Sebastiano",type:"Culture",duration:"1.5 hrs",cost:"€12-60",desc:"Descend into ancient underground burial chambers along the Appian Way.",book:"Direct entry €12 or guided tour via GetYourGuide"},
+      {name:"Tiber River Sunset Cruise",type:"Relaxation",duration:"2 hrs",cost:"€40-55",desc:"Cruise the Tiber at sunset with aperitivo past Castel Sant'Angelo and St. Peter's.",book:"Rome Boat or Tiqets"},
+      {name:"Trastevere Street Food Tour",type:"Food",duration:"3 hrs",cost:"€50-70",desc:"Taste suppli, porchetta, artisan gelato, and local wine at hidden trattorias.",book:"Eating Italy Food Tours or Viator"},
+    ],
+    videos:[],
   },
 
   /* 3 ─ COMO */
@@ -218,12 +238,29 @@ export const STOPS = [
       {mode:"walk", icon:"🚶", name:"Walking", detail:"Como city is flat and compact. Station to lake 10 min, lakefront promenade (Lungo Lario) is a beautiful flat walk", cost:"Free", tip:"The Lungo Lario promenade at golden hour (19:00–20:30) is the best free experience in Como."},
     ],
     weather:{temp:"24–27°C",rain:"Some afternoon thunder storms",best:"Warm and beautiful. Afternoon thunder clears within an hour.",tip:"The lake creates its own microclimate — warmer than surrounding areas. Afternoon thunder is common but brief. Evening is almost always clear and beautiful."},
+    hiddenGems:[
+      {title:"Varenna over Bellagio",desc:"Less crowded, more authentic, cheaper to eat. The Passeggiata degli Innamorati (Lovers' Walk) is a lakeside cliff path — free and stunning.",cost:"Ferry €4.60",tip:"Slow ferry (battello) is cheaper and more scenic than fast hydrofoil."},
+      {title:"Fiumelatte — Europe's Shortest River",desc:"15-min walk south of Varenna. 250-meter river that only flows March-October. Small trail to its cave source.",cost:"Free",tip:"Almost no tourists know about this."},
+      {title:"Villa Monastero Gardens",desc:"Lakefront botanical garden stretching along the shore with mountain views. Much less crowded than Villa Carlotta.",cost:"€8",tip:"Allow 45-60 minutes."},
+      {title:"Free Swimming at Lido di Varenna",desc:"Small free public beach in Varenna. In late June the water is swimmable.",cost:"Free",tip:"Bring a towel and save on activities."},
+    ],
+    workspaces:[
+      {name:"Biblioteca Comunale di Como",type:"Library",area:"Old Town near Duomo",cost:"Free",wifi:"Free municipal WiFi",power:true,hours:"Mon-Fri 9:00-18:30",note:"Central location in Como old town. Walking distance from the lake."},
+      {name:"Lakefront Cafes (Lungo Lario)",type:"Cafe",area:"Lakefront promenade",cost:"€3-6",wifi:"Varies",power:false,hours:"8:00-22:00",note:"Work with Lake Como views. Best for 2-3 hour sessions. Bring full battery."},
+    ],
+    activities:[
+      {name:"Classic Wooden Boat Tour",type:"Tour",duration:"2-3 hrs",cost:"€100-150",desc:"Cruise in a vintage mahogany boat visiting Villa Balbianello, Bellagio, and Varenna.",book:"Lake Como Experiences"},
+      {name:"Kayaking on Lake Como",type:"Adventure",duration:"2-3 hrs",cost:"€50-70",desc:"Paddle along cliffside villas and hidden grottoes from Bellagio or Varenna.",book:"Bellagio Water Sports or GetYourGuide"},
+      {name:"Villa Balbianello Visit",type:"Culture",duration:"1.5 hrs",cost:"€10-20",desc:"Tour the villa from Star Wars and James Bond with panoramic lake views.",book:"FAI website — boat from Lenno"},
+      {name:"Greenway del Lago Hike",type:"Nature",duration:"2-3 hrs",cost:"Free",desc:"10km lakeside trail through olive groves, churches, and villa gardens.",book:"Self-guided — start from Colonno by ferry"},
+    ],
+    videos:[],
   },
 
   /* 4 ─ LUCERNE */
   {
     id:"lucerne", flag:"🇨🇭", city:"Lucerne", country:"Switzerland",
-    duration:"45 min transit · Sat 20 Jun · 09:20–10:15",
+    duration:"1–2 hrs transit · Sat 20 Jun · 09:20–11:15",
     tagline:"Chapel Bridge, Lion Monument, Brünig Line — then onward",
     color:"#7B1717", bg:"#FFF5F5", currency:"CHF", budget:"No overnight — bags in lockers",
     budgetBreakdown: { accommodation: 0, food: 20, transport: 15, activities: 0, misc: 5, currency: "CHF", days: 0.5, note: "Day transit. Switzerland is expensive — budget lunch" },
@@ -277,6 +314,11 @@ export const STOPS = [
       {risk:"Rain in Lucerne (June is wettest month)",solution:"Chapel Bridge and Lion Monument are beautiful in rain. You only have 55 minutes — rain does not change the plan. Light jacket always."},
     ],
     weather:{temp:"22°C",rain:"June is the wettest month in Lucerne — 13.5 rain days",best:"Mornings are usually clearest.",tip:"Even in rain, Chapel Bridge is beautiful. Rain doesn't cancel the Brünig Line. Light jacket always."},
+    hiddenGems:[
+      {title:"Spreuer Bridge (Spreuerbrücke)",desc:"Everyone goes to Chapel Bridge. The Spreuer Bridge has macabre 'Dance of Death' paintings inside (17th century). Less crowded, more interesting.",cost:"Free",tip:"5 min walk from station — turn right instead of left."},
+      {title:"Mühlenplatz",desc:"Tiny hidden square 3 min from station with colorful frescoed buildings. Most tourists walk right past it.",cost:"Free",tip:"Great for photos."},
+      {title:"Jesuit Church (Jesuitenkirche)",desc:"First large Baroque church in Switzerland, right along the river. Spectacular white and pink stucco interior.",cost:"Free",tip:"Takes 5 minutes to see."},
+    ],
   },
 
   /* 5 ─ LAUTERBRUNNEN */
@@ -407,6 +449,23 @@ export const STOPS = [
       {mode:"walk", icon:"🚶", name:"Walking", detail:"Interlaken is compact. West to Ost 10 min walk. Höhematte meadow 5 min from centre for the Eiger view", cost:"Free", tip:"Walk to Höhematte at sunset (~21:15 in June) for Alpenglow on the peaks around 21:45."},
     ],
     weather:{temp:"16–20°C",rain:"Mountain weather — changeable",best:"Evenings usually clear and beautiful.",tip:"Harder Kulm cable car (CHF 34pp) gives panoramic views of both lakes. Open until 22:00 — good for the evening if you have energy after Lauterbrunnen."},
+    hiddenGems:[
+      {title:"Harder Kulm Sunset Hike",desc:"Free if you walk up (90 min, steep but marked). Best valley view of Eiger, Mönch, and Jungfrau.",cost:"Free (or CHF 16 funicular)",tip:"Interlaken guest card from your hotel gives funicular discount."},
+      {title:"Trümmelbach Falls",desc:"The only glacier-carved waterfall INSIDE a mountain, accessible by tunnel-lift. Unlike anything else on the trip.",cost:"CHF 11",tip:"Budget 60-90 minutes. Worth every franc."},
+      {title:"Mürren over Grindelwald",desc:"Car-free village, cheaper to reach. Walk from Mürren to Gimmelwald (30 min) — tiny village frozen in time.",cost:"Cable car included with guest card",tip:"Allmendhubel flower trail free once up. Wildflowers peak in June."},
+    ],
+    workspaces:[
+      {name:"Bibliothek Interlaken",type:"Library",area:"Marktgasse (between stations)",cost:"Free",wifi:"Free",power:true,hours:"Tue-Fri afternoons, Sat morning",note:"Clean, modern Swiss library. Quiet. Limited hours."},
+      {name:"Cafe Schuh",type:"Cafe",area:"Hoheweg 56",cost:"CHF 5-7",wifi:"Yes",power:true,hours:"8:00-22:00",note:"Spacious interior on the main promenade. Jungfrau views. Relaxed about laptops."},
+    ],
+    activities:[
+      {name:"Tandem Paragliding",type:"Adventure",duration:"1 hr",cost:"CHF 180-220",desc:"Soar over Lauterbrunnen Valley with views of Eiger, Mönch, and Jungfrau.",book:"Airtime Paragliding — book 2+ weeks ahead"},
+      {name:"Jungfraujoch Top of Europe",type:"Nature",duration:"6-7 hrs",cost:"CHF 240-280",desc:"Europe's highest railway to 3,454m with ice palace and Aletsch Glacier views.",book:"jungfrau.ch — Good Morning Ticket saves CHF 30"},
+      {name:"Canyoning in Grimsel",type:"Adventure",duration:"3-4 hrs",cost:"CHF 160-200",desc:"Rappel waterfalls, jump into pools, and slide through narrow gorges.",book:"Outdoor Interlaken or Alpin Raft"},
+      {name:"Schilthorn / Piz Gloria",type:"Tour",duration:"4-5 hrs",cost:"CHF 105-120",desc:"Cable car to James Bond's revolving restaurant with 360° panorama of 200+ peaks.",book:"schilthorn.ch — Swiss Travel Pass 50% off"},
+      {name:"Trümmelbach Falls",type:"Nature",duration:"1.5 hrs",cost:"CHF 15",desc:"10 glacier-fed waterfalls inside a mountain, accessible by tunnel lift.",book:"No booking needed — open Apr-Nov"},
+    ],
+    videos:[],
   },
 
   /* 7 ─ ZÜRICH */
@@ -556,6 +615,24 @@ export const STOPS = [
       {mode:"walk", icon:"🚶", name:"Walking", detail:"Innsbruck is very compact. Hbf to Altstadt 15 min, Hbf to Congress station 5 min. Everything walkable", cost:"Free", tip:"Walk Maria-Theresien-Straße for the famous view — Nordkette mountains fill the end of every street."},
     ],
     weather:{temp:"18–23°C",rain:"19 rain days/month — mostly afternoon",best:"Mornings clear. GO NORDKETTE AT 08:00. Imst coaster runs in light rain.",tip:"At 2,334m the temperature can be 10–15°C even in June. The city below is warm but the summit is cold. Bring a fleece or light down jacket for Nordkette. The Imst coaster closes only in thunderstorms."},
+    hiddenGems:[
+      {title:"Rosengartenschlucht Gorge (Imst)",desc:"Free gorge walk right in Imst town. 90-minute loop through a narrow carved gorge with waterfalls.",cost:"Free",tip:"Combine with the Alpine Coaster day. Much less known than other Austrian gorges."},
+      {title:"Bergisel Ski Jump Tower",desc:"Designed by Zaha Hadid. Panoramic café at the top with 360° view of the Inn valley and Alps.",cost:"€12",tip:"Views rival Nordkette at a fraction of the price."},
+      {title:"Markthalle Innsbruck",desc:"Covered market with affordable Turkish/Asian stalls. Meals around €6-8 — much cheaper than old town restaurants.",cost:"€6-8",tip:"Best lunch spot in Innsbruck."},
+    ],
+    workspaces:[
+      {name:"ULB Tirol (University Library)",type:"Library",area:"Innrain 52f (10 min from Old Town)",cost:"Free",wifi:"Fast",power:true,hours:"Mon-Fri 8:00-22:00, Sat 9:00-17:00",note:"Modern library with mountain views. Open to public. Best free workspace in the city."},
+      {name:"Kater Noster",type:"Cafe",area:"Anichstrasse 6 (near university)",cost:"€3-5",wifi:"Good",power:true,hours:"Mon-Fri 8:00-18:00",note:"Specialty coffee. Popular with remote workers. Relaxed laptop policy."},
+      {name:"Markthalle Innsbruck",type:"Cafe",area:"Old Town covered market",cost:"€6-8 lunch",wifi:"Limited",power:false,hours:"Mon-Sat 7:00-18:00",note:"Affordable lunch spot. Better for eating breaks than focused work."},
+    ],
+    activities:[
+      {name:"Alpine Coaster at Imst",type:"Adventure",duration:"2-3 hrs",cost:"€12.50/ride",desc:"Austria's longest alpine coaster — 3.5km through forest and alpine meadows.",book:"Buy at valley station — 3-ride pack €35.60"},
+      {name:"Nordkette Cable Car",type:"Nature",duration:"2-3 hrs",cost:"€56 roundtrip",desc:"City center to 2,334m Hafelekar peak in 20 minutes for jaw-dropping Alps views.",book:"nordkette.com — included in Innsbruck Card €59"},
+      {name:"Swarovski Crystal Worlds",type:"Culture",duration:"2-3 hrs",cost:"€25",desc:"18 Chambers of Wonder with crystal art, mirror lake, and giant crystal head.",book:"kristallwelten.swarovski.com — shuttle from Innsbruck"},
+      {name:"City Rafting on the Inn River",type:"Adventure",duration:"3 hrs",cost:"€49-69",desc:"Float through Innsbruck seeing colorful Old Town from water level.",book:"Stubai Rafting or Nature Raft"},
+      {name:"Zirbenweg Stone Pine Trail",type:"Nature",duration:"2-3 hrs",cost:"Free + €20 cable car",desc:"Panoramic high-altitude trail through ancient pine forest at 2,000m.",book:"Take Patscherkofelbahn up — free with Innsbruck Card"},
+    ],
+    videos:[],
   },
 
   /* 9 ─ SALZBURG */
@@ -639,6 +716,24 @@ export const STOPS = [
       {mode:"walk", icon:"🚶", name:"Walking", detail:"Salzburg city is compact. Hbf to Salzach river 10 min, Altstadt is entirely walkable, fortress hike 30 min up", cost:"Free", tip:"The evening riverside walk from Staatsbrücke looking up at the lit fortress is the best free thing in Austria."},
     ],
     weather:{temp:"22°C",rain:"14 rain days/month in June",best:"Mornings clear. Schafbergbahn morning is essential.",tip:"Schafbergbahn can be cancelled in heavy cloud. Check 5schaetze.at the evening before. If cancelled, backup is Untersberg cable car (€24pp, 10min from Hbf by Bus 25) — 1,776m, similar views."},
+    hiddenGems:[
+      {title:"Kapuzinerberg Hill",desc:"Free alternative to Festung Hohensalzburg. Walk up from Linzergasse for panoramic views. Far fewer tourists.",cost:"Free",tip:"Sunset here is exceptional. Stations of the Cross along the path."},
+      {title:"Augustiner Bräustübl",desc:"Europe's largest monastery brewery (still run by monks). Half-liter €4. Bring your own food from attached deli stalls.",cost:"€4 beer",tip:"Full evening for 5 people can cost under €60 total. Where locals go."},
+      {title:"Stiftsbäckerei St. Peter",desc:"Oldest bakery in Salzburg inside St. Peter's Abbey. Sourdough loaf ~€4. Operating since the 12th century.",cost:"€4",tip:"Just a small bakery window — easy to miss."},
+    ],
+    workspaces:[
+      {name:"Universitaetsbibliothek Salzburg",type:"Library",area:"Hofstallgasse (next to Old Town)",cost:"Free",wifi:"Fast",power:true,hours:"Mon-Fri 8:00-22:00",note:"Beautiful historic location. Quiet study halls. Modern facilities."},
+      {name:"220 Grad Cafe",type:"Cafe",area:"Chiemseegasse 5",cost:"€3-5",wifi:"Good",power:true,hours:"Mon-Fri 8:00-18:00",note:"Modern specialty roaster. Laptop-friendly. Popular with young professionals."},
+      {name:"Augustiner Bräustübl (garden)",type:"Beer Garden",area:"Augustinergasse 4",cost:"€4 beer",wifi:"No",power:false,hours:"Mon-Fri 15:00-23:00",note:"Not for focused work — but great for casual laptop use in the garden with monk-brewed beer."},
+    ],
+    activities:[
+      {name:"Sound of Music Tour",type:"Tour",duration:"4 hrs",cost:"€55-65",desc:"Bus tour to filming locations — Mirabell Gardens, Hellbrunn gazebo, Mondsee church.",book:"Panorama Tours — book 1+ week ahead"},
+      {name:"Schafbergbahn Cog Railway",type:"Nature",duration:"3-4 hrs",cost:"€56.50",desc:"Steep cogwheel train to 1,783m summit with views over seven Salzkammergut lakes.",book:"5schaetze.at — book online to skip queues"},
+      {name:"Hohensalzburg Fortress",type:"Culture",duration:"2 hrs",cost:"€18",desc:"Europe's largest preserved medieval fortress with panoramic views and Prince's Chambers.",book:"festung-hohensalzburg.at — buy online"},
+      {name:"Berchtesgaden Salt Mines",type:"Culture",duration:"3-4 hrs",cost:"€25-60",desc:"Don miner's overalls, ride mine trains, slide wooden chutes, raft underground lake.",book:"Bus 840 from Salzburg or guided tour via Panorama Tours"},
+      {name:"Augustiner Bräu Beer Hall",type:"Food",duration:"2 hrs",cost:"€10-20",desc:"Monastery brewery since 1621 — fill your stein, grab local snacks, sit in the beer garden.",book:"No booking needed — walk in. Augustinergasse 4"},
+    ],
+    videos:[],
   },
 
   /* 10 ─ VIENNA */
@@ -717,6 +812,26 @@ export const STOPS = [
       {mode:"walk", icon:"🚶", name:"Walking", detail:"Central Vienna (Innere Stadt) is very walkable. Stephansplatz to Hofburg 10 min, to Naschmarkt 15 min, Ringstrasse loop 45 min", cost:"Free", tip:"The Ringstrasse walk (4km loop) passes the Opera, Parliament, Rathaus, Burgtheater, and University — all free to admire from outside."},
     ],
     weather:{temp:"23°C",rain:"14 rain days/month in June",best:"Generally good — warm, long evenings until 21:30.",tip:"Vienna summer afternoons can produce short heavy showers that pass within an hour. Always carry a small umbrella or light jacket."},
+    hiddenGems:[
+      {title:"Schnitzelwirt (not Figlmüller)",desc:"Massive schnitzel with sides for €10-12. Figlmüller is a tourist trap with long queues.",cost:"€10-12",tip:"Neubaugasse 52, 7th district. Better food, no queue."},
+      {title:"Zentralfriedhof (Central Cemetery)",desc:"Graves of Beethoven, Brahms, Schubert, Strauss in one area (Section 32A). Beautiful park-like space.",cost:"Free",tip:"Take tram 71. Sounds morbid but it's genuinely lovely."},
+      {title:"Donauinsel (Danube Island)",desc:"Free swimming, cycling path, summer bars. A locals-only escape from tourist Vienna.",cost:"Free",tip:"Take U1 to Donauinsel station."},
+      {title:"Weekly Transit Pass",desc:"Vienna weekly pass is €17.10 (Mon-Sun). Cheaper than buying daily passes if you're there 2+ days.",cost:"€17.10",tip:"Works on all metro, tram, and bus lines."},
+    ],
+    workspaces:[
+      {name:"Hauptbücherei Wien",type:"Library",area:"Urban-Loritz-Platz 2a (near Westbahnhof)",cost:"Free",wifi:"Fast",power:true,hours:"Mon-Fri 11:00-19:00, Sat 11:00-17:00",note:"Modern building. Dedicated laptop workstations. Best free coworking in Vienna."},
+      {name:"Österreichische Nationalbibliothek",type:"Library",area:"Josefsplatz 1 (Hofburg Palace)",cost:"Free",wifi:"Yes",power:true,hours:"Mon-Fri 9:00-21:00, Sat 9:00-17:00",note:"Spectacular reading rooms inside the Hofburg. Register with passport."},
+      {name:"Cafe Phil",type:"Cafe/Bookshop",area:"Gumpendorfer Str. 10-12",cost:"€3-5",wifi:"Good",power:true,hours:"9:00-23:00",note:"Bookshop-meets-cafe. Very laptop friendly. Vintage furniture. Popular with writers."},
+      {name:"Cafe Sperl",type:"Traditional Coffeehouse",area:"Gumpendorfer Str. 11",cost:"€4-6",wifi:"Yes",power:false,hours:"Mon-Sat 7:00-23:00",note:"Classic 1880 coffeehouse. Sit for hours — nobody minds. The Viennese way of working."},
+    ],
+    activities:[
+      {name:"Concert at the Musikverein",type:"Culture",duration:"2 hrs",cost:"€7-120",desc:"Classical concert in one of the world's most acoustically perfect halls.",book:"musikverein.at — standing room from €7"},
+      {name:"Schönbrunn Palace & Gardens",type:"Culture",duration:"2-3 hrs",cost:"€32-44",desc:"Tour the lavish 1,441-room Imperial Palace and stroll the French gardens.",book:"Online timed entry to skip queue — gardens free"},
+      {name:"Heuriger Wine Tavern Evening",type:"Food",duration:"2-3 hrs",cost:"€20-40",desc:"Young Viennese wine at a rustic tavern with cold buffet in the vineyard hills.",book:"No booking needed — Mayer am Pfarrplatz or Sirbu"},
+      {name:"Prater & Giant Ferris Wheel",type:"Tour",duration:"1-2 hrs",cost:"€14.50",desc:"Ride the iconic 1897 Ferris wheel from The Third Man for panoramic views.",book:"wienerriesenrad.com — park entry free"},
+      {name:"Danube City Cruise",type:"Tour",duration:"75 min",cost:"€33",desc:"Cruise past UNO City, Danube Island, and Vienna's skyline.",book:"ddsg-blue-danube.at — reservation required"},
+    ],
+    videos:[],
   },
 
   /* 11 ─ PRAGUE */
@@ -795,6 +910,24 @@ export const STOPS = [
       {risk:"Prague hl.n. lockers full on Sunday",solution:"Rare but possible on summer weekends. Backup: Florence bus station has lockers (10 min walk). Or leave bags at Airbnb if host allows late collection."},
     ],
     weather:{temp:"22°C",rain:"10–12 rain days in June",best:"Generally good. Czech Republic is drier than Switzerland and Austria.",tip:"Prague mornings (05:45–08:00) are cool — around 14–17°C. Bring a light layer for the Charles Bridge walk."},
+    hiddenGems:[
+      {title:"Letná Park Beer Garden",desc:"Best panoramic view over Old Town and all bridges. Draft Pilsner for CZK 60 (~€2.50). Where locals go for sunset.",cost:"CZK 60",tip:"Letenský zámeček beer garden. Far better than any tourist rooftop."},
+      {title:"Lokál Dlouhááá",desc:"Fresh unpasteurized Pilsner Urquell for CZK 59. Czech pub food mains CZK 150-200 (€6-8).",cost:"CZK 59 beer",tip:"Dlouhá 33. Used heavily by locals."},
+      {title:"U Sudu",desc:"Labyrinthine underground bar across multiple cellar levels. Beers from CZK 45.",cost:"CZK 45",tip:"Vodičkova 10. Gets more interesting the deeper you go."},
+    ],
+    workspaces:[
+      {name:"Národní Knihovna (National Library)",type:"Library",area:"Klementinum, Old Town",cost:"Free",wifi:"Yes",power:true,hours:"Mon-Fri 9:00-19:00",note:"Historic Klementinum complex next to Charles Bridge. Quiet reading rooms."},
+      {name:"Městská Knihovna (Municipal Library)",type:"Library",area:"Mariánské náměstí, Old Town",cost:"Free",wifi:"Free",power:true,hours:"Mon-Fri 9:00-20:00",note:"Modern facilities. Spacious. Near Staroměstská metro."},
+      {name:"Cafe Letka",type:"Cafe",area:"Letohradská 44, Prague 7",cost:"CZK 70-90 (~€3)",wifi:"Good",power:true,hours:"Mon-Fri 8:00-22:00",note:"Favorite among Prague remote workers. Spacious. Great coffee. Won't rush you."},
+    ],
+    activities:[
+      {name:"Beer Spa",type:"Relaxation",duration:"1.5 hrs",cost:"CZK 1,450 (~€60)",desc:"Soak in hops, yeast, and malt while drinking unlimited Czech beer from a personal tap.",book:"beerspa.com — book 2+ weeks ahead"},
+      {name:"Vltava River Cruise",type:"Tour",duration:"1-2 hrs",cost:"€15-25",desc:"Cruise past Prague Castle, Charles Bridge, and the Dancing House.",book:"Prague Boats or GetYourGuide — sunset cruises best"},
+      {name:"Prague Underground & Medieval Cellars",type:"Culture",duration:"2 hrs",cost:"€20-30",desc:"Explore hidden medieval cellars and passages 12m below today's streets.",book:"GetYourGuide or Prague Underground Tours"},
+      {name:"Prague Pub Crawl",type:"Nightlife",duration:"4-5 hrs",cost:"€32",desc:"2 hours unlimited drinks, 3-4 bar hops, ending at Europe's largest 5-story nightclub.",book:"pubcrawl.cz — every night 7:45pm and 9:45pm"},
+      {name:"Kutná Hora Day Trip (Bone Church)",type:"Culture",duration:"5-6 hrs",cost:"€8-50",desc:"Eerie ossuary decorated with 40,000+ human bones plus Gothic St. Barbara's Cathedral.",book:"Train 1hr ~€8 each way + entry €9, or guided tour ~€50"},
+    ],
+    videos:[],
   },
 
   /* 12 ─ BERLIN */
@@ -877,6 +1010,28 @@ export const STOPS = [
       {mode:"walk", icon:"🚶", name:"Walking", detail:"Friedrichshain is walkable internally. East Side Gallery 5 min from Ostbahnhof. Simon Dach Kiez is compact", cost:"Free", tip:"Walking is best for neighbourhood exploration. For cross-city travel, always take U/S-Bahn — Berlin is huge."},
     ],
     weather:{temp:"23°C",rain:"10–12 days rain in June–July",best:"Long evenings until 21:30. Generally good summer.",tip:"Berlin is enormous (892 km²). Use the U-Bahn and S-Bahn freely. 7-day ticket €29.40 (Zones AB) is better value than daily tickets for a 5-night stay."},
+    hiddenGems:[
+      {title:"Tempelhofer Feld",desc:"Former airport runway converted into massive public park. Berliners cycle, barbecue, kite-surf on an actual runway.",cost:"Free",tip:"Nothing like this exists elsewhere. Enter from Columbiadamm."},
+      {title:"Markthalle Neun — Street Food Thursday",desc:"Thursdays 5-10pm. Global street food from €3-8 per dish.",cost:"€3-8",tip:"In Kreuzberg. Come hungry."},
+      {title:"Turkish Market (Maybachufer)",desc:"Tuesday and Friday market. Loaded dürum kebab €4-5. Best budget food in Berlin.",cost:"€4-5",tip:"Also fresh produce, spices, and Turkish tea."},
+      {title:"Sachsenhausen Memorial",desc:"Former concentration camp 45 min north by S1. Free entry including audio guide app.",cost:"Free",tip:"Half-day trip. Deeply moving and historically essential."},
+    ],
+    workspaces:[
+      {name:"Staatsbibliothek (State Library)",type:"Library",area:"Potsdamer Str. 33 (near Potsdamer Platz)",cost:"Free",wifi:"Fast",power:true,hours:"Mon-Fri 8:00-22:00, Sat 8:00-19:00",note:"Iconic reading room from Wings of Desire. Hundreds of desks. Best free workspace in Europe."},
+      {name:"ZLB Amerika-Gedenkbibliothek",type:"Library",area:"Blücherplatz 1, Kreuzberg",cost:"Free",wifi:"Free",power:true,hours:"Mon-Fri 10:00-21:00",note:"Large modern library in Kreuzberg. Popular with freelancers. Near Mehringdamm U-Bahn."},
+      {name:"St. Oberholz",type:"Cafe/Coworking",area:"Rosenthaler Str. 72a, Mitte",cost:"€3-5 (cafe) / €15 (coworking)",wifi:"Excellent",power:true,hours:"Mon-Fri 8:00-20:00",note:"The original Berlin digital nomad cafe. Ground floor free with purchase. Coworking upstairs."},
+      {name:"betahaus",type:"Coworking",area:"Rudi-Dutschke-Str. 23, Kreuzberg",cost:"€15-20/day",wifi:"Very fast",power:true,hours:"Mon-Fri 8:00-20:00",note:"One of Europe's most famous coworking spaces. Great community. Cafe on ground floor."},
+      {name:"Five Elephant",type:"Cafe",area:"Reichenberger Str. 101, Kreuzberg",cost:"€3-5",wifi:"Good",power:true,hours:"Mon-Fri 8:30-18:00",note:"Excellent specialty coffee and famous cheesecake. Spacious. Relaxed Kreuzberg vibe."},
+    ],
+    activities:[
+      {name:"Street Art Tour (Alternative Berlin)",type:"Culture",duration:"3 hrs",cost:"€20",desc:"Artist-led walk through Kreuzberg's world-famous graffiti and street art scene.",book:"alternativeberlin.com — Mon/Wed/Fri/Sat 1pm"},
+      {name:"Sachsenhausen Memorial",type:"Culture",duration:"6 hrs",cost:"€22-30",desc:"Guided tour of the former concentration camp with a historian guide.",book:"Original Berlin Tours — departs 10am Alexanderplatz"},
+      {name:"Kreuzberg Food Tour",type:"Food",duration:"3 hrs",cost:"€49-59",desc:"Turkish döner, Vietnamese pho, Syrian falafel, currywurst, and craft beer across 5+ stops.",book:"Fork & Walk Tours — all food and drinks included"},
+      {name:"Potsdam & Sanssouci Day Trip",type:"Culture",duration:"5-6 hrs",cost:"€14-50",desc:"Frederick the Great's Sanssouci Palace, gardens, and charming Dutch Quarter.",book:"S-Bahn 35 min — palace entry €14 or guided tour ~€45"},
+      {name:"Techno Night at Tresor",type:"Nightlife",duration:"Evening",cost:"€10-20",desc:"Berlin's legendary techno scene in a former power plant.",book:"No booking — show up after midnight. Dress dark."},
+      {name:"East Side Gallery + Spree Boat",type:"Tour",duration:"2-3 hrs",cost:"Free + €15-25",desc:"1.3km Berlin Wall murals then Spree River cruise past Reichstag and Museum Island.",book:"Gallery free — boat via Stern und Kreisschiffahrt"},
+    ],
+    videos:[],
   },
 
   /* 13 ─ AMSTERDAM */
@@ -954,6 +1109,26 @@ export const STOPS = [
       {risk:"Schiphol Airport security queue (notorious in summer)",solution:"Allow 3 full hours before departure. IC Direct from Centraal runs every 15 min (17 min journey). Arrive Schiphol with 2.5+ hrs to spare."},
     ],
     weather:{temp:"18–20°C",rain:"15 days rain in July — changeable every few hours",best:"Amsterdam is beautiful in both sun and soft rain.",tip:"Always bring a light waterproof jacket in Amsterdam. The weather genuinely changes every 2–3 hours. Dutch people cycle in the rain — this is normal life here."},
+    hiddenGems:[
+      {title:"Free Ferry to NDSM Wharf",desc:"Behind Centraal Station, free ferries cross the IJ river. NDSM is a post-industrial creative zone with street art.",cost:"Free",tip:"Monthly flea market IJ-Hallen (€5 entry). Check dates."},
+      {title:"Albert Cuyp Market",desc:"Largest outdoor market in Netherlands. Fresh stroopwafel €3, kibbeling €5, Surinamese roti €7.",cost:"€3-7",tip:"In De Pijp. The market itself is free to walk."},
+      {title:"Vondelpark Free Concerts",desc:"Free open-air theatre with performances on summer Fri/Sat/Sun in June-August.",cost:"Free",tip:"Check Openluchttheater schedule closer to dates."},
+      {title:"Warung Spang Makandra",desc:"Indonesian rijsttafel (rice table) for €15-18pp. Amsterdam's best budget cuisine — spice levels and rice familiar for Nepali palates.",cost:"€15-18pp",tip:"In De Pijp. Colonial history makes Indonesian food Amsterdam's signature."},
+    ],
+    workspaces:[
+      {name:"OBA Centraal (Public Library)",type:"Library",area:"Behind Centraal Station",cost:"Free",wifi:"Fast",power:true,hours:"Mon-Fri 8:00-22:00, Sat-Sun 10:00-22:00",note:"Best public library in Europe. Multiple floors. Top-floor cafe with panoramic views. Steps from Centraal."},
+      {name:"Coffee & Coconuts",type:"Cafe",area:"Ceintuurbaan 282, De Pijp",cost:"€3.50-5",wifi:"Good",power:true,hours:"Mon-Fri 8:00-18:00",note:"Converted cinema — massive and spacious. Three levels. Very laptop-friendly. Great food."},
+      {name:"Lot Sixty One",type:"Cafe",area:"Kinkerstraat 112, Oud-West",cost:"€3.50-5",wifi:"Yes",power:false,hours:"Mon-Fri 8:00-17:00",note:"Superb specialty coffee. Good weekday morning work vibe. Near Jordaan."},
+    ],
+    activities:[
+      {name:"Canal Cruise",type:"Tour",duration:"1 hr",cost:"€16-20",desc:"Glide through UNESCO canal belt past gabled houses and Anne Frank House.",book:"Those Dam Boat Guys or self-drive Boaty ~€60/hr for 6"},
+      {name:"Heineken Experience",type:"Food",duration:"2 hrs",cost:"€23-30",desc:"Interactive tour of the 1867 brewery with beer-making exhibits and 2 included beers.",book:"heinekenexperience.com — combo with cruise €39.50"},
+      {name:"Guided Bike Tour",type:"Tour",duration:"2.5 hrs",cost:"€32-40",desc:"Pedal through Vondelpark, Jordaan, and hidden courtyards like a local.",book:"Mike's Bike Tours — daily departures"},
+      {name:"Zaanse Schans Windmills",type:"Culture",duration:"3-4 hrs",cost:"Free-€22",desc:"Working 18th-century windmills, clog workshop, and cheese farm 25 min from city.",book:"Train from Centraal €5 each way — village entry free"},
+      {name:"A'DAM Lookout & Over the Edge Swing",type:"Adventure",duration:"1 hr",cost:"€14.50 + €7 swing",desc:"360° views then Europe's highest swing launching you 100m over the edge.",book:"adamlookout.com — free ferry from Centraal"},
+      {name:"Jordaan Food Tour",type:"Food",duration:"3 hrs",cost:"€75-95",desc:"Stroopwafels, Gouda, herring, bitterballen, and craft beer at 6+ stops.",book:"Eating Amsterdam — small groups max 12"},
+    ],
+    videos:[],
   },
 ];
 

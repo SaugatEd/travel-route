@@ -13,6 +13,8 @@ const getCityHero = (id) => CITY_IMAGES?.[id]?.hero || null;
 const getCityMap = (id) => CITY_IMAGES?.[id]?.mapEmbed || null;
 const getCityGallery = (id) => CITY_IMAGES?.[id]?.gallery || [];
 
+const IMG_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' fill='%23e5e7eb'%3E%3Crect width='640' height='480'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='18' fill='%23999' text-anchor='middle' dy='.3em'%3EImage unavailable%3C/text%3E%3C/svg%3E";
+
 const TYPE_COLORS = {
   flight: "#4338CA", highspeed: "#C2410C", regional: "#166534",
   scenic: "#0891B2", nightjet: "#1E1B4B", train: "#166534",
@@ -34,12 +36,11 @@ const CAL_TYPES = {
   travel:  { border: "#3A0A30", dot: "#F06292", glow: "rgba(240,98,146,0.08)", text: "#F48FB1" },
 };
 
-const TAB_ORDER = ["destinations", "story", "itinerary", "must try", "compare", "getting here", "stay & eat", "weather", "tips", "budget", "checklist", "phrasebook", "docs"];
 
 export default function App() {
   const { rates, src, npr } = useRates();
   const [active, setActive] = useState("rome");
-  const [view, setView] = useState("destinations");
+  const [view, setView] = useState("overview");
   const [topTab, setTopTab] = useState(null);
   const [showNPR, setShowNPR] = useState(true);
   const [theme, setTheme] = useState(() => {
@@ -67,7 +68,7 @@ export default function App() {
     const exists = STOPS.find((s) => s.id === resolvedId);
     if (exists) {
       setActive(resolvedId);
-      setView("destinations");
+      setView("overview");
     }
   }
 
@@ -75,7 +76,7 @@ export default function App() {
     const stopId = day.stop === "imst" ? "innsbruck" : day.stop;
     if (stopId && stopId !== "ktm") {
       setActive(stopId);
-      setView("itinerary");
+      setView("overview");
       setTopTab(null);
     }
   }
@@ -104,22 +105,25 @@ export default function App() {
             <div className="header-subtitle">16 Jun – 6 Jul · 5 travellers · Kathmandu</div>
           </div>
           <div className="header-actions">
-            <button className="pill" onClick={toggleTheme} title={`Switch to ${theme === "light" ? "dark" : "light"} mode`} style={{ padding: "8px 12px" }}>
-              {theme === "light" ? "🌙" : "☀️"}
-            </button>
-            <button className={`pill${showNPR ? " active" : ""}`} onClick={() => setShowNPR((p) => !p)} style={{ fontSize: 12 }}>
-              ₨ {showNPR ? "ON" : "OFF"}
-            </button>
-            {["calendar", "journeys", "bookings"].map((t) => (
-              <button key={t} className={`pill${topTab === t ? " active" : ""}`} onClick={() => setTopTab((p) => (p === t ? null : t))}>
-                {t === "journeys" ? "🗺 Trains" : t === "bookings" ? "🔗 Book" : "📅 Calendar"}
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <button className="pill" onClick={toggleTheme} title={`Switch to ${theme === "light" ? "dark" : "light"} mode`} style={{ padding: "8px 12px" }}>
+                {theme === "light" ? "🌙" : "☀️"}
               </button>
-            ))}
-            <button className="pdf-btn" onClick={() => { setView("docs"); setTopTab(null); }} title="Visa & Documentation Guide" style={{ background: "#2E7D32" }}>
-              Visa & Docs
-            </button>
+              <button className={`pill${showNPR ? " active" : ""}`} onClick={() => setShowNPR((p) => !p)} style={{ fontSize: 12 }}>
+                ₨ {showNPR ? "ON" : "OFF"}
+              </button>
+            </div>
+            <div style={{ width: 1, height: 20, background: 'var(--border)' }} />
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              {["calendar", "journeys", "bookings"].map((t) => (
+                <button key={t} className={`pill${topTab === t ? " active" : ""}`} onClick={() => setTopTab((p) => (p === t ? null : t))}>
+                  {t === "journeys" ? "🗺 Trains" : t === "bookings" ? "🔗 Book" : "📅 Calendar"}
+                </button>
+              ))}
+            </div>
+            <div style={{ width: 1, height: 20, background: 'var(--border)' }} />
             <button className="pdf-btn" onClick={() => generateFullTripPdf(STOPS, CALENDAR, { journeys: JOURNEYS, tripBudget: TRIP_BUDGET, packingChecklist: PACKING_CHECKLIST, practical: PRACTICAL })} title="Download complete trip PDF">
-              Full Trip PDF
+              📄 Full Trip PDF
             </button>
           </div>
         </div>
@@ -153,14 +157,20 @@ export default function App() {
                   borderLeft: `3px solid ${calStyle.dot}`,
                 }}
               >
-                <div style={{ display: "flex", flexDirection: "column", gap: 2, width: "100%" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontSize: 10, fontWeight: 700, color: "var(--text-dim)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                      DAY {day.dayN} · {day.date}
-                    </span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>{day.city}</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, width: "100%" }}>
+                  {/* Small city thumbnail */}
+                  {getCityHero(resolvedStop) && (
+                    <div style={{ width: 32, height: 32, borderRadius: 8, overflow: 'hidden', flexShrink: 0, border: '1px solid var(--border)' }}>
+                      <img src={getCityHero(resolvedStop)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
+                    </div>
+                  )}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 10, fontWeight: 600, color: "var(--text-dim)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                      Day {day.dayN} · {day.date}
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: isActive ? 700 : 500, color: isActive ? "var(--text)" : "var(--text-muted)", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {day.flag} {day.city}
+                    </div>
                   </div>
                 </div>
               </button>
@@ -226,34 +236,28 @@ export default function App() {
 
             <div style={{ position: "relative", zIndex: 2 }}>
               {/* Destination flow nav */}
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
-                {prevStop ? (
-                  <button className="nav-btn" onClick={() => handleStopChange(prevStop.id)} style={{ fontSize: 13, ...(heroImg ? { color: "#fff", borderColor: "rgba(255,255,255,0.4)" } : {}) }}>
-                    {prevStop.flag} {prevStop.city}
-                    {stop.connections?.legs?.[0]?.dur ? ` (${stop.connections.legs[0].dur})` : ""}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
+                {prevStop && (
+                  <button className="nav-btn" onClick={() => handleStopChange(prevStop.id)} style={heroImg ? { color: "#fff", borderColor: "rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.08)" } : {}}>
+                    ← {prevStop.flag} {prevStop.city}
                   </button>
-                ) : (
-                  <span style={{ width: 120 }} />
                 )}
-                <span style={{ fontSize: 12, color: heroImg ? "rgba(255,255,255,0.7)" : "var(--text-dim)", fontWeight: 600 }}>→</span>
                 <span style={{
-                  fontSize: 16, fontWeight: 700,
+                  fontSize: 14, fontWeight: 800,
                   color: heroImg ? "#fff" : "var(--accent)",
-                  padding: "6px 16px",
-                  border: `1px solid ${heroImg ? "rgba(255,255,255,0.5)" : "var(--accent)"}`,
-                  borderRadius: 8,
-                  background: heroImg ? "rgba(255,255,255,0.1)" : "transparent",
+                  padding: "8px 20px",
+                  border: `2px solid ${heroImg ? "rgba(255,255,255,0.5)" : "var(--accent)"}`,
+                  borderRadius: 999,
+                  background: heroImg ? "rgba(255,255,255,0.12)" : "var(--accent-bg)",
+                  backdropFilter: heroImg ? "blur(8px)" : "none",
+                  fontFamily: "var(--sans)",
                 }}>
                   {stop.flag} {stop.city}
                 </span>
-                <span style={{ fontSize: 12, color: heroImg ? "rgba(255,255,255,0.7)" : "var(--text-dim)", fontWeight: 600 }}>→</span>
-                {nextStop ? (
-                  <button className="nav-btn" onClick={() => handleStopChange(nextStop.id)} style={{ fontSize: 13, ...(heroImg ? { color: "#fff", borderColor: "rgba(255,255,255,0.4)" } : {}) }}>
-                    {nextStop.flag} {nextStop.city}
-                    {nextStop.connections?.legs?.[0]?.dur ? ` (${nextStop.connections.legs[0].dur})` : ""}
+                {nextStop && (
+                  <button className="nav-btn" onClick={() => handleStopChange(nextStop.id)} style={heroImg ? { color: "#fff", borderColor: "rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.08)" } : {}}>
+                    {nextStop.flag} {nextStop.city} →
                   </button>
-                ) : (
-                  <span style={{ width: 120 }} />
                 )}
               </div>
 
@@ -303,30 +307,67 @@ export default function App() {
             </div>
           </div>
 
-          {/* Tabs */}
-          <div className="tabs">
-            {TAB_ORDER.map((t) => (
-              <button key={t} className={`tab-btn${view === t ? " active" : ""}`} onClick={() => setView(t)}>
-                {t}
-              </button>
-            ))}
-          </div>
-
-          {/* Tab Content */}
-          {view === "destinations" && <DestinationsView stop={stop} idx={idx} stops={STOPS} journeys={JOURNEYS} onStopChange={handleStopChange} />}
-          {view === "story" && <StoryView stop={stop} />}
-          {view === "itinerary" && <ItineraryView stop={stop} />}
-          {view === "compare" && <CompareView stop={stop} />}
-          {view === "getting here" && <ConnectionsView stop={stop} />}
-          {view === "stay & eat" && <StayEatView stop={stop} />}
-          {view === "weather" && <WeatherView stop={stop} />}
-          {view === "tips" && <TipsView stop={stop} />}
-          {view === "must try" && <MustTryView stop={stop} />}
+          {/* View Content */}
+          {view === "overview" && <OverviewView stop={stop} idx={idx} stops={STOPS} journeys={JOURNEYS} onStopChange={handleStopChange} showNPR={showNPR} npr={npr} />}
+          {view === "gallery" && <GalleryView stop={stop} />}
           {view === "budget" && <BudgetView stop={stop} stops={STOPS} showNPR={showNPR} npr={npr} />}
           {view === "checklist" && <ChecklistView />}
           {view === "phrasebook" && <PhrasebookView stop={stop} />}
           {view === "docs" && <DocsView />}
         </main>
+
+        {/* Right Sidebar — Navigation */}
+        <aside className="sidebar-right">
+          {/* Mini destination card */}
+          <div style={{ padding: '12px', margin: '0 8px 12px', borderRadius: 10, background: 'var(--accent-bg)', border: '1px solid var(--accent-border)', textAlign: 'center' }}>
+            <div style={{ fontSize: 24 }}>{stop.flag}</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', marginTop: 4 }}>{stop.city}</div>
+            <div style={{ fontSize: 11, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>{stop.country}</div>
+          </div>
+          <div style={{ padding: '12px 12px 8px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-dim)' }}>
+            Explore
+          </div>
+          <div className="right-nav">
+            {[
+              { id: 'overview', icon: '✨', label: 'Overview' },
+              { id: 'gallery', icon: '🖼', label: 'Gallery' },
+              { id: 'budget', icon: '💰', label: 'Budget' },
+              { id: 'checklist', icon: '✅', label: 'Checklist' },
+              { id: 'phrasebook', icon: '🗣', label: 'Phrasebook' },
+              { id: 'docs', icon: '📋', label: 'Visa & Docs' },
+            ].map(item => (
+              <button
+                key={item.id}
+                className={`right-nav-btn${view === item.id ? ' active' : ''}`}
+                onClick={() => setView(item.id)}
+              >
+                <span className="right-nav-icon">{item.icon}</span>
+                <span className="right-nav-label">{item.label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Quick Info */}
+          <div style={{ padding: '16px 12px', borderTop: '1px solid var(--border)', marginTop: 12 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-dim)', marginBottom: 10 }}>
+              Quick Info
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontFamily: 'var(--sans)' }}>
+                <span style={{ color: 'var(--text-dim)' }}>Currency</span>
+                <span style={{ fontWeight: 700, color: 'var(--text)' }}>{stop.currency}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontFamily: 'var(--sans)' }}>
+                <span style={{ color: 'var(--text-dim)' }}>Weather</span>
+                <span style={{ fontWeight: 700, color: 'var(--text)' }}>{stop.weather.temp}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontFamily: 'var(--sans)' }}>
+                <span style={{ color: 'var(--text-dim)' }}>Budget</span>
+                <span style={{ fontWeight: 700, color: 'var(--text)' }}>{stop.budget}</span>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   );
@@ -336,11 +377,553 @@ export default function App() {
    SUB-COMPONENTS
    ═══════════════════════════════════ */
 
-function StoryView({ stop }) {
-  const landmarks = getCityGallery(stop.id);
+
+function HiddenGemsContent({ stop }) {
+  if (!stop.hiddenGems?.length) return null;
+  return (
+    <div className="gems-grid">
+      {stop.hiddenGems.map((gem, i) => (
+        <div key={i} className="gem-card">
+          <div className="gem-header">
+            <h4 className="gem-title">{gem.title}</h4>
+            <span className="gem-cost">{gem.cost}</span>
+          </div>
+          <p className="gem-desc">{gem.desc}</p>
+          {gem.tip && <div className="gem-tip">&#128161; {gem.tip}</div>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function WorkspacesContent({ stop }) {
+  if (!stop.workspaces?.length) return null;
+
+  const typeStyles = {
+    Library: { bg: 'var(--green-bg)', border: 'var(--green-border)', color: 'var(--green)', icon: '📚' },
+    Cafe: { bg: 'var(--orange-bg)', border: 'var(--orange-border)', color: 'var(--orange)', icon: '☕' },
+    'Cafe/Bookshop': { bg: 'var(--orange-bg)', border: 'var(--orange-border)', color: 'var(--orange)', icon: '📖' },
+    'Cafe/Coworking': { bg: 'var(--accent-bg)', border: 'var(--accent-border)', color: 'var(--accent)', icon: '💻' },
+    Coworking: { bg: 'var(--accent-bg)', border: 'var(--accent-border)', color: 'var(--accent)', icon: '💻' },
+    'Traditional Coffeehouse': { bg: 'var(--orange-bg)', border: 'var(--orange-border)', color: 'var(--orange)', icon: '🫖' },
+    'Beer Garden': { bg: 'var(--orange-bg)', border: 'var(--orange-border)', color: 'var(--orange)', icon: '🍺' },
+  };
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 14 }}>
+      {stop.workspaces.map((ws, i) => {
+        const style = typeStyles[ws.type] || typeStyles.Cafe;
+        return (
+          <div key={i} style={{
+            padding: '18px 20px',
+            borderRadius: 'var(--radius-lg)',
+            background: 'var(--bg-raised)',
+            border: '1px solid var(--border)',
+            transition: 'all 0.15s',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; }}
+          >
+            {/* Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10, gap: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 20 }}>{style.icon}</span>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)' }}>{ws.name}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-dim)', fontFamily: 'var(--sans)', marginTop: 1 }}>{ws.area}</div>
+                </div>
+              </div>
+              <span style={{
+                fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
+                background: style.bg, color: style.color, border: `1px solid ${style.border}`,
+                whiteSpace: 'nowrap', fontFamily: 'var(--sans)',
+              }}>
+                {ws.type}
+              </span>
+            </div>
+
+            {/* Details row */}
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontFamily: 'var(--sans)' }}>
+                <span style={{ color: 'var(--green)', fontWeight: 700 }}>💰</span>
+                <span style={{ fontWeight: 600, color: ws.cost === 'Free' ? 'var(--green)' : 'var(--text)' }}>{ws.cost}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontFamily: 'var(--sans)' }}>
+                <span>📶</span>
+                <span style={{ color: 'var(--text-muted)' }}>{ws.wifi}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontFamily: 'var(--sans)' }}>
+                <span>{ws.power ? '🔌' : '🔋'}</span>
+                <span style={{ color: ws.power ? 'var(--green)' : 'var(--text-dim)' }}>{ws.power ? 'Outlets' : 'No outlets'}</span>
+              </div>
+            </div>
+
+            {/* Hours */}
+            <div style={{ fontSize: 11, color: 'var(--text-dim)', fontFamily: 'var(--sans)', marginBottom: 8 }}>
+              🕐 {ws.hours}
+            </div>
+
+            {/* Note */}
+            <div style={{ fontSize: 13, color: 'var(--text-muted)', fontFamily: 'var(--sans)', lineHeight: 1.6 }}>
+              {ws.note}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ActivitiesContent({ stop }) {
+  if (!stop.activities?.length) return null;
+
+  const typeColors = {
+    Adventure: { bg: '#FEF3C7', color: '#92400E', border: '#FCD34D' },
+    Culture: { bg: '#EDE9FE', color: '#5B21B6', border: '#C4B5FD' },
+    Food: { bg: '#FEE2E2', color: '#991B1B', border: '#FCA5A5' },
+    Nature: { bg: '#D1FAE5', color: '#065F46', border: '#6EE7B7' },
+    Nightlife: { bg: '#EDE9FE', color: '#4C1D95', border: '#A78BFA' },
+    Tour: { bg: '#DBEAFE', color: '#1E40AF', border: '#93C5FD' },
+    Relaxation: { bg: '#E0F2FE', color: '#075985', border: '#7DD3FC' },
+    Shopping: { bg: '#FFF7ED', color: '#9A3412', border: '#FDBA74' },
+  };
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
+      {stop.activities.map((act, i) => {
+        const tc = typeColors[act.type] || typeColors.Tour;
+        return (
+          <div key={i} style={{
+            padding: '20px',
+            borderRadius: 'var(--radius-lg)',
+            background: 'var(--bg-raised)',
+            border: '1px solid var(--border)',
+            transition: 'all 0.2s',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; }}
+          >
+            {/* Type badge + Duration */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <span style={{
+                fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
+                background: tc.bg, color: tc.color, border: `1px solid ${tc.border}`,
+                fontFamily: 'var(--sans)',
+              }}>
+                {act.type}
+              </span>
+              <span style={{ fontSize: 12, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>
+                {act.duration}
+              </span>
+            </div>
+
+            {/* Name */}
+            <h4 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', margin: '0 0 8px', lineHeight: 1.3 }}>
+              {act.name}
+            </h4>
+
+            {/* Description */}
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', fontFamily: 'var(--sans)', lineHeight: 1.6, margin: '0 0 12px', flex: 1 }}>
+              {act.desc}
+            </p>
+
+            {/* Cost + Booking */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTop: '1px solid var(--border)' }}>
+              <span style={{ fontSize: 16, fontWeight: 800, color: 'var(--accent)', fontFamily: 'var(--sans)' }}>
+                {act.cost}
+              </span>
+              <span style={{ fontSize: 11, color: 'var(--text-dim)', fontFamily: 'var(--sans)', textAlign: 'right', maxWidth: '60%' }}>
+                {act.book}
+              </span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function VideosContent({ stop }) {
+  const searchQuery = encodeURIComponent(`${stop.city} ${stop.country} travel guide 2024`);
+  const searchQuery2 = encodeURIComponent(`${stop.city} things to do 2024`);
+  const searchQuery3 = encodeURIComponent(`${stop.city} walking tour 4K`);
+  const searchQuery4 = encodeURIComponent(`${stop.city} food tour`);
+  const searchQuery5 = encodeURIComponent(`${stop.city} hidden gems`);
+
+  const videoLinks = [
+    { title: `${stop.city} Travel Guide`, query: searchQuery, icon: '🎬', desc: 'Complete travel guides and tips' },
+    { title: `Things to Do in ${stop.city}`, query: searchQuery2, icon: '✨', desc: 'Top attractions and activities' },
+    { title: `${stop.city} Walking Tour`, query: searchQuery3, icon: '🚶', desc: '4K walking tours through the city' },
+    { title: `${stop.city} Food Tour`, query: searchQuery4, icon: '🍽', desc: 'Best food and restaurants' },
+    { title: `${stop.city} Hidden Gems`, query: searchQuery5, icon: '💎', desc: 'Off-the-beaten-path spots' },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
+      {videoLinks.map((v, i) => (
+        <a
+          key={i}
+          href={`https://www.youtube.com/results?search_query=${v.query}`}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            padding: '20px',
+            borderRadius: 'var(--radius-lg)',
+            background: 'var(--bg-raised)',
+            border: '1px solid var(--border)',
+            textDecoration: 'none',
+            transition: 'all 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 14,
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = '#FF0000'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = 'var(--border)'; }}
+        >
+          <div style={{
+            width: 48, height: 48, borderRadius: 12,
+            background: '#FF00001a', border: '1px solid #FF000030',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 24, flexShrink: 0,
+          }}>
+            {v.icon}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', marginBottom: 2 }}>
+              {v.title}
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>
+              {v.desc}
+            </div>
+          </div>
+          <div style={{ fontSize: 20, color: '#FF0000', flexShrink: 0 }}>▶</div>
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function GalleryView({ stop }) {
+  const gallery = getCityGallery(stop.id);
+  const highlights = CITY_IMAGES?.[stop.id]?.highlights || [];
+  const heroImg = getCityHero(stop.id);
+  const allImages = [];
+
+  if (heroImg) allImages.push({ url: heroImg, title: `${stop.city} Hero`, category: "Hero" });
+  highlights.forEach(h => allImages.push(h));
+  gallery.forEach((img, i) => {
+    const url = typeof img === 'string' ? img : img.url;
+    const title = typeof img === 'object' ? (img.alt || img.caption || `${stop.city} ${i+1}`) : `${stop.city} ${i+1}`;
+    if (!allImages.find(a => a.url === url)) {
+      allImages.push({ url, title, category: "Gallery" });
+    }
+  });
 
   return (
     <div className="panel">
+      <div className="section-header">
+        <h2 className="section-title">{stop.flag} {stop.city} — Photos</h2>
+        <span style={{ fontSize: 13, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>
+          {allImages.length} photos
+        </span>
+      </div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+        gap: 12,
+      }}>
+        {allImages.map((img, i) => (
+          <div key={i} style={{
+            position: 'relative',
+            borderRadius: 'var(--radius-lg)',
+            overflow: 'hidden',
+            cursor: 'pointer',
+            aspectRatio: i === 0 ? '16/10' : '4/3',
+            gridColumn: i === 0 ? 'span 2' : 'auto',
+          }}>
+            <img
+              src={img.url}
+              alt={img.title}
+              loading="lazy"
+              onError={(e) => { e.target.onerror = null; e.target.src = IMG_FALLBACK; }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.3s' }}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+            />
+            <div style={{
+              position: 'absolute', bottom: 0, left: 0, right: 0,
+              padding: '12px 14px',
+              background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%)',
+            }}>
+              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 2 }}>
+                {img.category}
+              </div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#fff' }}>
+                {img.title}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function OverviewView({ stop, idx, stops, journeys, onStopChange, showNPR, npr }) {
+  const [section, setSection] = useState("highlights");
+
+  const gallery = getCityGallery(stop.id);
+  const highlights = CITY_IMAGES?.[stop.id]?.highlights || [];
+
+  const chips = [
+    { id: "highlights", label: "Highlights", icon: "✨" },
+    { id: "itinerary", label: "Itinerary", icon: "📅" },
+    { id: "gems", label: "Hidden Gems", icon: "💎" },
+    { id: "work", label: "Work & Rest", icon: "💻" },
+    { id: "activities", label: "Activities", icon: "🎯" },
+    { id: "transport", label: "Getting Here", icon: "🚄" },
+    { id: "stay", label: "Stay & Eat", icon: "🏠" },
+    { id: "compare", label: "Train vs Flight", icon: "📊" },
+    { id: "tips", label: "Tips", icon: "💡" },
+    { id: "musttry", label: "Food & Shopping", icon: "🍽" },
+    { id: "weather", label: "Weather", icon: "🌡" },
+    { id: "route", label: "Route", icon: "🗺" },
+    { id: "videos", label: "Videos", icon: "▶" },
+  ];
+
+  return (
+    <div className="panel" style={{ padding: 0 }}>
+
+      {/* Quick Facts Strip */}
+      <div style={{ padding: '0 24px' }}>
+        <div className="quick-facts">
+          {[
+            { icon: "📍", label: "Duration", value: stop.duration.split('·')[0].trim() },
+            { icon: "🌡", label: "Weather", value: stop.weather.temp },
+            { icon: "💰", label: "Budget", value: stop.budget },
+            { icon: "💵", label: "Currency", value: stop.currency },
+          ].map((f, i) => (
+            <div key={i} className="quick-fact">
+              <span className="quick-fact__icon">{f.icon}</span>
+              <div>
+                <div className="quick-fact__label">{f.label}</div>
+                <div className="quick-fact__value">{f.value}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Photo Grid — always visible */}
+      {gallery.length >= 3 && (
+        <div style={{ padding: '0 24px', marginBottom: 24 }}>
+          <div className="photo-grid">
+            {gallery.slice(0, 3).map((img, i) => (
+              <div key={i} className="photo-grid__item">
+                <img src={typeof img === 'string' ? img : img.url} alt={typeof img === 'object' ? img.alt : `${stop.city} ${i+1}`} loading="lazy" onError={(e) => { e.target.onerror = null; e.target.src = IMG_FALLBACK; }} />
+                {i === 2 && gallery.length > 3 && (
+                  <div className="photo-grid__more">+{gallery.length - 3} more photos</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Section Chips — click to switch content below */}
+      <div className="chip-nav chip-nav--section">
+        {chips.map(chip => (
+          <button
+            key={chip.id}
+            className={`chip${section === chip.id ? ' active' : ''}`}
+            onClick={() => setSection(chip.id)}
+          >
+            <span>{chip.icon}</span>
+            <span>{chip.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* === SECTION CONTENT — only the active section renders === */}
+      <div key={section} style={{ padding: 24 }} className="panel">
+
+        {section === "highlights" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Top Picks in {stop.city}</h2>
+            </div>
+            {highlights.length > 0 ? (
+              <div className="highlights-carousel">
+                {highlights.map((h, i) => (
+                  <div key={i} className="highlight-card">
+                    <img src={h.url} alt={h.title} loading="lazy" onError={(e) => { e.target.onerror = null; e.target.src = IMG_FALLBACK; }} />
+                    <div className="highlight-card__overlay">
+                      <div className="highlight-card__category">{h.category}</div>
+                      <div className="highlight-card__title">{h.title}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="must-do-strip">
+                {stop.must?.map((m, i) => (
+                  <div key={i} className="must-do-item">
+                    <span className="must-do-num">{i + 1}</span>
+                    <span>{m}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div style={{ marginTop: 24 }}>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', marginBottom: 12 }}>The Story</h3>
+              <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--text-muted)', fontFamily: 'var(--sans)', marginBottom: 20 }}>{stop.story}</p>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', marginBottom: 12 }}>History</h3>
+              <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--text-muted)', fontFamily: 'var(--sans)', marginBottom: 20 }}>{stop.history}</p>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', marginBottom: 12 }}>Must Do</h3>
+              <div className="must-do-strip">
+                {stop.must?.map((m, i) => (
+                  <div key={i} className="must-do-item">
+                    <span className="must-do-num">{i + 1}</span>
+                    <span>{m}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {section === "itinerary" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Day by Day</h2>
+            </div>
+            <ItineraryContent stop={stop} />
+          </>
+        )}
+
+        {section === "gems" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Hidden Gems & Local Tips</h2>
+            </div>
+            {stop.hiddenGems?.length > 0 ? <HiddenGemsContent stop={stop} /> : (
+              <p style={{ color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>No hidden gems data for this stop yet.</p>
+            )}
+          </>
+        )}
+
+        {section === "work" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Work & Rest Spots</h2>
+              <span style={{ fontSize: 12, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>
+                Libraries, cafes & coworking for laptop work
+              </span>
+            </div>
+            {stop.workspaces?.length > 0 ? <WorkspacesContent stop={stop} /> : (
+              <p style={{ color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>No workspace data for this transit stop.</p>
+            )}
+          </>
+        )}
+
+        {section === "transport" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Getting to {stop.city}</h2>
+            </div>
+            <TransportContent stop={stop} />
+          </>
+        )}
+
+        {section === "stay" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Where to Stay & Eat</h2>
+            </div>
+            <StayEatContent stop={stop} />
+          </>
+        )}
+
+        {section === "compare" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Train vs Flight</h2>
+            </div>
+            <CompareContent stop={stop} />
+          </>
+        )}
+
+        {section === "tips" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Tips & Tricks</h2>
+            </div>
+            <TipsContent stop={stop} />
+          </>
+        )}
+
+        {section === "musttry" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Must Try Food & Shopping</h2>
+            </div>
+            <MustTryContent stop={stop} />
+          </>
+        )}
+
+        {section === "weather" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Weather Details</h2>
+            </div>
+            <WeatherContent stop={stop} />
+          </>
+        )}
+
+        {section === "route" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Route Overview</h2>
+            </div>
+            <RouteContent stop={stop} idx={idx} stops={stops} journeys={journeys} onStopChange={onStopChange} />
+          </>
+        )}
+
+        {section === "activities" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Activities & Experiences</h2>
+            </div>
+            {stop.activities?.length > 0 ? <ActivitiesContent stop={stop} /> : (
+              <p style={{ color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>No activities data for this transit stop.</p>
+            )}
+          </>
+        )}
+
+        {section === "videos" && (
+          <>
+            <div className="section-header">
+              <h2 className="section-title">Watch on YouTube</h2>
+              <span style={{ fontSize: 12, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>
+                Opens YouTube search results
+              </span>
+            </div>
+            <VideosContent stop={stop} />
+          </>
+        )}
+
+      </div>
+    </div>
+  );
+}
+
+function StoryContent({ stop }) {
+  const landmarks = getCityGallery(stop.id);
+
+  return (
+    <>
       {/* City Image */}
       {getCityHero(stop.id) && (
         <div style={{
@@ -349,7 +932,7 @@ function StoryView({ stop }) {
         }}>
           <img src={getCityHero(stop.id)} alt={stop.city} style={{
             width: "100%", height: "100%", objectFit: "cover", display: "block",
-          }} loading="lazy" />
+          }} loading="lazy" onError={(e) => { e.target.onerror = null; e.target.src = IMG_FALLBACK; }} />
           <div style={{
             position: "absolute", inset: 0,
             background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 40%)",
@@ -495,11 +1078,11 @@ function StoryView({ stop }) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
-function DestinationsView({ stop, idx, stops, journeys, onStopChange }) {
+function RouteContent({ stop, idx, stops, journeys, onStopChange }) {
   const prevStop = idx > 0 ? stops[idx - 1] : null;
   const nextStop = idx < stops.length - 1 ? stops[idx + 1] : null;
 
@@ -524,7 +1107,7 @@ function DestinationsView({ stop, idx, stops, journeys, onStopChange }) {
   }
 
   return (
-    <div className="panel">
+    <>
       <h2 className="story-title">Route Overview</h2>
 
       {/* Route Map — Google Maps */}
@@ -616,7 +1199,7 @@ function DestinationsView({ stop, idx, stops, journeys, onStopChange }) {
                     flexShrink: 0, border: "1px solid var(--border-light)",
                     boxShadow: "var(--shadow)",
                   }}>
-                    <img src={cityImg} alt={s.city} style={{ width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" />
+                    <img src={cityImg} alt={s.city} style={{ width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" onError={(e) => { e.target.onerror = null; e.target.src = IMG_FALLBACK; }} />
                   </div>
                 )}
 
@@ -721,21 +1304,21 @@ function DestinationsView({ stop, idx, stops, journeys, onStopChange }) {
               </div>
             ))}
             <div style={{ marginTop: 8, fontSize: 12, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>
-              See <strong>"Getting Here"</strong> tab for full details, platform info & tips
+              See the "Getting Here" section above for full details, platform info & tips
             </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
-function ItineraryView({ stop }) {
+function ItineraryContent({ stop }) {
   const heroImg = getCityHero(stop.id);
   const mapEmbed = getCityMap(stop.id);
 
   return (
-    <div className="panel">
+    <>
       {/* Destination Image Banner */}
       {heroImg && (
         <div style={{
@@ -744,7 +1327,7 @@ function ItineraryView({ stop }) {
         }}>
           <img src={heroImg} alt={stop.city} style={{
             width: "100%", height: "100%", objectFit: "cover", display: "block",
-          }} loading="lazy" />
+          }} loading="lazy" onError={(e) => { e.target.onerror = null; e.target.src = IMG_FALLBACK; }} />
           <div style={{
             position: "absolute", inset: 0,
             background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%)",
@@ -901,11 +1484,11 @@ function ItineraryView({ stop }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
-function CompareView({ stop }) {
+function CompareContent({ stop }) {
   const fc = stop?.connections?.flightComparison;
   const acc = stop?.accommodation;
   const hasFlightComparison = fc?.available;
@@ -913,8 +1496,8 @@ function CompareView({ stop }) {
 
   if (!hasFlightComparison && !hasAccommodation) {
     return (
-      <div className="panel" style={{ textAlign: "center", padding: "60px 48px" }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>📊</div>
+      <div style={{ textAlign: "center", padding: "60px 48px" }}>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>&#128202;</div>
         <div style={{ fontSize: 18, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>
           No comparison data available for {stop.city}.
         </div>
@@ -930,11 +1513,11 @@ function CompareView({ stop }) {
   const tableStyle = { width: "100%", borderCollapse: "collapse", fontSize: 14, fontFamily: "var(--sans)", color: "var(--text)" };
 
   return (
-    <div className="panel">
+    <>
       {/* Train vs Flight comparison */}
       {hasFlightComparison && (
         <div style={{ marginBottom: 32 }}>
-          <h2 className="story-title">🚄 Train vs ✈ Flight — {fc.route}</h2>
+          <h2 className="story-title">&#128644; Train vs &#9992; Flight — {fc.route}</h2>
           <div style={{ overflowX: "auto" }}>
             <table style={tableStyle}>
               <thead>
@@ -1040,15 +1623,15 @@ function CompareView({ stop }) {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 }
 
-function ConnectionsView({ stop }) {
+function TransportContent({ stop }) {
   if (!stop.connections) {
     return (
-      <div className="panel" style={{ textAlign: "center", padding: "60px 48px" }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>✈️</div>
+      <div style={{ textAlign: "center", padding: "60px 48px" }}>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>&#9992;&#65039;</div>
         <div style={{ fontSize: 18, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>
           This is your first stop — you fly directly here from Kathmandu.
         </div>
@@ -1057,7 +1640,7 @@ function ConnectionsView({ stop }) {
   }
   const c = stop.connections;
   return (
-    <div className="panel">
+    <>
       <h2 className="story-title">Getting to {stop.city}</h2>
       <div className="conn-header">
         <span className="conn-route">
@@ -1208,13 +1791,13 @@ function ConnectionsView({ stop }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
-function StayEatView({ stop }) {
+function StayEatContent({ stop }) {
   return (
-    <div className="panel">
+    <>
       <div className="stay-eat-grid">
         <div>
           <h2 className="story-title">Where to Stay</h2>
@@ -1275,13 +1858,13 @@ function StayEatView({ stop }) {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
-function WeatherView({ stop }) {
+function WeatherContent({ stop }) {
   return (
-    <div className="panel">
+    <>
       <h2 className="story-title">June Weather in {stop.city}</h2>
       <div className="weather-grid">
         {[
@@ -1302,13 +1885,13 @@ function WeatherView({ stop }) {
         </div>
         <div style={{ fontSize: 14, color: "#C0B0A0", lineHeight: 1.85 }}>{stop.weather.tip}</div>
       </div>
-    </div>
+    </>
   );
 }
 
 /* ── TIPS & TRICKS TAB ── */
 
-function TipsView({ stop }) {
+function TipsContent({ stop }) {
   const [openSection, setOpenSection] = useState(null);
 
   const tips = TIPS || {};
@@ -1327,7 +1910,7 @@ function TipsView({ stop }) {
   const hasTipsData = general.length > 0 || dos.length > 0 || donts.length > 0 || budgetHacks.length > 0;
 
   return (
-    <div className="panel">
+    <>
       <h2 className="story-title">Tips & Tricks</h2>
       <p style={{ fontSize: 14, color: "var(--text-muted)", fontFamily: "var(--sans)", marginBottom: 28, lineHeight: 1.7 }}>
         Practical advice for making the most of your trip — from budget hacks to staying safe.
@@ -1580,11 +2163,11 @@ function TipsView({ stop }) {
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 }
 
-function MustTryView({ stop }) {
+function MustTryContent({ stop }) {
   // Find the country for this stop
   const countryMap = { "Italy": "italy", "Switzerland": "switzerland", "Austria": "austria", "Czech Republic": "czech", "Germany": "germany", "Netherlands": "netherlands" };
   const countryKey = countryMap[stop.country] || null;
@@ -1592,15 +2175,15 @@ function MustTryView({ stop }) {
 
   if (!countryData) {
     return (
-      <div className="panel" style={{ textAlign: "center", padding: "60px 48px" }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>🍽</div>
+      <div style={{ textAlign: "center", padding: "60px 48px" }}>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>&#127869;</div>
         <div style={{ fontSize: 18, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>No food & shopping guide for this stop yet.</div>
       </div>
     );
   }
 
   return (
-    <div className="panel">
+    <>
       <h2 className="story-title">{countryData.flag} Must Try in {countryData.country}</h2>
       <p style={{ fontSize: 13, color: "var(--text-dim)", fontFamily: "var(--sans)", marginBottom: 24 }}>
         {countryData.days} · Things you absolutely cannot miss
@@ -1643,7 +2226,7 @@ function MustTryView({ stop }) {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }
 
@@ -2166,19 +2749,24 @@ function PhrasebookView({ stop }) {
 
 function CalendarPanel({ active, onClickDay }) {
   const legends = [
-    ["explore", "#4CAF50", "Stay"],
-    ["move", "#FF9800", "Travel"],
+    ["explore", "#4CAF50", "Explore"],
+    ["move", "#FF9800", "Travel Day"],
     ["arrive", "#64B5F6", "Arrive"],
-    ["night", "#9575CD", "Night train"],
+    ["night", "#9575CD", "Night Train"],
     ["travel", "#F06292", "Flight"],
   ];
+
+  // Group by country for visual separators
+  let lastCountry = "";
 
   return (
     <div className="top-panel">
       <div className="top-panel-inner">
-        <h2>21 Days · June 16 – July 6, 2026</h2>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, marginBottom: 20 }}>
-          <p className="subtitle" style={{ margin: 0 }}>5 travellers · Kathmandu → Kathmandu · 14 cities</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 20 }}>
+          <div>
+            <h2>21 Days · June 16 – July 6, 2026</h2>
+            <p className="subtitle" style={{ margin: '4px 0 0' }}>5 travellers · Kathmandu → Kathmandu · 6 countries · 14 cities</p>
+          </div>
           <div className="cal-legend">
             {legends.map(([t, col, label]) => (
               <div key={t} className="cal-legend-item">
@@ -2188,59 +2776,101 @@ function CalendarPanel({ active, onClickDay }) {
             ))}
           </div>
         </div>
+
+        {/* Stats strip at top */}
+        <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
+          {[
+            { n: "21", label: "Days", icon: "\u{1F4C5}" },
+            { n: "6", label: "Countries", icon: "\u{1F30D}" },
+            { n: "14", label: "Cities", icon: "\u{1F3D9}" },
+            { n: "16", label: "Trains", icon: "\u{1F684}" },
+            { n: "18", label: "Nights", icon: "\u{1F319}" },
+            { n: "5", label: "Travellers", icon: "\u{1F465}" },
+          ].map(s => (
+            <div key={s.label} style={{
+              padding: '10px 16px', borderRadius: 10,
+              background: 'var(--bg-raised)', border: '1px solid var(--border)',
+              display: 'flex', alignItems: 'center', gap: 8,
+            }}>
+              <span style={{ fontSize: 16 }}>{s.icon}</span>
+              <div>
+                <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)', fontFamily: 'var(--sans)' }}>{s.n}</div>
+                <div style={{ fontSize: 10, color: 'var(--text-dim)', fontFamily: 'var(--sans)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <div className="cal-grid">
           {CALENDAR.map((day, i) => {
             const s = CAL_TYPES[day.type] || CAL_TYPES.explore;
             const resolvedStop = day.stop === "imst" ? "innsbruck" : day.stop;
             const isActive = active === resolvedStop;
+            const cityImg = getCityHero(resolvedStop);
+
+            // Country divider
+            const stopData = STOPS.find(st => st.id === resolvedStop);
+            const country = stopData?.country || "";
+            const showCountryDivider = country && country !== lastCountry;
+            if (country) lastCountry = country;
+
             return (
-              <div
-                key={i}
-                className={`cal-card${isActive ? " active" : ""}`}
-                onClick={() => onClickDay(day)}
-                style={{
-                  borderLeftColor: s.dot,
-                  borderColor: isActive ? "var(--accent)" : s.border,
-                  background: s.glow,
-                  cursor: resolvedStop !== "ktm" ? "pointer" : "default",
-                }}
-              >
-                <div className="cal-header">
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 16 }}>{day.icon}</span>
-                    <div>
-                      <div className="cal-meta">DAY {day.dayN} · {day.date.toUpperCase()}</div>
-                      <div className="cal-city">
-                        {day.flag} {day.city}
-                      </div>
-                    </div>
+              <div key={i}>
+                {showCountryDivider && (
+                  <div style={{
+                    gridColumn: '1 / -1', padding: '8px 0 4px',
+                    fontSize: 12, fontWeight: 700, color: 'var(--accent)',
+                    fontFamily: 'var(--sans)', textTransform: 'uppercase',
+                    letterSpacing: '0.1em', borderTop: i > 0 ? '1px solid var(--border)' : 'none',
+                    marginTop: i > 0 ? 8 : 0, paddingTop: i > 0 ? 12 : 8,
+                  }}>
+                    {stopData?.flag} {country}
                   </div>
-                  {day.move && (
-                    <span className="travel-badge" style={{ color: s.text, background: "rgba(255,255,255,0.04)", border: `1px solid ${s.border}` }}>
-                      TRAVEL DAY
-                    </span>
+                )}
+                <div
+                  className={`cal-card${isActive ? " active" : ""}`}
+                  onClick={() => onClickDay(day)}
+                  style={{
+                    borderLeftColor: s.dot,
+                    borderColor: isActive ? "var(--accent)" : s.border,
+                    background: s.glow,
+                    cursor: resolvedStop !== "ktm" ? "pointer" : "default",
+                    position: 'relative',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {/* Tiny city thumbnail */}
+                  {cityImg && (
+                    <div style={{
+                      position: 'absolute', top: 0, right: 0, bottom: 0, width: 80,
+                      opacity: 0.15, overflow: 'hidden',
+                    }}>
+                      <img src={cityImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
+                    </div>
                   )}
+                  <div style={{ position: 'relative', zIndex: 1 }}>
+                    <div className="cal-header">
+                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <span style={{ fontSize: 16 }}>{day.icon}</span>
+                        <div>
+                          <div className="cal-meta">DAY {day.dayN} · {day.date.toUpperCase()}</div>
+                          <div className="cal-city">
+                            {day.flag} {day.city}
+                          </div>
+                        </div>
+                      </div>
+                      {day.move && (
+                        <span className="travel-badge" style={{ color: s.text, background: "rgba(255,255,255,0.04)", border: `1px solid ${s.border}` }}>
+                          TRAVEL DAY
+                        </span>
+                      )}
+                    </div>
+                    <p className="cal-summary">{day.summary}</p>
+                  </div>
                 </div>
-                <p className="cal-summary">{day.summary}</p>
               </div>
             );
           })}
-        </div>
-        <div className="stats-strip">
-          {[
-            ["21", "Total days"],
-            ["14", "Cities visited"],
-            ["16", "Train journeys"],
-            ["3", "Countries in 1 week"],
-            ["5", "Travellers"],
-            ["1", "Nightjet sleep"],
-            ["2", "Flight legs"],
-          ].map(([n, label]) => (
-            <div key={label} className="stat-box">
-              <div className="num">{n}</div>
-              <div className="desc">{label}</div>
-            </div>
-          ))}
         </div>
       </div>
     </div>
@@ -2248,74 +2878,137 @@ function CalendarPanel({ active, onClickDay }) {
 }
 
 function JourneysPanel({ showNPR, npr }) {
+  // Calculate totals
+  const totalDuration = JOURNEYS.reduce((acc, j) => {
+    const match = j.dur?.match(/(\d+)\s*h(?:rs?)?/);
+    const minMatch = j.dur?.match(/(\d+)\s*min/);
+    return acc + (match ? parseInt(match[1]) * 60 : 0) + (minMatch ? parseInt(minMatch[1]) : 0);
+  }, 0);
+  const totalHours = Math.floor(totalDuration / 60);
+  const totalMins = totalDuration % 60;
+
   return (
     <div className="top-panel">
       <div className="top-panel-inner">
-        <h2>All 16 Journeys</h2>
-        <p className="subtitle">In chronological order · book in advance on the operator websites</p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          {JOURNEYS.map((j, i) => (
+        <h2>All {JOURNEYS.length} Journeys</h2>
+        <p className="subtitle">In chronological order · book in advance for best prices</p>
+
+        {/* Journey Stats */}
+        <div style={{ display: 'flex', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
+          {[
+            { label: 'Total Journeys', value: JOURNEYS.length, icon: '\u{1F684}' },
+            { label: 'Total Travel Time', value: `${totalHours}h ${totalMins}m`, icon: '\u23F1' },
+            { label: 'Countries', value: '6', icon: '\u{1F30D}' },
+            { label: 'Longest', value: JOURNEYS.reduce((max, j) => {
+              const h = parseInt(j.dur?.match(/(\d+)\s*h/)?.[1] || 0);
+              return h > max.h ? { h, name: `${j.from}\u2192${j.to}` } : max;
+            }, { h: 0, name: '' }).name, icon: '\u{1F4CF}' },
+          ].map((stat, i) => (
             <div key={i} style={{
-              display: "flex", alignItems: "center", gap: 12,
-              padding: "10px 16px",
-              background: "var(--bg-raised)", border: "1px solid var(--border-light)",
-              borderLeft: `4px solid ${TYPE_COLORS[j.type] || "#666"}`,
-              borderRadius: "var(--radius)",
-              transition: "background 0.15s",
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.background = "var(--bg-hover)"}
-            onMouseLeave={(e) => e.currentTarget.style.background = "var(--bg-raised)"}
-            >
-              {/* Step number */}
-              <div style={{
-                width: 28, height: 28, borderRadius: "50%",
-                background: "var(--bg-hover)", border: "1px solid var(--border)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 12, fontWeight: 700, color: "var(--text-dim)", flexShrink: 0,
-              }}>
-                {i + 1}
+              padding: '12px 18px', borderRadius: 10,
+              background: 'var(--bg-raised)', border: '1px solid var(--border)',
+              display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 180px',
+            }}>
+              <span style={{ fontSize: 20 }}>{stat.icon}</span>
+              <div>
+                <div style={{ fontSize: 10, color: 'var(--text-dim)', fontFamily: 'var(--sans)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>{stat.label}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)' }}>{stat.value}</div>
               </div>
-
-              {/* Icon */}
-              <span style={{ fontSize: 18, flexShrink: 0 }}>{TYPE_ICONS[j.type] || "🚄"}</span>
-
-              {/* Route */}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text)", fontFamily: "var(--sans)" }}>
-                  {j.from} → {j.to}
-                </div>
-                <div style={{ fontSize: 11, color: "var(--text-dim)", fontFamily: "var(--sans)", marginTop: 2 }}>
-                  {j.via} · {j.date}
-                </div>
-              </div>
-
-              {/* Duration */}
-              <div style={{ textAlign: "center", flexShrink: 0, minWidth: 60 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)" }}>{j.dur}</div>
-              </div>
-
-              {/* Cost */}
-              <div style={{ textAlign: "right", flexShrink: 0, minWidth: 80 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "var(--accent)", fontFamily: "var(--sans)" }}>
-                  {j.cost}
-                </div>
-                {showNPR && j.type !== "flight" && (
-                  <div style={{ fontSize: 10, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>
-                    ~{npr(parseFloat(j.cost.replace(/[^0-9.]/g, "") || 0), j.cost.includes("CHF") ? "CHF" : "EUR")}
-                  </div>
-                )}
-              </div>
-
-              {/* Book button */}
-              {j.bookingUrl && (
-                <a href={j.bookingUrl} target="_blank" rel="noreferrer" style={{
-                  fontSize: 11, padding: "4px 10px", borderRadius: 6,
-                  background: "var(--accent)", color: "#fff", fontWeight: 600,
-                  fontFamily: "var(--sans)", textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0,
-                }}>Book</a>
-              )}
             </div>
           ))}
+        </div>
+
+        {/* Journey Cards */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {JOURNEYS.map((j, i) => {
+            const typeColor = TYPE_COLORS[j.type] || "#666";
+            return (
+              <div key={i} style={{
+                display: "grid", gridTemplateColumns: "40px 44px 1fr auto auto auto",
+                alignItems: "center", gap: 14,
+                padding: "14px 18px",
+                background: "var(--bg-raised)", border: "1px solid var(--border-light)",
+                borderLeft: `4px solid ${typeColor}`,
+                borderRadius: "var(--radius)",
+                transition: "all 0.15s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "var(--bg-hover)"; e.currentTarget.style.boxShadow = "var(--shadow)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "var(--bg-raised)"; e.currentTarget.style.boxShadow = "none"; }}
+              >
+                {/* Step number */}
+                <div style={{
+                  width: 32, height: 32, borderRadius: "50%",
+                  background: typeColor + "18", border: `2px solid ${typeColor}`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 13, fontWeight: 800, color: typeColor, flexShrink: 0,
+                }}>
+                  {i + 1}
+                </div>
+
+                {/* Icon + Type badge */}
+                <div style={{ textAlign: 'center' }}>
+                  <span style={{ fontSize: 22 }}>{TYPE_ICONS[j.type] || "\u{1F684}"}</span>
+                  <div style={{ fontSize: 9, fontWeight: 700, color: typeColor, fontFamily: 'var(--sans)', textTransform: 'uppercase', marginTop: 2 }}>
+                    {j.type}
+                  </div>
+                </div>
+
+                {/* Route + details */}
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)" }}>
+                    {j.from} \u2192 {j.to}
+                  </div>
+                  <div style={{ fontSize: 12, color: "var(--text-dim)", fontFamily: "var(--sans)", marginTop: 3, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    <span>{j.via}</span>
+                    <span style={{ color: 'var(--border-light)' }}>|</span>
+                    <span style={{ fontWeight: 600 }}>{j.date}</span>
+                  </div>
+                </div>
+
+                {/* Duration */}
+                <div style={{ textAlign: "center", flexShrink: 0, minWidth: 70, padding: '6px 12px', borderRadius: 8, background: 'var(--bg-hover)' }}>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text)", fontFamily: "var(--sans)" }}>{j.dur}</div>
+                </div>
+
+                {/* Cost */}
+                <div style={{ textAlign: "right", flexShrink: 0, minWidth: 90 }}>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: "var(--accent)", fontFamily: "var(--sans)" }}>
+                    {j.cost}
+                  </div>
+                  {showNPR && j.type !== "flight" && (
+                    <div style={{ fontSize: 10, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>
+                      ~{npr(parseFloat(j.cost.replace(/[^0-9.]/g, "") || 0), j.cost.includes("CHF") ? "CHF" : "EUR")}
+                    </div>
+                  )}
+                </div>
+
+                {/* Book button */}
+                {j.bookingUrl ? (
+                  <a href={j.bookingUrl} target="_blank" rel="noreferrer" style={{
+                    fontSize: 12, padding: "8px 14px", borderRadius: 8,
+                    background: "var(--accent)", color: "#fff", fontWeight: 700,
+                    fontFamily: "var(--sans)", textDecoration: "none", whiteSpace: "nowrap",
+                    flexShrink: 0, textAlign: 'center', transition: 'all 0.15s',
+                  }}>Book Now</a>
+                ) : (
+                  <div style={{ width: 70 }} />
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Booking Tips */}
+        <div style={{ marginTop: 24, padding: '16px 20px', borderRadius: 12, background: 'var(--accent-bg)', border: '1px solid var(--accent-border)' }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8, fontFamily: 'var(--sans)' }}>
+            Booking Tips
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 8, fontSize: 13, fontFamily: 'var(--sans)', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+            <div>Book Italian trains (Trenitalia/Italo) 60+ days ahead for cheapest fares</div>
+            <div>Austrian OBB Sparschiene from \u20AC9.90 \u2014 limited quantity, book early</div>
+            <div>Berlin\u2192Amsterdam Nightjet saves a hotel night \u2014 book at europeansleeper.eu</div>
+            <div>RegioJet Vienna\u2192Prague is cheap even last-minute and refundable</div>
+          </div>
         </div>
       </div>
     </div>
