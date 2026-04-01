@@ -100,20 +100,45 @@ export default function App() {
       {/* ── HEADER ── */}
       <header className="header">
         <div className="header-inner">
-          <div>
-            <div className="header-title">Europe 2026</div>
-            <div className="header-subtitle">16 Jun – 6 Jul · 5 travellers · Kathmandu</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div>
+              <div className="header-title">Jamnata</div>
+              <div className="header-subtitle">16 Jun – 6 Jul · 5 travellers · Europe 2026</div>
+            </div>
+            {/* Trip progress indicator */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 8 }}>
+              <div style={{
+                width: 120, height: 4, borderRadius: 4,
+                background: 'var(--border)',
+                overflow: 'hidden',
+              }}>
+                <div style={{
+                  width: `${((idx + 1) / STOPS.length) * 100}%`,
+                  height: '100%',
+                  borderRadius: 4,
+                  background: 'var(--gradient-accent)',
+                  backgroundSize: '200% auto',
+                  transition: 'width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                }} />
+              </div>
+              <span style={{
+                fontSize: 10, fontWeight: 700, color: 'var(--text-dim)',
+                fontFamily: 'var(--mono)', letterSpacing: '0.05em',
+              }}>
+                {idx + 1}/{STOPS.length}
+              </span>
+            </div>
           </div>
           <div className="header-actions">
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-              <button className="pill" onClick={toggleTheme} title={`Switch to ${theme === "light" ? "dark" : "light"} mode`} style={{ padding: "8px 12px" }}>
+              <button className="pill" onClick={toggleTheme} title={`Switch to ${theme === "light" ? "dark" : "light"} mode`} style={{ padding: "8px 14px", fontSize: 15 }}>
                 {theme === "light" ? "🌙" : "☀️"}
               </button>
               <button className={`pill${showNPR ? " active" : ""}`} onClick={() => setShowNPR((p) => !p)} style={{ fontSize: 12 }}>
                 ₨ {showNPR ? "ON" : "OFF"}
               </button>
             </div>
-            <div style={{ width: 1, height: 20, background: 'var(--border)' }} />
+            <div style={{ width: 1, height: 24, background: 'var(--border)', borderRadius: 1 }} />
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
               {["calendar", "journeys", "bookings"].map((t) => (
                 <button key={t} className={`pill${topTab === t ? " active" : ""}`} onClick={() => setTopTab((p) => (p === t ? null : t))}>
@@ -121,7 +146,7 @@ export default function App() {
                 </button>
               ))}
             </div>
-            <div style={{ width: 1, height: 20, background: 'var(--border)' }} />
+            <div style={{ width: 1, height: 24, background: 'var(--border)', borderRadius: 1 }} />
             <button className="pdf-btn" onClick={() => generateFullTripPdf(STOPS, CALENDAR, { journeys: JOURNEYS, tripBudget: TRIP_BUDGET, packingChecklist: PACKING_CHECKLIST, practical: PRACTICAL })} title="Download complete trip PDF">
               📄 Full Trip PDF
             </button>
@@ -138,7 +163,7 @@ export default function App() {
       <div className="app-layout">
         {/* Sidebar — Day-by-day */}
         <aside className="sidebar">
-          <div style={{ padding: "12px 12px 8px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-dim)" }}>
+          <div style={{ padding: "14px 16px 10px", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--text-faint)", fontFamily: "var(--sans)" }}>
             Trip Timeline
           </div>
           {CALENDAR.map((day, i) => {
@@ -212,96 +237,109 @@ export default function App() {
               overflow: "hidden",
               background: heroImg
                 ? "none"
-                : `linear-gradient(135deg, ${stop.color}18 0%, transparent 60%)`,
+                : `linear-gradient(135deg, ${stop.color}12 0%, transparent 60%)`,
             }}
           >
-            {/* Hero background image */}
+            {/* Hero background image with parallax-like effect */}
             {heroImg && (
               <>
                 <div style={{
-                  position: "absolute", inset: 0,
+                  position: "absolute", inset: "-10px",
                   backgroundImage: `url(${heroImg})`,
                   backgroundSize: "cover", backgroundPosition: "center",
-                  filter: "brightness(0.45)",
+                  filter: "brightness(0.4) saturate(1.2)",
                   zIndex: 0,
-                  transition: "background-image 0.4s ease",
+                  transition: "background-image 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s ease",
+                  transform: "scale(1.05)",
                 }} />
                 <div style={{
                   position: "absolute", inset: 0,
-                  background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)",
+                  background: "linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.75) 100%)",
                   zIndex: 1,
                 }} />
               </>
             )}
 
-            <div style={{ position: "relative", zIndex: 2 }}>
+            <div style={{ position: "relative", zIndex: 2, width: "100%" }}>
               {/* Destination flow nav */}
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 24, flexWrap: "wrap" }}>
                 {prevStop && (
-                  <button className="nav-btn" onClick={() => handleStopChange(prevStop.id)} style={heroImg ? { color: "#fff", borderColor: "rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.08)" } : {}}>
+                  <button className="nav-btn" onClick={() => handleStopChange(prevStop.id)} style={heroImg ? { color: "#fff", borderColor: "rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" } : {}}>
                     ← {prevStop.flag} {prevStop.city}
                   </button>
                 )}
                 <span style={{
-                  fontSize: 14, fontWeight: 800,
+                  fontSize: 13, fontWeight: 700,
                   color: heroImg ? "#fff" : "var(--accent)",
-                  padding: "8px 20px",
-                  border: `2px solid ${heroImg ? "rgba(255,255,255,0.5)" : "var(--accent)"}`,
+                  padding: "8px 24px",
+                  border: `1.5px solid ${heroImg ? "rgba(255,255,255,0.4)" : "var(--accent)"}`,
                   borderRadius: 999,
-                  background: heroImg ? "rgba(255,255,255,0.12)" : "var(--accent-bg)",
-                  backdropFilter: heroImg ? "blur(8px)" : "none",
+                  background: heroImg ? "rgba(255,255,255,0.1)" : "var(--accent-bg)",
+                  backdropFilter: heroImg ? "blur(12px)" : "none",
                   fontFamily: "var(--sans)",
+                  letterSpacing: "0.02em",
                 }}>
                   {stop.flag} {stop.city}
                 </span>
                 {nextStop && (
-                  <button className="nav-btn" onClick={() => handleStopChange(nextStop.id)} style={heroImg ? { color: "#fff", borderColor: "rgba(255,255,255,0.3)", background: "rgba(255,255,255,0.08)" } : {}}>
+                  <button className="nav-btn" onClick={() => handleStopChange(nextStop.id)} style={heroImg ? { color: "#fff", borderColor: "rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" } : {}}>
                     {nextStop.flag} {nextStop.city} →
                   </button>
                 )}
               </div>
 
-              {/* Day number & dates */}
+              {/* Day badge */}
               {stopCalDays.length > 0 && (
-                <div style={{ textAlign: "center", marginBottom: 8 }}>
+                <div style={{ textAlign: "center", marginBottom: 10 }}>
                   <span style={{
                     display: "inline-block",
-                    padding: "4px 14px",
-                    borderRadius: 20,
-                    background: heroImg ? "rgba(255,255,255,0.2)" : "var(--accent)",
+                    padding: "5px 16px",
+                    borderRadius: 999,
+                    background: heroImg ? "rgba(255,255,255,0.15)" : "var(--accent)",
                     color: "#fff",
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 700,
-                    letterSpacing: "0.05em",
-                    backdropFilter: heroImg ? "blur(8px)" : "none",
+                    letterSpacing: "0.08em",
+                    backdropFilter: heroImg ? "blur(12px)" : "none",
+                    fontFamily: "var(--mono)",
                   }}>
                     DAY {stopCalDays[0].dayN}{stopCalDays.length > 1 ? `–${stopCalDays[stopCalDays.length - 1].dayN}` : ""} · {stopCalDays[0].date}{stopCalDays.length > 1 ? ` – ${stopCalDays[stopCalDays.length - 1].date}` : ""}
                   </span>
                 </div>
               )}
 
-              <div className="hero-meta">
-                <span style={heroImg ? { color: "rgba(255,255,255,0.8)" } : {}}>{stop.country}</span>
-                <span className="dot" style={heroImg ? { color: "rgba(255,255,255,0.4)" } : {}}>·</span>
-                <span style={heroImg ? { color: "rgba(255,255,255,0.8)" } : {}}>{stop.duration}</span>
+              <div className="hero-meta" style={{ justifyContent: "center" }}>
+                <span style={heroImg ? { color: "rgba(255,255,255,0.75)" } : {}}>{stop.country}</span>
+                <span className="dot" style={heroImg ? { color: "rgba(255,255,255,0.3)" } : {}}>·</span>
+                <span style={heroImg ? { color: "rgba(255,255,255,0.75)" } : {}}>{stop.duration}</span>
               </div>
-              <h1 className="hero-title" style={heroImg ? { color: "#fff", textShadow: "0 2px 12px rgba(0,0,0,0.5)" } : {}}>
+              <h1 className="hero-title" style={{
+                textAlign: "center",
+                ...(heroImg ? { color: "#fff", textShadow: "0 4px 24px rgba(0,0,0,0.4)" } : {}),
+              }}>
                 {stop.city}
               </h1>
-              <p className="hero-tagline" style={heroImg ? { color: "rgba(255,255,255,0.85)" } : {}}>"{stop.tagline}"</p>
-              <div className="hero-stats">
-                <div className="stat-card" style={heroImg ? { background: "rgba(255,255,255,0.12)", borderColor: "rgba(255,255,255,0.2)", backdropFilter: "blur(12px)" } : {}}>
-                  <div className="label" style={heroImg ? { color: "rgba(255,255,255,0.7)" } : {}}>Accommodation</div>
+              <p className="hero-tagline" style={{
+                textAlign: "center",
+                maxWidth: 560,
+                margin: "0 auto 32px",
+                ...(heroImg ? { color: "rgba(255,255,255,0.8)" } : {}),
+              }}>
+                "{stop.tagline}"
+              </p>
+              <div className="hero-stats" style={{ justifyContent: "center" }}>
+                <div className="stat-card" style={heroImg ? { background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.12)", backdropFilter: "blur(16px) saturate(1.4)" } : {}}>
+                  <div className="label" style={heroImg ? { color: "rgba(255,255,255,0.6)" } : {}}>Accommodation</div>
                   <div className="val" style={heroImg ? { color: "#fff" } : {}}>{stop.budget}</div>
-                  {showNPR && <div className="sub" style={{ color: heroImg ? "#FFB74D" : "#E65100" }}>for 5 people / night</div>}
+                  {showNPR && <div className="sub" style={{ color: heroImg ? "#F0C56E" : "var(--orange)" }}>for 5 people / night</div>}
                 </div>
-                <div className="stat-card" style={heroImg ? { background: "rgba(255,255,255,0.12)", borderColor: "rgba(255,255,255,0.2)", backdropFilter: "blur(12px)" } : {}}>
-                  <div className="label" style={heroImg ? { color: "rgba(255,255,255,0.7)" } : {}}>Weather in June</div>
+                <div className="stat-card" style={heroImg ? { background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.12)", backdropFilter: "blur(16px) saturate(1.4)" } : {}}>
+                  <div className="label" style={heroImg ? { color: "rgba(255,255,255,0.6)" } : {}}>Weather in June</div>
                   <div className="val" style={heroImg ? { color: "#fff" } : {}}>{stop.weather.temp}</div>
-                  <div className="sub" style={heroImg ? { color: "rgba(255,255,255,0.7)" } : {}}>{stop.weather.rain}</div>
+                  <div className="sub" style={heroImg ? { color: "rgba(255,255,255,0.6)" } : {}}>{stop.weather.rain}</div>
                 </div>
                 <button className="pdf-btn" onClick={() => generateStopPdf(stop, calDay)} title={`Download ${stop.city} PDF`}>
-                  Download PDF
+                  ↓ Download PDF
                 </button>
               </div>
             </div>
@@ -319,12 +357,22 @@ export default function App() {
         {/* Right Sidebar — Navigation */}
         <aside className="sidebar-right">
           {/* Mini destination card */}
-          <div style={{ padding: '12px', margin: '0 8px 12px', borderRadius: 10, background: 'var(--accent-bg)', border: '1px solid var(--accent-border)', textAlign: 'center' }}>
-            <div style={{ fontSize: 24 }}>{stop.flag}</div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', marginTop: 4 }}>{stop.city}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>{stop.country}</div>
+          <div style={{
+            padding: '16px 14px', margin: '0 10px 16px', borderRadius: 14,
+            background: 'var(--gradient-warm)',
+            border: '1px solid var(--accent-border)', textAlign: 'center',
+            position: 'relative', overflow: 'hidden',
+          }}>
+            <div style={{
+              position: 'absolute', top: -20, right: -20,
+              width: 60, height: 60, borderRadius: '50%',
+              background: 'var(--accent-glow)',
+            }} />
+            <div style={{ fontSize: 28, position: 'relative' }}>{stop.flag}</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--display)', marginTop: 6, position: 'relative' }}>{stop.city}</div>
+            <div style={{ fontSize: 11, color: 'var(--text-dim)', fontFamily: 'var(--sans)', marginTop: 2, position: 'relative' }}>{stop.country}</div>
           </div>
-          <div style={{ padding: '12px 12px 8px', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-dim)' }}>
+          <div style={{ padding: '12px 14px 8px', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.16em', color: 'var(--text-faint)', fontFamily: 'var(--sans)' }}>
             Explore
           </div>
           <div className="right-nav">
@@ -348,23 +396,27 @@ export default function App() {
           </div>
 
           {/* Quick Info */}
-          <div style={{ padding: '16px 12px', borderTop: '1px solid var(--border)', marginTop: 12 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-dim)', marginBottom: 10 }}>
+          <div style={{ padding: '16px 14px', borderTop: '1px solid var(--border)', marginTop: 16 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.16em', color: 'var(--text-faint)', marginBottom: 12, fontFamily: 'var(--sans)' }}>
               Quick Info
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontFamily: 'var(--sans)' }}>
-                <span style={{ color: 'var(--text-dim)' }}>Currency</span>
-                <span style={{ fontWeight: 700, color: 'var(--text)' }}>{stop.currency}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontFamily: 'var(--sans)' }}>
-                <span style={{ color: 'var(--text-dim)' }}>Weather</span>
-                <span style={{ fontWeight: 700, color: 'var(--text)' }}>{stop.weather.temp}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontFamily: 'var(--sans)' }}>
-                <span style={{ color: 'var(--text-dim)' }}>Budget</span>
-                <span style={{ fontWeight: 700, color: 'var(--text)' }}>{stop.budget}</span>
-              </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                { label: 'Currency', value: stop.currency },
+                { label: 'Weather', value: stop.weather.temp },
+                { label: 'Budget', value: stop.budget },
+              ].map((item) => (
+                <div key={item.label} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  fontSize: 12, fontFamily: 'var(--sans)',
+                  padding: '6px 10px', borderRadius: 8,
+                  background: 'var(--bg-hover)',
+                  transition: 'all 0.2s',
+                }}>
+                  <span style={{ color: 'var(--text-dim)', fontWeight: 500 }}>{item.label}</span>
+                  <span style={{ fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--mono)', fontSize: 11 }}>{item.value}</span>
+                </div>
+              ))}
             </div>
           </div>
         </aside>
