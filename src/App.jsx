@@ -8,6 +8,7 @@ import { CITY_IMAGES, LANDMARK_IMAGES } from "./data/imageData";
 import { TIPS, PACKING_CHECKLIST } from "./data/tipsData";
 import { DOCS, MUST_TRY } from "./data/docsData";
 import { PRACTICAL } from "./data/practicalData";
+import { SURVIVAL_GUIDE, SITUATION_PHRASES, DESTINATION_SURVIVAL } from "./data/survivalData";
 
 const getCityHero = (id) => CITY_IMAGES?.[id]?.hero || null;
 const getCityMap = (id) => CITY_IMAGES?.[id]?.mapEmbed || null;
@@ -351,6 +352,7 @@ export default function App() {
           {view === "budget" && <BudgetView stop={stop} stops={STOPS} showNPR={showNPR} npr={npr} />}
           {view === "checklist" && <ChecklistView />}
           {view === "phrasebook" && <PhrasebookView stop={stop} />}
+          {view === "survival" && <SurvivalGuideView stop={stop} />}
           {view === "docs" && <DocsView />}
         </main>
 
@@ -382,6 +384,7 @@ export default function App() {
               { id: 'budget', icon: '💰', label: 'Budget' },
               { id: 'checklist', icon: '✅', label: 'Checklist' },
               { id: 'phrasebook', icon: '🗣', label: 'Phrasebook' },
+              { id: 'survival', icon: '🧭', label: 'Survival Guide' },
               { id: 'docs', icon: '📋', label: 'Visa & Docs' },
             ].map(item => (
               <button
@@ -2793,6 +2796,262 @@ function PhrasebookView({ stop }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+/* ── SURVIVAL GUIDE VIEW ── */
+function SurvivalGuideView({ stop }) {
+  const [guideTab, setGuideTab] = useState("destination");
+  const [openSection, setOpenSection] = useState(null);
+  const countryMap = { "Italy": "italy", "Switzerland": "switzerland", "Austria": "austria", "Czech Republic": "czech", "Germany": "germany", "Netherlands": "netherlands" };
+  const activeCountryKey = countryMap[stop?.country] || "italy";
+  const dest = DESTINATION_SURVIVAL[stop?.id] || null;
+  const countryPhrases = SITUATION_PHRASES?.greetings?.phrases?.[activeCountryKey] || [];
+  const guide = SURVIVAL_GUIDE;
+
+  const tabs = [
+    { id: "destination", label: stop?.city || "This Stop", icon: "📍" },
+    { id: "firsttime", label: "First-Timer Basics", icon: "🧭" },
+    { id: "phrases", label: "Speak Local", icon: "🗣" },
+    { id: "quickref", label: "Quick Ref", icon: "📋" },
+  ];
+
+  const cardStyle = {
+    borderRadius: "var(--radius-lg)", overflow: "hidden",
+    border: "1px solid var(--border)", background: "var(--bg-raised)", marginBottom: 16,
+  };
+  const tipRow = {
+    display: "flex", gap: 12, padding: "12px 16px", fontSize: 13, fontFamily: "var(--sans)",
+    lineHeight: 1.7, color: "var(--text)", borderBottom: "1px solid var(--border-light)",
+  };
+  const tipIcon = { fontSize: 18, flexShrink: 0, marginTop: 2 };
+
+  // ── Destination tab ──
+  const renderDestination = () => {
+    if (!dest) return (
+      <div style={{ padding: 24, textAlign: "center", color: "var(--text-muted)", fontFamily: "var(--sans)", fontSize: 13 }}>
+        No destination-specific tips for this stop. Check the "First-Timer Basics" tab for general European travel tips.
+      </div>
+    );
+    return (
+      <>
+        {/* Quick greeting banner */}
+        <div style={{ padding: "16px 20px", background: "var(--accent-bg)", borderRadius: "var(--radius-lg)", border: "1px solid var(--accent-border)", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", color: "var(--text-muted)", fontFamily: "var(--sans)", letterSpacing: 1 }}>Say hello in {stop?.city}</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "var(--accent)", fontFamily: "var(--serif)", marginTop: 2 }}>{dest.greeting}</div>
+            <div style={{ fontSize: 12, color: "var(--text-muted)", fontStyle: "italic", fontFamily: "var(--sans)" }}>{dest.greetPronounce}</div>
+          </div>
+          <div style={{ fontSize: 12, fontFamily: "var(--sans)", color: "var(--text-muted)", textAlign: "right" }}>
+            <div><strong style={{ color: "var(--text)" }}>Currency:</strong> {dest.currency}</div>
+            <div><strong style={{ color: "var(--text)" }}>Emergency:</strong> {dest.emergencyNum}</div>
+          </div>
+        </div>
+
+        {/* Survival tips */}
+        <div style={cardStyle}>
+          <div style={{ padding: "12px 16px", background: "var(--bg-hover)", borderBottom: "1px solid var(--border)", fontSize: 13, fontWeight: 700, fontFamily: "var(--sans)", color: "var(--text)" }}>
+            Survival Tips for {stop?.city}
+          </div>
+          {dest.quickSurvival.map((item, i) => (
+            <div key={i} style={{ ...tipRow, borderBottom: i < dest.quickSurvival.length - 1 ? "1px solid var(--border-light)" : "none", background: i % 2 === 1 ? "var(--bg-hover)" : "transparent" }}>
+              <span style={tipIcon}>{item.icon}</span>
+              <span>{item.tip}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Quick phrases strip */}
+        <div style={cardStyle}>
+          <div style={{ padding: "12px 16px", background: "var(--bg-hover)", borderBottom: "1px solid var(--border)", fontSize: 13, fontWeight: 700, fontFamily: "var(--sans)", color: "var(--text)" }}>
+            Phrases You Need Here
+          </div>
+          {[
+            { label: "Ask for water", value: dest.askForWater },
+            { label: "Ask for the bill", value: dest.askForBill },
+            { label: "Say thank you", value: dest.sayThankYou },
+            { label: "Toilet cost", value: dest.toiletCost },
+          ].map((item, i) => (
+            <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 16px", fontSize: 13, fontFamily: "var(--sans)", background: i % 2 === 0 ? "var(--bg-hover)" : "transparent", borderBottom: i < 3 ? "1px solid var(--border-light)" : "none" }}>
+              <span style={{ color: "var(--text-muted)" }}>{item.label}</span>
+              <span style={{ color: "var(--accent)", fontWeight: 600, textAlign: "right", maxWidth: "60%" }}>{item.value}</span>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
+  // ── First-timer basics tab (accordion) ──
+  const toggleAccordion = (key) => setOpenSection(openSection === key ? null : key);
+  const allGuides = [
+    { key: "arrival", ...guide.arrivalGuide },
+    { key: "culture", ...guide.culturalShock },
+    { key: "daily", ...guide.dailyLife },
+    { key: "food", ...guide.foodSurvival },
+    { key: "jetlag", ...guide.jetLagStrategy },
+    { key: "etiquette", ...guide.europeanEtiquette },
+    { key: "conversations", ...guide.conversationScenarios },
+  ];
+
+  const renderFirstTimer = () => (
+    <>
+      {allGuides.map(({ key, icon, title, sections, items, scenarios }) => {
+        const isOpen = openSection === key;
+        return (
+          <div key={key} style={{ ...cardStyle, marginBottom: 12 }}>
+            <div onClick={() => toggleAccordion(key)} style={{ padding: "14px 16px", cursor: "pointer", display: "flex", alignItems: "center", gap: 10, background: isOpen ? "var(--accent-bg)" : "transparent", borderBottom: isOpen ? "1px solid var(--border)" : "none" }}>
+              <span style={{ fontSize: 20 }}>{icon}</span>
+              <span style={{ flex: 1, fontSize: 14, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)" }}>{title}</span>
+              <span style={{ fontSize: 12, color: "var(--text-muted)", transform: isOpen ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s" }}>▼</span>
+            </div>
+            {isOpen && (
+              <div style={{ padding: "12px 16px" }}>
+                {/* Sectioned content */}
+                {sections && sections.map((sec, i) => (
+                  <div key={i}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "var(--accent)", fontFamily: "var(--sans)", marginTop: i > 0 ? 16 : 0, marginBottom: 8, paddingBottom: 4, borderBottom: "1px solid var(--border-light)" }}>{sec.title}</div>
+                    {sec.items.map((item, j) => (
+                      <div key={j} style={{ fontSize: 13, color: "var(--text)", fontFamily: "var(--sans)", lineHeight: 1.7, padding: "4px 0 4px 14px", borderLeft: "2px solid var(--border-light)", marginBottom: 4 }}>{item}</div>
+                    ))}
+                  </div>
+                ))}
+                {/* Jet lag items */}
+                {items && !scenarios && items.map((item, i) => (
+                  <div key={i} style={{ marginBottom: 10 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: item.day ? "var(--accent)" : "var(--text)", fontFamily: "var(--sans)", marginBottom: 3 }}>{item.day || item.rule}</div>
+                    <div style={{ fontSize: 13, color: "var(--text)", fontFamily: "var(--sans)", lineHeight: 1.7, padding: "4px 0 4px 14px", borderLeft: "2px solid var(--border-light)" }}>{item.tip || item.detail}</div>
+                  </div>
+                ))}
+                {/* Conversation scenarios */}
+                {scenarios && scenarios.map((sc, i) => (
+                  <div key={i} style={{ marginBottom: 16 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "var(--accent)", fontFamily: "var(--sans)", marginTop: i > 0 ? 12 : 0, marginBottom: 6 }}>{sc.situation}</div>
+                    {sc.exchanges.map((ex, j) => (
+                      <div key={j} style={{ padding: "6px 12px", fontSize: 12, fontFamily: "var(--sans)", background: j % 2 === 0 ? "var(--bg-hover)" : "transparent", borderRadius: 4 }}>
+                        {ex.officer && <div style={{ color: "var(--text-muted)" }}><strong>They:</strong> {ex.officer}</div>}
+                        <div><strong style={{ color: "var(--accent)" }}>You:</strong> {ex.you}</div>
+                        {ex.pronunciation && <div style={{ color: "var(--text-dim)", fontStyle: "italic", fontSize: 11 }}>{ex.pronunciation}</div>}
+                      </div>
+                    ))}
+                    <div style={{ fontSize: 11, color: "var(--text-muted)", fontFamily: "var(--sans)", padding: "4px 12px", background: "var(--accent-bg)", borderRadius: 4, marginTop: 2 }}>{sc.tip}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </>
+  );
+
+  // ── Phrases tab ──
+  const renderPhrases = () => (
+    <>
+      {countryPhrases.length > 0 && (
+        <div style={cardStyle}>
+          <div style={{ padding: "12px 16px", background: "var(--accent-bg)", borderBottom: "1px solid var(--border)", fontSize: 13, fontWeight: 700, fontFamily: "var(--sans)", color: "var(--text)" }}>
+            {stop?.country} Phrases with Nepali Hints
+          </div>
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, fontFamily: "var(--sans)" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                  {["Situation", "Say This", "Sounds Like", "Nepali Hint"].map(h => (
+                    <th key={h} style={{ padding: "8px 12px", textAlign: "left", color: "var(--text-dim)", fontSize: 10, textTransform: "uppercase", fontWeight: 600 }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {countryPhrases.map((p, i) => (
+                  <tr key={i} style={{ borderBottom: "1px solid var(--border-light)", background: i % 2 === 1 ? "var(--bg-hover)" : "transparent" }}>
+                    <td style={{ padding: "7px 12px", color: "var(--text-muted)" }}>{p.situation}</td>
+                    <td style={{ padding: "7px 12px", fontWeight: 600, color: "var(--accent)" }}>{p.phrase}</td>
+                    <td style={{ padding: "7px 12px", fontStyle: "italic", color: "var(--text)" }}>{p.pronunciation}</td>
+                    <td style={{ padding: "7px 12px", fontSize: 11, color: "var(--text-muted)" }}>{p.nepaliHint}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+      {/* Numbers */}
+      <div style={cardStyle}>
+        <div style={{ padding: "12px 16px", background: "var(--bg-hover)", borderBottom: "1px solid var(--border)", fontSize: 13, fontWeight: 700, fontFamily: "var(--sans)", color: "var(--text)" }}>
+          Numbers for Ordering & Tickets
+        </div>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, fontFamily: "var(--sans)" }}>
+            <thead>
+              <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                {["#", "Italian", "German", "Czech"].map(h => (
+                  <th key={h} style={{ padding: "8px 12px", textAlign: h === "#" ? "center" : "left", color: "var(--text-dim)", fontSize: 10, textTransform: "uppercase", fontWeight: 600 }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {SITUATION_PHRASES.numbers.list.map((n, i) => (
+                <tr key={i} style={{ borderBottom: "1px solid var(--border-light)", background: i % 2 === 1 ? "var(--bg-hover)" : "transparent" }}>
+                  <td style={{ padding: "7px 12px", textAlign: "center", fontWeight: 700, color: "var(--accent)" }}>{n.number}</td>
+                  <td style={{ padding: "7px 12px", color: "var(--text)" }}>{n.italian}</td>
+                  <td style={{ padding: "7px 12px", color: "var(--text)" }}>{n.german}</td>
+                  <td style={{ padding: "7px 12px", color: "var(--text)" }}>{n.czech}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
+  );
+
+  // ── Quick ref tab ──
+  const renderQuickRef = () => {
+    const ref = guide.quickReferenceCard;
+    return (
+      <>
+        <div style={{ fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--sans)", fontStyle: "italic", marginBottom: 12 }}>
+          {ref.note}
+        </div>
+        <div style={cardStyle}>
+          {ref.items.map((item, i) => (
+            <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 16px", fontSize: 13, fontFamily: "var(--sans)", background: i % 2 === 0 ? "var(--bg-hover)" : "transparent", borderBottom: i < ref.items.length - 1 ? "1px solid var(--border-light)" : "none" }}>
+              <span style={{ color: "var(--text-muted)", fontWeight: 500 }}>{item.label}</span>
+              <span style={{ color: "var(--text)", fontWeight: 700, textAlign: "right" }}>{item.value}</span>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <div className="panel">
+      <h2 className="story-title">Survival Guide</h2>
+
+      {/* Tab bar */}
+      <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap" }}>
+        {tabs.map(t => (
+          <button key={t.id} onClick={() => setGuideTab(t.id)} style={{
+            padding: "8px 14px", fontSize: 12, fontWeight: 600, fontFamily: "var(--sans)",
+            borderRadius: "var(--radius)", border: "1px solid",
+            borderColor: guideTab === t.id ? "var(--accent)" : "var(--border)",
+            background: guideTab === t.id ? "var(--accent-bg)" : "transparent",
+            color: guideTab === t.id ? "var(--accent)" : "var(--text-muted)",
+            cursor: "pointer", transition: "all 0.15s",
+          }}>
+            {t.icon} {t.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Tab content */}
+      {guideTab === "destination" && renderDestination()}
+      {guideTab === "firsttime" && renderFirstTimer()}
+      {guideTab === "phrases" && renderPhrases()}
+      {guideTab === "quickref" && renderQuickRef()}
     </div>
   );
 }
