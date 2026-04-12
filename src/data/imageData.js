@@ -6,18 +6,35 @@
 
 export const CITY_IMAGES = {
   fco: {
-    hero: "https://images.unsplash.com/photo-1529260830199-42c24126f198?w=1280&q=80",
+    hero: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1280&q=80",
     gallery: [
-      "https://images.unsplash.com/photo-1529260830199-42c24126f198?w=640&q=80",
       "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=640&q=80",
       "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=640&q=80",
+      "https://images.unsplash.com/photo-1517438322307-e67111335449?w=640&q=80",
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=640&q=80",
     ],
     highlights: [
-      { url: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=640&q=80", title: "Mediterranean Harbor", category: "Scenery" },
-      { url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=640&q=80", title: "Italian Coastline", category: "Scenery" },
-      { url: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=640&q=80", title: "Italian Espresso", category: "Culture" },
+      { url: "https://images.unsplash.com/photo-1517438322307-e67111335449?w=640&q=80", title: "Naples Street Life", category: "City" },
+      { url: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=640&q=80", title: "Neapolitan Pizza", category: "Food" },
+      { url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=640&q=80", title: "Bay of Naples", category: "Scenery" },
     ],
-    mapEmbed: "https://www.openstreetmap.org/export/embed.html?bbox=12.20,41.78,12.30,41.82&layer=mapnik&marker=41.8003,12.2389",
+    mapEmbed: "https://www.openstreetmap.org/export/embed.html?bbox=14.20,40.82,14.32,40.88&layer=mapnik&marker=40.8518,14.2681",
+  },
+  amalfi: {
+    hero: "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?w=1280&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?w=640&q=80",
+      "https://images.unsplash.com/photo-1534850336045-c6c6d287e89e?w=640&q=80",
+      "https://images.unsplash.com/photo-1455587734955-081b22074882?w=640&q=80",
+      "https://images.unsplash.com/photo-1612698093158-e07ac200d44e?w=640&q=80",
+    ],
+    highlights: [
+      { url: "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?w=640&q=80", title: "Positano", category: "Village" },
+      { url: "https://images.unsplash.com/photo-1534850336045-c6c6d287e89e?w=640&q=80", title: "Amalfi Coast Road", category: "Scenery" },
+      { url: "https://images.unsplash.com/photo-1612698093158-e07ac200d44e?w=640&q=80", title: "Amalfi Cathedral", category: "Landmark" },
+      { url: "https://images.unsplash.com/photo-1455587734955-081b22074882?w=640&q=80", title: "Mediterranean Views", category: "Scenery" },
+    ],
+    mapEmbed: "https://www.openstreetmap.org/export/embed.html?bbox=14.44,40.60,14.54,40.66&layer=mapnik&marker=40.6333,14.4840",
   },
   rome: {
     hero: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1280&q=80",

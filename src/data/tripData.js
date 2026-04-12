@@ -1,82 +1,155 @@
 export const STOPS = [
-  /* 1 ─ FCO */
+  /* 1 ─ FCO ARRIVAL */
   {
-    id:"fco", flag:"🌊", city:"Fiumicino Sea Stop", country:"Italy",
-    duration:"3 hrs · Wed 17 Jun · 07:00–12:00",
-    tagline:"First European morning — Mediterranean sea, Italian coffee, no luggage",
-    color:"#0277BD", bg:"#E1F5FE", currency:"EUR", budget:"€7/bag storage only",
-    budgetBreakdown: { accommodation: 0, food: 5, transport: 14, activities: 7, misc: 3, currency: "EUR", days: 0.15, note: "Transit stop: luggage storage €7/bag, Leonardo Express €14pp, coffee €3" },
-    story:"You have been on a plane for 14–16 hours. It is 07:00 and you are in Italy for the first time. The worst possible thing to do is drag five suitcases straight into Rome in the heat. Instead: drop everything at the airport, walk ten minutes, and spend your first European morning at a real Italian fishing harbour on the Mediterranean Sea. Fiumicino is a working port town — fishing boats, nets, seagulls, locals arguing over espresso. The water in front of you is the Tyrrhenian Sea, part of the Mediterranean. You eat your first Italian cornetto. By 12:00 you board the Leonardo Express feeling human.",
-    history:"Fiumicino was the ancient port of Rome, called Portus, built by Emperor Claudius in 42 AD to handle grain shipments from Egypt that fed the Roman Empire. The canal still follows the original Roman layout. The airport is officially named Aeroporto Leonardo da Vinci.",
+    id:"fco", flag:"✈️", city:"Rome Arrival + Naples", country:"Italy",
+    duration:"Evening · Tue 16 Jun · 14:10–22:00",
+    tagline:"Land in Rome, first pizza in Naples by nightfall",
+    color:"#0277BD", bg:"#E1F5FE", currency:"EUR", budget:"€30pp (train + pizza + metro)",
+    budgetBreakdown: { accommodation: 0, food: 15, transport: 25, activities: 0, misc: 5, currency: "EUR", days: 0.3, note: "Leonardo Express €14pp, Frecciarossa to Naples €15-25pp, pizza €8-12" },
+    story:"You rested 12+ hours in Delhi. The 11-hour flight via Istanbul was long but you are fresh. At 14:10 you land at Fiumicino — Leonardo da Vinci Airport. Italy is in front of you. Instead of staying in Rome tonight, you are doing something bold: taking the high-speed train straight to Naples. By 20:00 you will be eating the best pizza on earth in the city that invented it. Naples is raw, loud, beautiful, and nothing like the polished tourist Italy. Tonight you eat like Neapolitans.",
+    history:"Fiumicino was the ancient port of Rome, called Portus, built by Emperor Claudius in 42 AD to handle grain shipments from Egypt that fed the Roman Empire. The airport is officially named Aeroporto Leonardo da Vinci.",
     itinerary:[
-      {time:"07:00",icon:"✈",title:"Land at FCO — Immigration",desc:"Allow 45–60 min for non-EU immigration and baggage claim. Follow green 'Arrivals' signs. Your bags come from the carousel indicated on the arrivals board.",tip:"FCO is large but very clear signage. Stay together as a group — immigration can separate you."},
-      {time:"08:00",icon:"🧳",title:"Left Luggage — Terminal 3, Exit 5",desc:"Drop ALL 5 bags at the staffed Left Luggage counter. €7 per bag = €35 total. They issue one receipt per bag. Keep all receipts together. Takes 10 minutes. They are open from 06:30 to 23:00.",tip:"Card accepted. The counter is inside Terminal 3 Arrivals, near Exit 5. Look for 'Deposito Bagagli' signs."},
-      {time:"08:30",icon:"🚶",title:"Walk to Fiumicino Porto harbor",desc:"10-minute walk from Terminal 3. Exit, turn right, follow Via Torre Clementina toward the town. The canal and harbour appear. Boats moored, nets drying, the smell of salt and diesel. This is not tourist Italy.",tip:"Google Maps: search 'Porto di Fiumicino' — it's right next to the airport. No taxi needed."},
-      {time:"09:00",icon:"☕",title:"First Italian coffee at the harbour",desc:"Walk into any bar along the canal. Order 'un cappuccino' and 'un cornetto'. Stand at the counter — locals always stand. Cost: €2.50–3.00. You are drinking Italian coffee next to the Mediterranean Sea on your first morning in Europe.",tip:"Never order 'latte' — that means a glass of milk. 'Cappuccino' or 'caffè macchiato' are correct. 'Cornetto' is the croissant (sometimes called 'brioche' in the south)."},
-      {time:"10:00",icon:"🌊",title:"Harbour walk — first hour in Europe",desc:"Walk along the canal breakwater. Fishing boats come in and out. There may be a small fish market on Via Torre Clementina. Palm trees, seagulls, Italian voices. No tourists. This is real.",tip:"Walk to the sea end of the breakwater for the open Mediterranean view. 15 minutes each way."},
-      {time:"11:30",icon:"🧳",title:"Return to FCO — collect bags",desc:"Walk back to Terminal 3 (10 min). Show receipts at Left Luggage counter. Collect all 5 bags. Head to Leonardo Express: follow signs to 'Treni / Trains', go to Level 0, platform is directly connected to T3 Arrivals.",tip:"Buy Leonardo Express tickets at the yellow machines (card works perfectly) or from the ticket window. €14pp. No seat reservation needed — just board any Leonardo Express."},
-      {time:"12:00",icon:"🚄",title:"Leonardo Express → Roma Termini",desc:"32 minutes, non-stop. Runs every 30 minutes. The train is dedicated airport to Termini — no intermediate stops. Arrive Roma Termini 12:32. Your Trastevere Airbnb check-in is 14:00.",tip:"At Roma Termini: exit toward Via Giolitti for taxis, or take Metro A/B. Kipoint luggage storage near Track 24 (€6/bag) if Airbnb not ready yet."},
+      {time:"14:10",icon:"✈️",title:"Land at FCO — Immigration",desc:"Allow 45–60 min for non-EU immigration and baggage claim. Follow green 'Arrivals' signs. Your bags come from the carousel indicated on the arrivals board. Flight TK1865 from Istanbul.",tip:"FCO is large but very clear signage. Stay together as a group — immigration can separate you. You flew DEL 06:30 → IST 10:50 (TK717) → IST 12:30 → FCO 14:10 (TK1865)."},
+      {time:"15:15",icon:"🚄",title:"Leonardo Express → Roma Termini",desc:"32 minutes, non-stop. Runs every 30 minutes. Follow signs to 'Treni / Trains', go to Level 0. Buy tickets at yellow machines (€14pp, card accepted). Arrive Roma Termini ~15:47.",tip:"No seat reservation needed — just board any Leonardo Express. Validate ticket before boarding."},
+      {time:"16:00",icon:"🧳",title:"Store bags at Roma Termini",desc:"Kipoint luggage storage near Track 24. €6/bag = €30 total for 5 bags. You are NOT checking into Rome accommodation yet — that is tomorrow evening. Store everything and travel light to Naples.",tip:"Book at kipoint.it in advance if possible. Open 06:00–23:00. Keep the receipt — you collect bags tomorrow evening."},
+      {time:"16:30",icon:"🚄",title:"Frecciarossa → Napoli Centrale",desc:"High-speed train, 1hr 10min. Trains run every 30 min. €15-25pp if booked ahead on trenitalia.com. Arrive Napoli Centrale ~17:40. The train passes through the Campania countryside — look left for Mount Vesuvius as you approach Naples.",tip:"Book on trenitalia.com or italotreno.it for the best prices. Frecciarossa is the red high-speed train. Seat reservation included in the ticket."},
+      {time:"18:00",icon:"🏠",title:"Check into Naples accommodation",desc:"Your Naples stay is near Napoli Centrale or in the Spaccanapoli area (historic center). Drop your daypacks. The city is alive — Vespas, shouting, laundry lines overhead, street vendors. This is not polished tourist Italy. This is real.",tip:"Search Airbnb/Booking: 'Naples Centro Storico' or near Napoli Centrale. One night only. Budget: €50-80 for 5 people."},
+      {time:"19:30",icon:"🍕",title:"First pizza in the city that invented pizza",desc:"Naples invented pizza. This is not opinion — pizza was created here in the 18th century. The original Margherita was made in 1889 for Queen Margherita of Italy at Pizzeria Brandi. Go to L'Antica Pizzeria da Michele (the one from Eat Pray Love) or Sorbillo or Di Matteo. Order a Margherita (€4-5) and a Marinara (€3-4). The dough is different from anywhere else on earth — soft, charred, blistered, foldable.",tip:"L'Antica Pizzeria da Michele has a queue but moves fast. Sorbillo on Via dei Tribunali is equally legendary. Di Matteo does fried pizza (pizza fritta) — a Naples-only street food for €2-3."},
+      {time:"21:00",icon:"🌙",title:"Spaccanapoli evening walk",desc:"Walk Via dei Tribunali and Spaccanapoli — the straight Roman road that splits the old city in half. Street shrines with candles, Vespas squeezing through narrow alleys, locals shouting between balconies. Stop for a sfogliatella (crispy shell pastry filled with ricotta, €2) at any bakery. Naples at night is unforgettable.",tip:"Stay on the main streets after dark. Naples is safe in the centro storico but can feel intense. Keep phones in front pockets. Enjoy the chaos — it's authentic."},
     ],
-    must:["Drop ALL bags at Left Luggage before leaving terminal (Terminal 3, Exit 5, €7/bag)","Walk to Fiumicino Porto — 10 min, the real Italy","First cappuccino + cornetto standing at a harbour bar — €2.50","Do not rush — you have 3.5 hours before the Leonardo Express"],
-    stay:{area:"Transit stop only",why:"You are not staying here. This is a 3-hour pause between the flight and Rome.",budget:"€7/bag at Left Luggage (€35 total for 5 bags)",search:"Your accommodation is in Trastevere, Rome. Check-in from 14:00.",picks:["Left Luggage: Terminal 3 Arrivals, Exit 5, €7/bag, 06:30–23:00","Leonardo Express platform: T3 Level 0, connected to Arrivals","Next destination: Trastevere, Rome — 32 min by Leonardo Express + taxi/metro"]},
+    must:["Store bags at Kipoint Roma Termini (Track 24, €6/bag) — collect tomorrow evening","Book Frecciarossa Rome→Naples in advance on trenitalia.com (€15-25pp)","Eat pizza at Da Michele, Sorbillo, or Di Matteo — this is where pizza was born","Try sfogliatella — Naples' signature pastry, crispy ricotta-filled, €2"],
+    stay:{area:"Naples Centro Storico or near Napoli Centrale",why:"One night only — you need somewhere close to the station for the early start tomorrow. The historic center (Spaccanapoli) is atmospheric and walkable.",budget:"€50–80/night for 5 people",search:"Search Airbnb: 'Naples Centro Storico 5 guests' or Booking.com near Napoli Centrale. One night: 16-17 Jun.",picks:["Near Napoli Centrale — most practical for morning departure","Spaccanapoli area — most atmospheric, 10 min walk to station","Via dei Tribunali — heart of pizza alley, loud and alive"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Naples+Centro+Storico&checkin=2026-06-16&checkout=2026-06-17&group_adults=5&nflt=price%3DEUR-30-100-1",price:"€40–90/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/Naples--Italy/homes?checkin=2026-06-16&checkout=2026-06-17&adults=5&price_max=100",price:"€50–80/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Naples&dateFrom=2026-06-16&dateTo=2026-06-17&guests=5",price:"€15–25pp",icon:"🟢"},
+    ]},
     eat:[
-      {name:"Harbour bar (any)",type:"Italian bar",dish:"Cornetto + cappuccino €2.50",note:"Stand at the counter like a local. First Italian food of the trip."},
-      {name:"Fish market stalls",type:"Market",dish:"Snacks €2–4",note:"If the morning market is running along Via Torre Clementina."},
+      {name:"L'Antica Pizzeria da Michele",type:"Legendary pizzeria",dish:"Margherita €4-5, Marinara €3-4",note:"The most famous pizzeria in the world. Only two pizzas on the menu. Queue moves fast. Cash preferred."},
+      {name:"Sorbillo",type:"Pizzeria",dish:"Margherita €5, fried pizza €3",note:"Via dei Tribunali. Modern legend. Gino Sorbillo is a celebrity chef. Larger menu than Da Michele."},
+      {name:"Di Matteo",type:"Street food pizzeria",dish:"Pizza fritta €2-3",note:"Fried pizza (pizza fritta) — dough folded around ricotta and cicoli, deep fried. Naples-only street food."},
+      {name:"Any bakery on Spaccanapoli",type:"Pasticceria",dish:"Sfogliatella €2",note:"Crispy shell pastry filled with sweet ricotta. The signature pastry of Naples. Eat warm."},
     ],
     accommodation:{
-      airbnb:{ price:"N/A", pros:"Transit stop only — no overnight", cons:"N/A" },
-      hostel:{ price:"N/A", pros:"Transit stop only — no overnight", cons:"N/A" },
-      hotel:{ price:"N/A", pros:"Transit stop only — no overnight", cons:"N/A" },
-      recommendation:"No accommodation needed — this is a 3-hour transit stop between flight and Rome.",
+      airbnb:{ price:"€50–80/night", pros:"Kitchen, space for 5, authentic neighbourhood feel", cons:"One night only — may not find last-minute availability" },
+      hostel:{ price:"€15–25pp/night", pros:"Cheapest, social, central locations", cons:"No privacy, dorms only" },
+      hotel:{ price:"€60–120/night", pros:"Reception, easy check-in/out, near station", cons:"Small rooms for 5, more expensive" },
+      recommendation:"Airbnb near Napoli Centrale or Spaccanapoli — one night, prioritize location over luxury.",
     },
     connections:{
-      from:"Fiumicino Airport (FCO)",to:"Roma Termini",changes:0,
+      from:"Fiumicino Airport (FCO)",to:"Napoli Centrale",changes:1,
       legs:[
-        {train:"Leonardo Express",dep:"FCO Terminal 3 · 12:00",arr:"Roma Termini · 12:32",dur:"32 min",cost:"€14pp",platform:"Platform directly connected to T3 Arrivals, Level 0. Follow 'Treni/Trains' signs.",notes:"Non-stop, no intermediate stops. Runs every 30 minutes. Just board — no seat reservation. Buy ticket at yellow machines in the station (card works). Validate ticket before boarding."},
+        {train:"Leonardo Express",dep:"FCO Terminal 3 · 15:15",arr:"Roma Termini · 15:47",dur:"32 min",cost:"€14pp",platform:"Level 0, T3 Arrivals. Follow 'Treni/Trains' signs.",notes:"Non-stop. Runs every 30 min. Buy at yellow machines. Validate before boarding."},
+        {train:"Frecciarossa",dep:"Roma Termini · 16:30",arr:"Napoli Centrale · 17:40",dur:"1hr 10min",cost:"€15–25pp",platform:"Check departure board at Termini 20 min before. High-speed platforms.",notes:"Book ahead on trenitalia.com or italotreno.it. Seat reservation included. Look for Vesuvius on the left as you approach Naples."},
       ],
-      tip:"At Roma Termini: your Trastevere Airbnb is 15 min walk across the Tiber or €10 taxi. Metro line A (direction Battistini) to Ottaviano, or Bus 8 to Trastevere. If arriving before 14:00 check-in, use Kipoint luggage storage at Termini (Track 24 area, €6/bag, book at kipoint.it).",
+      tip:"At Roma Termini: store bags at Kipoint (Track 24, €6/bag) before boarding the Naples train. You collect them tomorrow evening when you return from the Amalfi Coast.",
     },
-    bagStorage:{location:"FCO Terminal 3, Arrivals, Exit 5 — staffed Left Luggage counter",cost:"€7/bag (€35 total for 5 bags)",hours:"06:30–23:00",payment:"Card accepted",tip:"One receipt per bag — keep all 5 receipts together. Counter is inside Terminal 3 Arrivals near Exit 5. Look for 'Deposito Bagagli' signs."},
+    bagStorage:{location:"Roma Termini, Kipoint — near Track 24",cost:"€6/bag (€30 total for 5 bags)",hours:"06:00–23:00",payment:"Card accepted",tip:"Book at kipoint.it. Keep receipt — you collect bags tomorrow evening (Jun 17) when you return from Amalfi Coast via Naples."},
     stationGuide:{
-      stationName:"FCO Fiumicino Airport — Terminal 3",
+      stationName:"FCO Fiumicino Airport → Roma Termini → Napoli Centrale",
       arrivalSteps:[
-        {step:1, icon:"🧳", action:"Store bags", detail:"Left Luggage counter inside Terminal 3 Arrivals near Exit 5. €7/bag. Hand over all 5 bags, keep all receipts together. Takes 10 minutes."},
-        {step:2, icon:"🚶", action:"Walk to Fiumicino Porto harbour", detail:"Exit terminal, turn right, follow Via Torre Clementina toward the town. 10 min flat walk. The canal and harbour appear — fishing boats, nets, Mediterranean Sea."},
-        {step:3, icon:"📍", action:"Explore the harbour", detail:"Coffee at any harbour bar (cappuccino + cornetto €2.50, stand at counter). Walk the canal breakwater to the open sea view. 2.5 hours of relaxed first-morning-in-Europe time."},
-        {step:4, icon:"↩️", action:"Return to terminal", detail:"Walk back 10 min. Collect bags with receipts. Follow signs to 'Treni/Trains', Level 0. Buy Leonardo Express ticket at yellow machines (€14pp, card works)."},
+        {step:1, icon:"✈️", action:"Immigration + baggage claim", detail:"Allow 45-60 min. Follow 'Arrivals' signs. Stay together as a group."},
+        {step:2, icon:"🚄", action:"Leonardo Express to Roma Termini", detail:"Follow 'Treni/Trains' signs to Level 0. Buy ticket at yellow machines (€14pp). 32 min non-stop."},
+        {step:3, icon:"🧳", action:"Store bags at Kipoint", detail:"Near Track 24 at Roma Termini. €6/bag. Keep receipt — bags stay here until tomorrow evening."},
+        {step:4, icon:"🚄", action:"Frecciarossa to Napoli Centrale", detail:"High-speed train, 1hr 10min. €15-25pp booked ahead. Check departure board for platform."},
       ],
-      exitInfo:"Leonardo Express from T3 Level 0 platform directly to Roma Termini. 32 min, non-stop, every 30 min. No seat reservation needed — just board.",
-      platformTip:"The Leonardo Express platform is directly connected to T3 Arrivals at Level 0. Follow 'Treni/Trains' signs from the main hall.",
+      exitInfo:"At Napoli Centrale: exit via Piazza Garibaldi (main square in front of station). Walk or metro to accommodation.",
+      platformTip:"Napoli Centrale is chaotic but functional. Metro Line 1 runs from Garibaldi (station) to the historic center. Taxis from the rank outside — insist on the meter.",
     },
     localTransport:[
-      {mode:"train", icon:"🚄", name:"Leonardo Express", detail:"Non-stop airport express to Roma Termini, 32 min, every 30 min", cost:"€14pp", tip:"Buy at yellow ticket machines (card accepted). Validate ticket before boarding. No seat reservation needed."},
-      {mode:"walk", icon:"🚶", name:"Walking", detail:"Fiumicino Porto harbour is a 10 min flat walk from Terminal 3 — the only transport you need here", cost:"Free", tip:"Exit terminal, turn right, follow Via Torre Clementina. Google Maps 'Porto di Fiumicino' for directions."},
+      {mode:"train", icon:"🚄", name:"Leonardo Express", detail:"Non-stop airport express to Roma Termini, 32 min", cost:"€14pp", tip:"Yellow machines, card accepted. Validate before boarding."},
+      {mode:"train", icon:"🚄", name:"Frecciarossa/Italo", detail:"High-speed Rome to Naples, 1hr 10min", cost:"€15-25pp", tip:"Book ahead on trenitalia.com for best prices."},
+      {mode:"metro", icon:"🚇", name:"Naples Metro Line 1", detail:"Garibaldi (Napoli Centrale) to Centro Storico stations", cost:"€1.50", tip:"Covers the historic center efficiently. Toledo station is an art installation."},
     ],
     risks:[
-      {risk:"Left Luggage counter closed or queue too long",solution:"Kipoint at Roma Termini (Track 24, €6/bag) is the backup. But FCO Left Luggage has never been reported closed during operating hours — just queue."},
-      {risk:"Flight delayed — miss the morning sea stop window",solution:"Skip Fiumicino Porto entirely. Take Leonardo Express straight to Roma Termini. Use the extra time to settle into Trastevere early."},
-      {risk:"Bags lost by airline",solution:"File a claim at the FCO baggage desk immediately. They deliver to your Rome Airbnb within 24–48hrs. Keep the claim number. Travel with one change of clothes in carry-on."},
-      {risk:"Dehydration after 14-hour flight",solution:"Buy 1L water immediately after immigration. Italian bars have acqua naturale for €1. Drink before coffee."},
+      {risk:"Flight delayed — miss the Naples train",solution:"Take a later Frecciarossa — they run every 30 min until late evening. Worst case: stay in Rome tonight and train to Naples early morning."},
+      {risk:"Bags lost by airline",solution:"File a claim at FCO baggage desk. They deliver to your Naples accommodation or Rome Airbnb within 24-48hrs. Keep claim number. Travel with one change of clothes in carry-on."},
+      {risk:"Kipoint full or closed",solution:"Alternative luggage storage: Stow Your Bags at Roma Termini (multiple locations, similar price). Or take bags to Naples — station lockers available at Napoli Centrale."},
+      {risk:"Naples feels overwhelming at night",solution:"Stick to Via dei Tribunali and Spaccanapoli — well-lit, busy, and safe. The centro storico is the safest part of Naples for tourists."},
     ],
-    weather:{temp:"28–30°C",rain:"Very low — June FCO is hot and clear",best:"Perfect morning. Sea breeze at the harbour.",tip:"Drink 500ml water immediately after landing. 14 hours on a plane is severely dehydrating. Italian bars always have still water (acqua naturale) for €1."},
+    weather:{temp:"28–30°C",rain:"Very low — June is hot and clear",best:"Evening in Naples is warm and perfect for walking. Sea breeze from the bay.",tip:"Stay hydrated after the long flight. Italian bars have acqua naturale for €1 everywhere."},
   },
 
-  /* 2 ─ ROME */
+  /* 2 ─ AMALFI COAST */
+  {
+    id:"amalfi", flag:"🏖️", city:"Amalfi Coast", country:"Italy",
+    duration:"Half day · Wed 17 Jun · 08:00–16:00",
+    tagline:"Cliffside villages, turquoise sea, the most beautiful coastline in the world",
+    color:"#00838F", bg:"#E0F7FA", currency:"EUR", budget:"€40-60pp (transport + lunch)",
+    budgetBreakdown: { accommodation: 0, food: 20, transport: 35, activities: 5, misc: 5, currency: "EUR", days: 0.4, note: "Private minivan ~€150-200 split 5 ways = €30-40pp, lunch €15-20" },
+    story:"The Amalfi Coast is a 50-kilometre stretch of coastline on the southern side of the Sorrentine Peninsula. UNESCO calls it 'an outstanding example of a Mediterranean landscape.' The road — the SS163 — was built in 1853 and clings to vertical cliffs hundreds of metres above the sea. Every turn reveals another village: pastel houses stacked vertically on cliff faces, lemon groves on impossible terraces, churches with majolica-tiled domes. Positano cascades down to the sea like a waterfall of pink and white buildings. Amalfi was once a maritime republic that rivalled Venice and Genoa. The limoncello you drink here is made from lemons that grow nowhere else — the sfusato amalfitano, a lemon so large and fragrant it barely resembles the supermarket kind.",
+    history:"The Amalfi Coast was settled by Romans who built villas along the cliffs. In the 9th-11th centuries, the Republic of Amalfi was one of the most powerful maritime states in the Mediterranean, with a population of 70,000 and trade routes to Constantinople and Cairo. They created the Tabula Amalfitana — the oldest maritime code in the world, used across the Mediterranean for 500 years. The coast declined after a tsunami in 1343 destroyed much of the lower town. It was rediscovered by European aristocrats in the 19th century as a Grand Tour destination.",
+    itinerary:[
+      {time:"08:00",icon:"🚶",title:"Quick Naples morning walk",desc:"Walk from your accommodation to Via dei Tribunali. Grab a coffee and sfogliatella for breakfast. See the morning energy of Naples — market vendors setting up, scooters everywhere, the city waking up. Walk to the waterfront at Lungomare for a view of Mount Vesuvius across the Bay of Naples.",tip:"Keep it light — you have a big day ahead. 1.5 hours is enough to feel Naples in the morning."},
+      {time:"09:30",icon:"🧳",title:"Check out of Naples accommodation",desc:"Check out and leave bags at the accommodation or station lockers. You are traveling with daypacks only to the Amalfi Coast.",tip:"Napoli Centrale has luggage lockers (Ki Point, €6/bag). Or ask your accommodation to hold bags until you return."},
+      {time:"10:00",icon:"🚐",title:"Depart Naples → Amalfi Coast",desc:"RECOMMENDED: Private minivan/driver for 5 people. Cost: €150-200 total (€30-40pp). The driver takes the SS163 coastal road — every turn is a postcard. They drop you in Positano or Amalfi and pick you up later. ALTERNATIVE: Ferry from Molo Beverello port (Naples) to Positano (€20pp, 1hr 15min, seasonal, book at alilauro.it).",tip:"Private driver is the best option for a group of 5 — cost splits well, you avoid parking/bus stress, and the driver knows the road. Book in advance through GetYourGuide or ask your Naples accommodation to arrange one. June traffic on the coastal road can be heavy — leave by 10:00."},
+      {time:"11:30",icon:"🏖️",title:"Positano",desc:"The driver drops you at the top of Positano. Walk down through the cascading village — pastel pink, orange, and white houses stacked vertically on the cliff. Bougainvillea everywhere. Narrow steps lead down to Spiaggia Grande — the main beach with dark volcanic sand and turquoise water. Swim if you want. Browse the boutiques on the way down (Positano is famous for handmade sandals and linen clothes).",tip:"The walk DOWN through Positano is beautiful. The walk back UP is 300+ steps in June heat. Take it slow and carry water. Or arrange for the driver to meet you at the bottom near the beach."},
+      {time:"13:00",icon:"🍋",title:"Lunch with a sea view",desc:"Eat at any restaurant overlooking the sea. Order seafood pasta (scialatielli ai frutti di mare — a local pasta shape), fresh grilled fish, or a simple insalata caprese with local mozzarella. Drink limoncello — made from the giant sfusato amalfitano lemons that grow on the terraces above you. Budget €15-20pp for a proper lunch.",tip:"Restaurants near the beach are tourist-priced but the views are worth it. For better value, eat slightly uphill from the beach."},
+      {time:"14:30",icon:"🌊",title:"Amalfi town (optional second stop)",desc:"If time allows, the driver takes you 30 min along the coast to Amalfi town. Visit the stunning Cathedral of St Andrew (9th century, Arab-Norman style, €3). Walk through the medieval lanes. Buy lemons and limoncello from the shops along the main street.",tip:"Amalfi town is flatter and more walkable than Positano. The cathedral steps are the iconic photo spot. Skip if you prefer more time in Positano."},
+      {time:"15:30",icon:"🚐",title:"Depart Amalfi Coast → Naples",desc:"Private driver returns you to Napoli Centrale. Allow 1.5-2 hours for the return drive (traffic can be heavy in the afternoon). Arrive Naples ~17:00.",tip:"If taking the ferry, last ferry from Positano to Naples is around 17:00-18:00 — check alilauro.it for exact times."},
+      {time:"17:30",icon:"🚄",title:"Frecciarossa → Roma Termini",desc:"Collect any bags from Naples station lockers. Take the high-speed train back to Rome. 1hr 10min. Arrive Roma Termini ~18:40. Collect your stored bags from Kipoint (Track 24). Head to your Trastevere Airbnb.",tip:"Trains run every 30 min. No need to pre-book — buy at the station if needed. Last Frecciarossa to Rome runs ~21:30."},
+      {time:"19:00",icon:"🏠",title:"Check into Trastevere, Rome",desc:"Collect bags from Kipoint at Roma Termini. Walk or taxi to your Trastevere Airbnb (15 min walk across Ponte Garibaldi, or €10 taxi). You have seen Naples, eaten the world's best pizza, driven the Amalfi Coast, and now you are settling into Rome for the next two days.",tip:"You will be tired. Check in, freshen up, then walk out for a simple dinner in Trastevere. Cacio e pepe at any side-street trattoria. Rest — tomorrow is Colosseum and Vatican."},
+    ],
+    must:["Book private minivan in advance — best option for 5 people on the Amalfi Coast","Eat pizza in Naples the night before — this is non-negotiable, it's the birthplace","Walk DOWN through Positano — every turn is a photograph","Try limoncello made from local sfusato amalfitano lemons","Collect bags from Kipoint at Roma Termini before heading to Trastevere"],
+    stay:{area:"No overnight — day trip from Naples",why:"You slept in Naples last night. Tonight you check into your Trastevere Airbnb in Rome.",budget:"N/A — day trip",search:"Rome accommodation is in Trastevere — check in tonight.",picks:["Tonight: Trastevere, Rome — your base for the next 2 days"]},
+    eat:[
+      {name:"Naples morning — any bar on Via dei Tribunali",type:"Breakfast",dish:"Coffee + sfogliatella €3-4",note:"Stand at the counter. Sfogliatella riccia (crispy) is the classic."},
+      {name:"Positano seafood restaurant",type:"Coastal Italian",dish:"Scialatielli ai frutti di mare €15-18",note:"Local pasta shape with mixed seafood. Any restaurant overlooking the beach."},
+      {name:"Amalfi lemon stalls",type:"Street food",dish:"Lemon granita €3, limoncello €5",note:"The lemons here are unlike anything you have seen — huge, fragrant, and sweet."},
+    ],
+    accommodation:{
+      airbnb:{ price:"N/A", pros:"Day trip — no overnight needed", cons:"N/A" },
+      hostel:{ price:"N/A", pros:"Day trip — no overnight needed", cons:"N/A" },
+      hotel:{ price:"N/A", pros:"Day trip — no overnight needed", cons:"N/A" },
+      recommendation:"No accommodation needed — this is a day trip. You check into Rome (Trastevere) tonight.",
+    },
+    connections:{
+      from:"Napoli Centrale",to:"Amalfi Coast (Positano/Amalfi)",changes:0,
+      legs:[
+        {train:"Private minivan",dep:"Naples · 10:00",arr:"Positano · 11:30",dur:"1.5 hrs",cost:"€150-200 total (€30-40pp for 5)",platform:"Driver picks up from your Naples accommodation or Napoli Centrale.",notes:"Book in advance through GetYourGuide or local Naples driver. The driver waits and drives you along the coast. Best option for a group."},
+      ],
+      tip:"ALTERNATIVE: Ferry from Molo Beverello (Naples port) to Positano. €20pp, 1hr 15min. Scenic but can cancel in bad weather and sells out in June peak season. Book at alilauro.it.",
+    },
+    stationGuide:{
+      stationName:"Napoli Centrale (departure) → Roma Termini (return)",
+      arrivalSteps:[
+        {step:1, icon:"🚶", action:"Morning walk in Naples", detail:"Via dei Tribunali for coffee + sfogliatella. Walk to Lungomare for Vesuvius view. 1.5 hours."},
+        {step:2, icon:"🚐", action:"Private driver to Amalfi Coast", detail:"Driver picks up ~10:00. Drives the SS163 coastal road. Drops you in Positano."},
+        {step:3, icon:"🏖️", action:"Explore Positano + optional Amalfi", detail:"Walk down through the village, swim at Spiaggia Grande, lunch with sea view. 4-5 hours on the coast."},
+        {step:4, icon:"🚄", action:"Return to Rome", detail:"Driver returns you to Naples. Frecciarossa to Roma Termini (1hr 10min). Collect bags from Kipoint. Taxi to Trastevere."},
+      ],
+      exitInfo:"At Roma Termini: collect bags from Kipoint (Track 24), then walk or taxi to Trastevere Airbnb.",
+      platformTip:"Frecciarossa platforms at Napoli Centrale are on the main level. Check the departure board 20 min before.",
+    },
+    localTransport:[
+      {mode:"car", icon:"🚐", name:"Private minivan/driver", detail:"Naples to Positano/Amalfi and back. Driver waits while you explore", cost:"€150-200 total for 5", tip:"Book ahead. The SS163 coastal road is narrow with hairpin turns — a local driver who knows it is essential."},
+      {mode:"ferry", icon:"⛴️", name:"Alilauro/NLG Ferry", detail:"Molo Beverello (Naples) to Positano 1hr 15min, to Amalfi 1hr 30min", cost:"€20-25pp one way", tip:"Scenic but weather-dependent. Book at alilauro.it. June seas are usually calm."},
+      {mode:"train", icon:"🚄", name:"Circumvesuviana", detail:"Alternative: Napoli Garibaldi to Sorrento (70 min, €4pp) then SITA bus to Positano", cost:"€4pp + €2 bus", tip:"Budget option but slow. The Circumvesuviana is notorious for pickpockets and overcrowding. Private driver is worth the money for 5 people."},
+    ],
+    risks:[
+      {risk:"June traffic on SS163 coastal road — can double drive time",solution:"Leave Naples by 10:00 at the latest. Afternoon return will be slower. Build 30 min buffer into the schedule."},
+      {risk:"Ferry cancelled due to weather or sold out",solution:"Private driver is the backup. Or take Circumvesuviana to Sorrento + SITA bus (slower but always available)."},
+      {risk:"Positano steps too exhausting in June heat",solution:"Carry 1L water per person. Walk down slowly. Arrange driver pickup at the bottom (Spiaggia Grande area) to avoid climbing back up."},
+      {risk:"Miss the last train back to Rome",solution:"Frecciarossa/Italo trains run until ~21:30. Even if delayed, you can catch a later train."},
+    ],
+    weather:{temp:"28–32°C",rain:"Very unlikely in June",best:"June is peak Amalfi Coast season — hot, sunny, sea is warm enough to swim (22-24°C).",tip:"Bring sunscreen, hat, and swimwear. The Positano beach has dark volcanic sand that gets extremely hot. Water shoes recommended."},
+  },
+
+  /* 3 ─ ROME */
   {
     id:"rome", flag:"🇮🇹", city:"Rome", country:"Italy",
-    duration:"1.5 days · Jun 17–19",
+    duration:"2 days · Jun 17 evening – 19",
     tagline:"Where 2,500 years of history still breathes",
     color:"#C62828", bg:"#FFF8F8", currency:"EUR", budget:"€95–125/night",
-    budgetBreakdown: { accommodation: 110, food: 30, transport: 5, activities: 25, misc: 10, currency: "EUR", days: 1.5, note: "Colosseum €16, Vatican €17, Pantheon €5. Trastevere meals €10-15" },
+    budgetBreakdown: { accommodation: 110, food: 30, transport: 5, activities: 25, misc: 10, currency: "EUR", days: 2, note: "Colosseum €16, Vatican €17, Pantheon €5. Trastevere meals €10-15" },
     story:"Rome is the only city in the world where you can eat lunch next to ruins older than most countries. The Colosseum was completed in 80 AD and hosted gladiatorial combat for 400 years. Julius Caesar was cremated in the Roman Forum — his cremation site still has fresh flowers left by visitors every day. Michelangelo painted the Sistine Chapel ceiling lying on scaffolding for four years and nearly went blind from the paint dripping into his eyes. Trastevere, where you will sleep, was the working-class neighbourhood of ancient Rome — sailors, Jewish merchants, immigrants from Egypt and Syria. The cobblestones under your feet are the same cobblestones they walked on.",
     history:"Founded 753 BC according to Roman tradition. Capital of the Roman Republic then Empire for 800 years. Home of the Pope since the 4th century AD. Sacked by the Visigoths 410 AD, the Vandals 455 AD. Rebuilt as capital of unified Italy 1871. Called the Eternal City because Romans believed it would outlast all other civilisations.",
     itinerary:[
-      {time:"Wed 17 Jun · 14:00",icon:"🏠",title:"Check in Trastevere",desc:"Your Airbnb is in Trastevere — the most atmospheric neighbourhood in Rome. Medieval cobblestones, vines growing over buildings, no tourist menus. 15 min walk from Termini across the Tiber, or €10 taxi.",tip:"Walk rather than taxi if you have energy — the walk across the Tiber at Ponte Garibaldi is beautiful. The river is the Tiber, which runs through Rome to the sea."},
-      {time:"Wed 17 Jun · 14:30",icon:"🏟",title:"Colosseum + Roman Forum",desc:"Pre-booked at coopculture.it — €16pp. Walk straight past the queue which is 2–4 hours in June heat. The Colosseum held 50,000–80,000 spectators. Walk through the Roman Forum where the Senate met, where Cicero gave speeches, where Julius Caesar's body was burned. The Temple of Vesta still stands where the sacred fire burned for 1,000 years.",tip:"14:00 slot is ideal — morning crowds have thinned, afternoon light is golden on the stone. Wear closed-toe shoes — the Forum ground is ancient stone, uneven."},
-      {time:"Wed 17 Jun · 19:00",icon:"🍷",title:"Trastevere evening — first Roman dinner",desc:"Walk the neighbourhood without a plan. Find any outdoor table in a side street. Order cacio e pepe (pasta with pecorino and black pepper — invented in Rome). Wine by the carafe (vino della casa) €5. Stay out late — Romans eat at 21:00 and dinner goes until midnight.",tip:"Avoid any restaurant with photos on the menu and a person standing outside trying to pull you in. Find one full of Italians — that is the quality indicator."},
-      {time:"Thu 18 Jun · 09:00",icon:"⛪",title:"Vatican Museums + Sistine Chapel",desc:"Pre-booked at museivaticani.va — €17pp. Walk straight in past the enormous queue. The Sistine Chapel ceiling (Genesis scenes, 1508–1512) and the Last Judgement on the altar wall (1536–1541) were both painted by Michelangelo. He was threatened and bullied into painting the ceiling — he was a sculptor, not a painter. The result is the most analysed artwork in human history. St Peter's Basilica is free — go after and climb the dome for €8.",tip:"9:00 entry is essential. By 11:00 the Sistine Chapel is wall-to-wall people. Staff shout 'silenzio' every 90 seconds — it is still overwhelming and extraordinary."},
-      {time:"Thu 18 Jun · 13:30",icon:"⛩",title:"Pantheon + Trevi Fountain",desc:"Pantheon €5pp — built 125 AD by Emperor Hadrian, still the best-preserved ancient building on earth. The dome has a hole (the oculus, 9m wide) open to the rain and sky for 1,900 years. Trevi Fountain tourist tax €2 — worth seeing once. The coin throwing tradition started from the 1954 film Three Coins in the Fountain.",tip:"The Pantheon is best at opening (09:00) or late afternoon when light comes through the oculus at an angle. The fountain is beautiful at night with zero crowds (after midnight)."},
-      {time:"Fri 19 Jun · 10:00",icon:"🚄",title:"Depart Rome → Milan → Como",desc:"Train ~10:00 Roma Termini → Milano Centrale (3hrs, €22pp). At Milano Centrale, follow signs to Platform 10–16 for Trenord regional trains. Buy Como ticket at the Trenord machines (€5pp, no advance booking). Trenord → Como San Giovanni 40 min. Arrive Como ~15:00.",tip:"Give yourself 30 minutes to find the Trenord platforms at Milano Centrale — it's a large station. The regional platform area is separate from the high-speed platforms."},
+      {time:"Wed 17 Jun · 19:30",icon:"🏠",title:"Check in Trastevere",desc:"You arrive from the Amalfi Coast via Naples. Collect bags from Kipoint at Roma Termini, walk or taxi to your Trastevere Airbnb. Medieval cobblestones, vines growing over buildings, no tourist menus. 15 min walk from Termini across the Tiber, or €10 taxi.",tip:"You have had a full day — Naples morning, Amalfi Coast, train back. Tonight is for a simple dinner and rest."},
+      {time:"Wed 17 Jun · 20:30",icon:"🍷",title:"Trastevere evening — first Roman dinner",desc:"Walk the neighbourhood without a plan. Find any outdoor table in a side street. Order cacio e pepe (pasta with pecorino and black pepper — invented in Rome). Wine by the carafe (vino della casa) €5. Stay out late — Romans eat at 21:00 and dinner goes until midnight.",tip:"Avoid any restaurant with photos on the menu and a person standing outside trying to pull you in. Find one full of Italians — that is the quality indicator."},
+      {time:"Thu 18 Jun · 09:00",icon:"🏟️",title:"Colosseum + Roman Forum",desc:"Pre-booked at coopculture.it — €16pp. Walk straight past the queue which is 2–4 hours in June heat. The Colosseum held 50,000–80,000 spectators. Walk through the Roman Forum where the Senate met, where Cicero gave speeches, where Julius Caesar's body was burned. The Temple of Vesta still stands where the sacred fire burned for 1,000 years.",tip:"Morning slot is best after your rest. Wear closed-toe shoes — the Forum ground is ancient stone, uneven."},
+      {time:"Thu 18 Jun · 13:30",icon:"⛩️",title:"Pantheon + Trevi Fountain",desc:"Pantheon €5pp — built 125 AD by Emperor Hadrian, still the best-preserved ancient building on earth. The dome has a hole (the oculus, 9m wide) open to the rain and sky for 1,900 years. Trevi Fountain tourist tax €2 — worth seeing once.",tip:"The Pantheon is best at opening (09:00) or late afternoon when light comes through the oculus at an angle. The fountain is beautiful at night with zero crowds (after midnight)."},
+      {time:"Thu 18 Jun · 15:00",icon:"⛪",title:"Vatican Museums + Sistine Chapel",desc:"Pre-booked at museivaticani.va — €17pp. Walk straight in past the enormous queue. The Sistine Chapel ceiling (Genesis scenes, 1508–1512) and the Last Judgement on the altar wall (1536–1541) were both painted by Michelangelo. St Peter's Basilica is free — go after and climb the dome for €8.",tip:"Afternoon entry is less crowded than 9:00 AM. Book the 15:00 slot to avoid morning rush."},
+      {time:"Fri 19 Jun · 10:00",icon:"🚄",title:"Depart Rome → Milan → Como",desc:"Train ~10:00 Roma Termini → Milano Centrale (3hrs, €22pp). At Milano Centrale, follow signs to Platform 10–16 for Trenord regional trains. Buy Como ticket at the Trenord machines (€5pp, no advance booking). Trenord → Como San Giovanni 40 min. Arrive Como ~15:00.",tip:"Give yourself 30 minutes to find the Trenord platforms at Milano Centrale — it's a large station."},
     ],
     must:["Pre-book Colosseum at coopculture.it — no-queue entry essential in June","Pre-book Vatican at museivaticani.va — June is completely sold out if you wait","Eat cacio e pepe in a side street of Trastevere after 21:00","Try supplì (fried rice balls, €1.50 each) — Roman street food at its best"],
     stay:{area:"Trastevere",why:"The most atmospheric neighbourhood. Medieval cobblestones, vines, no tourist menus. 20 min walk across the Tiber from Termini.",budget:"€95–125/night for 5 people entire flat",search:"Search Airbnb: 'Trastevere Rome 5 guests entire flat'. Book immediately — June fills completely.",picks:["Via della Lungaretta — heart of Trastevere, perfect","Piazza Santa Maria in Trastevere area — the main square","Via del Moro — quieter, still central, beautiful at night"],bookingLinks:[
@@ -99,11 +172,11 @@ export const STOPS = [
       recommendation:"Airbnb — best value for a group of 5. Kitchen saves €30+/day on meals. Trastevere flats have character.",
     },
     connections:{
-      from:"FCO Terminal 3",to:"Roma Termini",changes:0,
+      from:"Napoli Centrale / Amalfi Coast",to:"Roma Termini",changes:0,
       legs:[
-        {train:"Leonardo Express",dep:"FCO Terminal 3 · 12:00",arr:"Roma Termini · 12:32",dur:"32 min",cost:"€14pp",platform:"Level 0, T3 Arrivals. Follow 'Treni/Trains' signs. Dedicated airport express — no stops.",notes:"Runs every 30 minutes. Buy ticket at yellow machines or ticket window. Card accepted. Validate ticket in the machine on the platform before boarding — inspectors check."},
+        {train:"Frecciarossa",dep:"Napoli Centrale · 17:30",arr:"Roma Termini · 18:40",dur:"1hr 10min",cost:"€15–25pp",platform:"Check departure board. High-speed platforms at Napoli Centrale.",notes:"Trains run every 30 min. Book ahead or buy at station. Collect bags from Kipoint at Roma Termini on arrival."},
       ],
-      tip:"Roma Termini is enormous. For Trastevere Airbnb: exit toward 'Via Giolitti' then taxi €10, or walk 35 min across Ponte Garibaldi. Kipoint storage at Termini (Track 24, €6/bag) if check-in is not until 14:00.",
+      tip:"Collect bags from Kipoint (Track 24, Roma Termini) on arrival. Walk or taxi to Trastevere Airbnb. Check-in from 14:00 — you arrive ~19:00 so no issue.",
       flightComparison:{
         available:true,
         route:"Rome → Milan",
@@ -111,7 +184,7 @@ export const STOPS = [
         flightCost:"€50–90pp",
         trainTime:"3hrs",
         trainCost:"€22pp",
-        verdict:"Train wins — city centre to city centre, no airport hassle, scenic route. By the time you add airport transfers and check-in, the flight takes longer and costs 3× more.",
+        verdict:"Train wins — city centre to city centre, no airport hassle, scenic route. By the time you add airport transfers and check-in, the flight takes longer and costs 3x more.",
       },
     },
     risks:[
@@ -123,13 +196,13 @@ export const STOPS = [
     stationGuide:{
       stationName:"Roma Termini",
       arrivalSteps:[
-        {step:1, icon:"🧳", action:"Store bags if needed", detail:"Kipoint luggage storage near Track 24, €6/bag. Book at kipoint.it. Useful if Airbnb check-in is not until 14:00."},
-        {step:2, icon:"🚶", action:"Walk or taxi to Trastevere", detail:"Walk 35 min across Ponte Garibaldi to Trastevere, or taxi €10 from Via Giolitti exit. The walk across the Tiber is beautiful if you have energy."},
-        {step:3, icon:"📍", action:"Explore Trastevere on foot", detail:"Medieval cobblestones, vines over buildings, no tourist menus. Walk without a plan — every side street reveals something. The neighbourhood is compact and flat."},
+        {step:1, icon:"🧳", action:"Collect bags from Kipoint", detail:"Track 24 area. Show your receipt from yesterday. Collect all 5 bags."},
+        {step:2, icon:"🚶", action:"Walk or taxi to Trastevere", detail:"Walk 35 min across Ponte Garibaldi to Trastevere, or taxi €10 from Via Giolitti exit."},
+        {step:3, icon:"📍", action:"Explore Trastevere on foot", detail:"Medieval cobblestones, vines over buildings, no tourist menus. Walk without a plan — every side street reveals something."},
         {step:4, icon:"↩️", action:"Return to Termini for departure", detail:"Walk back across Ponte Garibaldi (35 min) or taxi €10. Metro Line B to Termini is also an option from Trastevere (Piramide station)."},
       ],
       exitInfo:"Walk across Ponte Garibaldi to Trastevere (35 min, flat, beautiful) or taxi €10 from Via Giolitti exit at Termini.",
-      platformTip:"Roma Termini is enormous. High-speed trains (Frecciarossa, Italo) depart from platforms shown on the big departure board 30 min before. Trenord regionals to Como depart from Milano Centrale, not here.",
+      platformTip:"Roma Termini is enormous. High-speed trains (Frecciarossa, Italo) depart from platforms shown on the big departure board 30 min before.",
     },
     localTransport:[
       {mode:"metro", icon:"🚇", name:"Metro (Line A & B)", detail:"Two metro lines crossing at Termini. Line A to Vatican (Ottaviano), Line B to Colosseum", cost:"€1.50/ride", tip:"Buy tickets at machines or tabacchi shops. Validate on entry. Watch for pickpockets on Line B."},
@@ -138,7 +211,7 @@ export const STOPS = [
       {mode:"taxi", icon:"🚕", name:"Taxi", detail:"Metered white taxis. Termini to Trastevere fixed fare €10", cost:"€10 to Trastevere", tip:"Only use official white taxis from ranks. Never accept offers from touts inside the station."},
       {mode:"walk", icon:"🚶", name:"Walking", detail:"Most things in centro storico are walkable. Termini to Colosseum 20 min, to Trastevere 35 min, to Vatican 40 min", cost:"Free", tip:"Rome is flat in the centre. Walking is the best way to discover side streets, fountains, and piazzas you would miss on the metro."},
     ],
-    weather:{temp:"28–30°C",rain:"4–5 days/month only — very dry",best:"June is perfect. Hot, sunny, long evenings until 21:30.",tip:"Rome in June is 28–30°C and dry. Drink constantly. The public drinking fountains (nasoni — 'big noses') are everywhere in the historic centre — the water is cold, clean, and free. The UNESCO-listed nasoni have been running continuously since Roman times."},
+    weather:{temp:"28–30°C",rain:"4–5 days/month only — very dry",best:"June is perfect. Hot, sunny, long evenings until 21:30.",tip:"Rome in June is 28–30°C and dry. Drink constantly. The public drinking fountains (nasoni — 'big noses') are everywhere in the historic centre — the water is cold, clean, and free."},
     hiddenGems:[
       {title:"Aventine Keyhole",desc:"Peer through the keyhole of the Priory of the Knights of Malta for a perfectly framed view of St. Peter's dome through a garden tunnel.",cost:"Free",tip:"Walk from Circo Massimo metro. Best early morning."},
       {title:"Free Caravaggio Churches",desc:"San Luigi dei Francesi has 3 Caravaggio masterpieces. Santa Maria del Popolo has 2 more. World-class art, zero cost.",cost:"Free",tip:"Bring coins for the light box to illuminate the paintings."},
@@ -161,7 +234,7 @@ export const STOPS = [
     videos:[],
   },
 
-  /* 3 ─ COMO */
+  /* 4 ─ COMO */
   {
     id:"como", flag:"🇮🇹", city:"Lake Como", country:"Italy",
     duration:"1 day · Fri 19 – Sat 20 Jun",
@@ -257,7 +330,7 @@ export const STOPS = [
     videos:[],
   },
 
-  /* 4 ─ LUCERNE */
+  /* 5 ─ LUCERNE */
   {
     id:"lucerne", flag:"🇨🇭", city:"Lucerne", country:"Switzerland",
     duration:"1–2 hrs transit · Sat 20 Jun · 09:20–11:15",
@@ -321,7 +394,7 @@ export const STOPS = [
     ],
   },
 
-  /* 5 ─ LAUTERBRUNNEN */
+  /* 6 ─ LAUTERBRUNNEN */
   {
     id:"lauterbrunnen", flag:"💧", city:"Lauterbrunnen", country:"Switzerland",
     duration:"4.5 hours · Sat 20 Jun · 12:55–17:20",
@@ -385,7 +458,7 @@ export const STOPS = [
     weather:{temp:"15–18°C",rain:"High — 18 days/month in June",best:"Rain actually makes the waterfalls more powerful.",tip:"The valley is often misty and atmospheric in light rain — this is the Rivendell feeling Tolkien was capturing. Trümmelbach closes only in very heavy ice/snow — not in summer rain."},
   },
 
-  /* 6 ─ INTERLAKEN */
+  /* 7 ─ INTERLAKEN */
   {
     id:"interlaken", flag:"🇨🇭", city:"Interlaken", country:"Switzerland",
     duration:"1 night · Sat 20 Jun",
@@ -468,7 +541,7 @@ export const STOPS = [
     videos:[],
   },
 
-  /* 7 ─ ZÜRICH */
+  /* 8 ─ ZÜRICH */
   {
     id:"zurich", flag:"🇨🇭", city:"Zürich", country:"Switzerland",
     duration:"5 hours transit · Sun 21 Jun · 09:30–19:30",
@@ -534,7 +607,7 @@ export const STOPS = [
     weather:{temp:"22°C",rain:"Changeable — June is unpredictable in Switzerland",best:"Morning usually clearest — best for the lake walk.",tip:"Bring a light rain jacket. The city is beautiful in light rain — the lake reflects the clouds and the old town is atmospheric."},
   },
 
-  /* 8 ─ INNSBRUCK (includes Imst Alpine Coaster morning) */
+  /* 9 ─ INNSBRUCK (includes Imst Alpine Coaster morning) */
   {
     id:"innsbruck", flag:"🇦🇹", city:"Innsbruck", country:"Austria",
     duration:"1.5 days · Sun 21 Jun – Tue 23 Jun",
@@ -635,7 +708,7 @@ export const STOPS = [
     videos:[],
   },
 
-  /* 9 ─ SALZBURG */
+  /* 10 ─ SALZBURG */
   {
     id:"salzburg", flag:"🇦🇹", city:"Salzburg", country:"Austria",
     duration:"2 nights · Tue 23 – Thu 25 Jun",
@@ -736,7 +809,7 @@ export const STOPS = [
     videos:[],
   },
 
-  /* 10 ─ VIENNA */
+  /* 11 ─ VIENNA */
   {
     id:"vienna", flag:"🇦🇹", city:"Vienna", country:"Austria",
     duration:"2 nights · Thu 25 – Sat 27 Jun",
@@ -834,7 +907,7 @@ export const STOPS = [
     videos:[],
   },
 
-  /* 11 ─ PRAGUE */
+  /* 12 ─ PRAGUE */
   {
     id:"prague", flag:"🇨🇿", city:"Prague", country:"Czech Republic",
     duration:"1 night · Sat 27 – Sun 28 Jun",
@@ -930,7 +1003,7 @@ export const STOPS = [
     videos:[],
   },
 
-  /* 12 ─ BERLIN */
+  /* 13 ─ BERLIN */
   {
     id:"berlin", flag:"🇩🇪", city:"Berlin", country:"Germany",
     duration:"5 nights · Sun 28 Jun – Fri 3 Jul",
@@ -1034,7 +1107,7 @@ export const STOPS = [
     videos:[],
   },
 
-  /* 13 ─ AMSTERDAM */
+  /* 14 ─ AMSTERDAM */
   {
     id:"amsterdam", flag:"🇳🇱", city:"Amsterdam", country:"Netherlands",
     duration:"2 nights · Sat 4 – Mon 6 Jul",
@@ -1133,8 +1206,13 @@ export const STOPS = [
 ];
 
 export const JOURNEYS = [
-  { from:"Kathmandu KTM", to:"Rome FCO", via:"Qatar/Turkish", date:"Tue 16 Jun 22:00", dur:"14–16hrs", cost:"$500–600pp", type:"flight", bookingUrl:"https://www.skyscanner.com/transport/flights/ktm/fco/260616/" },
-  { from:"FCO Terminal 3", to:"Roma Termini", via:"Leonardo Express", date:"Wed 17 Jun 12:00", dur:"32 min", cost:"€14pp", type:"train", bookingUrl:"https://www.trenitalia.com/en.html" },
+  { from:"Nepal", to:"Delhi DEL", via:"Flight (1hr)", date:"Mon 15 Jun", dur:"1hr", cost:"Included", type:"flight", bookingUrl:"https://www.skyscanner.com/" },
+  { from:"Delhi DEL", to:"Rome FCO", via:"Turkish Airlines TK717+TK1865 via Istanbul", date:"Tue 16 Jun 06:30", dur:"11h 10m", cost:"$500–600pp", type:"flight", bookingUrl:"https://www.skyscanner.com/transport/flights/del/fco/260616/" },
+  { from:"FCO Terminal 3", to:"Roma Termini", via:"Leonardo Express", date:"Tue 16 Jun 15:15", dur:"32 min", cost:"€14pp", type:"train", bookingUrl:"https://www.trenitalia.com/en.html" },
+  { from:"Roma Termini", to:"Napoli Centrale", via:"Frecciarossa", date:"Tue 16 Jun 16:30", dur:"1h 10min", cost:"€15–25pp", type:"highspeed", bookingUrl:"https://www.trenitalia.com/en.html" },
+  { from:"Naples", to:"Amalfi Coast (Positano)", via:"Private minivan", date:"Wed 17 Jun 10:00", dur:"1.5hrs", cost:"€150–200 total", type:"car", bookingUrl:"https://www.getyourguide.com/" },
+  { from:"Amalfi Coast", to:"Napoli Centrale", via:"Private minivan", date:"Wed 17 Jun 15:30", dur:"1.5hrs", cost:"Included in minivan", type:"car", bookingUrl:"https://www.getyourguide.com/" },
+  { from:"Napoli Centrale", to:"Roma Termini", via:"Frecciarossa", date:"Wed 17 Jun 17:30", dur:"1h 10min", cost:"€15–25pp", type:"highspeed", bookingUrl:"https://www.trenitalia.com/en.html" },
   { from:"Roma Termini", to:"Milano Centrale", via:"Frecciarossa/Italo", date:"Fri 19 Jun ~10:00", dur:"3hrs", cost:"€22pp", type:"highspeed", bookingUrl:"https://www.italotreno.it/en" },
   { from:"Milano Centrale", to:"Como San Giovanni", via:"Trenord regional", date:"Fri 19 Jun ~14:00", dur:"40 min", cost:"€5pp", type:"regional", bookingUrl:"https://www.trenitalia.com/en.html" },
   { from:"Como San Giovanni", to:"Lucerne Hbf", via:"Lugano + SBB", date:"Sat 20 Jun 06:24", dur:"~3hrs", cost:"€4 + CHF 22", type:"regional", bookingUrl:"https://www.sbb.ch/en" },
@@ -1148,7 +1226,7 @@ export const JOURNEYS = [
   { from:"Wien Hbf", to:"Praha hlavní nádraží", via:"Regiojet (free coffee!)", date:"Sat 27 Jun 09:00", dur:"4hrs", cost:"€15–25pp", type:"regional", bookingUrl:"https://www.regiojet.com/en/" },
   { from:"Praha hlavní nádraží", to:"Berlin Hbf", via:"EuroCity direct", date:"Sun 28 Jun 14:30", dur:"4h 30m", cost:"€25–45pp", type:"highspeed", bookingUrl:"https://www.cd.cz/en/" },
   { from:"Berlin Hbf", to:"Amsterdam Centraal", via:"🌙 NIGHTJET — sleep!", date:"Fri 3 Jul 23:03", dur:"10.5hrs overnight", cost:"€70–120pp couchette", type:"nightjet", bookingUrl:"https://www.nightjet.com/en/" },
-  { from:"Amsterdam Schiphol", to:"Kathmandu KTM", via:"Qatar/Turkish", date:"Mon 6 Jul", dur:"~13hrs", cost:"Included in return", type:"flight", bookingUrl:"https://www.skyscanner.com/transport/flights/ams/ktm/260706/" },
+  { from:"Amsterdam Schiphol", to:"Delhi DEL", via:"Turkish Airlines TK1958+TK716 via Istanbul", date:"Mon 6 Jul 14:40", dur:"10h 40m", cost:"Included in return", type:"flight", bookingUrl:"https://www.skyscanner.com/transport/flights/ams/del/260706/" },
 ];
 
 export const BOOKING = [
@@ -1157,37 +1235,40 @@ export const BOOKING = [
   { priority: 3, urgency: "TODAY", item: "🇳🇱 Amsterdam Airbnb", detail: "July Amsterdam sells out 3–4 months ahead. Book before any other city.", url: "https://www.airbnb.com/s/Amsterdam--Netherlands/homes?checkin=2026-07-04&checkout=2026-07-06&adults=5", date: "4–6 Jul" },
   { priority: 4, urgency: "THIS WEEK", item: "🇩🇪 Berlin Airbnb (5 nights!)", detail: "Your longest stay — comfort matters most here.", url: "https://www.airbnb.com/s/Friedrichshain--Berlin--Germany/homes?checkin=2026-06-28&checkout=2026-07-03&adults=5", date: "28 Jun–3 Jul" },
   { priority: 5, urgency: "THIS WEEK", item: "📖 Anne Frank House Amsterdam", detail: "MONTHS AHEAD — no walk-in ever. Non-negotiable.", url: "https://www.annefrank.org/en/museum/tickets/", date: "Sun 5 Jul" },
-  { priority: 6, urgency: "THIS WEEK", item: "⛪ Vatican Museums & Sistine Chapel", detail: "June sells out completely. Walk straight past queues.", url: "https://www.museivaticani.va/content/museivaticani/en.html", date: "Thu 18 Jun 09:00" },
-  { priority: 7, urgency: "THIS WEEK", item: "🚄 OBB Sparschiene ×2", detail: "Innsbruck→Salzburg + Salzburg→Vienna. €9pp if booked now.", url: "https://www.oebb.at/en/", date: "23 Jun + 25 Jun" },
-  { priority: 8, urgency: "SOON", item: "🖼 Van Gogh Museum Amsterdam", detail: "Book months ahead in summer — often sold out.", url: "https://www.vangoghmuseum.nl/en/plan-your-visit/tickets-and-opening-hours", date: "Sun 5 Jul" },
-  { priority: 9, urgency: "SOON", item: "🏟 Colosseum & Roman Forum Rome", detail: "Walk straight in vs 2–4hr queue in June heat.", url: "https://www.coopculture.it/en/heritage.cfm?id=4", date: "Wed 17 Jun 14:00" },
-  { priority: 10, urgency: "SOON", item: "🎨 Rijksmuseum Amsterdam", detail: "Book online — timed entry, weeks ahead.", url: "https://www.rijksmuseum.nl/en/tickets", date: "Sat 4 Jul" },
-  { priority: 11, urgency: "SOON", item: "🏰 Belvedere Vienna (Klimt)", detail: "Book timed entry. €16pp.", url: "https://www.belvedere.at/en/tickets-and-prices", date: "Fri 26 Jun" },
-  { priority: 12, urgency: "SOON", item: "🏛 Reichstag Dome Berlin (FREE)", detail: "Free but must book at bundestag.de — fills up weeks ahead.", url: "https://www.bundestag.de/en/visitthebundestag/dome/registration-245686", date: "Thu 2 Jul" },
+  { priority: 6, urgency: "THIS WEEK", item: "🚄 Frecciarossa Rome→Naples ×2", detail: "Book round trip: Tue 16 Jun 16:30 Rome→Naples + Wed 17 Jun 17:30 Naples→Rome. €15-25pp each way.", url: "https://www.trenitalia.com/en.html", date: "16-17 Jun" },
+  { priority: 7, urgency: "THIS WEEK", item: "🚐 Amalfi Coast private minivan", detail: "Book driver for 5 people: Naples→Positano→Amalfi→Naples. €150-200 total.", url: "https://www.getyourguide.com/naples-l67/amalfi-coast-private-tour-t1/", date: "Wed 17 Jun 10:00" },
+  { priority: 8, urgency: "THIS WEEK", item: "⛪ Vatican Museums & Sistine Chapel", detail: "June sells out completely. Walk straight past queues.", url: "https://www.museivaticani.va/content/museivaticani/en.html", date: "Thu 18 Jun 15:00" },
+  { priority: 9, urgency: "THIS WEEK", item: "🚄 OBB Sparschiene ×2", detail: "Innsbruck→Salzburg + Salzburg→Vienna. €9pp if booked now.", url: "https://www.oebb.at/en/", date: "23 Jun + 25 Jun" },
+  { priority: 10, urgency: "SOON", item: "🖼 Van Gogh Museum Amsterdam", detail: "Book months ahead in summer — often sold out.", url: "https://www.vangoghmuseum.nl/en/plan-your-visit/tickets-and-opening-hours", date: "Sun 5 Jul" },
+  { priority: 11, urgency: "SOON", item: "🏟 Colosseum & Roman Forum Rome", detail: "Walk straight in vs 2–4hr queue in June heat.", url: "https://www.coopculture.it/en/heritage.cfm?id=4", date: "Thu 18 Jun 09:00" },
+  { priority: 12, urgency: "SOON", item: "🎨 Rijksmuseum Amsterdam", detail: "Book online — timed entry, weeks ahead.", url: "https://www.rijksmuseum.nl/en/tickets", date: "Sat 4 Jul" },
+  { priority: 13, urgency: "SOON", item: "🏰 Belvedere Vienna (Klimt)", detail: "Book timed entry. €16pp.", url: "https://www.belvedere.at/en/tickets-and-prices", date: "Fri 26 Jun" },
+  { priority: 14, urgency: "SOON", item: "🏛 Reichstag Dome Berlin (FREE)", detail: "Free but must book at bundestag.de — fills up weeks ahead.", url: "https://www.bundestag.de/en/visitthebundestag/dome/registration-245686", date: "Thu 2 Jul" },
 ];
 
 export const CALENDAR = [
-  { date:"Tue 16 Jun", dayN:0,  type:"travel",  icon:"✈",  stop:"ktm",           city:"Kathmandu",                       flag:"🇳🇵",    summary:"Night flight departs ~22:00 KTM · Qatar via Doha or Turkish via Istanbul · 14–16hrs · sleep on board", move:true },
-  { date:"Wed 17 Jun", dayN:1,  type:"arrive",  icon:"🌊",  stop:"fco",           city:"FCO → Rome",                      flag:"🌊🇮🇹",  summary:"Land 07:00 · Sea stop Fiumicino Porto 3hrs (first Italian coffee by the sea!) · Leonardo Express → Roma Termini 12:32 · Check in Trastevere 14:00 · Colosseum 14:30 (pre-booked)", move:true },
-  { date:"Thu 18 Jun", dayN:2,  type:"move",    icon:"🏛",  stop:"rome",          city:"Rome → Como (evening train)",     flag:"🇮🇹",    summary:"Vatican + Sistine Chapel 09:00 (pre-booked) · Pantheon €5 · Trevi Fountain · 🚄 Evening Frecciarossa → Milan → Como San Giovanni (arrive ~21:00) · Check in Como — 05:45 alarm tomorrow!", move:true },
-  { date:"Fri 19 Jun", dayN:3,  type:"explore", icon:"🌊",  stop:"como",          city:"Lake Como — Full Day",             flag:"🇮🇹",    summary:"Full day on the lake · Brunate funicular 720m (€7pp) · ⛵ Ferry to Varenna or Bellagio bag-free · Lungo Lario promenade golden hour · Lakefront aperitivo + dinner · Set alarm 05:45!" },
-  { date:"Sat 20 Jun", dayN:4,  type:"move",    icon:"💧",  stop:"lauterbrunnen", city:"Como → Lucerne → Lauterbrunnen",  flag:"🇨🇭",    summary:"06:24 FIRST TRAIN · Como → Lugano (change) → Lucerne 09:20 · Chapel Bridge + Lion Monument 45min (free) · Brünig Line 10:15 → Interlaken 12:15 · Train → Lauterbrunnen 12:55 · 4.5hrs: Staubach Falls FREE + Trümmelbach Falls CHF 12pp · Sleep Interlaken", move:true },
-  { date:"Sun 21 Jun", dayN:5,  type:"move",    icon:"🏙",  stop:"zurich",        city:"Interlaken → Zürich → Imst",      flag:"🇨🇭🇦🇹", summary:"07:30 direct Interlaken → Zürich via Bern (2hrs) · Zürich 09:30–19:30: Fraumünster Chagall windows CHF 4 + Lake + Niederdorf + Sprüngli · 19:30 EC → Imst-Pitztal 21:45 · Sleep Imst", move:true },
-  { date:"Mon 22 Jun", dayN:6,  type:"move",    icon:"🎿",  stop:"innsbruck",     city:"Imst Coaster → Innsbruck",        flag:"🇦🇹",    summary:"09:00 ⭐ Imst Alpine Coaster (3.5km stainless steel, €12–15pp/ride, do 2–3 rides) · Train Imst-Pitztal → Innsbruck 12:00 · Golden Roof · Hofburg · Altstadt evening · Sleep Innsbruck", move:true },
-  { date:"Tue 23 Jun", dayN:7,  type:"move",    icon:"🏔",  stop:"innsbruck",     city:"Innsbruck → Salzburg",            flag:"🇦🇹",    summary:"08:00 ⭐ Nordkette 2334m (FIRST THING — clouds by noon!) · Inn Valley panorama · Altstadt + Golden Roof · 15:00 Railjet → Salzburg 16:50", move:true },
-  { date:"Wed 24 Jun", dayN:8,  type:"move",    icon:"🚞",  stop:"salzburg",      city:"Salzburg Schafbergbahn → Vienna", flag:"🇦🇹",    summary:"07:30 Bus 150 → St. Gilgen · ⛵ Wolfgangsee ferry (turquoise lake, 30min) · ⭐ 09:20 SCHAFBERGBAHN steam cogwheel 1783m · 11 lakes 360° · Back 14:00 · Hohensalzburg fortress · 🚄 Evening Railjet → Wien Hbf ~20:00", move:true },
-  { date:"Thu 25 Jun", dayN:9,  type:"explore", icon:"🏰",  stop:"vienna",        city:"Vienna — Day 1",                  flag:"🇦🇹",    summary:"Schönbrunn Palace gardens 09:00 (free walk + Gloriette panorama) · Naschmarkt lunch €6–8 · ⭐ Belvedere — Klimt's The Kiss €16pp (book belvedere.at) · Ringstrasse evening walk" },
-  { date:"Fri 26 Jun", dayN:10, type:"explore", icon:"🎭",  stop:"vienna",        city:"Vienna — Day 2",                  flag:"🇦🇹",    summary:"Hofburg Palace free walk · Kunsthistorisches Museum optional · ⭐ Vienna State Opera €3 standing (queue 80min before) · Café Landtmann (Freud's regular, 1873) · Naschmarkt Saturday flea market" },
-  { date:"Sat 27 Jun", dayN:11, type:"move",    icon:"🚂",  stop:"prague",        city:"Vienna → Prague",                 flag:"🇨🇿",    summary:"09:00 Regiojet → Praha hl.n. 13:00 (4hrs direct, FREE coffee!) · Metro C to Vinohrady · Old Town Square · Josefov Jewish Quarter · Kampa Island · ⚠️ SET ALARM 05:45!", move:true },
-  { date:"Sun 28 Jun", dayN:12, type:"move",    icon:"🏰",  stop:"berlin",        city:"Prague → BERLIN ✅",               flag:"🇩🇪",    summary:"05:45 ALARM ⭐⭐ Charles Bridge at DAWN — empty, misty, castle glowing orange above · Prague Castle free · Lokál lunch CZK 185 · 14:30 EuroCity → Berlin Hbf 19:00 — CHECK IN BERLIN ✅", move:true },
-  { date:"Mon 29 Jun", dayN:13, type:"explore", icon:"🧱",  stop:"berlin",        city:"Berlin Day 1",                    flag:"🇩🇪",    summary:"FULLY UNPACK — 5 nights here · East Side Gallery 1.3km free (original Wall murals) · Kreuzberg: Mustafa's Kebap €5 · Landwehr Canal · First Berliner beer at Kneipe" },
-  { date:"Tue 30 Jun", dayN:14, type:"explore", icon:"🖼",  stop:"berlin",        city:"Berlin Day 2",                    flag:"🇩🇪",    summary:"Museum Island full day: Pergamon (Ishtar Gate from Babylon) + Neues Museum (Nefertiti bust 1345 BC) + Alte Nationalgalerie · €24pp day pass · Book smb.museum" },
-  { date:"Wed 1 Jul",  dayN:15, type:"explore", icon:"👑",  stop:"berlin",        city:"Berlin Day 3",                    flag:"🇩🇪",    summary:"Potsdam: S1/RE1 25min · Sanssouci Palace grounds free · Frederick the Great buried in vineyard · Palace €14pp · UNESCO · Return for Kreuzberg evening" },
-  { date:"Thu 2 Jul",  dayN:16, type:"explore", icon:"🏛",  stop:"berlin",        city:"Berlin Day 4",                    flag:"🇩🇪",    summary:"Brandenburg Gate free (1791) · Reichstag dome FREE — book bundestag.de NOW · Memorial to Murdered Jews (2,711 slabs) · Checkpoint Charlie" },
-  { date:"Fri 3 Jul",  dayN:17, type:"night",   icon:"🌙",  stop:"berlin",        city:"Berlin Day 5 → NIGHTJET 23:03",   flag:"🇩🇪",    summary:"Tempelhof field free (former airport, now park) · Konnopke's Currywurst €3 (since 1930) · Collect bags 22:30 · NIGHTJET 23:03 SHARP Berlin Hbf → Amsterdam Centraal — sleep on board", move:true },
-  { date:"Sat 4 Jul",  dayN:18, type:"arrive",  icon:"🌷",  stop:"amsterdam",     city:"Amsterdam — Nightjet Arrives",    flag:"🇳🇱",    summary:"Nightjet arrives Centraal 09:30 · Bags in lockers €6–8 · Jordaan canal walk free · Albert Cuypmarkt: raw haring + stroopwafel · Check in De Pijp 14:00 · Rijksmuseum afternoon", move:true },
-  { date:"Sun 5 Jul",  dayN:19, type:"explore", icon:"🎨",  stop:"amsterdam",     city:"Amsterdam — Full Day",            flag:"🇳🇱",    summary:"⭐ Van Gogh Museum 09:00 (pre-booked months ahead) · ⭐⭐ Anne Frank House (MONTHS ahead — NO walk-in ever) · Canal boat tour €15pp · Vondelpark free · Brown café evening" },
-  { date:"Mon 6 Jul",  dayN:20, type:"travel",  icon:"✈",  stop:"ktm",           city:"Amsterdam → Kathmandu",           flag:"🇳🇱✈",   summary:"Check out · IC Direct Centraal → Schiphol Airport 17min · Allow 3hrs before departure · Qatar/Turkish → Kathmandu · 21 days, 14 cities, done 🏔", move:true },
+  { date:"Mon 15 Jun", dayN:0,  type:"travel",  icon:"✈",  stop:"ktm",           city:"Nepal → Delhi",                   flag:"🇳🇵",    summary:"Fly Nepal → Delhi (1hr) · Check into Delhi hotel · Rest 12+ hours before early morning flight tomorrow", move:true },
+  { date:"Tue 16 Jun", dayN:1,  type:"arrive",  icon:"✈",  stop:"fco",           city:"Delhi → Rome → Naples",           flag:"✈️🇮🇹",  summary:"DEL 06:30 → IST 10:50 (TK717) → FCO 14:10 (TK1865) · Leonardo Express → Termini · Store bags Kipoint · 🚄 Frecciarossa → Naples 17:40 · 🍕 Pizza at Da Michele/Sorbillo!", move:true },
+  { date:"Wed 17 Jun", dayN:2,  type:"explore", icon:"🏖",  stop:"amalfi",        city:"Amalfi Coast + → Rome",           flag:"🏖️🇮🇹",  summary:"Morning Naples walk · 🚐 Private minivan to Positano (€30-40pp) · Lunch on the coast · Optional Amalfi town · Return Naples · 🚄 Frecciarossa → Rome 18:40 · Check in Trastevere", move:true },
+  { date:"Thu 18 Jun", dayN:3,  type:"explore", icon:"🏛",  stop:"rome",          city:"Rome — Full Day",                 flag:"🇮🇹",    summary:"Colosseum + Roman Forum 09:00 (pre-booked) · Pantheon €5 · Trevi Fountain · Vatican + Sistine Chapel 15:00 (pre-booked) · Trastevere dinner — cacio e pepe" },
+  { date:"Fri 19 Jun", dayN:4,  type:"move",    icon:"🚄",  stop:"rome",          city:"Rome → Como",                     flag:"🇮🇹",    summary:"🚄 10:00 Frecciarossa → Milano Centrale (3hrs, €22pp) · Trenord → Como San Giovanni 40min · Arrive ~15:00 · Brunate funicular · Ferry to Varenna or Bellagio · Lakefront dinner", move:true },
+  { date:"Sat 20 Jun", dayN:5,  type:"explore", icon:"🌊",  stop:"como",          city:"Lake Como → Switzerland",         flag:"🇮🇹🇨🇭",  summary:"06:24 FIRST TRAIN · Como → Lugano → Lucerne · Chapel Bridge + Lion Monument · Brünig Line → Interlaken → Lauterbrunnen · Staubach Falls + Trümmelbach Falls · Sleep Interlaken", move:true },
+  { date:"Sun 21 Jun", dayN:6,  type:"move",    icon:"🏙",  stop:"zurich",        city:"Interlaken → Zürich → Imst",      flag:"🇨🇭🇦🇹", summary:"07:30 direct Interlaken → Zürich via Bern (2hrs) · Zürich 09:30–19:30: Fraumünster Chagall windows CHF 4 + Lake + Niederdorf + Sprüngli · 19:30 EC → Imst-Pitztal 21:45 · Sleep Imst", move:true },
+  { date:"Mon 22 Jun", dayN:7,  type:"move",    icon:"🎿",  stop:"innsbruck",     city:"Imst Coaster → Innsbruck",        flag:"🇦🇹",    summary:"09:00 ⭐ Imst Alpine Coaster (3.5km stainless steel, €12–15pp/ride, do 2–3 rides) · Train Imst-Pitztal → Innsbruck 12:00 · Golden Roof · Hofburg · Altstadt evening · Sleep Innsbruck", move:true },
+  { date:"Tue 23 Jun", dayN:8,  type:"move",    icon:"🏔",  stop:"innsbruck",     city:"Innsbruck → Salzburg",            flag:"🇦🇹",    summary:"08:00 ⭐ Nordkette 2334m (FIRST THING — clouds by noon!) · Inn Valley panorama · Altstadt + Golden Roof · 15:00 Railjet → Salzburg 16:50", move:true },
+  { date:"Wed 24 Jun", dayN:9,  type:"move",    icon:"🚞",  stop:"salzburg",      city:"Salzburg Schafbergbahn → Vienna", flag:"🇦🇹",    summary:"07:30 Bus 150 → St. Gilgen · ⛵ Wolfgangsee ferry (turquoise lake, 30min) · ⭐ 09:20 SCHAFBERGBAHN steam cogwheel 1783m · 11 lakes 360° · Back 14:00 · Hohensalzburg fortress · 🚄 Evening Railjet → Wien Hbf ~20:00", move:true },
+  { date:"Thu 25 Jun", dayN:10, type:"explore", icon:"🏰",  stop:"vienna",        city:"Vienna — Day 1",                  flag:"🇦🇹",    summary:"Schönbrunn Palace gardens 09:00 (free walk + Gloriette panorama) · Naschmarkt lunch €6–8 · ⭐ Belvedere — Klimt's The Kiss €16pp (book belvedere.at) · Ringstrasse evening walk" },
+  { date:"Fri 26 Jun", dayN:11, type:"explore", icon:"🎭",  stop:"vienna",        city:"Vienna — Day 2",                  flag:"🇦🇹",    summary:"Hofburg Palace free walk · Kunsthistorisches Museum optional · ⭐ Vienna State Opera €3 standing (queue 80min before) · Café Landtmann (Freud's regular, 1873) · Naschmarkt Saturday flea market" },
+  { date:"Sat 27 Jun", dayN:12, type:"move",    icon:"🚂",  stop:"prague",        city:"Vienna → Prague",                 flag:"🇨🇿",    summary:"09:00 Regiojet → Praha hl.n. 13:00 (4hrs direct, FREE coffee!) · Metro C to Vinohrady · Old Town Square · Josefov Jewish Quarter · Kampa Island · ⚠️ SET ALARM 05:45!", move:true },
+  { date:"Sun 28 Jun", dayN:13, type:"move",    icon:"🏰",  stop:"berlin",        city:"Prague → BERLIN ✅",               flag:"🇩🇪",    summary:"05:45 ALARM ⭐⭐ Charles Bridge at DAWN — empty, misty, castle glowing orange above · Prague Castle free · Lokál lunch CZK 185 · 14:30 EuroCity → Berlin Hbf 19:00 — CHECK IN BERLIN ✅", move:true },
+  { date:"Mon 29 Jun", dayN:14, type:"explore", icon:"🧱",  stop:"berlin",        city:"Berlin Day 1",                    flag:"🇩🇪",    summary:"FULLY UNPACK — 5 nights here · East Side Gallery 1.3km free (original Wall murals) · Kreuzberg: Mustafa's Kebap €5 · Landwehr Canal · First Berliner beer at Kneipe" },
+  { date:"Tue 30 Jun", dayN:15, type:"explore", icon:"🖼",  stop:"berlin",        city:"Berlin Day 2",                    flag:"🇩🇪",    summary:"Museum Island full day: Pergamon (Ishtar Gate from Babylon) + Neues Museum (Nefertiti bust 1345 BC) + Alte Nationalgalerie · €24pp day pass · Book smb.museum" },
+  { date:"Wed 1 Jul",  dayN:16, type:"explore", icon:"👑",  stop:"berlin",        city:"Berlin Day 3",                    flag:"🇩🇪",    summary:"Potsdam: S1/RE1 25min · Sanssouci Palace grounds free · Frederick the Great buried in vineyard · Palace €14pp · UNESCO · Return for Kreuzberg evening" },
+  { date:"Thu 2 Jul",  dayN:17, type:"explore", icon:"🏛",  stop:"berlin",        city:"Berlin Day 4",                    flag:"🇩🇪",    summary:"Brandenburg Gate free (1791) · Reichstag dome FREE — book bundestag.de NOW · Memorial to Murdered Jews (2,711 slabs) · Checkpoint Charlie" },
+  { date:"Fri 3 Jul",  dayN:18, type:"night",   icon:"🌙",  stop:"berlin",        city:"Berlin Day 5 → NIGHTJET 23:03",   flag:"🇩🇪",    summary:"Tempelhof field free (former airport, now park) · Konnopke's Currywurst €3 (since 1930) · Collect bags 22:30 · NIGHTJET 23:03 SHARP Berlin Hbf → Amsterdam Centraal — sleep on board", move:true },
+  { date:"Sat 4 Jul",  dayN:19, type:"arrive",  icon:"🌷",  stop:"amsterdam",     city:"Amsterdam — Nightjet Arrives",    flag:"🇳🇱",    summary:"Nightjet arrives Centraal 09:30 · Bags in lockers €6–8 · Jordaan canal walk free · Albert Cuypmarkt: raw haring + stroopwafel · Check in De Pijp 14:00 · Rijksmuseum afternoon", move:true },
+  { date:"Sun 5 Jul",  dayN:20, type:"explore", icon:"🎨",  stop:"amsterdam",     city:"Amsterdam — Full Day",            flag:"🇳🇱",    summary:"⭐ Van Gogh Museum 09:00 (pre-booked months ahead) · ⭐⭐ Anne Frank House (MONTHS ahead — NO walk-in ever) · Canal boat tour €15pp · Vondelpark free · Brown café evening" },
+  { date:"Mon 6 Jul",  dayN:21, type:"travel",  icon:"✈",  stop:"ktm",           city:"Amsterdam → Delhi",               flag:"🇳🇱✈",   summary:"Check out · IC Direct Centraal → Schiphol 17min · AMS 14:40 → IST 19:05 (TK1958) → DEL 04:50 Jul 7 (TK716) · 22 days, 14 cities, done 🏔", move:true },
 ];
 
 export const TRIP_BUDGET = {

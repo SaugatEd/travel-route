@@ -104,7 +104,7 @@ export default function App() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div>
               <div className="header-title">Jamnata</div>
-              <div className="header-subtitle">16 Jun – 6 Jul · 5 travellers · Europe 2026</div>
+              <div className="header-subtitle">15 Jun – 6 Jul · 5 travellers · Europe 2026</div>
             </div>
             {/* Trip progress indicator */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 8 }}>
@@ -3075,7 +3075,7 @@ function CalendarPanel({ active, onClickDay }) {
       <div className="top-panel-inner">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 20 }}>
           <div>
-            <h2>21 Days · June 16 – July 6, 2026</h2>
+            <h2>22 Days · June 15 – July 6, 2026</h2>
             <p className="subtitle" style={{ margin: '4px 0 0' }}>5 travellers · Kathmandu → Kathmandu · 6 countries · 14 cities</p>
           </div>
           <div className="cal-legend">
