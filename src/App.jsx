@@ -9,6 +9,11 @@ import { TIPS, PACKING_CHECKLIST } from "./data/tipsData";
 import { DOCS, MUST_TRY } from "./data/docsData";
 import { PRACTICAL } from "./data/practicalData";
 import { SURVIVAL_GUIDE, SITUATION_PHRASES, DESTINATION_SURVIVAL } from "./data/survivalData";
+import { MONEY } from "./data/moneyData";
+import { TRANSPORT_VALIDATION } from "./data/transportValidation";
+import { BOOKING_TIMELINE } from "./data/bookingTimelineData";
+import { SCAMS } from "./data/scamsData";
+import { ALT_ROUTES } from "./data/altRoutesData";
 
 const getCityHero = (id) => CITY_IMAGES?.[id]?.hero || null;
 const getCityMap = (id) => CITY_IMAGES?.[id]?.mapEmbed || null;
@@ -104,7 +109,7 @@ export default function App() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div>
               <div className="header-title">Jamnata</div>
-              <div className="header-subtitle">15 Jun – 6 Jul · 5 travellers · Europe 2026</div>
+              <div className="header-subtitle">15 Jun – 6 Jul · 3 travellers · Europe 2026</div>
             </div>
             {/* Trip progress indicator */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 8 }}>
@@ -131,91 +136,69 @@ export default function App() {
             </div>
           </div>
           <div className="header-actions">
-            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-              <button className="pill" onClick={toggleTheme} title={`Switch to ${theme === "light" ? "dark" : "light"} mode`} style={{ padding: "8px 14px", fontSize: 15 }}>
-                {theme === "light" ? "🌙" : "☀️"}
-              </button>
-              <button className={`pill${showNPR ? " active" : ""}`} onClick={() => setShowNPR((p) => !p)} style={{ fontSize: 12 }}>
-                ₨ {showNPR ? "ON" : "OFF"}
-              </button>
-            </div>
-            <div style={{ width: 1, height: 24, background: 'var(--border)', borderRadius: 1 }} />
-            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-              {["calendar", "journeys", "bookings"].map((t) => (
-                <button key={t} className={`pill${topTab === t ? " active" : ""}`} onClick={() => setTopTab((p) => (p === t ? null : t))}>
-                  {t === "journeys" ? "🗺 Trains" : t === "bookings" ? "🔗 Book" : "📅 Calendar"}
-                </button>
-              ))}
-            </div>
-            <div style={{ width: 1, height: 24, background: 'var(--border)', borderRadius: 1 }} />
-            <button className="pdf-btn" onClick={() => generateFullTripPdf(STOPS, CALENDAR, { journeys: JOURNEYS, tripBudget: TRIP_BUDGET, packingChecklist: PACKING_CHECKLIST, practical: PRACTICAL })} title="Download complete trip PDF">
-              📄 Full Trip PDF
+            <button
+              className="pill pill--icon"
+              onClick={toggleTheme}
+              title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+            >
+              {theme === "light" ? "🌙" : "☀️"}
+            </button>
+            <button
+              className={`pill pill--icon${showNPR ? " active" : ""}`}
+              onClick={() => setShowNPR((p) => !p)}
+              title="Show NPR conversions"
+            >
+              ₨
+            </button>
+            <button
+              className="pdf-btn"
+              onClick={() => generateFullTripPdf(STOPS, CALENDAR, { journeys: JOURNEYS, tripBudget: TRIP_BUDGET, packingChecklist: PACKING_CHECKLIST, practical: PRACTICAL })}
+              title="Download complete trip PDF"
+            >
+              ↓ PDF
             </button>
           </div>
         </div>
+
+        {/* Sub-nav: single horizontal scroll strip, no group labels — pills speak for themselves */}
+        <nav className="topnav">
+          {[
+            ["calendar", "📅", "Calendar"],
+            ["journeys", "🚄", "Trains"],
+            ["bookings", "🔗", "Book"],
+            ["timeline", "📆", "Timeline"],
+            ["money", "💳", "Money"],
+            ["transport", "🚇", "Transport"],
+            ["scams", "⚠️", "Scams"],
+            ["altroutes", "🛤", "Alt Routes"],
+          ].map(([t, icon, label]) => (
+            <button
+              key={t}
+              className={`topnav-tab${topTab === t ? " active" : ""}`}
+              onClick={() => setTopTab((p) => (p === t ? null : t))}
+              title={label}
+            >
+              <span className="topnav-tab-icon">{icon}</span>
+              <span>{label}</span>
+            </button>
+          ))}
+        </nav>
       </header>
 
       {/* ── TOP PANELS ── */}
       {topTab === "calendar" && <CalendarPanel active={active} onClickDay={handleCalClick} />}
       {topTab === "journeys" && <JourneysPanel showNPR={showNPR} npr={npr} />}
       {topTab === "bookings" && <BookingsPanel />}
+      {topTab === "money" && <MoneyPanel />}
+      {topTab === "transport" && <TransportValidationPanel />}
+      {topTab === "timeline" && <BookingTimelinePanel />}
+      {topTab === "scams" && <ScamsPanel />}
+      {topTab === "altroutes" && <AltRoutesPanel />}
 
       {/* ── MAIN LAYOUT ── */}
       <div className="app-layout">
         {/* Sidebar — Day-by-day */}
-        <aside className="sidebar">
-          <div style={{ padding: "14px 16px 10px", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--text-faint)", fontFamily: "var(--sans)" }}>
-            Trip Timeline
-          </div>
-          {CALENDAR.map((day, i) => {
-            const resolvedStop = day.stop === "imst" ? "innsbruck" : day.stop;
-            const isActive = resolvedStop === active;
-            const isClickable = resolvedStop && resolvedStop !== "ktm";
-            const calStyle = CAL_TYPES[day.type] || CAL_TYPES.explore;
-            return (
-              <button
-                key={i}
-                className={`sidebar-btn${isActive ? " active" : ""}`}
-                onClick={() => isClickable && handleCalClick(day)}
-                style={{
-                  opacity: isClickable ? 1 : 0.5,
-                  cursor: isClickable ? "pointer" : "default",
-                  borderLeft: `3px solid ${calStyle.dot}`,
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 10, width: "100%" }}>
-                  {/* Small city thumbnail */}
-                  {getCityHero(resolvedStop) && (
-                    <div style={{ width: 32, height: 32, borderRadius: 8, overflow: 'hidden', flexShrink: 0, border: '1px solid var(--border)' }}>
-                      <img src={getCityHero(resolvedStop)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
-                    </div>
-                  )}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 10, fontWeight: 600, color: "var(--text-dim)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
-                      Day {day.dayN} · {day.date}
-                    </div>
-                    <div style={{ fontSize: 13, fontWeight: isActive ? 700 : 500, color: isActive ? "var(--text)" : "var(--text-muted)", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {day.flag} {day.city}
-                    </div>
-                  </div>
-                </div>
-              </button>
-            );
-          })}
-          <div className="sidebar-rates">
-            <div className="sidebar-rates-title">NPR Rates</div>
-            {[
-              ["EUR", "EUR 1", 1, "EUR"],
-              ["CHF", "CHF 1", 1, "CHF"],
-              ["CZK", "CZK 100", 100, "CZK"],
-            ].map(([c, l, v, cur]) => (
-              <div key={c} className="sidebar-rate">
-                <span className="label">{l}</span>
-                <span className="value">{npr(v, cur)}</span>
-              </div>
-            ))}
-          </div>
-        </aside>
+        <TripTimelineSidebar active={active} onClickDay={handleCalClick} npr={npr} />
 
         {/* Main */}
         <main className="main">
@@ -228,6 +211,28 @@ export default function App() {
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* View tabs — replaces old right-side Explore rail */}
+          <div className="view-tabs">
+            {[
+              { id: "overview", icon: "✨", label: "Overview" },
+              { id: "gallery", icon: "🖼", label: "Gallery" },
+              { id: "budget", icon: "💰", label: "Budget" },
+              { id: "checklist", icon: "✅", label: "Checklist" },
+              { id: "phrasebook", icon: "🗣", label: "Phrases" },
+              { id: "survival", icon: "🧭", label: "Survival" },
+              { id: "docs", icon: "📋", label: "Visa & Docs" },
+            ].map((item) => (
+              <button
+                key={item.id}
+                className={`view-tab${view === item.id ? " active" : ""}`}
+                onClick={() => setView(item.id)}
+              >
+                <span className="view-tab-icon">{item.icon}</span>
+                <span>{item.label}</span>
+              </button>
+            ))}
           </div>
 
           {/* Hero */}
@@ -261,83 +266,75 @@ export default function App() {
               </>
             )}
 
-            <div style={{ position: "relative", zIndex: 2, width: "100%" }}>
-              {/* Destination flow nav */}
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 24, flexWrap: "wrap" }}>
-                {prevStop && (
-                  <button className="nav-btn" onClick={() => handleStopChange(prevStop.id)} style={heroImg ? { color: "#fff", borderColor: "rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" } : {}}>
-                    ← {prevStop.flag} {prevStop.city}
-                  </button>
-                )}
-                <span style={{
-                  fontSize: 13, fontWeight: 700,
-                  color: heroImg ? "#fff" : "var(--accent)",
-                  padding: "8px 24px",
-                  border: `1.5px solid ${heroImg ? "rgba(255,255,255,0.4)" : "var(--accent)"}`,
-                  borderRadius: 999,
-                  background: heroImg ? "rgba(255,255,255,0.1)" : "var(--accent-bg)",
-                  backdropFilter: heroImg ? "blur(12px)" : "none",
-                  fontFamily: "var(--sans)",
-                  letterSpacing: "0.02em",
-                }}>
-                  {stop.flag} {stop.city}
-                </span>
-                {nextStop && (
-                  <button className="nav-btn" onClick={() => handleStopChange(nextStop.id)} style={heroImg ? { color: "#fff", borderColor: "rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)" } : {}}>
-                    {nextStop.flag} {nextStop.city} →
-                  </button>
-                )}
-              </div>
+            {/* Hero arrows — corner placement, discreet */}
+            {prevStop && (
+              <button
+                className="hero-arrow hero-arrow--prev"
+                onClick={() => handleStopChange(prevStop.id)}
+                title={`← ${prevStop.city}`}
+              >
+                ←
+              </button>
+            )}
+            {nextStop && (
+              <button
+                className="hero-arrow hero-arrow--next"
+                onClick={() => handleStopChange(nextStop.id)}
+                title={`${nextStop.city} →`}
+              >
+                →
+              </button>
+            )}
 
-              {/* Day badge */}
+            <div style={{ position: "relative", zIndex: 2, width: "100%" }}>
+              {/* Day badge — single contextual marker */}
               {stopCalDays.length > 0 && (
-                <div style={{ textAlign: "center", marginBottom: 10 }}>
-                  <span style={{
-                    display: "inline-block",
-                    padding: "5px 16px",
-                    borderRadius: 999,
-                    background: heroImg ? "rgba(255,255,255,0.15)" : "var(--accent)",
-                    color: "#fff",
-                    fontSize: 11,
-                    fontWeight: 700,
-                    letterSpacing: "0.08em",
-                    backdropFilter: heroImg ? "blur(12px)" : "none",
-                    fontFamily: "var(--mono)",
-                  }}>
+                <div style={{ textAlign: "center", marginBottom: 12 }}>
+                  <span className="hero-day-badge">
                     DAY {stopCalDays[0].dayN}{stopCalDays.length > 1 ? `–${stopCalDays[stopCalDays.length - 1].dayN}` : ""} · {stopCalDays[0].date}{stopCalDays.length > 1 ? ` – ${stopCalDays[stopCalDays.length - 1].date}` : ""}
                   </span>
                 </div>
               )}
 
               <div className="hero-meta" style={{ justifyContent: "center" }}>
-                <span style={heroImg ? { color: "rgba(255,255,255,0.75)" } : {}}>{stop.country}</span>
+                <span style={heroImg ? { color: "rgba(255,255,255,0.75)" } : {}}>{stop.flag} {stop.country}</span>
                 <span className="dot" style={heroImg ? { color: "rgba(255,255,255,0.3)" } : {}}>·</span>
                 <span style={heroImg ? { color: "rgba(255,255,255,0.75)" } : {}}>{stop.duration}</span>
               </div>
-              <h1 className="hero-title" style={{
-                textAlign: "center",
-                ...(heroImg ? { color: "#fff", textShadow: "0 4px 24px rgba(0,0,0,0.4)" } : {}),
-              }}>
+              <h1
+                className="hero-title"
+                style={{
+                  textAlign: "center",
+                  ...(heroImg ? { color: "#fff", textShadow: "0 4px 24px rgba(0,0,0,0.4)" } : {}),
+                }}
+              >
                 {stop.city}
               </h1>
-              <p className="hero-tagline" style={{
-                textAlign: "center",
-                maxWidth: 560,
-                margin: "0 auto 32px",
-                ...(heroImg ? { color: "rgba(255,255,255,0.8)" } : {}),
-              }}>
-                "{stop.tagline}"
+              <p
+                className="hero-tagline"
+                style={{
+                  textAlign: "center",
+                  maxWidth: 600,
+                  margin: "0 auto 28px",
+                  ...(heroImg ? { color: "rgba(255,255,255,0.85)" } : {}),
+                }}
+              >
+                {stop.tagline}
               </p>
               <div className="hero-stats" style={{ justifyContent: "center" }}>
-                <div className="stat-card" style={heroImg ? { background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.12)", backdropFilter: "blur(16px) saturate(1.4)" } : {}}>
-                  <div className="label" style={heroImg ? { color: "rgba(255,255,255,0.6)" } : {}}>Accommodation</div>
+                <div
+                  className="stat-card"
+                  style={heroImg ? { background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.12)", backdropFilter: "blur(16px) saturate(1.4)" } : {}}
+                >
+                  <div className="label" style={heroImg ? { color: "rgba(255,255,255,0.6)" } : {}}>Stay (for 3)</div>
                   <div className="val" style={heroImg ? { color: "#fff" } : {}}>{stop.budget}</div>
-                  {showNPR && <div className="sub" style={{ color: heroImg ? "#F0C56E" : "var(--orange)" }}>for 5 people / night</div>}
                 </div>
-                <div className="stat-card" style={heroImg ? { background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.12)", backdropFilter: "blur(16px) saturate(1.4)" } : {}}>
-                  <div className="label" style={heroImg ? { color: "rgba(255,255,255,0.6)" } : {}}>Weather in June</div>
+                <div
+                  className="stat-card"
+                  style={heroImg ? { background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.12)", backdropFilter: "blur(16px) saturate(1.4)" } : {}}
+                >
+                  <div className="label" style={heroImg ? { color: "rgba(255,255,255,0.6)" } : {}}>June weather</div>
                   <div className="val" style={heroImg ? { color: "#fff" } : {}}>{stop.weather.temp}</div>
-                  <div className="sub" style={heroImg ? { color: "rgba(255,255,255,0.6)" } : {}}>{stop.weather.rain}</div>
                 </div>
                 <button className="pdf-btn" onClick={() => generateStopPdf(stop, calDay)} title={`Download ${stop.city} PDF`}>
                   ↓ Download PDF
@@ -355,74 +352,6 @@ export default function App() {
           {view === "survival" && <SurvivalGuideView stop={stop} />}
           {view === "docs" && <DocsView />}
         </main>
-
-        {/* Right Sidebar — Navigation */}
-        <aside className="sidebar-right">
-          {/* Mini destination card */}
-          <div style={{
-            padding: '16px 14px', margin: '0 10px 16px', borderRadius: 14,
-            background: 'var(--gradient-warm)',
-            border: '1px solid var(--accent-border)', textAlign: 'center',
-            position: 'relative', overflow: 'hidden',
-          }}>
-            <div style={{
-              position: 'absolute', top: -20, right: -20,
-              width: 60, height: 60, borderRadius: '50%',
-              background: 'var(--accent-glow)',
-            }} />
-            <div style={{ fontSize: 28, position: 'relative' }}>{stop.flag}</div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--display)', marginTop: 6, position: 'relative' }}>{stop.city}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-dim)', fontFamily: 'var(--sans)', marginTop: 2, position: 'relative' }}>{stop.country}</div>
-          </div>
-          <div style={{ padding: '12px 14px 8px', fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.16em', color: 'var(--text-faint)', fontFamily: 'var(--sans)' }}>
-            Explore
-          </div>
-          <div className="right-nav">
-            {[
-              { id: 'overview', icon: '✨', label: 'Overview' },
-              { id: 'gallery', icon: '🖼', label: 'Gallery' },
-              { id: 'budget', icon: '💰', label: 'Budget' },
-              { id: 'checklist', icon: '✅', label: 'Checklist' },
-              { id: 'phrasebook', icon: '🗣', label: 'Phrasebook' },
-              { id: 'survival', icon: '🧭', label: 'Survival Guide' },
-              { id: 'docs', icon: '📋', label: 'Visa & Docs' },
-            ].map(item => (
-              <button
-                key={item.id}
-                className={`right-nav-btn${view === item.id ? ' active' : ''}`}
-                onClick={() => setView(item.id)}
-              >
-                <span className="right-nav-icon">{item.icon}</span>
-                <span className="right-nav-label">{item.label}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Quick Info */}
-          <div style={{ padding: '16px 14px', borderTop: '1px solid var(--border)', marginTop: 16 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.16em', color: 'var(--text-faint)', marginBottom: 12, fontFamily: 'var(--sans)' }}>
-              Quick Info
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[
-                { label: 'Currency', value: stop.currency },
-                { label: 'Weather', value: stop.weather.temp },
-                { label: 'Budget', value: stop.budget },
-              ].map((item) => (
-                <div key={item.label} style={{
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  fontSize: 12, fontFamily: 'var(--sans)',
-                  padding: '6px 10px', borderRadius: 8,
-                  background: 'var(--bg-hover)',
-                  transition: 'all 0.2s',
-                }}>
-                  <span style={{ color: 'var(--text-dim)', fontWeight: 500 }}>{item.label}</span>
-                  <span style={{ fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--mono)', fontSize: 11 }}>{item.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </aside>
       </div>
     </div>
   );
@@ -435,20 +364,25 @@ export default function App() {
 
 function HiddenGemsContent({ stop }) {
   if (!stop.hiddenGems?.length) return null;
-  return (
-    <div className="gems-grid">
-      {stop.hiddenGems.map((gem, i) => (
-        <div key={i} className="gem-card">
-          <div className="gem-header">
-            <h4 className="gem-title">{gem.title}</h4>
-            <span className="gem-cost">{gem.cost}</span>
+  const items = stop.hiddenGems.map((gem) => ({
+    head: (
+      <span style={{ display: 'flex', justifyContent: 'space-between', gap: 12, width: '100%' }}>
+        <span>💎 {gem.title}</span>
+        <span style={{ fontSize: 12, color: 'var(--accent)', fontWeight: 700, whiteSpace: 'nowrap' }}>{gem.cost}</span>
+      </span>
+    ),
+    detail: (
+      <>
+        <div>{gem.desc}</div>
+        {gem.tip && (
+          <div style={{ marginTop: 8, fontSize: 12, color: 'var(--accent)', fontFamily: 'var(--sans)' }}>
+            💡 {gem.tip}
           </div>
-          <p className="gem-desc">{gem.desc}</p>
-          {gem.tip && <div className="gem-tip">&#128161; {gem.tip}</div>}
-        </div>
-      ))}
-    </div>
-  );
+        )}
+      </>
+    ),
+  }));
+  return <DrillDown items={items} />;
 }
 
 function WorkspacesContent({ stop }) {
@@ -832,11 +766,14 @@ function OverviewView({ stop, idx, stops, journeys, onStopChange, showNPR, npr }
               </div>
             )}
             <div style={{ marginTop: 24 }}>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', marginBottom: 12 }}>The Story</h3>
-              <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--text-muted)', fontFamily: 'var(--sans)', marginBottom: 20 }}>{stop.story}</p>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', marginBottom: 12 }}>History</h3>
-              <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--text-muted)', fontFamily: 'var(--sans)', marginBottom: 20 }}>{stop.history}</p>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', marginBottom: 12 }}>Must Do</h3>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>About {stop.city} — tap to read</h3>
+              <DrillDown
+                items={[
+                  { head: `📖 The Story — why ${stop.city} feels like ${stop.city}`, detail: stop.story },
+                  { head: `🏛 History — what built it`, detail: stop.history },
+                ]}
+              />
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '24px 0 12px' }}>Must Do</h3>
               <div className="must-do-strip">
                 {stop.must?.map((m, i) => (
                   <div key={i} className="must-do-item">
@@ -1368,6 +1305,53 @@ function RouteContent({ stop, idx, stops, journeys, onStopChange }) {
   );
 }
 
+function ItineraryTimeline({ items = [] }) {
+  const [openIdx, setOpenIdx] = useState(null);
+  if (!items.length) return null;
+  return (
+    <>
+      {items.map((item, i) => {
+        const isOpen = openIdx === i;
+        return (
+          <div key={i} className="itin-item">
+            <div className={`itin-line${i === 0 ? " first" : i === items.length - 1 ? " last" : ""}`}>
+              <div className="itin-dot" />
+            </div>
+            <div className="itin-content" style={{ cursor: "pointer" }} onClick={() => setOpenIdx(isOpen ? null : i)}>
+              <div className="itin-time">{item.time}</div>
+              <div className="itin-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
+                  <span className="itin-icon">{item.icon}</span>
+                  <h3 className="itin-title" style={{ margin: 0 }}>{item.title}</h3>
+                </div>
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    fontFamily: "var(--sans)",
+                    color: "var(--text-dim)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    flexShrink: 0,
+                  }}
+                >
+                  {isOpen ? "▾ less" : "▸ details"}
+                </span>
+              </div>
+              {isOpen && (
+                <>
+                  <p className="itin-desc-text">{item.desc}</p>
+                  {item.tip && <div className="itin-tip">{item.tip}</div>}
+                </>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
 function ItineraryContent({ stop }) {
   const heroImg = getCityHero(stop.id);
   const mapEmbed = getCityMap(stop.id);
@@ -1416,23 +1400,9 @@ function ItineraryContent({ stop }) {
       </div>
 
       <h2 className="story-title">Day by Day</h2>
-      <p className="itin-desc">Everything planned. Every timing verified. Tips from experience.</p>
-      {stop.itinerary.map((item, i) => (
-        <div key={i} className="itin-item">
-          <div className={`itin-line${i === 0 ? " first" : i === stop.itinerary.length - 1 ? " last" : ""}`}>
-            <div className="itin-dot" />
-          </div>
-          <div className="itin-content">
-            <div className="itin-time">{item.time}</div>
-            <div className="itin-header">
-              <span className="itin-icon">{item.icon}</span>
-              <h3 className="itin-title">{item.title}</h3>
-            </div>
-            <p className="itin-desc-text">{item.desc}</p>
-            <div className="itin-tip">{item.tip}</div>
-          </div>
-        </div>
-      ))}
+      <p className="itin-desc">Tap any row to expand details &amp; tips.</p>
+      <ItineraryTimeline items={stop.itinerary} />
+
 
       {/* Station Guide */}
       {stop.stationGuide && (
@@ -1874,7 +1844,7 @@ function StayEatContent({ stop }) {
             {stop.stay?.bookingLinks?.length > 0 && (
               <div style={{ marginTop: 18 }}>
                 <div style={{ fontSize: 11, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.1em", fontFamily: "var(--sans)", marginBottom: 10, fontWeight: 700 }}>
-                  🔗 Compare & Book (€50–200/night for 5)
+                  🔗 Compare & Book (€50–200/night for 3)
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {stop.stay.bookingLinks.map((link, i) => (
@@ -2318,7 +2288,7 @@ function DocsView() {
     <div className="panel">
       <h2 className="story-title">📋 Visa & Documentation Guide</h2>
       <p style={{ fontSize: 13, color: "var(--text-dim)", fontFamily: "var(--sans)", marginBottom: 8 }}>
-        Complete guide for 5 Nepali passport holders · 2 working professionals + 3 parents
+        Complete guide for 3 Nepali passport holders · 2 working professionals + 3 parents
       </p>
 
       {/* Overview Card */}
@@ -2412,7 +2382,7 @@ function DocsView() {
         </div>
         <div style={{ padding: "12px 16px", borderRadius: 8, background: "var(--accent-bg)", border: "1px solid var(--accent-border)" }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text)" }}>Per person: {DOCS.costs?.totalPerPerson}</div>
-          <div style={{ fontSize: 15, fontWeight: 800, color: "var(--accent)", marginTop: 4 }}>Total for 5: {DOCS.costs?.totalForFive}</div>
+          <div style={{ fontSize: 15, fontWeight: 800, color: "var(--accent)", marginTop: 4 }}>Total for 3: {DOCS.costs?.totalForThree}</div>
         </div>
       </Section>
 
@@ -2437,7 +2407,7 @@ function BudgetView({ stop, stops, showNPR, npr }) {
     <div className="panel">
       <h2 className="story-title">Trip Budget</h2>
       <p style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--sans)", marginBottom: 24, lineHeight: 1.7 }}>
-        Estimated costs for 5 travellers · All prices approximate · June 2026
+        Estimated costs for 3 travellers · All prices approximate · June 2026
       </p>
 
       {/* Total Summary Card */}
@@ -2599,7 +2569,7 @@ function ChecklistView() {
     <div className="panel">
       <h2 className="story-title">Packing Checklist</h2>
       <p style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--sans)", marginBottom: 8 }}>
-        21 days · 7 countries · 5 people · Check items as you pack
+        21 days · 7 countries · 3 people · Check items as you pack
       </p>
 
       {/* Progress bar */}
@@ -3058,6 +3028,22 @@ function SurvivalGuideView({ stop }) {
 
 /* ── TOP PANELS ── */
 
+/* Parse "DD MMM" / "D Mmm" calendar entry → Date in 2026.
+   Handles "15 Jun", "5 Jul", etc. Returns null if unparseable. */
+function parseCalDate(dateStr) {
+  if (!dateStr) return null;
+  const months = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+  const m = dateStr.match(/(\d{1,2})\s+([A-Za-z]{3})/);
+  if (!m) return null;
+  const day = parseInt(m[1], 10);
+  const monKey = m[2][0].toUpperCase() + m[2].slice(1, 3).toLowerCase();
+  const month = months[monKey];
+  if (month === undefined) return null;
+  return new Date(2026, month, day);
+}
+
+const DOW_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 function CalendarPanel({ active, onClickDay }) {
   const legends = [
     ["explore", "#4CAF50", "Explore"],
@@ -3067,16 +3053,51 @@ function CalendarPanel({ active, onClickDay }) {
     ["travel", "#F06292", "Flight"],
   ];
 
-  // Group by country for visual separators
-  let lastCountry = "";
+  // Local-timezone-safe YYYY-MM-DD key (toISOString shifts in non-UTC zones)
+  const localKey = (dt) =>
+    `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
+
+  // Index calendar entries by local YYYY-MM-DD
+  const byDate = {};
+  CALENDAR.forEach((d) => {
+    const dt = parseCalDate(d.date);
+    if (!dt) return;
+    byDate[localKey(dt)] = d;
+  });
+
+  // Compute calendar weeks spanning all entries (Sun-aligned)
+  const allKeys = Object.keys(byDate).sort();
+  if (allKeys.length === 0) return null;
+  const [fy, fm, fd] = allKeys[0].split("-").map(Number);
+  const [ly, lm, ld] = allKeys[allKeys.length - 1].split("-").map(Number);
+  const first = new Date(fy, fm - 1, fd);
+  const last = new Date(ly, lm - 1, ld);
+  const gridStart = new Date(first);
+  gridStart.setDate(gridStart.getDate() - gridStart.getDay()); // back up to Sunday
+  const gridEnd = new Date(last);
+  gridEnd.setDate(gridEnd.getDate() + (6 - gridEnd.getDay())); // forward to Saturday
+
+  const weeks = [];
+  let cursor = new Date(gridStart);
+  while (cursor <= gridEnd) {
+    const week = [];
+    for (let i = 0; i < 7; i++) {
+      const key = localKey(cursor);
+      week.push({ date: new Date(cursor), key, entry: byDate[key] || null });
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    weeks.push(week);
+  }
 
   return (
     <div className="top-panel">
       <div className="top-panel-inner">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 20 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12, marginBottom: 16 }}>
           <div>
-            <h2>22 Days · June 15 – July 6, 2026</h2>
-            <p className="subtitle" style={{ margin: '4px 0 0' }}>5 travellers · Kathmandu → Kathmandu · 6 countries · 14 cities</p>
+            <h2>June – July 2026</h2>
+            <p className="subtitle" style={{ margin: "4px 0 0" }}>
+              22 days · 3 travellers · 6 countries · 14 cities
+            </p>
           </div>
           <div className="cal-legend">
             {legends.map(([t, col, label]) => (
@@ -3088,108 +3109,319 @@ function CalendarPanel({ active, onClickDay }) {
           </div>
         </div>
 
-        {/* Stats strip at top */}
-        <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
-          {[
-            { n: "21", label: "Days", icon: "\u{1F4C5}" },
-            { n: "6", label: "Countries", icon: "\u{1F30D}" },
-            { n: "14", label: "Cities", icon: "\u{1F3D9}" },
-            { n: "16", label: "Trains", icon: "\u{1F684}" },
-            { n: "18", label: "Nights", icon: "\u{1F319}" },
-            { n: "5", label: "Travellers", icon: "\u{1F465}" },
-          ].map(s => (
-            <div key={s.label} style={{
-              padding: '10px 16px', borderRadius: 10,
-              background: 'var(--bg-raised)', border: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', gap: 8,
-            }}>
-              <span style={{ fontSize: 16 }}>{s.icon}</span>
-              <div>
-                <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)', fontFamily: 'var(--sans)' }}>{s.n}</div>
-                <div style={{ fontSize: 10, color: 'var(--text-dim)', fontFamily: 'var(--sans)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</div>
-              </div>
+        {/* Day-of-week header row */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(7, 1fr)",
+            gap: 0,
+            border: "1px solid var(--border)",
+            borderBottom: "none",
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
+            overflow: "hidden",
+            background: "var(--bg-hover)",
+          }}
+        >
+          {DOW_LABELS.map((d, i) => (
+            <div
+              key={d}
+              style={{
+                padding: "10px 12px",
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: i === 0 || i === 6 ? "var(--accent)" : "var(--text-dim)",
+                fontFamily: "var(--sans)",
+                textAlign: "center",
+                borderRight: i < 6 ? "1px solid var(--border)" : "none",
+              }}
+            >
+              {d}
             </div>
           ))}
         </div>
 
-        <div className="cal-grid">
-          {CALENDAR.map((day, i) => {
-            const s = CAL_TYPES[day.type] || CAL_TYPES.explore;
-            const resolvedStop = day.stop === "imst" ? "innsbruck" : day.stop;
-            const isActive = active === resolvedStop;
-            const cityImg = getCityHero(resolvedStop);
+        {/* Week rows */}
+        <div
+          style={{
+            border: "1px solid var(--border)",
+            borderBottomLeftRadius: 12,
+            borderBottomRightRadius: 12,
+            overflow: "hidden",
+          }}
+        >
+          {weeks.map((week, wi) => (
+            <div
+              key={wi}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(7, 1fr)",
+                borderTop: wi > 0 ? "1px solid var(--border)" : "none",
+              }}
+            >
+              {week.map((cell, ci) => {
+                const day = cell.entry;
+                const s = day ? CAL_TYPES[day.type] || CAL_TYPES.explore : null;
+                const resolvedStop = day?.stop === "imst" ? "innsbruck" : day?.stop;
+                const isActive = day && active === resolvedStop;
+                const isClickable = day && resolvedStop && resolvedStop !== "ktm";
+                const isWeekend = ci === 0 || ci === 6;
+                const dateNum = cell.date.getDate();
+                const monthChange = ci === 0 || dateNum === 1;
+                const monthLabel = cell.date.toLocaleString("en-US", { month: "short" });
 
-            // Country divider
-            const stopData = STOPS.find(st => st.id === resolvedStop);
-            const country = stopData?.country || "";
-            const showCountryDivider = country && country !== lastCountry;
-            if (country) lastCountry = country;
-
-            return (
-              <div key={i}>
-                {showCountryDivider && (
-                  <div style={{
-                    gridColumn: '1 / -1', padding: '8px 0 4px',
-                    fontSize: 12, fontWeight: 700, color: 'var(--accent)',
-                    fontFamily: 'var(--sans)', textTransform: 'uppercase',
-                    letterSpacing: '0.1em', borderTop: i > 0 ? '1px solid var(--border)' : 'none',
-                    marginTop: i > 0 ? 8 : 0, paddingTop: i > 0 ? 12 : 8,
-                  }}>
-                    {stopData?.flag} {country}
-                  </div>
-                )}
-                <div
-                  className={`cal-card${isActive ? " active" : ""}`}
-                  onClick={() => onClickDay(day)}
-                  style={{
-                    borderLeftColor: s.dot,
-                    borderColor: isActive ? "var(--accent)" : s.border,
-                    background: s.glow,
-                    cursor: resolvedStop !== "ktm" ? "pointer" : "default",
-                    position: 'relative',
-                    overflow: 'hidden',
-                  }}
-                >
-                  {/* Tiny city thumbnail */}
-                  {cityImg && (
-                    <div style={{
-                      position: 'absolute', top: 0, right: 0, bottom: 0, width: 80,
-                      opacity: 0.15, overflow: 'hidden',
-                    }}>
-                      <img src={cityImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
-                    </div>
-                  )}
-                  <div style={{ position: 'relative', zIndex: 1 }}>
-                    <div className="cal-header">
-                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <span style={{ fontSize: 16 }}>{day.icon}</span>
-                        <div>
-                          <div className="cal-meta">DAY {day.dayN} · {day.date.toUpperCase()}</div>
-                          <div className="cal-city">
-                            {day.flag} {day.city}
-                          </div>
-                        </div>
-                      </div>
-                      {day.move && (
-                        <span className="travel-badge" style={{ color: s.text, background: "rgba(255,255,255,0.04)", border: `1px solid ${s.border}` }}>
-                          TRAVEL DAY
+                return (
+                  <div
+                    key={ci}
+                    onClick={() => isClickable && onClickDay(day)}
+                    style={{
+                      minHeight: 110,
+                      padding: "8px 10px",
+                      borderRight: ci < 6 ? "1px solid var(--border)" : "none",
+                      borderLeft: isActive ? `3px solid ${s.dot}` : "none",
+                      paddingLeft: isActive ? 7 : 10,
+                      background: !day
+                        ? "var(--bg-hover)"
+                        : isActive
+                        ? s.glow
+                        : "var(--bg-raised)",
+                      cursor: isClickable ? "pointer" : "default",
+                      position: "relative",
+                      overflow: "hidden",
+                      transition: "background 0.15s",
+                    }}
+                  >
+                    {/* Date number */}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: 6,
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: 13,
+                          fontWeight: 700,
+                          fontFamily: "var(--sans)",
+                          color: !day
+                            ? "var(--text-faint)"
+                            : isWeekend
+                            ? "var(--accent)"
+                            : "var(--text)",
+                        }}
+                      >
+                        {monthChange ? `${monthLabel} ${dateNum}` : dateNum}
+                      </span>
+                      {day && (
+                        <span
+                          style={{
+                            fontSize: 9,
+                            fontWeight: 700,
+                            color: "var(--text-faint)",
+                            fontFamily: "var(--sans)",
+                            letterSpacing: "0.05em",
+                          }}
+                        >
+                          DAY {day.dayN}
                         </span>
                       )}
                     </div>
-                    <p className="cal-summary">{day.summary}</p>
+
+                    {/* Event "card" */}
+                    {day && (
+                      <div
+                        style={{
+                          padding: "4px 6px",
+                          borderRadius: 6,
+                          borderLeft: `3px solid ${s.dot}`,
+                          background: s.glow,
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 700,
+                            color: "var(--text)",
+                            fontFamily: "var(--sans)",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 4,
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          <span>{day.flag}</span>
+                          <span
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {day.city}
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            fontSize: 10,
+                            color: s.text,
+                            fontFamily: "var(--sans)",
+                            marginTop: 3,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 4,
+                          }}
+                        >
+                          <span>{day.icon}</span>
+                          <span
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {day.summary}
+                          </span>
+                        </div>
+                        {day.move && (
+                          <div
+                            style={{
+                              marginTop: 4,
+                              fontSize: 9,
+                              fontWeight: 700,
+                              color: s.text,
+                              fontFamily: "var(--sans)",
+                              letterSpacing: "0.05em",
+                            }}
+                          >
+                            ✈ TRAVEL
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          ))}
+        </div>
+
+        {/* Compact stats at bottom */}
+        <div
+          style={{
+            display: "flex",
+            gap: 24,
+            marginTop: 18,
+            padding: "12px 18px",
+            borderRadius: 10,
+            background: "var(--bg-raised)",
+            border: "1px solid var(--border)",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          {[
+            { n: "22", label: "Days" },
+            { n: "6", label: "Countries" },
+            { n: "14", label: "Cities" },
+            { n: "16", label: "Trains" },
+            { n: "18", label: "Nights" },
+            { n: "5", label: "Travellers" },
+          ].map((s) => (
+            <div key={s.label} style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span style={{ fontSize: 18, fontWeight: 800, color: "var(--text)", fontFamily: "var(--sans)" }}>
+                {s.n}
+              </span>
+              <span style={{ fontSize: 11, color: "var(--text-dim)", fontFamily: "var(--sans)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                {s.label}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
+/* Per-type narrative — what's happening on board, what to watch for */
+const TYPE_NARRATIVE = {
+  flight: {
+    happening: "Long-haul flight. Aisle seat for stretching; window for sleep.",
+    obstacles: [
+      "Check baggage allowance — Turkish Airlines = 23kg checked + 8kg carry-on per person",
+      "Online check-in opens 24h before — do it from KTM Wi-Fi, not at the airport",
+      "Istanbul transit: no Schengen visa needed for short layover, but customs queue is long — keep boarding pass in hand",
+    ],
+  },
+  highspeed: {
+    happening: "Reserved seat is your ticket. Find your Wagen (carriage) + seat number on the platform display before boarding.",
+    obstacles: [
+      "Carriage number on ticket (e.g. Wagen 14, seat 52) — match the platform indicator board",
+      "Modern high-speed tickets do NOT need green-box validation — straight to your seat",
+      "Conductor walks through ~10 min after departure with a handheld scanner",
+      "Saver fares lock you to that exact train — miss it and the ticket dies",
+    ],
+  },
+  regional: {
+    happening: "Walk on, sit anywhere. Italian regionale REQUIRES paper-ticket validation before boarding.",
+    obstacles: [
+      "Italy regionale: stamp paper at the green box on platform BEFORE boarding (50–200 EUR fine if missed, even if paid)",
+      "App tickets (Trenitalia / DB Navigator) self-validate — no stamp needed",
+      "Regional fares are usually flat — no advantage to booking weeks early",
+      "Conductor speaks limited English — show ticket on phone, smile, nod",
+    ],
+  },
+  scenic: {
+    happening: "Panoramic windows, mountain passes, slower pace. Phone camera at the ready.",
+    obstacles: [
+      "Mandatory seat reservation on top of any rail pass (~CHF 49)",
+      "Window seats and dome cars sell first — book 60+ days ahead",
+      "Sit on the right side going Lucerne to Interlaken (Brünig pass) for the lake views",
+      "Pack snacks — café car is overpriced",
+    ],
+  },
+  nightjet: {
+    happening: "Sleep your way across borders. Couchette = 6-berth shared, sleeper = 2-berth private with sink.",
+    obstacles: [
+      "Boarding 30 min before — show ticket + passport at the door",
+      "Steward takes your ticket and gives you a wristband — needed for breakfast",
+      "Bring earplugs + an eye mask — couchette is loud and lit",
+      "Don't lock door from inside without the chain; the bolt auto-locks and you can't unlock without the steward",
+    ],
+  },
+  car: {
+    happening: "Private minivan with driver. Bags travel with you.",
+    obstacles: [
+      "Confirm driver pickup point + plate via WhatsApp the night before",
+      "Tolls + parking usually included; confirm before signing",
+      "Tip 10% if service is good — drivers don't expect it but appreciate it",
+      "Amalfi coastal road is winding — motion-sickness pills if prone",
+    ],
+  },
+  train: {
+    happening: "Standard intercity train. Reserved seat on most routes.",
+    obstacles: [
+      "Validate paper ticket if you bought it at the station kiosk",
+      "Show app QR or printed ticket to the conductor",
+      "Carriage number is on your ticket — match to the platform indicator",
+    ],
+  },
+};
+
+/* Extract train name from "via" — e.g., "Frecciarossa", "OBB Railjet" */
+function trainNameFromVia(via, type) {
+  if (!via) return TYPE_LABELS[type] || "Train";
+  const cleaned = via.replace(/\([^)]*\)/g, "").trim();
+  return cleaned.split(/\s+/).slice(0, 6).join(" ");
+}
+
 function JourneysPanel({ showNPR, npr }) {
-  // Calculate totals
+  const [openIdx, setOpenIdx] = useState(null);
+
   const totalDuration = JOURNEYS.reduce((acc, j) => {
     const match = j.dur?.match(/(\d+)\s*h(?:rs?)?/);
     const minMatch = j.dur?.match(/(\d+)\s*min/);
@@ -3197,129 +3429,184 @@ function JourneysPanel({ showNPR, npr }) {
   }, 0);
   const totalHours = Math.floor(totalDuration / 60);
   const totalMins = totalDuration % 60;
+  const longest = JOURNEYS.reduce((max, j) => {
+    const h = parseInt(j.dur?.match(/(\d+)\s*h/)?.[1] || 0);
+    return h > max.h ? { h, name: `${j.from} → ${j.to}` } : max;
+  }, { h: 0, name: "" }).name;
 
   return (
     <div className="top-panel">
       <div className="top-panel-inner">
-        <h2>All {JOURNEYS.length} Journeys</h2>
-        <p className="subtitle">In chronological order · book in advance for best prices</p>
+        <h2>{"\u{1F684}"} All {JOURNEYS.length} Journeys</h2>
+        <p className="subtitle">Tap any ride for the train name, what's happening on board, and what to watch for.</p>
 
-        {/* Journey Stats */}
-        <div style={{ display: 'flex', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
+        <div
+          style={{
+            display: "flex",
+            gap: 24,
+            margin: "16px 0 24px",
+            padding: "12px 18px",
+            borderRadius: 10,
+            background: "var(--bg-raised)",
+            border: "1px solid var(--border)",
+            flexWrap: "wrap",
+          }}
+        >
           {[
-            { label: 'Total Journeys', value: JOURNEYS.length, icon: '\u{1F684}' },
-            { label: 'Total Travel Time', value: `${totalHours}h ${totalMins}m`, icon: '\u23F1' },
-            { label: 'Countries', value: '6', icon: '\u{1F30D}' },
-            { label: 'Longest', value: JOURNEYS.reduce((max, j) => {
-              const h = parseInt(j.dur?.match(/(\d+)\s*h/)?.[1] || 0);
-              return h > max.h ? { h, name: `${j.from}\u2192${j.to}` } : max;
-            }, { h: 0, name: '' }).name, icon: '\u{1F4CF}' },
-          ].map((stat, i) => (
-            <div key={i} style={{
-              padding: '12px 18px', borderRadius: 10,
-              background: 'var(--bg-raised)', border: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 180px',
-            }}>
-              <span style={{ fontSize: 20 }}>{stat.icon}</span>
-              <div>
-                <div style={{ fontSize: 10, color: 'var(--text-dim)', fontFamily: 'var(--sans)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>{stat.label}</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)' }}>{stat.value}</div>
-              </div>
+            { label: "Journeys", value: JOURNEYS.length },
+            { label: "Travel time", value: `${totalHours}h ${totalMins}m` },
+            { label: "Countries", value: 6 },
+            { label: "Longest", value: longest },
+          ].map((s) => (
+            <div key={s.label} style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+              <span style={{ fontSize: 16, fontWeight: 800, color: "var(--text)", fontFamily: "var(--sans)" }}>
+                {s.value}
+              </span>
+              <span style={{ fontSize: 11, color: "var(--text-dim)", fontFamily: "var(--sans)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                {s.label}
+              </span>
             </div>
           ))}
         </div>
 
-        {/* Journey Cards */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {JOURNEYS.map((j, i) => {
             const typeColor = TYPE_COLORS[j.type] || "#666";
+            const isOpen = openIdx === i;
+            const trainName = trainNameFromVia(j.via, j.type);
+            const narrative = TYPE_NARRATIVE[j.type] || TYPE_NARRATIVE.train;
+
             return (
-              <div key={i} style={{
-                display: "grid", gridTemplateColumns: "40px 44px 1fr auto auto auto",
-                alignItems: "center", gap: 14,
-                padding: "14px 18px",
-                background: "var(--bg-raised)", border: "1px solid var(--border-light)",
-                borderLeft: `4px solid ${typeColor}`,
-                borderRadius: "var(--radius)",
-                transition: "all 0.15s",
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "var(--bg-hover)"; e.currentTarget.style.boxShadow = "var(--shadow)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = "var(--bg-raised)"; e.currentTarget.style.boxShadow = "none"; }}
+              <div
+                key={i}
+                style={{
+                  background: isOpen ? "var(--accent-bg)" : "var(--bg-raised)",
+                  border: "1px solid var(--border-light)",
+                  borderLeft: `4px solid ${typeColor}`,
+                  borderRadius: 12,
+                  overflow: "hidden",
+                  transition: "background 0.15s",
+                }}
               >
-                {/* Step number */}
-                <div style={{
-                  width: 32, height: 32, borderRadius: "50%",
-                  background: typeColor + "18", border: `2px solid ${typeColor}`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 13, fontWeight: 800, color: typeColor, flexShrink: 0,
-                }}>
-                  {i + 1}
-                </div>
-
-                {/* Icon + Type badge */}
-                <div style={{ textAlign: 'center' }}>
-                  <span style={{ fontSize: 22 }}>{TYPE_ICONS[j.type] || "\u{1F684}"}</span>
-                  <div style={{ fontSize: 9, fontWeight: 700, color: typeColor, fontFamily: 'var(--sans)', textTransform: 'uppercase', marginTop: 2 }}>
-                    {j.type}
+                <button
+                  onClick={() => setOpenIdx(isOpen ? null : i)}
+                  style={{
+                    width: "100%",
+                    padding: "14px 18px",
+                    background: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    display: "grid",
+                    gridTemplateColumns: "32px 1fr auto auto",
+                    alignItems: "center",
+                    gap: 14,
+                    fontFamily: "var(--sans)",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 28, height: 28, borderRadius: "50%",
+                      background: typeColor + "18",
+                      border: `2px solid ${typeColor}`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: 11, fontWeight: 800, color: typeColor,
+                    }}
+                  >
+                    {i + 1}
                   </div>
-                </div>
 
-                {/* Route + details */}
-                <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text)", fontFamily: "var(--sans)" }}>
-                    {j.from} \u2192 {j.to}
-                  </div>
-                  <div style={{ fontSize: 12, color: "var(--text-dim)", fontFamily: "var(--sans)", marginTop: 3, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                    <span>{j.via}</span>
-                    <span style={{ color: 'var(--border-light)' }}>|</span>
-                    <span style={{ fontWeight: 600 }}>{j.date}</span>
-                  </div>
-                </div>
-
-                {/* Duration */}
-                <div style={{ textAlign: "center", flexShrink: 0, minWidth: 70, padding: '6px 12px', borderRadius: 8, background: 'var(--bg-hover)' }}>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text)", fontFamily: "var(--sans)" }}>{j.dur}</div>
-                </div>
-
-                {/* Cost */}
-                <div style={{ textAlign: "right", flexShrink: 0, minWidth: 90 }}>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: "var(--accent)", fontFamily: "var(--sans)" }}>
-                    {j.cost}
-                  </div>
-                  {showNPR && j.type !== "flight" && (
-                    <div style={{ fontSize: 10, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>
-                      ~{npr(parseFloat(j.cost.replace(/[^0-9.]/g, "") || 0), j.cost.includes("CHF") ? "CHF" : "EUR")}
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 800, color: "var(--text)" }}>
+                      <span style={{ fontSize: 16 }}>{TYPE_ICONS[j.type] || "\u{1F684}"}</span>
+                      <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 320 }}>{trainName}</span>
+                      <span
+                        style={{
+                          fontSize: 9, fontWeight: 700,
+                          color: typeColor,
+                          textTransform: "uppercase", letterSpacing: "0.06em",
+                          padding: "2px 6px", borderRadius: 4,
+                          background: typeColor + "12",
+                          border: `1px solid ${typeColor}40`,
+                        }}
+                      >
+                        {j.type}
+                      </span>
                     </div>
-                  )}
-                </div>
+                    <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 4, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {j.from} <span style={{ color: typeColor, fontWeight: 800 }}>{"→"}</span> {j.to}
+                    </div>
+                    <div style={{ fontSize: 11, color: "var(--text-dim)", marginTop: 3 }}>
+                      {j.date} · {j.dur}
+                    </div>
+                  </div>
 
-                {/* Book button */}
-                {j.bookingUrl ? (
-                  <a href={j.bookingUrl} target="_blank" rel="noreferrer" style={{
-                    fontSize: 12, padding: "8px 14px", borderRadius: 8,
-                    background: "var(--accent)", color: "#fff", fontWeight: 700,
-                    fontFamily: "var(--sans)", textDecoration: "none", whiteSpace: "nowrap",
-                    flexShrink: 0, textAlign: 'center', transition: 'all 0.15s',
-                  }}>Book Now</a>
-                ) : (
-                  <div style={{ width: 70 }} />
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: "var(--accent)" }}>{j.cost}</div>
+                    {showNPR && j.type !== "flight" && (
+                      <div style={{ fontSize: 10, color: "var(--text-dim)" }}>
+                        ~{npr(parseFloat(j.cost.replace(/[^0-9.]/g, "") || 0), j.cost.includes("CHF") ? "CHF" : "EUR")}
+                      </div>
+                    )}
+                  </div>
+
+                  <span style={{ fontSize: 12, color: "var(--text-dim)", transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
+                    {"▾"}
+                  </span>
+                </button>
+
+                {isOpen && (
+                  <div
+                    style={{
+                      padding: "14px 18px 18px",
+                      borderTop: "1px solid var(--border-light)",
+                      fontFamily: "var(--sans)",
+                    }}
+                  >
+                    <div style={{ marginBottom: 14 }}>
+                      <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: typeColor, marginBottom: 6 }}>
+                        {"\u{1F3AC}"} What's happening
+                      </div>
+                      <div style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6 }}>
+                        {narrative.happening}
+                      </div>
+                    </div>
+
+                    <div style={{ marginBottom: 14 }}>
+                      <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#D97706", marginBottom: 6 }}>
+                        {"⚠️"} Watch out for
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                        {narrative.obstacles.map((o, k) => (
+                          <div key={k} style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.55, paddingLeft: 16, position: "relative" }}>
+                            <span style={{ position: "absolute", left: 0, color: "#D97706", fontWeight: 800 }}>{"›"}</span>
+                            {o}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {j.bookingUrl && (
+                      <a
+                        href={j.bookingUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                          display: "inline-flex", alignItems: "center", gap: 6,
+                          fontSize: 13, fontWeight: 700,
+                          padding: "8px 14px", borderRadius: 8,
+                          background: "var(--accent)", color: "#fff",
+                          textDecoration: "none", fontFamily: "var(--sans)",
+                        }}
+                      >
+                        {"\u{1F517}"} Book this ride {"→"}
+                      </a>
+                    )}
+                  </div>
                 )}
               </div>
             );
           })}
-        </div>
-
-        {/* Booking Tips */}
-        <div style={{ marginTop: 24, padding: '16px 20px', borderRadius: 12, background: 'var(--accent-bg)', border: '1px solid var(--accent-border)' }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8, fontFamily: 'var(--sans)' }}>
-            Booking Tips
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 8, fontSize: 13, fontFamily: 'var(--sans)', color: 'var(--text-muted)', lineHeight: 1.6 }}>
-            <div>Book Italian trains (Trenitalia/Italo) 60+ days ahead for cheapest fares</div>
-            <div>Austrian OBB Sparschiene from \u20AC9.90 \u2014 limited quantity, book early</div>
-            <div>Berlin\u2192Amsterdam Nightjet saves a hotel night \u2014 book at europeansleeper.eu</div>
-            <div>RegioJet Vienna\u2192Prague is cheap even last-minute and refundable</div>
-          </div>
         </div>
       </div>
     </div>
@@ -3350,6 +3637,662 @@ function BookingsPanel() {
             </a>
           ))}
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── Trip Timeline Sidebar ─────────────────────────── */
+/* Left aside — calendar days grouped by country, collapsible per group.
+   Active country auto-expanded; others can be toggled. */
+function TripTimelineSidebar({ active, onClickDay, npr }) {
+  // Build country groups in chronological order
+  const groups = [];
+  const seen = new Map(); // country → group index
+  CALENDAR.forEach((day) => {
+    const resolvedStop = day.stop === "imst" ? "innsbruck" : day.stop;
+    const stopData = STOPS.find((s) => s.id === resolvedStop);
+    const country = stopData?.country || "Transit";
+    const flag = stopData?.flag || day.flag || "🌐";
+    if (!seen.has(country)) {
+      seen.set(country, groups.length);
+      groups.push({ country, flag, days: [] });
+    }
+    groups[seen.get(country)].days.push(day);
+  });
+
+  // Determine which group contains the active stop
+  const activeGroupIdx = groups.findIndex((g) =>
+    g.days.some((d) => {
+      const r = d.stop === "imst" ? "innsbruck" : d.stop;
+      return r === active;
+    })
+  );
+
+  const [openIdx, setOpenIdx] = useState(activeGroupIdx);
+
+  // Auto-expand active group when stop changes
+  useEffect(() => {
+    if (activeGroupIdx >= 0) setOpenIdx(activeGroupIdx);
+  }, [activeGroupIdx]);
+
+  return (
+    <aside className="sidebar">
+      <div className="sidebar-section-label">Trip Timeline</div>
+      {groups.map((g, gi) => {
+        const isOpen = openIdx === gi;
+        const dayCount = g.days.length;
+        const firstDay = g.days[0];
+        const lastDay = g.days[dayCount - 1];
+        const isActiveGroup = gi === activeGroupIdx;
+        return (
+          <div key={g.country} className="timeline-group">
+            <button
+              className={`timeline-group-header${isActiveGroup ? " active" : ""}`}
+              onClick={() => setOpenIdx(isOpen ? -1 : gi)}
+            >
+              <span style={{ fontSize: 16 }}>{g.flag}</span>
+              <span className="timeline-group-name">{g.country}</span>
+              <span className="timeline-group-meta">
+                {dayCount}d · {firstDay.date.replace(/^\w+\s/, "")}–{lastDay.date.replace(/^\w+\s/, "")}
+              </span>
+              <span
+                className="timeline-group-caret"
+                style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+              >
+                ▾
+              </span>
+            </button>
+            {isOpen && (
+              <div className="timeline-group-days">
+                {g.days.map((day, i) => {
+                  const resolvedStop = day.stop === "imst" ? "innsbruck" : day.stop;
+                  const isActive = resolvedStop === active;
+                  const isClickable = resolvedStop && resolvedStop !== "ktm";
+                  const calStyle = CAL_TYPES[day.type] || CAL_TYPES.explore;
+                  return (
+                    <button
+                      key={i}
+                      className={`timeline-day${isActive ? " active" : ""}`}
+                      onClick={() => isClickable && onClickDay(day)}
+                      style={{
+                        opacity: isClickable ? 1 : 0.5,
+                        cursor: isClickable ? "pointer" : "default",
+                        borderLeftColor: calStyle.dot,
+                      }}
+                    >
+                      <div className="timeline-day-num">{day.dayN}</div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div className="timeline-day-date">{day.date}</div>
+                        <div className="timeline-day-city">
+                          <span style={{ fontSize: 11 }}>{day.icon}</span>
+                          {day.city}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })}
+      <div className="sidebar-rates">
+        <div className="sidebar-rates-title">NPR Rates</div>
+        {[
+          ["EUR", "EUR 1", 1, "EUR"],
+          ["CHF", "CHF 1", 1, "CHF"],
+          ["CZK", "CZK 100", 100, "CZK"],
+        ].map(([c, l, v, cur]) => (
+          <div key={c} className="sidebar-rate">
+            <span className="label">{l}</span>
+            <span className="value">{npr(v, cur)}</span>
+          </div>
+        ))}
+      </div>
+    </aside>
+  );
+}
+
+/* ─────────────────────────── Reusable: DrillDown ─────────────────────────── */
+/* One-line headline. Click row → expand for details. Used in left-panel
+   refactor and the new top-level info panels. */
+function DrillDown({ items = [], compact = false }) {
+  const [openIdx, setOpenIdx] = useState(null);
+  if (!items.length) return null;
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      {items.map((it, i) => {
+        const isOpen = openIdx === i;
+        return (
+          <div
+            key={i}
+            style={{
+              borderRadius: 10,
+              border: "1px solid var(--border-light)",
+              background: isOpen ? "var(--accent-bg)" : "var(--bg-raised)",
+              overflow: "hidden",
+              transition: "background 0.15s",
+            }}
+          >
+            <button
+              onClick={() => setOpenIdx(isOpen ? null : i)}
+              style={{
+                width: "100%",
+                padding: compact ? "10px 14px" : "12px 16px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: 12,
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                textAlign: "left",
+                fontFamily: "var(--sans)",
+                fontSize: compact ? 13 : 14,
+                fontWeight: 600,
+                color: "var(--text)",
+                lineHeight: 1.45,
+              }}
+            >
+              <span>{it.head}</span>
+              <span
+                style={{
+                  fontSize: 12,
+                  color: "var(--text-dim)",
+                  transition: "transform 0.2s",
+                  transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  flexShrink: 0,
+                }}
+              >
+                ▾
+              </span>
+            </button>
+            {isOpen && it.detail && (
+              <div
+                style={{
+                  padding: compact ? "0 14px 12px" : "0 16px 14px",
+                  fontSize: 13,
+                  fontFamily: "var(--sans)",
+                  color: "var(--text-muted)",
+                  lineHeight: 1.65,
+                }}
+              >
+                {it.detail}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* Section group wrapper used by info panels (Money, Transport, Scams, etc.) */
+function PanelGroup({ title, subtitle, children }) {
+  return (
+    <section style={{ marginBottom: 28 }}>
+      <h3
+        style={{
+          fontSize: 14,
+          fontWeight: 700,
+          color: "var(--text)",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+          fontFamily: "var(--sans)",
+          margin: "0 0 4px",
+        }}
+      >
+        {title}
+      </h3>
+      {subtitle && (
+        <div
+          style={{
+            fontSize: 12,
+            color: "var(--text-dim)",
+            fontFamily: "var(--sans)",
+            margin: "0 0 12px",
+          }}
+        >
+          {subtitle}
+        </div>
+      )}
+      {!subtitle && <div style={{ height: 12 }} />}
+      {children}
+    </section>
+  );
+}
+
+/* Common panel header used by all 5 new info panels */
+function PanelHeader({ icon, title, headline, body }) {
+  return (
+    <div style={{ marginBottom: 24 }}>
+      <h2 style={{ display: "flex", alignItems: "center", gap: 10, margin: 0 }}>
+        <span>{icon}</span>
+        <span>{title}</span>
+      </h2>
+      {headline && (
+        <p
+          className="subtitle"
+          style={{ margin: "6px 0 0", fontWeight: 600, color: "var(--text)" }}
+        >
+          {headline}
+        </p>
+      )}
+      {body && (
+        <p
+          className="subtitle"
+          style={{ margin: "8px 0 0", lineHeight: 1.6 }}
+        >
+          {body}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────────── Money panel ─────────────────────────── */
+function MoneyPanel() {
+  return (
+    <div className="top-panel">
+      <div className="top-panel-inner">
+        <PanelHeader
+          icon="💳"
+          title="Money & Payments"
+          headline={MONEY.intro.headline}
+          body={MONEY.intro.body}
+        />
+        {MONEY.groups.map((g) => (
+          <PanelGroup key={g.id} title={g.title}>
+            <DrillDown items={g.items} />
+          </PanelGroup>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── Transport-validation panel ─────────────────────────── */
+function TransportValidationPanel() {
+  return (
+    <div className="top-panel">
+      <div className="top-panel-inner">
+        <PanelHeader
+          icon="🚇"
+          title="Transport — When Do I Tap?"
+          headline={TRANSPORT_VALIDATION.intro.headline}
+          body={TRANSPORT_VALIDATION.intro.body}
+        />
+        {TRANSPORT_VALIDATION.groups.map((g) => (
+          <PanelGroup key={g.id} title={g.title} subtitle={g.cities}>
+            <DrillDown items={g.items} />
+          </PanelGroup>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── Booking-timeline panel ─────────────────────────── */
+function BookingTimelinePanel() {
+  const [sortByPriority, setSortByPriority] = useState(true);
+  const rows = sortByPriority
+    ? [...BOOKING_TIMELINE.rows].sort((a, b) => a.priority - b.priority)
+    : BOOKING_TIMELINE.rows;
+
+  const PRIORITY_COLORS = {
+    1: "#DC2626",
+    2: "#D97706",
+    3: "#CA8A04",
+    4: "#16A34A",
+  };
+
+  return (
+    <div className="top-panel">
+      <div className="top-panel-inner">
+        <PanelHeader
+          icon="📆"
+          title="Booking Timeline"
+          headline={BOOKING_TIMELINE.intro.headline}
+          body={BOOKING_TIMELINE.intro.body}
+        />
+
+        {/* Legend + sort */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 12,
+            marginBottom: 16,
+          }}
+        >
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            {Object.entries(BOOKING_TIMELINE.legend.priority).map(([k, v]) => (
+              <div
+                key={k}
+                style={{
+                  fontSize: 11,
+                  fontFamily: "var(--sans)",
+                  color: "var(--text-muted)",
+                }}
+              >
+                {v}
+              </div>
+            ))}
+          </div>
+          <button
+            className={`pill${sortByPriority ? " active" : ""}`}
+            onClick={() => setSortByPriority((p) => !p)}
+            style={{ fontSize: 11 }}
+          >
+            {sortByPriority ? "Sorted: priority" : "Sorted: original"}
+          </button>
+        </div>
+
+        {/* Table */}
+        <div
+          style={{
+            border: "1px solid var(--border)",
+            borderRadius: "var(--radius)",
+            overflow: "hidden",
+          }}
+        >
+          {/* Header row */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "48px 1.4fr 1fr 1fr 2fr",
+              gap: 0,
+              padding: "10px 14px",
+              background: "var(--bg-hover)",
+              fontSize: 10,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              color: "var(--text-dim)",
+              fontFamily: "var(--sans)",
+              borderBottom: "1px solid var(--border)",
+            }}
+          >
+            <div>P</div>
+            <div>What</div>
+            <div>How far ahead</div>
+            <div>Book by</div>
+            <div>Where + why</div>
+          </div>
+
+          {rows.map((r, i) => (
+            <details
+              key={i}
+              style={{
+                borderBottom: i < rows.length - 1 ? "1px solid var(--border-light)" : "none",
+              }}
+            >
+              <summary
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "48px 1.4fr 1fr 1fr 2fr",
+                  gap: 0,
+                  padding: "12px 14px",
+                  cursor: "pointer",
+                  alignItems: "start",
+                  fontFamily: "var(--sans)",
+                  fontSize: 13,
+                  color: "var(--text)",
+                  listStyle: "none",
+                }}
+              >
+                <div
+                  style={{
+                    width: 26,
+                    height: 26,
+                    borderRadius: "50%",
+                    background: (PRIORITY_COLORS[r.priority] || "#666") + "22",
+                    border: `2px solid ${PRIORITY_COLORS[r.priority] || "#666"}`,
+                    color: PRIORITY_COLORS[r.priority] || "#666",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 11,
+                    fontWeight: 800,
+                  }}
+                >
+                  {r.priority}
+                </div>
+                <div style={{ fontWeight: 600 }}>
+                  {r.what}
+                  <div
+                    style={{
+                      fontSize: 11,
+                      color: "var(--text-dim)",
+                      fontWeight: 400,
+                      marginTop: 2,
+                    }}
+                  >
+                    {r.mode}
+                  </div>
+                </div>
+                <div>{r.window}</div>
+                <div style={{ fontWeight: 600 }}>{r.bookBy}</div>
+                <div style={{ color: "var(--text-muted)" }}>
+                  <span style={{ fontWeight: 600, color: "var(--text)" }}>
+                    {r.where}
+                  </span>
+                  <div style={{ fontSize: 12, marginTop: 4, lineHeight: 1.5 }}>
+                    {r.why}
+                  </div>
+                </div>
+              </summary>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── Scams panel ─────────────────────────── */
+function ScamsPanel() {
+  return (
+    <div className="top-panel">
+      <div className="top-panel-inner">
+        <PanelHeader
+          icon="⚠️"
+          title="Risk Awareness"
+          headline={SCAMS.intro.headline}
+          body={SCAMS.intro.body}
+        />
+        {SCAMS.groups.map((g) => (
+          <PanelGroup key={g.id} title={g.title}>
+            <DrillDown items={g.items} />
+          </PanelGroup>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── Alt-Routes panel ─────────────────────────── */
+function AltRoutesPanel() {
+  const [activeRoute, setActiveRoute] = useState(ALT_ROUTES.routes[0].id);
+  const route = ALT_ROUTES.routes.find((r) => r.id === activeRoute) || ALT_ROUTES.routes[0];
+
+  return (
+    <div className="top-panel">
+      <div className="top-panel-inner">
+        <PanelHeader
+          icon="🛤"
+          title="Alternative Itineraries"
+          headline={ALT_ROUTES.intro.headline}
+          body={ALT_ROUTES.intro.body}
+        />
+
+        {/* Route switcher */}
+        <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+          {ALT_ROUTES.routes.map((r) => (
+            <button
+              key={r.id}
+              className={`pill${activeRoute === r.id ? " active" : ""}`}
+              onClick={() => setActiveRoute(r.id)}
+              style={{ fontSize: 13, padding: "8px 16px" }}
+            >
+              {r.tagline}
+            </button>
+          ))}
+        </div>
+
+        {/* Active route detail */}
+        <div
+          style={{
+            padding: "20px 22px",
+            border: "1px solid var(--border)",
+            borderRadius: "var(--radius)",
+            background: "var(--bg-raised)",
+            marginBottom: 20,
+          }}
+        >
+          <div style={{ fontSize: 13, color: "var(--text-dim)", fontFamily: "var(--sans)", marginBottom: 6 }}>
+            {route.duration} · {route.countries}
+          </div>
+          <div
+            style={{
+              fontSize: 15,
+              fontFamily: "var(--sans)",
+              color: "var(--text-muted)",
+              lineHeight: 1.65,
+              marginBottom: 16,
+            }}
+          >
+            {route.pitch}
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 18 }}>
+            <div
+              style={{
+                padding: "14px 16px",
+                borderRadius: 10,
+                background: "rgba(76,175,80,0.06)",
+                border: "1px solid rgba(76,175,80,0.2)",
+              }}
+            >
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#4CAF50", fontFamily: "var(--sans)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                Why consider
+              </div>
+              {route.whyConsider.map((w, i) => (
+                <div key={i} style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--sans)", lineHeight: 1.55, marginBottom: 6 }}>
+                  ✓ {w}
+                </div>
+              ))}
+            </div>
+            <div
+              style={{
+                padding: "14px 16px",
+                borderRadius: 10,
+                background: "rgba(229,57,53,0.06)",
+                border: "1px solid rgba(229,57,53,0.2)",
+              }}
+            >
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#E53935", fontFamily: "var(--sans)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                Tradeoffs
+              </div>
+              {route.tradeoffs.map((w, i) => (
+                <div key={i} style={{ fontSize: 13, color: "var(--text-muted)", fontFamily: "var(--sans)", lineHeight: 1.55, marginBottom: 6 }}>
+                  ✗ {w}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div
+            style={{
+              fontSize: 12,
+              fontFamily: "var(--sans)",
+              color: "var(--accent)",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              marginBottom: 10,
+            }}
+          >
+            Day-by-day
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {route.stops.map((s, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "70px 30px 1fr",
+                  gap: 12,
+                  padding: "10px 14px",
+                  border: "1px solid var(--border-light)",
+                  borderRadius: 10,
+                  background: "var(--bg)",
+                  alignItems: "start",
+                  fontFamily: "var(--sans)",
+                  fontSize: 13,
+                }}
+              >
+                <div style={{ fontWeight: 700, color: "var(--accent)" }}>Day {s.day}</div>
+                <div style={{ fontSize: 16 }}>{s.flag}</div>
+                <div>
+                  <div style={{ fontWeight: 600, color: "var(--text)" }}>{s.city}</div>
+                  <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2, lineHeight: 1.5 }}>
+                    {s.note}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div
+            style={{
+              marginTop: 14,
+              padding: "10px 14px",
+              borderRadius: 8,
+              background: "var(--accent-bg)",
+              fontSize: 13,
+              fontFamily: "var(--sans)",
+              fontWeight: 700,
+              color: "var(--accent)",
+            }}
+          >
+            Budget delta: {route.budgetDelta}
+          </div>
+        </div>
+
+        {/* Decision matrix */}
+        <PanelGroup title="Decide between routes — at a glance">
+          <div
+            style={{
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius)",
+              overflow: "hidden",
+            }}
+          >
+            {ALT_ROUTES.decisionMatrix.map((d, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1.2fr 1.2fr 2fr",
+                  gap: 12,
+                  padding: "10px 14px",
+                  borderBottom: i < ALT_ROUTES.decisionMatrix.length - 1 ? "1px solid var(--border-light)" : "none",
+                  fontFamily: "var(--sans)",
+                  fontSize: 13,
+                  background: i % 2 ? "var(--bg-raised)" : "var(--bg)",
+                }}
+              >
+                <div style={{ fontWeight: 600, color: "var(--text)" }}>{d.factor}</div>
+                <div style={{ fontWeight: 700, color: "var(--accent)" }}>{d.winner}</div>
+                <div style={{ color: "var(--text-muted)" }}>{d.note}</div>
+              </div>
+            ))}
+          </div>
+        </PanelGroup>
       </div>
     </div>
   );

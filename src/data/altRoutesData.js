@@ -1,0 +1,205 @@
+// Five alternative itineraries — ALL within Saugat's 6 booked countries.
+// Constraints (locked): Italy ticket booked, Berlin 5n non-negotiable, Switzerland day-only,
+// no Florence, no France, no Greece, 22 days max, 3 travellers.
+// Each route swaps the EMPHASIS within the same country list — different cities,
+// pacing, or moods — never different borders.
+
+export const ALT_ROUTES = {
+  intro: {
+    headline: "Five ways to spend the same 22 days, same 6 countries.",
+    body: "Italy is locked, Switzerland is one day, Innsbruck is the Austrian base, Berlin is 5 nights. Within those rails, you can dial pacing, depth, day-trips, scenery, or cost. Pick the mood you want.",
+  },
+
+  routes: [
+    /* ─────────────────────────── Route A — More Italy ─────────────────────────── */
+    {
+      id: "route-italy-deep",
+      tagline: "A — More Italy (add Venice + Bologna)",
+      pitch: "Borrow days from the late-trip cities and front-load the Italy stretch. Add Venice + Bologna to the existing Rome → Naples → Como spine. The food + canals + history week.",
+      duration: "22 days",
+      countries: "🇮🇹 Italy → 🇨🇭 Switzerland (day) → 🇦🇹 Austria → 🇨🇿 Czech → 🇩🇪 Germany → 🇳🇱 Netherlands",
+      whyConsider: [
+        "Venice in June is busy but the gondola/canals magic is at peak — June light + 28°C lagoon evenings.",
+        "Bologna is the food capital of Italy (tortellini, mortadella, ragù) and tourist-light compared to Rome/Venice.",
+        "Both are direct on the Frecciarossa line — no detours, train cuts through anyway en route to Como.",
+        "Three Italian cities + Naples + Amalfi = the deepest Italy trip a Nepali first-timer realistically gets.",
+      ],
+      tradeoffs: [
+        "Gain 2 days in Italy → cut 1 night in Salzburg + 1 night in Prague (both are full-stop reductions, not just shorter).",
+        "Two more train tickets (Rome→Bologna, Bologna→Venice, Venice→Como) = +€60 pp in rail.",
+        "Venice in summer is crowded — get up at 06:30 to see St. Mark's empty, then escape to Burano/Murano by 11.",
+      ],
+      stops: [
+        { day: "1–4", city: "Rome", flag: "🇮🇹", note: "Same as current — Vatican, Colosseum, Trastevere" },
+        { day: "5", city: "Naples + Amalfi", flag: "🇮🇹", note: "Day trip — same as current" },
+        { day: "6", city: "Rome → Bologna", flag: "🇮🇹", note: "Frecciarossa 2hr €30. Lunch in the Quadrilatero, fresh tortellini" },
+        { day: "7", city: "Bologna → Venice", flag: "🇮🇹", note: "Frecciarossa 1.5hr. Sunset at Accademia bridge" },
+        { day: "8", city: "Venice", flag: "🇮🇹", note: "Burano + Murano early, San Marco at 7am, gondola at golden hour" },
+        { day: "9", city: "Venice → Como", flag: "🇮🇹", note: "Frecciarossa via Milan 4hr €40. Como evening lakefront" },
+        { day: "10", city: "Switzerland day-trip → Innsbruck", flag: "🇮🇹🇨🇭🇦🇹", note: "Same plan as current Sat 20 Jun day" },
+        { day: "11", city: "Innsbruck", flag: "🇦🇹", note: "Nordkette + old town" },
+        { day: "12", city: "Innsbruck → Salzburg", flag: "🇦🇹", note: "Imst Coaster morning + Railjet afternoon (1 night Salzburg only)" },
+        { day: "13", city: "Salzburg → Vienna", flag: "🇦🇹", note: "Hallstatt morning + evening Railjet to Vienna (skip a Salzburg night)" },
+        { day: "14–15", city: "Vienna", flag: "🇦🇹", note: "Schönbrunn, Belvedere — same" },
+        { day: "16", city: "Vienna → Berlin direct (skip Prague)", flag: "🇩🇪", note: "ÖBB Nightjet 22:00 saves a hotel night, arrives Berlin 09:00" },
+        { day: "17–21", city: "Berlin", flag: "🇩🇪", note: "5 nights — non-negotiable" },
+        { day: "22", city: "Amsterdam", flag: "🇳🇱", note: "Nightjet from Berlin, 1 day Amsterdam, fly out" },
+      ],
+      budgetDelta: "+€100 to +€200 per person (extra trains in Italy)",
+    },
+
+    /* ─────────────────────────── Route B — Slow pace ─────────────────────────── */
+    {
+      id: "route-slow",
+      tagline: "B — Slow pace (4 cities, deeper stays)",
+      pitch: "Drop Como + Innsbruck + Prague as overnight stops. Keep ONLY: Rome (5n), Salzburg (4n), Vienna (4n), Berlin (5n), Amsterdam (3n). Fewer trains, more local life.",
+      duration: "22 days",
+      countries: "🇮🇹 Italy → 🇨🇭 Switzerland (day) → 🇦🇹 Austria → 🇩🇪 Germany → 🇳🇱 Netherlands",
+      whyConsider: [
+        "Most regret on European trips: 'we moved too fast.' Slow pace = actual local feel, not airport-cafe cycle.",
+        "Saves ~6 hours of train time + ~4 station-pack/unpack rituals. Real days back into the trip.",
+        "5 nights in Rome means evenings + mornings, not just rushed daytime monuments.",
+        "Same total cost — fewer trains roughly cancels out fewer accommodation savings.",
+      ],
+      tradeoffs: [
+        "No Como (lake), no Innsbruck (Alps base), no Prague (Charles Bridge dawn). Real losses.",
+        "Switzerland day-trip becomes Salzburg-based (longer travel) OR Italy-based — either is rougher than Como-based.",
+        "Vienna is the new Innsbruck base for Salzburg day-trips — works but loses the Alps view from your room.",
+      ],
+      stops: [
+        { day: "1–5", city: "Rome (5 nights)", flag: "🇮🇹", note: "Day trips: Naples + Amalfi (day 2), Pompeii (day 3), Tivoli (day 4)" },
+        { day: "6", city: "Rome → Switzerland day → Salzburg", flag: "🇨🇭🇦🇹", note: "Long day: train to Milan + Lucerne+Lauterbrunnen day-trip + ÖBB to Salzburg overnight" },
+        { day: "7–10", city: "Salzburg (4 nights)", flag: "🇦🇹", note: "Day trips: Hallstatt (day 8), Berchtesgaden + Eagle's Nest (day 9), Innsbruck (day 10)" },
+        { day: "11–14", city: "Vienna (4 nights)", flag: "🇦🇹", note: "Day trips: Bratislava (day 13, still in Schengen), Wachau Valley wine (day 14)" },
+        { day: "15–19", city: "Berlin (5 nights)", flag: "🇩🇪", note: "Day trips: Potsdam, Dresden 2hr ICE" },
+        { day: "20–22", city: "Amsterdam (3 nights)", flag: "🇳🇱", note: "Day trip: Haarlem or Zaanse Schans" },
+      ],
+      budgetDelta: "−€100 to −€250 per person (fewer trains)",
+    },
+
+    /* ─────────────────────────── Route C — Day-trip maximalist ─────────────────────────── */
+    {
+      id: "route-daytrips",
+      tagline: "C — Day-trip maximalist",
+      pitch: "Same overnight cities as the current plan, but every full day is a day-trip OUT. See 18 places without unpacking 18 times.",
+      duration: "22 days",
+      countries: "🇮🇹 Italy → 🇨🇭 Switzerland (day) → 🇦🇹 Austria → 🇨🇿 Czech → 🇩🇪 Germany → 🇳🇱 Netherlands",
+      whyConsider: [
+        "From Rome alone you reach: Naples, Pompeii, Ostia, Tivoli, Orvieto, Sperlonga — without changing hotels.",
+        "Vienna gives you Bratislava (Slovakia, still Schengen), Wachau Valley, Melk Abbey.",
+        "Berlin reaches Potsdam, Dresden (2hr ICE), and Wittenberg — Reformation history day.",
+        "Pack/unpack rituals stay at 7 (the existing overnight cities), exploration count goes to 18+.",
+      ],
+      tradeoffs: [
+        "Every day is an early-morning train start — not relaxed.",
+        "Day trips eat 4hrs/day in transit. The 'destination' day shrinks to 6 hours.",
+        "Re-entering same city at night feels less 'travel' and more 'commute.'",
+      ],
+      stops: [
+        { day: "1", city: "Rome arrive", flag: "🇮🇹", note: "Day-trip: Naples + Amalfi (current plan)" },
+        { day: "2–4", city: "Rome", flag: "🇮🇹", note: "Day-trips: Pompeii (day 2), Tivoli + Hadrian's Villa (day 3), Ostia Antica beach (day 4)" },
+        { day: "5", city: "Como (1n)", flag: "🇮🇹", note: "Day-trip: Bellagio + Varenna ferries" },
+        { day: "6", city: "Switzerland day-trip → Innsbruck", flag: "🇨🇭🇦🇹", note: "Same as current" },
+        { day: "7–8", city: "Innsbruck (2n)", flag: "🇦🇹", note: "Day-trips: Imst Coaster (day 7), Stams Abbey + Kufstein castle (day 8)" },
+        { day: "9–10", city: "Salzburg (2n)", flag: "🇦🇹", note: "Day-trips: Hallstatt (day 9), Berchtesgaden + Eagle's Nest (day 10)" },
+        { day: "11–13", city: "Vienna (3n)", flag: "🇦🇹", note: "Day-trips: Bratislava (Schengen, day 12), Wachau Valley wine villages (day 13)" },
+        { day: "14", city: "Vienna → Prague", flag: "🇨🇿", note: "Train transfer + evening" },
+        { day: "15", city: "Prague", flag: "🇨🇿", note: "Day-trip: Kutná Hora (Sedlec bone chapel, 1hr by train)" },
+        { day: "16", city: "Prague → Berlin", flag: "🇩🇪", note: "Train transfer" },
+        { day: "17–20", city: "Berlin (4n)", flag: "🇩🇪", note: "Day-trips: Potsdam (day 17), Dresden (day 18), Wittenberg Reformation (day 19)" },
+        { day: "21–22", city: "Amsterdam", flag: "🇳🇱", note: "Day-trip: Haarlem (day 22)" },
+      ],
+      budgetDelta: "+€150 to +€300 per person (lots of regional day trips)",
+    },
+
+    /* ─────────────────────────── Route D — Scenic-trains route ─────────────────────────── */
+    {
+      id: "route-scenic",
+      tagline: "D — Scenic train romantics",
+      pitch: "Same 6 countries, but elevate the JOURNEYS. Add Bernina Express in Switzerland, Romantic Road bus in Bavaria, Wachau Valley wine train in Austria. The route IS the destination.",
+      duration: "22 days",
+      countries: "🇮🇹 Italy → 🇨🇭 Switzerland (full scenic day) → 🇦🇹 Austria → 🇨🇿 Czech → 🇩🇪 Germany → 🇳🇱 Netherlands",
+      whyConsider: [
+        "Bernina Express (Tirano → St. Moritz → Chur) crosses 196 bridges and 55 tunnels — UNESCO listed. Replaces the rushed Brünig day trip.",
+        "Romantic Road from Munich → Würzburg passes Rothenburg ob der Tauber (medieval fairytale walls). Add 1 night.",
+        "ÖBB Wachau line Krems → Spitz hugs the Danube wine valley — 90 min, €15.",
+        "Czech Os train Prague → Plzeň at sunset = beer pilgrimage (Pilsner Urquell brewery tour).",
+        "Photos > selfies. The TRAIN is the experience.",
+      ],
+      tradeoffs: [
+        "Bernina Express needs CHF 32 reservation on top of your pass — book 60+ days ahead, summer fills.",
+        "Romantic Road bus from Munich is a long day (8hrs) — not for the train-fatigued.",
+        "Adds ~€80 pp in scenic-train surcharges.",
+        "Schedule rigidity: scenic trains run only 1×/day — miss it, lose a day.",
+      ],
+      stops: [
+        { day: "1–4", city: "Rome", flag: "🇮🇹", note: "Same — Vatican, Colosseum" },
+        { day: "5", city: "Naples + Amalfi", flag: "🇮🇹", note: "Day trip — same" },
+        { day: "6", city: "Rome → Como", flag: "🇮🇹", note: "Frecciarossa via Milan" },
+        { day: "7", city: "Como → Tirano → BERNINA EXPRESS → Chur → Innsbruck", flag: "🇮🇹🇨🇭🇦🇹", note: "⭐ Bernina Express 4hr (CHF 32 reservation), then ÖBB Chur→Innsbruck 4hr — long but iconic" },
+        { day: "8–9", city: "Innsbruck (2n)", flag: "🇦🇹", note: "Imst Coaster + Nordkette + Stams Abbey" },
+        { day: "10–11", city: "Salzburg (2n)", flag: "🇦🇹", note: "Hallstatt day-trip" },
+        { day: "12", city: "Salzburg → Wachau Valley → Vienna", flag: "🇦🇹", note: "ÖBB Krems + Wachau wine train, evening Vienna" },
+        { day: "13–14", city: "Vienna (2n)", flag: "🇦🇹", note: "Schönbrunn + Belvedere" },
+        { day: "15", city: "Vienna → Prague", flag: "🇨🇿", note: "Daytrain via Brno (RegioJet)" },
+        { day: "16", city: "Prague + Plzeň brewery", flag: "🇨🇿", note: "Os train sunset to Plzeň, Pilsner Urquell tour, return last train" },
+        { day: "17", city: "Prague → Munich (Romantic Road)", flag: "🇩🇪", note: "Munich evening, Bavarian beer" },
+        { day: "18", city: "Munich → Rothenburg → Würzburg → Berlin", flag: "🇩🇪", note: "Romantic Road bus + ICE final leg" },
+        { day: "19–22", city: "Berlin (4n)", flag: "🇩🇪", note: "4 nights only — gave 1 to Romantic Road" },
+        { day: "22", city: "Berlin → Amsterdam (Nightjet)", flag: "🇳🇱", note: "Same nightjet, 1 day Amsterdam" },
+      ],
+      budgetDelta: "+€150 to +€250 per person (scenic surcharges)",
+    },
+
+    /* ─────────────────────────── Route E — Budget-tight ─────────────────────────── */
+    {
+      id: "route-budget",
+      tagline: "E — Budget-tight (max savings)",
+      pitch: "Same 6 countries, but cut costs everywhere: skip Como, use night trains, hostel where possible, Lidl meals 4 nights/week, no museums above €15. Save €400+ per traveller.",
+      duration: "22 days",
+      countries: "🇮🇹 Italy → 🇨🇭 Switzerland (day) → 🇦🇹 Austria → 🇨🇿 Czech → 🇩🇪 Germany → 🇳🇱 Netherlands",
+      whyConsider: [
+        "Three travellers split a 2-bedroom Airbnb easier than 5 splitting a 3-bedroom. Per-person rate drops.",
+        "Skipping Como saves 1 night + a regional fare. Direct Rome → Milan → Switzerland → Innsbruck.",
+        "Night train Rome → Vienna saves a hotel night and a daytime train (€100+ swing).",
+        "Czech Republic is cheapest of the 6 countries — extend Prague to 3 nights for the food/beer/budget high.",
+        "Lidl + Rewe + Albert dinners (group cooking) save ~€20/person/day vs restaurants.",
+      ],
+      tradeoffs: [
+        "Skipping Como removes the Alps preview before Switzerland day.",
+        "Night trains = restless sleep, hauling bags through stations at 22:30.",
+        "Prague is great for 3 nights but past that the city gets repetitive without day-trips (factor in Kutná Hora).",
+        "Self-cook nights aren't romantic — but they free €40 for the splurge dinner mid-trip.",
+      ],
+      stops: [
+        { day: "1–4", city: "Rome (Airbnb)", flag: "🇮🇹", note: "Trastevere 2-bedroom Airbnb. Cook 2 nights. Free Vatican Sundays last week of month." },
+        { day: "5", city: "Naples + Amalfi", flag: "🇮🇹", note: "Skip private minivan (€30pp) → take Circumvesuviana train + SITA bus (€10pp)" },
+        { day: "6", city: "Rome → Milan + NIGHT TRAIN to Vienna", flag: "🌙", note: "Skip Como overnight. Frecciarossa to Milan 3hr, then NIGHTJET Milan→Vienna couchette €50pp = saves a hotel" },
+        { day: "7", city: "Vienna arrive", flag: "🇦🇹", note: "Free walking tour, Naschmarkt picnic" },
+        { day: "8", city: "Vienna → Switzerland day → Innsbruck", flag: "🇨🇭🇦🇹", note: "Use Swiss Travel Pass 1-day CHF 75pp (cheaper than per-leg). Long day but possible." },
+        { day: "9", city: "Innsbruck", flag: "🇦🇹", note: "Free Nordkette panorama from city centre, skip cable car" },
+        { day: "10", city: "Innsbruck → Salzburg", flag: "🇦🇹", note: "Imst Coaster optional (€12 if budget allows)" },
+        { day: "11", city: "Salzburg + Hallstatt day-trip", flag: "🇦🇹", note: "ÖBB regional, bring Lidl picnic" },
+        { day: "12", city: "Salzburg → Prague (FlixBus 7hr €25)", flag: "🇨🇿", note: "Bus instead of train saves ~€20pp" },
+        { day: "13–15", city: "Prague (3 nights)", flag: "🇨🇿", note: "Hostel-friendly. CZK 200 dinners. Free Charles Bridge sunrise. Day-trip Kutná Hora" },
+        { day: "16", city: "Prague → Berlin (RegioJet)", flag: "🇩🇪", note: "Direct €15 booked early" },
+        { day: "17–21", city: "Berlin (Friedrichshain Airbnb 5n)", flag: "🇩🇪", note: "5 nights — non-negotiable. Cook 3 nights. Free Bundestag dome." },
+        { day: "22", city: "Berlin → Amsterdam Nightjet → fly", flag: "🇳🇱", note: "Nightjet saves 1 hotel + skips the day train fare" },
+      ],
+      budgetDelta: "−€350 to −€500 per person",
+    },
+  ],
+
+  decisionMatrix: [
+    { factor: "Most-Italy lover", winner: "A (More Italy)", note: "Adds Venice + Bologna without losing Switzerland day" },
+    { factor: "Less rushed feel", winner: "B (Slow pace)", note: "Only 4 overnight cities — actual local rhythm" },
+    { factor: "Most things seen", winner: "C (Day-trips)", note: "Same hotels, +9 day-trip cities (Pompeii, Bratislava, Dresden, etc.)" },
+    { factor: "Train + scenery romantic", winner: "D (Scenic)", note: "Bernina + Romantic Road + Wachau wine line" },
+    { factor: "Cheapest", winner: "E (Budget-tight)", note: "Skips Como, night-train sleeps, group cooking — −€350+/person" },
+    { factor: "Best food deep-dive", winner: "A (More Italy)", note: "Adding Bologna = Italy's food capital" },
+    { factor: "Best for first-timer", winner: "Current plan", note: "The actual booked plan is balanced — alternatives are tweaks, not replacements" },
+    { factor: "Easiest pack/unpack", winner: "B (Slow) / C (Day-trips)", note: "Both reduce hotel switches" },
+    { factor: "Closest to current plan", winner: "C (Day-trips)", note: "Same overnights, just more day-trips out" },
+    { factor: "Hardest swap", winner: "B (Slow)", note: "Loses Como + Innsbruck + Prague — emotional cost" },
+  ],
+};

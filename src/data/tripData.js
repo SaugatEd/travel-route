@@ -2,26 +2,26 @@ export const STOPS = [
   /* 1 ─ FCO ARRIVAL */
   {
     id:"fco", flag:"✈️", city:"Rome Arrival + Naples", country:"Italy",
-    duration:"Evening · Tue 16 Jun · 14:10–22:00",
+    duration:"Evening · Tue 16 Jun · 14:00–22:00",
     tagline:"Land in Rome, first pizza in Naples by nightfall",
     color:"#0277BD", bg:"#E1F5FE", currency:"EUR", budget:"€30pp (train + pizza + metro)",
     budgetBreakdown: { accommodation: 0, food: 15, transport: 25, activities: 0, misc: 5, currency: "EUR", days: 0.3, note: "Leonardo Express €14pp, Frecciarossa to Naples €15-25pp, pizza €8-12" },
-    story:"You rested 12+ hours in Delhi. The 11-hour flight via Istanbul was long but you are fresh. At 14:10 you land at Fiumicino — Leonardo da Vinci Airport. Italy is in front of you. Instead of staying in Rome tonight, you are doing something bold: taking the high-speed train straight to Naples. By 20:00 you will be eating the best pizza on earth in the city that invented it. Naples is raw, loud, beautiful, and nothing like the polished tourist Italy. Tonight you eat like Neapolitans.",
+    story:"You rested 12+ hours in Delhi. The 11-hour flight via Istanbul was long but you are fresh. At 14:00 you land at Fiumicino — Leonardo da Vinci Airport. Italy is in front of you. Instead of staying in Rome tonight, you are doing something bold: taking the high-speed train straight to Naples. By 20:00 you will be eating the best pizza on earth in the city that invented it. Naples is raw, loud, beautiful, and nothing like the polished tourist Italy. Tonight you eat like Neapolitans.",
     history:"Fiumicino was the ancient port of Rome, called Portus, built by Emperor Claudius in 42 AD to handle grain shipments from Egypt that fed the Roman Empire. The airport is officially named Aeroporto Leonardo da Vinci.",
     itinerary:[
-      {time:"14:10",icon:"✈️",title:"Land at FCO — Immigration",desc:"Allow 45–60 min for non-EU immigration and baggage claim. Follow green 'Arrivals' signs. Your bags come from the carousel indicated on the arrivals board. Flight TK1865 from Istanbul.",tip:"FCO is large but very clear signage. Stay together as a group — immigration can separate you. You flew DEL 06:30 → IST 10:50 (TK717) → IST 12:30 → FCO 14:10 (TK1865)."},
+      {time:"14:00",icon:"✈️",title:"Land at FCO — Immigration",desc:"Allow 45–60 min for non-EU immigration and baggage claim. Follow green 'Arrivals' signs. Your bags come from the carousel indicated on the arrivals board. Flight TK1865 from Istanbul, scheduled arrival 14:00 CEST.",tip:"FCO is large but very clear signage. Stay together as a group — immigration can separate you. You flew DEL 06:00 → IST 10:20 (TK717) → IST 12:30 → FCO 14:00 (TK1865)."},
       {time:"15:15",icon:"🚄",title:"Leonardo Express → Roma Termini",desc:"32 minutes, non-stop. Runs every 30 minutes. Follow signs to 'Treni / Trains', go to Level 0. Buy tickets at yellow machines (€14pp, card accepted). Arrive Roma Termini ~15:47.",tip:"No seat reservation needed — just board any Leonardo Express. Validate ticket before boarding."},
-      {time:"16:00",icon:"🧳",title:"Store bags at Roma Termini",desc:"Kipoint luggage storage near Track 24. €6/bag = €30 total for 5 bags. You are NOT checking into Rome accommodation yet — that is tomorrow evening. Store everything and travel light to Naples.",tip:"Book at kipoint.it in advance if possible. Open 06:00–23:00. Keep the receipt — you collect bags tomorrow evening."},
+      {time:"16:00",icon:"🧳",title:"Store bags at Roma Termini",desc:"Kipoint luggage storage near Track 24. €6/bag = €18 total for 3 bags. You are NOT checking into Rome accommodation yet — that is tomorrow evening. Store everything and travel light to Naples.",tip:"Book at kipoint.it in advance if possible. Open 06:00–23:00. Keep the receipt — you collect bags tomorrow evening."},
       {time:"16:30",icon:"🚄",title:"Frecciarossa → Napoli Centrale",desc:"High-speed train, 1hr 10min. Trains run every 30 min. €15-25pp if booked ahead on trenitalia.com. Arrive Napoli Centrale ~17:40. The train passes through the Campania countryside — look left for Mount Vesuvius as you approach Naples.",tip:"Book on trenitalia.com or italotreno.it for the best prices. Frecciarossa is the red high-speed train. Seat reservation included in the ticket."},
-      {time:"18:00",icon:"🏠",title:"Check into Naples accommodation",desc:"Your Naples stay is near Napoli Centrale or in the Spaccanapoli area (historic center). Drop your daypacks. The city is alive — Vespas, shouting, laundry lines overhead, street vendors. This is not polished tourist Italy. This is real.",tip:"Search Airbnb/Booking: 'Naples Centro Storico' or near Napoli Centrale. One night only. Budget: €50-80 for 5 people."},
+      {time:"18:00",icon:"🏠",title:"Check into Naples accommodation",desc:"Your Naples stay is near Napoli Centrale or in the Spaccanapoli area (historic center). Drop your daypacks. The city is alive — Vespas, shouting, laundry lines overhead, street vendors. This is not polished tourist Italy. This is real.",tip:"Search Airbnb/Booking: 'Naples Centro Storico' or near Napoli Centrale. One night only. Budget: €50-80 for 3 people."},
       {time:"19:30",icon:"🍕",title:"First pizza in the city that invented pizza",desc:"Naples invented pizza. This is not opinion — pizza was created here in the 18th century. The original Margherita was made in 1889 for Queen Margherita of Italy at Pizzeria Brandi. Go to L'Antica Pizzeria da Michele (the one from Eat Pray Love) or Sorbillo or Di Matteo. Order a Margherita (€4-5) and a Marinara (€3-4). The dough is different from anywhere else on earth — soft, charred, blistered, foldable.",tip:"L'Antica Pizzeria da Michele has a queue but moves fast. Sorbillo on Via dei Tribunali is equally legendary. Di Matteo does fried pizza (pizza fritta) — a Naples-only street food for €2-3."},
       {time:"21:00",icon:"🌙",title:"Spaccanapoli evening walk",desc:"Walk Via dei Tribunali and Spaccanapoli — the straight Roman road that splits the old city in half. Street shrines with candles, Vespas squeezing through narrow alleys, locals shouting between balconies. Stop for a sfogliatella (crispy shell pastry filled with ricotta, €2) at any bakery. Naples at night is unforgettable.",tip:"Stay on the main streets after dark. Naples is safe in the centro storico but can feel intense. Keep phones in front pockets. Enjoy the chaos — it's authentic."},
     ],
     must:["Store bags at Kipoint Roma Termini (Track 24, €6/bag) — collect tomorrow evening","Book Frecciarossa Rome→Naples in advance on trenitalia.com (€15-25pp)","Eat pizza at Da Michele, Sorbillo, or Di Matteo — this is where pizza was born","Try sfogliatella — Naples' signature pastry, crispy ricotta-filled, €2"],
-    stay:{area:"Naples Centro Storico or near Napoli Centrale",why:"One night only — you need somewhere close to the station for the early start tomorrow. The historic center (Spaccanapoli) is atmospheric and walkable.",budget:"€50–80/night for 5 people",search:"Search Airbnb: 'Naples Centro Storico 5 guests' or Booking.com near Napoli Centrale. One night: 16-17 Jun.",picks:["Near Napoli Centrale — most practical for morning departure","Spaccanapoli area — most atmospheric, 10 min walk to station","Via dei Tribunali — heart of pizza alley, loud and alive"],bookingLinks:[
-      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Naples+Centro+Storico&checkin=2026-06-16&checkout=2026-06-17&group_adults=5&nflt=price%3DEUR-30-100-1",price:"€40–90/night",icon:"🔵"},
-      {name:"Airbnb",url:"https://www.airbnb.com/s/Naples--Italy/homes?checkin=2026-06-16&checkout=2026-06-17&adults=5&price_max=100",price:"€50–80/night",icon:"🔴"},
-      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Naples&dateFrom=2026-06-16&dateTo=2026-06-17&guests=5",price:"€15–25pp",icon:"🟢"},
+    stay:{area:"Naples Centro Storico or near Napoli Centrale",why:"One night only — you need somewhere close to the station for the early start tomorrow. The historic center (Spaccanapoli) is atmospheric and walkable.",budget:"€50–80/night for 3 people",search:"Search Airbnb: 'Naples Centro Storico 3 guests' or Booking.com near Napoli Centrale. One night: 16-17 Jun.",picks:["Near Napoli Centrale — most practical for morning departure","Spaccanapoli area — most atmospheric, 10 min walk to station","Via dei Tribunali — heart of pizza alley, loud and alive"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Naples+Centro+Storico&checkin=2026-06-16&checkout=2026-06-17&group_adults=3&nflt=price%3DEUR-30-100-1",price:"€40–90/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/Naples--Italy/homes?checkin=2026-06-16&checkout=2026-06-17&adults=3&price_max=100",price:"€50–80/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Naples&dateFrom=2026-06-16&dateTo=2026-06-17&guests=3",price:"€15–25pp",icon:"🟢"},
     ]},
     eat:[
       {name:"L'Antica Pizzeria da Michele",type:"Legendary pizzeria",dish:"Margherita €4-5, Marinara €3-4",note:"The most famous pizzeria in the world. Only two pizzas on the menu. Queue moves fast. Cash preferred."},
@@ -30,9 +30,9 @@ export const STOPS = [
       {name:"Any bakery on Spaccanapoli",type:"Pasticceria",dish:"Sfogliatella €2",note:"Crispy shell pastry filled with sweet ricotta. The signature pastry of Naples. Eat warm."},
     ],
     accommodation:{
-      airbnb:{ price:"€50–80/night", pros:"Kitchen, space for 5, authentic neighbourhood feel", cons:"One night only — may not find last-minute availability" },
+      airbnb:{ price:"€50–80/night", pros:"Kitchen, space for 3, authentic neighbourhood feel", cons:"One night only — may not find last-minute availability" },
       hostel:{ price:"€15–25pp/night", pros:"Cheapest, social, central locations", cons:"No privacy, dorms only" },
-      hotel:{ price:"€60–120/night", pros:"Reception, easy check-in/out, near station", cons:"Small rooms for 5, more expensive" },
+      hotel:{ price:"€60–120/night", pros:"Reception, easy check-in/out, near station", cons:"Small rooms for 3, more expensive" },
       recommendation:"Airbnb near Napoli Centrale or Spaccanapoli — one night, prioritize location over luxury.",
     },
     connections:{
@@ -43,7 +43,7 @@ export const STOPS = [
       ],
       tip:"At Roma Termini: store bags at Kipoint (Track 24, €6/bag) before boarding the Naples train. You collect them tomorrow evening when you return from the Amalfi Coast.",
     },
-    bagStorage:{location:"Roma Termini, Kipoint — near Track 24",cost:"€6/bag (€30 total for 5 bags)",hours:"06:00–23:00",payment:"Card accepted",tip:"Book at kipoint.it. Keep receipt — you collect bags tomorrow evening (Jun 17) when you return from Amalfi Coast via Naples."},
+    bagStorage:{location:"Roma Termini, Kipoint — near Track 24",cost:"€6/bag (€18 total for 3 bags)",hours:"06:00–23:00",payment:"Card accepted",tip:"Book at kipoint.it. Keep receipt — you collect bags tomorrow evening (Jun 17) when you return from Amalfi Coast via Naples."},
     stationGuide:{
       stationName:"FCO Fiumicino Airport → Roma Termini → Napoli Centrale",
       arrivalSteps:[
@@ -75,13 +75,13 @@ export const STOPS = [
     duration:"Half day · Wed 17 Jun · 08:00–16:00",
     tagline:"Cliffside villages, turquoise sea, the most beautiful coastline in the world",
     color:"#00838F", bg:"#E0F7FA", currency:"EUR", budget:"€40-60pp (transport + lunch)",
-    budgetBreakdown: { accommodation: 0, food: 20, transport: 35, activities: 5, misc: 5, currency: "EUR", days: 0.4, note: "Private minivan ~€150-200 split 5 ways = €30-40pp, lunch €15-20" },
+    budgetBreakdown: { accommodation: 0, food: 20, transport: 35, activities: 5, misc: 5, currency: "EUR", days: 0.4, note: "Private minivan ~€150-200 split 3 ways = €30-40pp, lunch €15-20" },
     story:"The Amalfi Coast is a 50-kilometre stretch of coastline on the southern side of the Sorrentine Peninsula. UNESCO calls it 'an outstanding example of a Mediterranean landscape.' The road — the SS163 — was built in 1853 and clings to vertical cliffs hundreds of metres above the sea. Every turn reveals another village: pastel houses stacked vertically on cliff faces, lemon groves on impossible terraces, churches with majolica-tiled domes. Positano cascades down to the sea like a waterfall of pink and white buildings. Amalfi was once a maritime republic that rivalled Venice and Genoa. The limoncello you drink here is made from lemons that grow nowhere else — the sfusato amalfitano, a lemon so large and fragrant it barely resembles the supermarket kind.",
     history:"The Amalfi Coast was settled by Romans who built villas along the cliffs. In the 9th-11th centuries, the Republic of Amalfi was one of the most powerful maritime states in the Mediterranean, with a population of 70,000 and trade routes to Constantinople and Cairo. They created the Tabula Amalfitana — the oldest maritime code in the world, used across the Mediterranean for 500 years. The coast declined after a tsunami in 1343 destroyed much of the lower town. It was rediscovered by European aristocrats in the 19th century as a Grand Tour destination.",
     itinerary:[
       {time:"08:00",icon:"🚶",title:"Quick Naples morning walk",desc:"Walk from your accommodation to Via dei Tribunali. Grab a coffee and sfogliatella for breakfast. See the morning energy of Naples — market vendors setting up, scooters everywhere, the city waking up. Walk to the waterfront at Lungomare for a view of Mount Vesuvius across the Bay of Naples.",tip:"Keep it light — you have a big day ahead. 1.5 hours is enough to feel Naples in the morning."},
       {time:"09:30",icon:"🧳",title:"Check out of Naples accommodation",desc:"Check out and leave bags at the accommodation or station lockers. You are traveling with daypacks only to the Amalfi Coast.",tip:"Napoli Centrale has luggage lockers (Ki Point, €6/bag). Or ask your accommodation to hold bags until you return."},
-      {time:"10:00",icon:"🚐",title:"Depart Naples → Amalfi Coast",desc:"RECOMMENDED: Private minivan/driver for 5 people. Cost: €150-200 total (€30-40pp). The driver takes the SS163 coastal road — every turn is a postcard. They drop you in Positano or Amalfi and pick you up later. ALTERNATIVE: Ferry from Molo Beverello port (Naples) to Positano (€20pp, 1hr 15min, seasonal, book at alilauro.it).",tip:"Private driver is the best option for a group of 5 — cost splits well, you avoid parking/bus stress, and the driver knows the road. Book in advance through GetYourGuide or ask your Naples accommodation to arrange one. June traffic on the coastal road can be heavy — leave by 10:00."},
+      {time:"10:00",icon:"🚐",title:"Depart Naples → Amalfi Coast",desc:"RECOMMENDED: Private minivan/driver for 3 people. Cost: €150-200 total (€30-40pp). The driver takes the SS163 coastal road — every turn is a postcard. They drop you in Positano or Amalfi and pick you up later. ALTERNATIVE: Ferry from Molo Beverello port (Naples) to Positano (€20pp, 1hr 15min, seasonal, book at alilauro.it).",tip:"Private driver is the best option for a group of 3 — cost splits well, you avoid parking/bus stress, and the driver knows the road. Book in advance through GetYourGuide or ask your Naples accommodation to arrange one. June traffic on the coastal road can be heavy — leave by 10:00."},
       {time:"11:30",icon:"🏖️",title:"Positano",desc:"The driver drops you at the top of Positano. Walk down through the cascading village — pastel pink, orange, and white houses stacked vertically on the cliff. Bougainvillea everywhere. Narrow steps lead down to Spiaggia Grande — the main beach with dark volcanic sand and turquoise water. Swim if you want. Browse the boutiques on the way down (Positano is famous for handmade sandals and linen clothes).",tip:"The walk DOWN through Positano is beautiful. The walk back UP is 300+ steps in June heat. Take it slow and carry water. Or arrange for the driver to meet you at the bottom near the beach."},
       {time:"13:00",icon:"🍋",title:"Lunch with a sea view",desc:"Eat at any restaurant overlooking the sea. Order seafood pasta (scialatielli ai frutti di mare — a local pasta shape), fresh grilled fish, or a simple insalata caprese with local mozzarella. Drink limoncello — made from the giant sfusato amalfitano lemons that grow on the terraces above you. Budget €15-20pp for a proper lunch.",tip:"Restaurants near the beach are tourist-priced but the views are worth it. For better value, eat slightly uphill from the beach."},
       {time:"14:30",icon:"🌊",title:"Amalfi town (optional second stop)",desc:"If time allows, the driver takes you 30 min along the coast to Amalfi town. Visit the stunning Cathedral of St Andrew (9th century, Arab-Norman style, €3). Walk through the medieval lanes. Buy lemons and limoncello from the shops along the main street.",tip:"Amalfi town is flatter and more walkable than Positano. The cathedral steps are the iconic photo spot. Skip if you prefer more time in Positano."},
@@ -89,7 +89,7 @@ export const STOPS = [
       {time:"17:30",icon:"🚄",title:"Frecciarossa → Roma Termini",desc:"Collect any bags from Naples station lockers. Take the high-speed train back to Rome. 1hr 10min. Arrive Roma Termini ~18:40. Collect your stored bags from Kipoint (Track 24). Head to your Trastevere Airbnb.",tip:"Trains run every 30 min. No need to pre-book — buy at the station if needed. Last Frecciarossa to Rome runs ~21:30."},
       {time:"19:00",icon:"🏠",title:"Check into Trastevere, Rome",desc:"Collect bags from Kipoint at Roma Termini. Walk or taxi to your Trastevere Airbnb (15 min walk across Ponte Garibaldi, or €10 taxi). You have seen Naples, eaten the world's best pizza, driven the Amalfi Coast, and now you are settling into Rome for the next two days.",tip:"You will be tired. Check in, freshen up, then walk out for a simple dinner in Trastevere. Cacio e pepe at any side-street trattoria. Rest — tomorrow is Colosseum and Vatican."},
     ],
-    must:["Book private minivan in advance — best option for 5 people on the Amalfi Coast","Eat pizza in Naples the night before — this is non-negotiable, it's the birthplace","Walk DOWN through Positano — every turn is a photograph","Try limoncello made from local sfusato amalfitano lemons","Collect bags from Kipoint at Roma Termini before heading to Trastevere"],
+    must:["Book private minivan in advance — best option for 3 people on the Amalfi Coast","Eat pizza in Naples the night before — this is non-negotiable, it's the birthplace","Walk DOWN through Positano — every turn is a photograph","Try limoncello made from local sfusato amalfitano lemons","Collect bags from Kipoint at Roma Termini before heading to Trastevere"],
     stay:{area:"No overnight — day trip from Naples",why:"You slept in Naples last night. Tonight you check into your Trastevere Airbnb in Rome.",budget:"N/A — day trip",search:"Rome accommodation is in Trastevere — check in tonight.",picks:["Tonight: Trastevere, Rome — your base for the next 2 days"]},
     eat:[
       {name:"Naples morning — any bar on Via dei Tribunali",type:"Breakfast",dish:"Coffee + sfogliatella €3-4",note:"Stand at the counter. Sfogliatella riccia (crispy) is the classic."},
@@ -105,7 +105,7 @@ export const STOPS = [
     connections:{
       from:"Napoli Centrale",to:"Amalfi Coast (Positano/Amalfi)",changes:0,
       legs:[
-        {train:"Private minivan",dep:"Naples · 10:00",arr:"Positano · 11:30",dur:"1.5 hrs",cost:"€150-200 total (€30-40pp for 5)",platform:"Driver picks up from your Naples accommodation or Napoli Centrale.",notes:"Book in advance through GetYourGuide or local Naples driver. The driver waits and drives you along the coast. Best option for a group."},
+        {train:"Private minivan",dep:"Naples · 10:00",arr:"Positano · 11:30",dur:"1.5 hrs",cost:"€150-200 total (€30-40pp for 3)",platform:"Driver picks up from your Naples accommodation or Napoli Centrale.",notes:"Book in advance through GetYourGuide or local Naples driver. The driver waits and drives you along the coast. Best option for a group."},
       ],
       tip:"ALTERNATIVE: Ferry from Molo Beverello (Naples port) to Positano. €20pp, 1hr 15min. Scenic but can cancel in bad weather and sells out in June peak season. Book at alilauro.it.",
     },
@@ -121,9 +121,9 @@ export const STOPS = [
       platformTip:"Frecciarossa platforms at Napoli Centrale are on the main level. Check the departure board 20 min before.",
     },
     localTransport:[
-      {mode:"car", icon:"🚐", name:"Private minivan/driver", detail:"Naples to Positano/Amalfi and back. Driver waits while you explore", cost:"€150-200 total for 5", tip:"Book ahead. The SS163 coastal road is narrow with hairpin turns — a local driver who knows it is essential."},
+      {mode:"car", icon:"🚐", name:"Private minivan/driver", detail:"Naples to Positano/Amalfi and back. Driver waits while you explore", cost:"€150-200 total for 3", tip:"Book ahead. The SS163 coastal road is narrow with hairpin turns — a local driver who knows it is essential."},
       {mode:"ferry", icon:"⛴️", name:"Alilauro/NLG Ferry", detail:"Molo Beverello (Naples) to Positano 1hr 15min, to Amalfi 1hr 30min", cost:"€20-25pp one way", tip:"Scenic but weather-dependent. Book at alilauro.it. June seas are usually calm."},
-      {mode:"train", icon:"🚄", name:"Circumvesuviana", detail:"Alternative: Napoli Garibaldi to Sorrento (70 min, €4pp) then SITA bus to Positano", cost:"€4pp + €2 bus", tip:"Budget option but slow. The Circumvesuviana is notorious for pickpockets and overcrowding. Private driver is worth the money for 5 people."},
+      {mode:"train", icon:"🚄", name:"Circumvesuviana", detail:"Alternative: Napoli Garibaldi to Sorrento (70 min, €4pp) then SITA bus to Positano", cost:"€4pp + €2 bus", tip:"Budget option but slow. The Circumvesuviana is notorious for pickpockets and overcrowding. Private driver is worth the money for 3 people."},
     ],
     risks:[
       {risk:"June traffic on SS163 coastal road — can double drive time",solution:"Leave Naples by 10:00 at the latest. Afternoon return will be slower. Build 30 min buffer into the schedule."},
@@ -152,12 +152,12 @@ export const STOPS = [
       {time:"Fri 19 Jun · 10:00",icon:"🚄",title:"Depart Rome → Milan → Como",desc:"Train ~10:00 Roma Termini → Milano Centrale (3hrs, €22pp). At Milano Centrale, follow signs to Platform 10–16 for Trenord regional trains. Buy Como ticket at the Trenord machines (€5pp, no advance booking). Trenord → Como San Giovanni 40 min. Arrive Como ~15:00.",tip:"Give yourself 30 minutes to find the Trenord platforms at Milano Centrale — it's a large station."},
     ],
     must:["Pre-book Colosseum at coopculture.it — no-queue entry essential in June","Pre-book Vatican at museivaticani.va — June is completely sold out if you wait","Eat cacio e pepe in a side street of Trastevere after 21:00","Try supplì (fried rice balls, €1.50 each) — Roman street food at its best"],
-    stay:{area:"Trastevere",why:"The most atmospheric neighbourhood. Medieval cobblestones, vines, no tourist menus. 20 min walk across the Tiber from Termini.",budget:"€95–125/night for 5 people entire flat",search:"Search Airbnb: 'Trastevere Rome 5 guests entire flat'. Book immediately — June fills completely.",picks:["Via della Lungaretta — heart of Trastevere, perfect","Piazza Santa Maria in Trastevere area — the main square","Via del Moro — quieter, still central, beautiful at night"],bookingLinks:[
-      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Trastevere%2C+Rome&checkin=2026-06-17&checkout=2026-06-19&group_adults=5&nflt=price%3DEUR-50-150-1",price:"€60–150/night",icon:"🔵"},
-      {name:"Airbnb",url:"https://www.airbnb.com/s/Trastevere--Rome--Italy/homes?checkin=2026-06-17&checkout=2026-06-19&adults=5&price_max=150",price:"€80–130/night",icon:"🔴"},
-      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Rome&dateFrom=2026-06-17&dateTo=2026-06-19&guests=5",price:"€20–35pp",icon:"🟢"},
-      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Trastevere+Rome&q-check-in=2026-06-17&q-check-out=2026-06-19&q-rooms=1&q-room-0-adults=5",price:"€90–180/night",icon:"🟡"},
-      {name:"Agoda",url:"https://www.agoda.com/search?city=8988&checkIn=2026-06-17&checkOut=2026-06-19&rooms=1&adults=5",price:"€70–160/night",icon:"🟣"},
+    stay:{area:"Trastevere",why:"The most atmospheric neighbourhood. Medieval cobblestones, vines, no tourist menus. 20 min walk across the Tiber from Termini.",budget:"€95–125/night for 3 people entire flat",search:"Search Airbnb: 'Trastevere Rome 3 guests entire flat'. Book immediately — June fills completely.",picks:["Via della Lungaretta — heart of Trastevere, perfect","Piazza Santa Maria in Trastevere area — the main square","Via del Moro — quieter, still central, beautiful at night"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Trastevere%2C+Rome&checkin=2026-06-17&checkout=2026-06-19&group_adults=3&nflt=price%3DEUR-50-150-1",price:"€60–150/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/Trastevere--Rome--Italy/homes?checkin=2026-06-17&checkout=2026-06-19&adults=3&price_max=150",price:"€80–130/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Rome&dateFrom=2026-06-17&dateTo=2026-06-19&guests=3",price:"€20–35pp",icon:"🟢"},
+      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Trastevere+Rome&q-check-in=2026-06-17&q-check-out=2026-06-19&q-rooms=1&q-room-0-adults=3",price:"€90–180/night",icon:"🟡"},
+      {name:"Agoda",url:"https://www.agoda.com/search?city=8988&checkIn=2026-06-17&checkOut=2026-06-19&rooms=1&adults=3",price:"€70–160/night",icon:"🟣"},
     ]},
     eat:[
       {name:"Tonnarello",type:"Trastevere trattoria",dish:"Cacio e pepe €10, supplì €2",note:"Classic Roman. Candles, outdoor seating, very local. Queue is worth it."},
@@ -166,10 +166,10 @@ export const STOPS = [
       {name:"Gelateria dei Gracchi",type:"Artisan gelato",dish:"€3 a cone",note:"Consistently ranked best gelato in Rome. Near the Vatican — go after the museums."},
     ],
     accommodation:{
-      airbnb:{ price:"€95–125/night", pros:"Kitchen, space for 5, Trastevere local feel, washing machine", cons:"Self check-in, no daily cleaning, some have steep stairs" },
-      hostel:{ price:"€20–30pp/night", pros:"Social, cheaper for solo travellers, often central", cons:"No privacy for group of 5, dorms only, no kitchen for group cooking" },
-      hotel:{ price:"€140–200/night", pros:"Reception, daily cleaning, reliable, AC guaranteed", cons:"Tiny rooms, very expensive for 5, no kitchen" },
-      recommendation:"Airbnb — best value for a group of 5. Kitchen saves €30+/day on meals. Trastevere flats have character.",
+      airbnb:{ price:"€95–125/night", pros:"Kitchen, space for 3, Trastevere local feel, washing machine", cons:"Self check-in, no daily cleaning, some have steep stairs" },
+      hostel:{ price:"€20–30pp/night", pros:"Social, cheaper for solo travellers, often central", cons:"No privacy for group of 3, dorms only, no kitchen for group cooking" },
+      hotel:{ price:"€140–200/night", pros:"Reception, daily cleaning, reliable, AC guaranteed", cons:"Tiny rooms, very expensive for 3, no kitchen" },
+      recommendation:"Airbnb — best value for a group of 3. Kitchen saves €30+/day on meals. Trastevere flats have character.",
     },
     connections:{
       from:"Napoli Centrale / Amalfi Coast",to:"Roma Termini",changes:0,
@@ -196,7 +196,7 @@ export const STOPS = [
     stationGuide:{
       stationName:"Roma Termini",
       arrivalSteps:[
-        {step:1, icon:"🧳", action:"Collect bags from Kipoint", detail:"Track 24 area. Show your receipt from yesterday. Collect all 5 bags."},
+        {step:1, icon:"🧳", action:"Collect bags from Kipoint", detail:"Track 24 area. Show your receipt from yesterday. Collect all 3 bags."},
         {step:2, icon:"🚶", action:"Walk or taxi to Trastevere", detail:"Walk 35 min across Ponte Garibaldi to Trastevere, or taxi €10 from Via Giolitti exit."},
         {step:3, icon:"📍", action:"Explore Trastevere on foot", detail:"Medieval cobblestones, vines over buildings, no tourist menus. Walk without a plan — every side street reveals something."},
         {step:4, icon:"↩️", action:"Return to Termini for departure", detail:"Walk back across Ponte Garibaldi (35 min) or taxi €10. Metro Line B to Termini is also an option from Trastevere (Piramide station)."},
@@ -244,19 +244,19 @@ export const STOPS = [
     story:"Lake Como sits at a latitude where palm trees and glaciers coexist — which is why the Romans built their summer villas here in the 1st century BC. Pliny the Younger, writing around 100 AD, called it 'the most beautiful lake in the world.' The lake is 410 metres deep, carved by glaciers 10,000 years ago. The Alps rise steeply on all sides. The microclimate is Mediterranean — warm summers, mild winters, plants that have no business growing this far north. George Clooney's Villa Oleandra is on the western shore near Laglio. You don't need the famous resort villages to experience this — Como city itself is on the same water, flat, practical, and extraordinary.",
     history:"Settled by Celts, then Romans as Comum in 196 BC. Julius Caesar gave Como full Roman citizenship. Como silk weaving made the city one of the wealthiest in Italy for 400 years from the Renaissance onward — the silk mills still operate and Como produces most of the world's finest silk. Alessandro Volta, inventor of the electric battery, was born here in 1745.",
     itinerary:[
-      {time:"Fri 19 Jun · 15:00",icon:"🏠",title:"Arrive Como — first lake view",desc:"Como San Giovanni station is completely flat — bags roll to your Airbnb in 10 minutes. Walk toward the lake (5 min). It appears around a corner of a building: the Alps rise immediately on all sides of the water. This is the moment.",tip:"The resort villages (Varenna, Bellagio) have stations with 200+ steep steps — impossible with 5 suitcases. Como city is flat. Same water, same Alps, same boats."},
+      {time:"Fri 19 Jun · 15:00",icon:"🏠",title:"Arrive Como — first lake view",desc:"Como San Giovanni station is completely flat — bags roll to your Airbnb in 10 minutes. Walk toward the lake (5 min). It appears around a corner of a building: the Alps rise immediately on all sides of the water. This is the moment.",tip:"The resort villages (Varenna, Bellagio) have stations with 200+ steep steps — impossible with 3 suitcases. Como city is flat. Same water, same Alps, same boats."},
       {time:"Fri 19 Jun · 15:30",icon:"🚡",title:"Brunate Funicular",desc:"Departs from Piazza de Gasperi, 2 min walk from the lake. €7pp return, 7 minutes to 720m altitude. The panoramic view of Como, the lake, and the Alps behind is extraordinary — especially in late afternoon light when the mountains turn orange.",tip:"Takes 7 min up. Opens 06:00 daily. Last funicular down around 22:30 in summer — no rush."},
       {time:"Fri 19 Jun · 17:00",icon:"⛵",title:"Ferry to Varenna or Bellagio",desc:"Buy ticket at the Battello pier on the lakefront. Varenna: 45 min, €8pp — the most photogenic village on the lake, narrow lanes built directly over the water. Or Bellagio: 1hr, €12pp — more famous, steeper lanes, spectacular position where the two arms of the lake meet. Go bag-free — just daypacks.",tip:"Last ferry back from Varenna ~19:30. From Bellagio ~18:30. Check the timetable at the pier when you buy your ticket. If in doubt, take Varenna — slightly closer, more authentic."},
       {time:"Fri 19 Jun · 20:00",icon:"🌊",title:"Lakefront aperitivo + dinner",desc:"Walk the Lungo Lario promenade — the lakefront boulevard. Sit at any bar. Order local white wine (Valtellina) or Aperol Spritz. Dinner at Osteria del Gallo — pasta and lake fish. Stay out as long as you want — 06:24 alarm is the next morning.",tip:"Set TWO alarms for 05:45 tomorrow. The 06:24 is the first train and missing it means a 2-hour delay to the whole Swiss plan."},
       {time:"Sat 20 Jun · 06:24",icon:"⏰",title:"FIRST TRAIN → Switzerland",desc:"Como San Giovanni platform. First train to Lugano (40 min). Change at Lugano for SBB to Lucerne. The station bar opens at 06:00 — cornetto and espresso before boarding.",tip:"Platform numbers at Como San Giovanni: the Lugano train departs from Platform 1 or 2. Check the departures board. The journey to Lugano takes exactly 40 minutes."},
     ],
     must:["Take the ferry to Varenna — bag-free, 45 min, most photogenic village on the lake","Brunate funicular before sunset — 7 min, panoramic Alps view","Walk the Lungo Lario at golden hour (19:00–20:30)","SET TWO ALARMS for 05:45 — 06:24 first train to Switzerland"],
-    stay:{area:"Como city centre",why:"Flat walk from station to lake. Resort villages are beautiful but have impossible steps with luggage. Visit them by ferry.",budget:"€55–80/night for 5 people",search:"Search Airbnb: 'Como centro lago 5 guests' — use 'Como city' not 'Lake Como' (resort results are 3× the price).",picks:["Near San Giovanni station — 5 min flat walk to lake","Via Mentana area","Near Piazza Cavour (main lakefront square)"],bookingLinks:[
-      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Como&checkin=2026-06-19&checkout=2026-06-20&group_adults=5&nflt=price%3DEUR-50-120-1",price:"€50–100/night",icon:"🔵"},
-      {name:"Airbnb",url:"https://www.airbnb.com/s/Como--Italy/homes?checkin=2026-06-19&checkout=2026-06-20&adults=5&price_max=120",price:"€55–100/night",icon:"🔴"},
-      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Como&dateFrom=2026-06-19&dateTo=2026-06-20&guests=5",price:"€18–30pp",icon:"🟢"},
-      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Como+Italy&q-check-in=2026-06-19&q-check-out=2026-06-20&q-rooms=1&q-room-0-adults=5",price:"€60–130/night",icon:"🟡"},
-      {name:"Agoda",url:"https://www.agoda.com/search?city=17383&checkIn=2026-06-19&checkOut=2026-06-20&rooms=1&adults=5",price:"€50–110/night",icon:"🟣"},
+    stay:{area:"Como city centre",why:"Flat walk from station to lake. Resort villages are beautiful but have impossible steps with luggage. Visit them by ferry.",budget:"€55–80/night for 3 people",search:"Search Airbnb: 'Como centro lago 3 guests' — use 'Como city' not 'Lake Como' (resort results are 3× the price).",picks:["Near San Giovanni station — 5 min flat walk to lake","Via Mentana area","Near Piazza Cavour (main lakefront square)"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Como&checkin=2026-06-19&checkout=2026-06-20&group_adults=3&nflt=price%3DEUR-50-120-1",price:"€50–100/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/Como--Italy/homes?checkin=2026-06-19&checkout=2026-06-20&adults=3&price_max=120",price:"€55–100/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Como&dateFrom=2026-06-19&dateTo=2026-06-20&guests=3",price:"€18–30pp",icon:"🟢"},
+      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Como+Italy&q-check-in=2026-06-19&q-check-out=2026-06-20&q-rooms=1&q-room-0-adults=3",price:"€60–130/night",icon:"🟡"},
+      {name:"Agoda",url:"https://www.agoda.com/search?city=17383&checkIn=2026-06-19&checkOut=2026-06-20&rooms=1&adults=3",price:"€50–110/night",icon:"🟣"},
     ]},
     eat:[
       {name:"Osteria del Gallo",type:"Local trattoria",dish:"Pasta + lake fish €14pp",note:"Very local, not touristy. The real Como dining experience."},
@@ -264,10 +264,10 @@ export const STOPS = [
       {name:"Station bar (05:45 departure)",type:"Breakfast",dish:"Cornetto + espresso €2.50",note:"Opens at 06:00. Your last Italian coffee before Switzerland."},
     ],
     accommodation:{
-      airbnb:{ price:"€55–80/night", pros:"Kitchen, lake views possible, space for 5, local neighbourhood feel", cons:"Limited options in Como city, self check-in" },
+      airbnb:{ price:"€55–80/night", pros:"Kitchen, lake views possible, space for 3, local neighbourhood feel", cons:"Limited options in Como city, self check-in" },
       hostel:{ price:"€20–28pp/night", pros:"Social, budget-friendly for solo", cons:"Very few hostels in Como, dorms only, no group privacy" },
-      hotel:{ price:"€100–160/night", pros:"Lake views, reception desk, daily cleaning", cons:"Small rooms, expensive for 5, no kitchen" },
-      recommendation:"Airbnb — best value for a group of 5. Use 'Como city' not 'Lake Como' in search to avoid resort-priced results.",
+      hotel:{ price:"€100–160/night", pros:"Lake views, reception desk, daily cleaning", cons:"Small rooms, expensive for 3, no kitchen" },
+      recommendation:"Airbnb — best value for a group of 3. Use 'Como city' not 'Lake Como' in search to avoid resort-priced results.",
     },
     connections:{
       from:"Roma Termini",to:"Como San Giovanni",changes:1,
@@ -340,7 +340,7 @@ export const STOPS = [
     story:"Lucerne has been on the Grand Tour since the 18th century — the obligatory European journey for wealthy young British and Americans. Mark Twain visited and wrote that the Lion Monument was 'the most mournful and moving piece of stone in the world.' J.M.W. Turner painted the lake. Queen Victoria stayed at the Grand National Hotel. The city sits at the point where the Reuss river flows out of Lake Lucerne — the mountains are so close and so steep that they are reflected in the water on calm mornings.",
     history:"Founded as a Benedictine monastery in the 8th century. Part of the Old Swiss Confederation from 1332. The Chapel Bridge (1333) is the oldest wooden covered bridge in Europe. The Lion Monument was carved in 1820 to commemorate the Swiss Guard killed defending Louis XVI during the French Revolution. Lucerne hosted the first Winter Olympics in 1928 (actually Montreux — disputed).",
     itinerary:[
-      {time:"09:20",icon:"🧳",title:"Arrive Lucerne — bags to lockers immediately",desc:"The moment you step off the train, put ALL 5 bags in the Hbf lockers. Level -1 or ground floor. CHF 5–8 per bag. Card payment. You have exactly 55 minutes before the Brünig Line departs at 10:15.",tip:"Set a phone alarm for 10:05. If you miss the 10:15 Brünig Line, the next one is 11:15 — you lose an hour of Lauterbrunnen."},
+      {time:"09:20",icon:"🧳",title:"Arrive Lucerne — bags to lockers immediately",desc:"The moment you step off the train, put ALL 3 bags in the Hbf lockers. Level -1 or ground floor. CHF 5–8 per bag. Card payment. You have exactly 55 minutes before the Brünig Line departs at 10:15.",tip:"Set a phone alarm for 10:05. If you miss the 10:15 Brünig Line, the next one is 11:15 — you lose an hour of Lauterbrunnen."},
       {time:"09:30",icon:"🌉",title:"Chapel Bridge (Kapellbrücke)",desc:"4 min walk from the station — turn left out of the main exit, the bridge is directly in front of you on the river. Built 1333, the oldest wooden covered bridge in Europe. 170 painted panels inside the bridge depict scenes from Swiss and Lucerne history. Walk across slowly, look up at the panels, turn around, look at the octagonal Water Tower (1300) next to it.",tip:"Walk across and then back — each direction gives a different view and different panels. 15 minutes total."},
       {time:"09:50",icon:"🦁",title:"Lion Monument (Löwendenkmal)",desc:"8 min walk from the bridge. A dying lion carved directly into a sandstone cliff face, 10 metres long. The shield beside it bears the fleur-de-lis of the French royal family — this lion died defending Louis XVI during the Revolution. Mark Twain: 'the most mournful and moving piece of stone in the world.' Stand in front of it for 5 minutes.",tip:"The path leads along a small pond that reflects the monument. Go around to the back for this view."},
       {time:"10:05",icon:"⏰",title:"RETURN TO STATION — Brünig Line waits for no one",desc:"Walk back to Hbf (8 min). Collect bags from lockers. Find the Brünig Line platform — it is a narrow-gauge train, departs from Platform 3 or 4 (check the board). The train is smaller than normal Swiss trains.",tip:"The Brünig Line is operated by Zentralbahn (ZB), not SBB. It is a narrow-gauge mountain railway — different platforms, different train style. Allow 10 minutes to find it."},
@@ -461,7 +461,7 @@ export const STOPS = [
   /* 7 ─ INTERLAKEN */
   {
     id:"interlaken", flag:"🇨🇭", city:"Interlaken", country:"Switzerland",
-    duration:"1 night · Sat 20 Jun",
+    duration:"Day-trip transit · Sat 20 Jun · 12:15–16:30",
     tagline:"Between two lakes, beneath three 4,000m peaks",
     color:"#283593", bg:"#F0F4FF", currency:"CHF", budget:"CHF 80–120/night",
     budgetBreakdown: { accommodation: 70, food: 25, transport: 15, activities: 30, misc: 10, currency: "CHF", days: 2, note: "Imst Alpine Coaster €10pp. Interlaken activities vary widely" },
@@ -474,22 +474,22 @@ export const STOPS = [
       {time:"07:30",icon:"🚄",title:"Direct train → Zürich via Bern",desc:"2 hours. No change. Direct SBB train to Zürich HB via Bern. Arrive Zürich 09:30. 5 full hours in Zürich.",tip:"The departure is from Interlaken West station (not Ost). Check which platform at Interlaken West the evening before."},
     ],
     must:["Höhematte meadow for the Eiger-Mönch-Jungfrau view (free, 5 min walk)","Watch for Alpenglow on the peaks at ~21:45","Harder Kulm cable car (CHF 34pp, open until 22:00) for panoramic view","07:30 train tomorrow — check platform at Interlaken West the evening before"],
-    stay:{area:"Interlaken West area",why:"West station is quieter and cheaper. Your departure tomorrow is from West station.",budget:"CHF 80–120/night for 5 people",search:"Search Airbnb: 'Interlaken West Switzerland 5 guests'. Book immediately — June weekends fill fast.",picks:["Near Interlaken West station — your departure point","Neuhaus suburb (lakeside) — very peaceful, slightly outside centre","Avoid Interlaken Ost tourist zone — hotel premium, expensive"],bookingLinks:[
-      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Interlaken&checkin=2026-06-20&checkout=2026-06-21&group_adults=5&nflt=price%3DCHF-80-200-1",price:"CHF 80–180/night",icon:"🔵"},
-      {name:"Airbnb",url:"https://www.airbnb.com/s/Interlaken--Switzerland/homes?checkin=2026-06-20&checkout=2026-06-21&adults=5&price_max=200",price:"CHF 90–150/night",icon:"🔴"},
-      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Interlaken&dateFrom=2026-06-20&dateTo=2026-06-21&guests=5",price:"CHF 35–50pp",icon:"🟢"},
-      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Interlaken+Switzerland&q-check-in=2026-06-20&q-check-out=2026-06-21&q-rooms=1&q-room-0-adults=5",price:"CHF 120–250/night",icon:"🟡"},
-      {name:"Agoda",url:"https://www.agoda.com/search?city=9577&checkIn=2026-06-20&checkOut=2026-06-21&rooms=1&adults=5",price:"CHF 90–200/night",icon:"🟣"},
+    stay:{area:"Interlaken West area",why:"West station is quieter and cheaper. Your departure tomorrow is from West station.",budget:"CHF 80–120/night for 3 people",search:"Search Airbnb: 'Interlaken West Switzerland 3 guests'. Book immediately — June weekends fill fast.",picks:["Near Interlaken West station — your departure point","Neuhaus suburb (lakeside) — very peaceful, slightly outside centre","Avoid Interlaken Ost tourist zone — hotel premium, expensive"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Interlaken&checkin=2026-06-20&checkout=2026-06-21&group_adults=3&nflt=price%3DCHF-80-200-1",price:"CHF 80–180/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/Interlaken--Switzerland/homes?checkin=2026-06-20&checkout=2026-06-21&adults=3&price_max=200",price:"CHF 90–150/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Interlaken&dateFrom=2026-06-20&dateTo=2026-06-21&guests=3",price:"CHF 35–50pp",icon:"🟢"},
+      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Interlaken+Switzerland&q-check-in=2026-06-20&q-check-out=2026-06-21&q-rooms=1&q-room-0-adults=3",price:"CHF 120–250/night",icon:"🟡"},
+      {name:"Agoda",url:"https://www.agoda.com/search?city=9577&checkIn=2026-06-20&checkOut=2026-06-21&rooms=1&adults=3",price:"CHF 90–200/night",icon:"🟣"},
     ]},
     eat:[
       {name:"Migros restaurant",type:"Swiss supermarket",dish:"Full meal CHF 8–12",note:"Best value in Switzerland. Every Swiss person eats here."},
       {name:"Any Höheweg restaurant",type:"Tourist street",dish:"Mains CHF 22–32",note:"More expensive but the view of the mountains is free."},
     ],
     accommodation:{
-      airbnb:{ price:"CHF 80–120/night", pros:"Kitchen (critical in expensive Switzerland), space for 5, local feel", cons:"Limited options in peak June, self check-in" },
-      hostel:{ price:"CHF 35–50pp/night", pros:"Social, Interlaken has good hostels, mountain atmosphere", cons:"No privacy for group of 5, dorms, no kitchen access" },
-      hotel:{ price:"CHF 180–280/night", pros:"Mountain views, reception, daily cleaning", cons:"Very expensive for 5, tiny rooms, no kitchen — meals cost CHF 20+/person" },
-      recommendation:"Airbnb — essential in Switzerland where eating out costs CHF 20+ per meal. Kitchen saves CHF 50+/day for a group of 5.",
+      airbnb:{ price:"CHF 80–120/night", pros:"Kitchen (critical in expensive Switzerland), space for 3, local feel", cons:"Limited options in peak June, self check-in" },
+      hostel:{ price:"CHF 35–50pp/night", pros:"Social, Interlaken has good hostels, mountain atmosphere", cons:"No privacy for group of 3, dorms, no kitchen access" },
+      hotel:{ price:"CHF 180–280/night", pros:"Mountain views, reception, daily cleaning", cons:"Very expensive for 3, tiny rooms, no kitchen — meals cost CHF 20+/person" },
+      recommendation:"Airbnb — essential in Switzerland where eating out costs CHF 20+ per meal. Kitchen saves CHF 50+/day for a group of 3.",
     },
     connections:{
       from:"Lauterbrunnen → Interlaken Ost",to:"Interlaken (sleep)",changes:0,
@@ -544,7 +544,7 @@ export const STOPS = [
   /* 8 ─ ZÜRICH */
   {
     id:"zurich", flag:"🇨🇭", city:"Zürich", country:"Switzerland",
-    duration:"5 hours transit · Sun 21 Jun · 09:30–19:30",
+    duration:"~1 hr transit · Sat 20 Jun · 18:30–19:33 (no exploring — change of trains only)",
     tagline:"The most beautiful bank in the world — Chagall, lake, chocolate",
     color:"#B71C1C", bg:"#FFF5F5", currency:"CHF", budget:"Day visit only",
     story:"Zürich is consistently ranked the city with the highest quality of life in the world. The lake is clean enough to swim in — locals do, daily. The Protestant Reformation started in the Grossmünster cathedral in 1519 when Huldrych Zwingli rejected the authority of Rome and changed European history. Marc Chagall, aged 80, designed the stained glass windows for the Fraumünster church in 1970. Five panels of blue, green, red, yellow and cool north light. People cry in there. James Joyce lived in Zürich and finished writing Ulysses here. Lenin lived in Zürich for three years just before returning to Russia to start the revolution.",
@@ -557,7 +557,7 @@ export const STOPS = [
       {time:"12:00",icon:"⛪",title:"Grossmünster Cathedral",desc:"CHF 5 to climb the Karlsturm tower. The Reformation started here in 1519 when Zwingli climbed to this pulpit. The crypt has an original stone statue of Charlemagne — the one in the tower is a copy. The tower view covers both lakes and all of old Zürich.",tip:"Optional — if you've done the Fraumünster, the Grossmünster adds history context but the view is the main thing. 15 min up and back."},
       {time:"13:00",icon:"🍖",title:"Sternen Grill — Zürich bratwurst",desc:"CHF 7. The most famous bratwurst stand in Switzerland. You eat standing. The bratwurst is served in a roll with mustard. Do not add ketchup — this is considered a serious social error in Zürich. The stand has been at this intersection (Bellevueplatz) since the 1940s.",tip:"Zeughauskeller (Bahnhofstrasse 28) is the alternative — a beer hall from 1487, mains CHF 22. Good if you want to sit."},
       {time:"14:30",icon:"🍫",title:"Sprüngli — Luxemburgerli",desc:"Bahnhofstrasse 21. Founded 1845. Their signature product is the Luxemburgerli — a macaron-style sandwich biscuit, smaller and lighter than a French macaron. CHF 15 for a box. The best Swiss chocolate to bring home.",tip:"The café upstairs at Sprüngli is excellent if you want coffee and cake with a view over Bahnhofstrasse."},
-      {time:"19:00",icon:"🧳",title:"Collect bags + board 19:30 EC to Innsbruck",desc:"Return to Zürich HB lockers Level -1. Collect all 5 bags. Find the EC departure board — OBB EuroCity toward Innsbruck. You board here, exit at Imst-Pitztal (21:45). Platform announced 30 min before departure.",tip:"Buy a proper meal at the Zürich HB food court before boarding — Imst will be closed when you arrive at 21:45. The EC has a bistro car but it's expensive."},
+      {time:"19:00",icon:"🧳",title:"Collect bags + board 19:30 EC to Innsbruck",desc:"Return to Zürich HB lockers Level -1. Collect all 3 bags. Find the EC departure board — OBB EuroCity toward Innsbruck. You board here, exit at Imst-Pitztal (21:45). Platform announced 30 min before departure.",tip:"Buy a proper meal at the Zürich HB food court before boarding — Imst will be closed when you arrive at 21:45. The EC has a bistro car but it's expensive."},
     ],
     must:["Fraumünster Chagall windows — CHF 4, non-negotiable, allow 30 min","Walk to Lake Zürich — 1.2km, free, the defining view","Sternen Grill bratwurst — CHF 7, standing, no ketchup","Sprüngli Luxemburgerli box — CHF 15, buy as souvenir"],
     stay:{area:"Transit — no overnight",why:"Bags in Zürich HB lockers. 5 full hours is exactly right for Zürich.",budget:"CHF 5–8/bag at Zürich HB lockers",search:"No Airbnb here. Your next sleep is in Innsbruck, Austria (via Imst Alpine Coaster morning).",picks:["Lockers: Level -1, Zürich HB, follow 'Gepäckaufbewahrung' signs","Brünig Line platform at Lucerne: Platform 3–4 (Zentralbahn, narrow gauge)","EC to Innsbruck: departs Zürich HB 19:30, exit at Imst-Pitztal 21:45 for overnight before morning coaster"]},
@@ -610,7 +610,7 @@ export const STOPS = [
   /* 9 ─ INNSBRUCK (includes Imst Alpine Coaster morning) */
   {
     id:"innsbruck", flag:"🇦🇹", city:"Innsbruck", country:"Austria",
-    duration:"1.5 days · Sun 21 Jun – Tue 23 Jun",
+    duration:"2 nights · Sat 20 Jun (arrive ~23:00) – Mon 22 Jun",
     tagline:"Alpine Coaster in the morning, cable car to 2,300m, Habsburg gold — the complete Tyrol",
     color:"#7B1FA2", bg:"#FAF0FF", currency:"EUR", budget:"€55–90/night",
     story:"Innsbruck sits in a narrow valley carved by the Inn river — the Alps rise so steeply on both sides that in winter the sun barely reaches the valley floor. The city is hemmed in by mountains that go from 574m (valley floor) to over 2,700m within 5km. The Habsburgs chose Innsbruck as their Tyrolean capital precisely because the mountains made it defensible. Emperor Maximilian I built the Golden Roof in 1500 — 2,657 gilded copper tiles to mark his second marriage. The city hosted the Winter Olympics twice (1964 and 1976) and built the Nordkette cable car system that still runs today. Nearby Imst, a proper Tyrolean market town 30km west, has one of Austria's longest alpine coasters — 3.5km of stainless steel track winding down the mountain.",
@@ -626,12 +626,12 @@ export const STOPS = [
       {time:"15:00",icon:"🚄",title:"Railjet → Salzburg",desc:"OBB Railjet. Booked on oebb.at (Sparschiene fares from €9pp if booked early). 1hr 50min. Arrive Salzburg 16:50.",tip:"The Railjet passes through the Salzach Valley and gives beautiful mountain views. Bistro car has Schnitzel wrap €6."},
     ],
     must:["⭐ Imst Alpine Coaster Monday morning — minimum 2 rides (€12–15pp each), 3.5km of track","⭐ Nordkette at 08:00 TUESDAY — non-negotiable, clouds by noon every day","Golden Roof exterior — free, 2 min from Hbf, 2,657 gilded tiles","Walk Maria-Theresien-Straße with mountains at the end — the classic Innsbruck view","Markthalle food hall for cheap lunch","Buy bread from Imst local Bäckerei for breakfast — opens 07:00"],
-    stay:{area:"Night 1: Imst Stadtplatz area · Night 2: Near Innsbruck Hbf or Altstadt",why:"Night 1 in Imst is cheap (€40–60/night) and positions you at the Alpine Coaster for 09:00 opening. Night 2 in Innsbruck city (€65–90/night) for the Nordkette cable car at 08:00.",budget:"€40–60/night (Imst) + €65–90/night (Innsbruck) for 5 people",search:"Search Airbnb: 'Imst Austria 5 guests' for Sun 21 Jun (1 night) + 'Innsbruck Austria 5 guests' for Mon 22 Jun (1 night). Imst has very few listings — book immediately.",picks:["Imst: Near Stadtplatz — town square, everything walkable. Message host about late 21:45 arrival.","Innsbruck: Near Hbf — easy for Nordkette funicular at Congress station","Innsbruck: Altstadt area — beautiful surroundings, same 15 min walk"],bookingLinks:[
-      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Innsbruck&checkin=2026-06-21&checkout=2026-06-23&group_adults=5&nflt=price%3DEUR-50-120-1",price:"€50–110/night",icon:"🔵"},
-      {name:"Airbnb",url:"https://www.airbnb.com/s/Innsbruck--Austria/homes?checkin=2026-06-21&checkout=2026-06-23&adults=5&price_max=120",price:"€55–90/night",icon:"🔴"},
-      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Innsbruck&dateFrom=2026-06-21&dateTo=2026-06-23&guests=5",price:"€22–30pp",icon:"🟢"},
-      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Innsbruck+Austria&q-check-in=2026-06-21&q-check-out=2026-06-23&q-rooms=1&q-room-0-adults=5",price:"€70–150/night",icon:"🟡"},
-      {name:"Agoda",url:"https://www.agoda.com/search?city=9498&checkIn=2026-06-21&checkOut=2026-06-23&rooms=1&adults=5",price:"€55–130/night",icon:"🟣"},
+    stay:{area:"Night 1: Imst Stadtplatz area · Night 2: Near Innsbruck Hbf or Altstadt",why:"Night 1 in Imst is cheap (€40–60/night) and positions you at the Alpine Coaster for 09:00 opening. Night 2 in Innsbruck city (€65–90/night) for the Nordkette cable car at 08:00.",budget:"€40–60/night (Imst) + €65–90/night (Innsbruck) for 3 people",search:"Search Airbnb: 'Imst Austria 3 guests' for Sun 21 Jun (1 night) + 'Innsbruck Austria 3 guests' for Mon 22 Jun (1 night). Imst has very few listings — book immediately.",picks:["Imst: Near Stadtplatz — town square, everything walkable. Message host about late 21:45 arrival.","Innsbruck: Near Hbf — easy for Nordkette funicular at Congress station","Innsbruck: Altstadt area — beautiful surroundings, same 15 min walk"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Innsbruck&checkin=2026-06-21&checkout=2026-06-23&group_adults=3&nflt=price%3DEUR-50-120-1",price:"€50–110/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/Innsbruck--Austria/homes?checkin=2026-06-21&checkout=2026-06-23&adults=3&price_max=120",price:"€55–90/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Innsbruck&dateFrom=2026-06-21&dateTo=2026-06-23&guests=3",price:"€22–30pp",icon:"🟢"},
+      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Innsbruck+Austria&q-check-in=2026-06-21&q-check-out=2026-06-23&q-rooms=1&q-room-0-adults=3",price:"€70–150/night",icon:"🟡"},
+      {name:"Agoda",url:"https://www.agoda.com/search?city=9498&checkIn=2026-06-21&checkOut=2026-06-23&rooms=1&adults=3",price:"€55–130/night",icon:"🟣"},
     ]},
     eat:[
       {name:"Eat in Zürich before the EC train",type:"Smart planning",dish:"Zürich HB food court CHF 12–15",note:"Imst restaurants close before 21:45. Eat before boarding the train."},
@@ -641,9 +641,9 @@ export const STOPS = [
       {name:"Café Munding",type:"Historic café (1803)",dish:"Coffee + Topfenstrudel",note:"Oldest café in Innsbruck. Kiebachgasse 16."},
     ],
     accommodation:{
-      airbnb:{ price:"€40–60/night (Imst) · €65–90/night (Innsbruck)", pros:"Kitchen, space for 5, Imst is cheapest Austrian night of the trip", cons:"Very few Imst listings — book early, self check-in" },
+      airbnb:{ price:"€40–60/night (Imst) · €65–90/night (Innsbruck)", pros:"Kitchen, space for 3, Imst is cheapest Austrian night of the trip", cons:"Very few Imst listings — book early, self check-in" },
       hostel:{ price:"€22–30pp/night", pros:"Innsbruck has decent hostels near Hbf, social", cons:"No group privacy, dorms, Imst has no hostels" },
-      hotel:{ price:"€90–150/night", pros:"Reception, reliable check-in, daily cleaning", cons:"Expensive for 5, small rooms, no kitchen" },
+      hotel:{ price:"€90–150/night", pros:"Reception, reliable check-in, daily cleaning", cons:"Expensive for 3, small rooms, no kitchen" },
       recommendation:"Airbnb for both nights — Imst at €40–60 is the cheapest Austrian night. Innsbruck at €65–90 is good value. Kitchen saves money in Austria.",
     },
     connections:{
@@ -711,7 +711,7 @@ export const STOPS = [
   /* 10 ─ SALZBURG */
   {
     id:"salzburg", flag:"🇦🇹", city:"Salzburg", country:"Austria",
-    duration:"2 nights · Tue 23 – Thu 25 Jun",
+    duration:"2 nights · Mon 22 – Wed 24 Jun",
     tagline:"Mozart was born here. The Schafbergbahn has been running since 1893.",
     color:"#E65100", bg:"#FFF8F0", currency:"EUR", budget:"€65–90/night",
     budgetBreakdown: { accommodation: 55, food: 20, transport: 5, activities: 15, misc: 5, currency: "EUR", days: 1, note: "Festung €13, Mozart birthplace €12. Austrian food reasonable" },
@@ -729,12 +729,12 @@ export const STOPS = [
       {time:"Thu 25 Jun · 17:00",icon:"🚄",title:"Railjet → Vienna",desc:"Booked on oebb.at, Sparschiene from €9pp. 2hrs 25min. Arrive Wien Hbf 19:25.",tip:"On the Railjet the seats are very comfortable. Bistro car has decent food — Schnitzel wrap €6, coffee €3. Wien Hbf is the correct station (not Westbahnhof or Meidling)."},
     ],
     must:["⭐ Schafbergbahn — book NOW at 5schaetze.at. €42–48pp. MUST book 09:20 slot.","Wolfgangsee ferry — the lake crossing to the mountain is part of the experience","Café Tomaselli — founded 1705, order the Melange","Evening Salzach walk — fortress lit at night, the best free thing in Austria"],
-    stay:{area:"Schallmoos district",why:"10 min walk to the Salzach. NEVER Altstadt — tourist premium doubles the price for same quality.",budget:"€65–90/night for 5 people — 2 nights (23–25 Jun)",search:"Search Airbnb: 'Schallmoos Salzburg 5 guests'.",picks:["Near Hbf is fine — Bus 150 for Schafbergbahn departs from here","Schallmoos — local, quiet, 10 min walk to river","Never book Altstadt — 2× price, same or worse quality"],bookingLinks:[
-      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Salzburg&checkin=2026-06-23&checkout=2026-06-25&group_adults=5&nflt=price%3DEUR-50-120-1",price:"€55–100/night",icon:"🔵"},
-      {name:"Airbnb",url:"https://www.airbnb.com/s/Salzburg--Austria/homes?checkin=2026-06-23&checkout=2026-06-25&adults=5&price_max=120",price:"€65–90/night",icon:"🔴"},
-      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Salzburg&dateFrom=2026-06-23&dateTo=2026-06-25&guests=5",price:"€22–30pp",icon:"🟢"},
-      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Salzburg+Austria&q-check-in=2026-06-23&q-check-out=2026-06-25&q-rooms=1&q-room-0-adults=5",price:"€80–160/night",icon:"🟡"},
-      {name:"Agoda",url:"https://www.agoda.com/search?city=9523&checkIn=2026-06-23&checkOut=2026-06-25&rooms=1&adults=5",price:"€60–140/night",icon:"🟣"},
+    stay:{area:"Schallmoos district",why:"10 min walk to the Salzach. NEVER Altstadt — tourist premium doubles the price for same quality.",budget:"€65–90/night for 3 people — 2 nights (23–25 Jun)",search:"Search Airbnb: 'Schallmoos Salzburg 3 guests'.",picks:["Near Hbf is fine — Bus 150 for Schafbergbahn departs from here","Schallmoos — local, quiet, 10 min walk to river","Never book Altstadt — 2× price, same or worse quality"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Salzburg&checkin=2026-06-23&checkout=2026-06-25&group_adults=3&nflt=price%3DEUR-50-120-1",price:"€55–100/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/Salzburg--Austria/homes?checkin=2026-06-23&checkout=2026-06-25&adults=3&price_max=120",price:"€65–90/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Salzburg&dateFrom=2026-06-23&dateTo=2026-06-25&guests=3",price:"€22–30pp",icon:"🟢"},
+      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Salzburg+Austria&q-check-in=2026-06-23&q-check-out=2026-06-25&q-rooms=1&q-room-0-adults=3",price:"€80–160/night",icon:"🟡"},
+      {name:"Agoda",url:"https://www.agoda.com/search?city=9523&checkIn=2026-06-23&checkOut=2026-06-25&rooms=1&adults=3",price:"€60–140/night",icon:"🟣"},
     ]},
     eat:[
       {name:"Zum Fidelen Affen",type:"Local pub",dish:"Mains €10–14",note:"Very local. Austrian food. No tourist menu. Book ahead."},
@@ -743,10 +743,10 @@ export const STOPS = [
       {name:"Café Tomaselli",type:"Historic café (1705)",dish:"Melange €4.50 + Apfelstrudel €5",note:"Oldest café in Salzburg. Non-negotiable on Thu morning."},
     ],
     accommodation:{
-      airbnb:{ price:"€65–90/night", pros:"Kitchen, space for 5, Schallmoos is local and quiet", cons:"Self check-in, no daily cleaning" },
-      hostel:{ price:"€22–30pp/night", pros:"Social, YoHo Hostel is well-known, central", cons:"No privacy for group of 5, dorms, limited kitchen" },
-      hotel:{ price:"€110–170/night", pros:"Reception, reliable, daily cleaning, Altstadt views possible", cons:"Expensive for 5, tiny rooms, no kitchen" },
-      recommendation:"Airbnb in Schallmoos — best value for a group of 5. Kitchen saves €30+/day. NEVER book Altstadt — 2x the price for same quality.",
+      airbnb:{ price:"€65–90/night", pros:"Kitchen, space for 3, Schallmoos is local and quiet", cons:"Self check-in, no daily cleaning" },
+      hostel:{ price:"€22–30pp/night", pros:"Social, YoHo Hostel is well-known, central", cons:"No privacy for group of 3, dorms, limited kitchen" },
+      hotel:{ price:"€110–170/night", pros:"Reception, reliable, daily cleaning, Altstadt views possible", cons:"Expensive for 3, tiny rooms, no kitchen" },
+      recommendation:"Airbnb in Schallmoos — best value for a group of 3. Kitchen saves €30+/day. NEVER book Altstadt — 2x the price for same quality.",
     },
     connections:{
       from:"Innsbruck Hbf",to:"Salzburg Hbf",changes:0,
@@ -791,7 +791,7 @@ export const STOPS = [
     weather:{temp:"22°C",rain:"14 rain days/month in June",best:"Mornings clear. Schafbergbahn morning is essential.",tip:"Schafbergbahn can be cancelled in heavy cloud. Check 5schaetze.at the evening before. If cancelled, backup is Untersberg cable car (€24pp, 10min from Hbf by Bus 25) — 1,776m, similar views."},
     hiddenGems:[
       {title:"Kapuzinerberg Hill",desc:"Free alternative to Festung Hohensalzburg. Walk up from Linzergasse for panoramic views. Far fewer tourists.",cost:"Free",tip:"Sunset here is exceptional. Stations of the Cross along the path."},
-      {title:"Augustiner Bräustübl",desc:"Europe's largest monastery brewery (still run by monks). Half-liter €4. Bring your own food from attached deli stalls.",cost:"€4 beer",tip:"Full evening for 5 people can cost under €60 total. Where locals go."},
+      {title:"Augustiner Bräustübl",desc:"Europe's largest monastery brewery (still run by monks). Half-liter €4. Bring your own food from attached deli stalls.",cost:"€4 beer",tip:"Full evening for 3 people can cost under €60 total. Where locals go."},
       {title:"Stiftsbäckerei St. Peter",desc:"Oldest bakery in Salzburg inside St. Peter's Abbey. Sourdough loaf ~€4. Operating since the 12th century.",cost:"€4",tip:"Just a small bakery window — easy to miss."},
     ],
     workspaces:[
@@ -827,12 +827,12 @@ export const STOPS = [
       {time:"Sat 27 Jun · 09:00",icon:"🚂",title:"Regiojet → Prague direct",desc:"4hrs. €15–25pp. FREE coffee on board. Book at regiojet.com. Direct, no change. Arrive Praha hl.n. ~13:00.",tip:"Regiojet is always cheaper than OBB for Vienna→Prague. Free coffee is real — they come through with it. No seat reservation extra charge."},
     ],
     must:["Belvedere — Klimt's The Kiss (book belvedere.at, €16pp)","Vienna State Opera €3 standing — check programme at wiener-staatsoper.at","Schönbrunn Gloriette panorama (free, top of gardens)","Naschmarkt lunch (Mon–Sat, closes 18:00)"],
-    stay:{area:"Favoriten (10th) or Meidling (12th)",why:"20–25% cheaper than central districts for same quality. Wien Hbf is walkable.",budget:"€80–110/night for 5 people — 2 nights (25–27 Jun)",search:"Search Airbnb: 'Favoriten Vienna 5 guests' or 'Meidling Vienna 5 guests'.",picks:["Favoriten — near Wien Hbf, local neighbourhood, U1 metro","Meidling — U6 line, very connected, slightly cheaper","Avoid 1st district Innere Stadt — very expensive, no advantage"],bookingLinks:[
-      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Vienna&checkin=2026-06-25&checkout=2026-06-27&group_adults=5&nflt=price%3DEUR-60-150-1",price:"€70–140/night",icon:"🔵"},
-      {name:"Airbnb",url:"https://www.airbnb.com/s/Vienna--Austria/homes?checkin=2026-06-25&checkout=2026-06-27&adults=5&price_max=150",price:"€80–110/night",icon:"🔴"},
-      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Vienna&dateFrom=2026-06-25&dateTo=2026-06-27&guests=5",price:"€20–28pp",icon:"🟢"},
-      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Vienna+Austria&q-check-in=2026-06-25&q-check-out=2026-06-27&q-rooms=1&q-room-0-adults=5",price:"€100–200/night",icon:"🟡"},
-      {name:"Agoda",url:"https://www.agoda.com/search?city=9544&checkIn=2026-06-25&checkOut=2026-06-27&rooms=1&adults=5",price:"€75–160/night",icon:"🟣"},
+    stay:{area:"Favoriten (10th) or Meidling (12th)",why:"20–25% cheaper than central districts for same quality. Wien Hbf is walkable.",budget:"€80–110/night for 3 people — 2 nights (25–27 Jun)",search:"Search Airbnb: 'Favoriten Vienna 3 guests' or 'Meidling Vienna 3 guests'.",picks:["Favoriten — near Wien Hbf, local neighbourhood, U1 metro","Meidling — U6 line, very connected, slightly cheaper","Avoid 1st district Innere Stadt — very expensive, no advantage"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Vienna&checkin=2026-06-25&checkout=2026-06-27&group_adults=3&nflt=price%3DEUR-60-150-1",price:"€70–140/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/Vienna--Austria/homes?checkin=2026-06-25&checkout=2026-06-27&adults=3&price_max=150",price:"€80–110/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Vienna&dateFrom=2026-06-25&dateTo=2026-06-27&guests=3",price:"€20–28pp",icon:"🟢"},
+      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Vienna+Austria&q-check-in=2026-06-25&q-check-out=2026-06-27&q-rooms=1&q-room-0-adults=3",price:"€100–200/night",icon:"🟡"},
+      {name:"Agoda",url:"https://www.agoda.com/search?city=9544&checkIn=2026-06-25&checkOut=2026-06-27&rooms=1&adults=3",price:"€75–160/night",icon:"🟣"},
     ]},
     eat:[
       {name:"Gasthaus Pöschl",type:"Viennese restaurant",dish:"Wiener Schnitzel €15",note:"Authentic. Not touristy. The real Schnitzel."},
@@ -840,10 +840,10 @@ export const STOPS = [
       {name:"Café Landtmann",type:"Grand café (1873)",dish:"Melange + Sachertorte €10",note:"Freud's regular café. Opposite the Burgtheater. Beautiful interior."},
     ],
     accommodation:{
-      airbnb:{ price:"€80–110/night", pros:"Kitchen, space for 5, Favoriten/Meidling are local and well-connected", cons:"Self check-in, further from 1st district sights (20 min U-Bahn)" },
-      hostel:{ price:"€20–28pp/night", pros:"Social, Vienna has excellent hostels (Wombats, Ruthensteiner)", cons:"No privacy for group of 5, dorms, no kitchen for group" },
-      hotel:{ price:"€130–200/night", pros:"Grand Viennese hotel experience, reception, daily cleaning", cons:"Very expensive for 5, small rooms, no kitchen" },
-      recommendation:"Airbnb in Favoriten or Meidling — best value for a group of 5. 20–25% cheaper than central districts with same U-Bahn access. Kitchen saves €30+/day.",
+      airbnb:{ price:"€80–110/night", pros:"Kitchen, space for 3, Favoriten/Meidling are local and well-connected", cons:"Self check-in, further from 1st district sights (20 min U-Bahn)" },
+      hostel:{ price:"€20–28pp/night", pros:"Social, Vienna has excellent hostels (Wombats, Ruthensteiner)", cons:"No privacy for group of 3, dorms, no kitchen for group" },
+      hotel:{ price:"€130–200/night", pros:"Grand Viennese hotel experience, reception, daily cleaning", cons:"Very expensive for 3, small rooms, no kitchen" },
+      recommendation:"Airbnb in Favoriten or Meidling — best value for a group of 3. 20–25% cheaper than central districts with same U-Bahn access. Kitchen saves €30+/day.",
     },
     connections:{
       from:"Salzburg Hbf",to:"Wien Hauptbahnhof",changes:0,
@@ -925,22 +925,22 @@ export const STOPS = [
       {time:"14:30",icon:"🚄",title:"EuroCity → Berlin Hbf",desc:"4hrs 30min. Book at cd.cz or bahn.de. Arrive Berlin 19:00. Check in Friedrichshain. 28 June night in Berlin — exactly as planned.",tip:"The EC passes through Dresden (beautiful Elbe Valley section). Watch out the window as you pass through Germany."},
     ],
     must:["⭐ Charles Bridge at 06:00 dawn — SET YOUR ALARM NOW. Nothing compares.","Prague Castle free grounds — largest castle complex in the world by area","Josefov Jewish Quarter — most intact in Europe","Czech beer at Lokál — CZK 55, cheapest quality pint of the trip"],
-    stay:{area:"Vinohrady",why:"Art nouveau buildings, safe, excellent cafés. 8 min metro to Old Town. 30 min walk to Charles Bridge at dawn.",budget:"CZK 2,500–3,800/night for 5 people — 1 night (Sat 27 Jun)",search:"Search Airbnb: 'Vinohrady Prague 5 guests'. Near Náměstí Míru metro station.",picks:["Near Náměstí Míru metro — 3 stops from main station on line C","Vinohrady is Prague's most beautiful liveable neighbourhood","Avoid Old Town — 2× price, noisier, restaurants are tourist traps"],bookingLinks:[
-      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Vinohrady%2C+Prague&checkin=2026-06-27&checkout=2026-06-28&group_adults=5&nflt=price%3DCZK-1500-5000-1",price:"CZK 2,000–4,500/night",icon:"🔵"},
-      {name:"Airbnb",url:"https://www.airbnb.com/s/Vinohrady--Prague--Czech-Republic/homes?checkin=2026-06-27&checkout=2026-06-28&adults=5&price_max=180",price:"CZK 2,500–3,800/night",icon:"🔴"},
-      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Prague&dateFrom=2026-06-27&dateTo=2026-06-28&guests=5",price:"CZK 400–600pp",icon:"🟢"},
-      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Vinohrady+Prague&q-check-in=2026-06-27&q-check-out=2026-06-28&q-rooms=1&q-room-0-adults=5",price:"CZK 3,000–6,000/night",icon:"🟡"},
-      {name:"Agoda",url:"https://www.agoda.com/search?city=14866&checkIn=2026-06-27&checkOut=2026-06-28&rooms=1&adults=5",price:"CZK 2,200–5,000/night",icon:"🟣"},
+    stay:{area:"Vinohrady",why:"Art nouveau buildings, safe, excellent cafés. 8 min metro to Old Town. 30 min walk to Charles Bridge at dawn.",budget:"CZK 2,500–3,800/night for 3 people — 1 night (Sat 27 Jun)",search:"Search Airbnb: 'Vinohrady Prague 3 guests'. Near Náměstí Míru metro station.",picks:["Near Náměstí Míru metro — 3 stops from main station on line C","Vinohrady is Prague's most beautiful liveable neighbourhood","Avoid Old Town — 2× price, noisier, restaurants are tourist traps"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Vinohrady%2C+Prague&checkin=2026-06-27&checkout=2026-06-28&group_adults=3&nflt=price%3DCZK-1500-5000-1",price:"CZK 2,000–4,500/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/Vinohrady--Prague--Czech-Republic/homes?checkin=2026-06-27&checkout=2026-06-28&adults=3&price_max=180",price:"CZK 2,500–3,800/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Prague&dateFrom=2026-06-27&dateTo=2026-06-28&guests=3",price:"CZK 400–600pp",icon:"🟢"},
+      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Vinohrady+Prague&q-check-in=2026-06-27&q-check-out=2026-06-28&q-rooms=1&q-room-0-adults=3",price:"CZK 3,000–6,000/night",icon:"🟡"},
+      {name:"Agoda",url:"https://www.agoda.com/search?city=14866&checkIn=2026-06-27&checkOut=2026-06-28&rooms=1&adults=3",price:"CZK 2,200–5,000/night",icon:"🟣"},
     ]},
     eat:[
       {name:"Lokál (Dlouhá 33)",type:"Czech restaurant group",dish:"Svíčková CZK 185, beer CZK 55",note:"Best Czech food in Prague. Genuine Pilsner Urquell tank beer."},
       {name:"U Fleků brewery",type:"Brewing since 1499",dish:"Dark beer CZK 65",note:"Oldest brewery in Europe. Group-friendly."},
     ],
     accommodation:{
-      airbnb:{ price:"CZK 2,500–3,800/night (€100–150)", pros:"Kitchen, space for 5, Vinohrady is beautiful and safe", cons:"Self check-in, slightly further from Old Town (8 min metro)" },
-      hostel:{ price:"CZK 400–600pp/night (€16–24pp)", pros:"Prague has world-class hostels (Sir Toby's, Czech Inn), very social", cons:"No privacy for group of 5, dorms, party atmosphere" },
-      hotel:{ price:"CZK 3,000–5,000/night (€120–200)", pros:"Reception, daily cleaning, some have Old Town views", cons:"Small rooms, expensive for 5, no kitchen" },
-      recommendation:"Airbnb in Vinohrady — best value for a group of 5. Prague is cheap enough that eating out is affordable, but a kitchen still saves money on breakfasts.",
+      airbnb:{ price:"CZK 2,500–3,800/night (€100–150)", pros:"Kitchen, space for 3, Vinohrady is beautiful and safe", cons:"Self check-in, slightly further from Old Town (8 min metro)" },
+      hostel:{ price:"CZK 400–600pp/night (€16–24pp)", pros:"Prague has world-class hostels (Sir Toby's, Czech Inn), very social", cons:"No privacy for group of 3, dorms, party atmosphere" },
+      hotel:{ price:"CZK 3,000–5,000/night (€120–200)", pros:"Reception, daily cleaning, some have Old Town views", cons:"Small rooms, expensive for 3, no kitchen" },
+      recommendation:"Airbnb in Vinohrady — best value for a group of 3. Prague is cheap enough that eating out is affordable, but a kitchen still saves money on breakfasts.",
     },
     connections:{
       from:"Wien Hbf",to:"Praha hlavní nádraží",changes:0,
@@ -1021,13 +1021,13 @@ export const STOPS = [
       {time:"Fri 3 Jul",icon:"🌙",title:"Last day + Nightjet 23:03",desc:"Tempelhof field (free — former Nazi airport turned public park, surreal). Currywurst at Konnopke's (since 1930, €3, under the U2 bridge at Schönhauser Allee). Collect bags 22:30. S-Bahn to Berlin Hbf. Board Nightjet 23:03. You sleep Berlin to Amsterdam.",tip:"Be at Berlin Hbf at 22:30. Find the Nightjet platform — announced 30 min before. Staff will show you to your couchette. You need your booking reference. The train is overnight — you arrive Amsterdam Centraal at approximately 09:30."},
     ],
     must:["⭐ East Side Gallery — free, 1.3km, most powerful art in Europe","Book Reichstag dome NOW at bundestag.de — free but fills weeks ahead","Museum Island day pass €24 — Nefertiti bust, Pergamon gates","Konnopke's Currywurst €3 — since 1930, under the U2 bridge"],
-    stay:{area:"Friedrichshain",why:"Most interesting neighbourhood for a 5-night stay. Simon Dach Kiez for bars. 10 min U-Bahn to central Berlin.",budget:"€80–110/night for 5 people — 5 nights (28 Jun–3 Jul)",search:"Search Airbnb: 'Friedrichshain Berlin 5 guests'. Book immediately — 5 nights in June sells out.",picks:["Simon Dach Kiez area — heart of Friedrichshain","Near Boxhagener Platz — Sunday flea market","Near Ostbahnhof — S-Bahn connections + East Side Gallery 5 min walk"],bookingLinks:[
-      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Friedrichshain%2C+Berlin&checkin=2026-06-28&checkout=2026-07-03&group_adults=5&nflt=price%3DEUR-60-150-1",price:"€70–130/night",icon:"🔵"},
-      {name:"Airbnb",url:"https://www.airbnb.com/s/Friedrichshain--Berlin--Germany/homes?checkin=2026-06-28&checkout=2026-07-03&adults=5&price_max=150",price:"€80–110/night",icon:"🔴"},
-      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Berlin&dateFrom=2026-06-28&dateTo=2026-07-03&guests=5",price:"€18–25pp",icon:"🟢"},
-      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Friedrichshain+Berlin&q-check-in=2026-06-28&q-check-out=2026-07-03&q-rooms=1&q-room-0-adults=5",price:"€80–160/night",icon:"🟡"},
-      {name:"Agoda",url:"https://www.agoda.com/search?city=14813&checkIn=2026-06-28&checkOut=2026-07-03&rooms=1&adults=5",price:"€70–140/night",icon:"🟣"},
-      {name:"Wunderflats",url:"https://wunderflats.com/en/furnished-apartments/berlin?move_in=2026-06-28&move_out=2026-07-03&guests=5",price:"€90–130/night",icon:"🟠"},
+    stay:{area:"Friedrichshain",why:"Most interesting neighbourhood for a 5-night stay. Simon Dach Kiez for bars. 10 min U-Bahn to central Berlin.",budget:"€80–110/night for 3 people — 5 nights (28 Jun–3 Jul)",search:"Search Airbnb: 'Friedrichshain Berlin 3 guests'. Book immediately — 5 nights in June sells out.",picks:["Simon Dach Kiez area — heart of Friedrichshain","Near Boxhagener Platz — Sunday flea market","Near Ostbahnhof — S-Bahn connections + East Side Gallery 5 min walk"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=Friedrichshain%2C+Berlin&checkin=2026-06-28&checkout=2026-07-03&group_adults=3&nflt=price%3DEUR-60-150-1",price:"€70–130/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/Friedrichshain--Berlin--Germany/homes?checkin=2026-06-28&checkout=2026-07-03&adults=3&price_max=150",price:"€80–110/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Berlin&dateFrom=2026-06-28&dateTo=2026-07-03&guests=3",price:"€18–25pp",icon:"🟢"},
+      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=Friedrichshain+Berlin&q-check-in=2026-06-28&q-check-out=2026-07-03&q-rooms=1&q-room-0-adults=3",price:"€80–160/night",icon:"🟡"},
+      {name:"Agoda",url:"https://www.agoda.com/search?city=14813&checkIn=2026-06-28&checkOut=2026-07-03&rooms=1&adults=3",price:"€70–140/night",icon:"🟣"},
+      {name:"Wunderflats",url:"https://wunderflats.com/en/furnished-apartments/berlin?move_in=2026-06-28&move_out=2026-07-03&guests=3",price:"€90–130/night",icon:"🟠"},
     ]},
     eat:[
       {name:"Konnopke's Imbiss",type:"Historic currywurst",dish:"Currywurst €3",note:"Since 1930 under the U2 bridge. The original Berlin street food."},
@@ -1035,10 +1035,10 @@ export const STOPS = [
       {name:"Markthalle Neun",type:"Food market",dish:"Various €5–12",note:"Thu evening street food 17:00–22:00. Eisenbahnstraße 42–43."},
     ],
     accommodation:{
-      airbnb:{ price:"€80–110/night", pros:"Kitchen, space for 5, Friedrichshain character, washing machine for 5-night stay", cons:"Berlin Airbnb regulations are strict — ensure listing is legal, self check-in" },
-      hostel:{ price:"€18–25pp/night", pros:"Berlin has world-famous hostels (Generator, Circus), very social, central", cons:"No privacy for group of 5, dorms, party noise in Friedrichshain" },
-      hotel:{ price:"€100–160/night", pros:"Reception, daily cleaning, reliable", cons:"Expensive for 5 over 5 nights, small rooms, no kitchen — meals add up over 5 days" },
-      recommendation:"Airbnb — essential for a 5-night stay with 5 people. Kitchen saves €150+ over 5 days on breakfasts alone. Washing machine means you can pack lighter.",
+      airbnb:{ price:"€80–110/night", pros:"Kitchen, space for 3, Friedrichshain character, washing machine for 5-night stay", cons:"Berlin Airbnb regulations are strict — ensure listing is legal, self check-in" },
+      hostel:{ price:"€18–25pp/night", pros:"Berlin has world-famous hostels (Generator, Circus), very social, central", cons:"No privacy for group of 3, dorms, party noise in Friedrichshain" },
+      hotel:{ price:"€100–160/night", pros:"Reception, daily cleaning, reliable", cons:"Expensive for 3 over 5 nights, small rooms, no kitchen — meals add up over 5 days" },
+      recommendation:"Airbnb — essential for a 5-night stay with 3 people. Kitchen saves €150+ over 5 days on breakfasts alone. Washing machine means you can pack lighter.",
     },
     connections:{
       from:"Praha hl.n.",to:"Berlin Hauptbahnhof",changes:0,
@@ -1127,12 +1127,12 @@ export const STOPS = [
       {time:"Mon 6 Jul · Check out",icon:"✈",title:"IC Direct → Schiphol → Home",desc:"IC Direct train from Amsterdam Centraal → Amsterdam Schiphol Airport. 17 minutes, runs every 15 minutes, €5.50pp. Allow 2.5–3 hours before your flight departure.",tip:"International departures at Schiphol are on the upper level. Security at Schiphol can be slow in summer — allow the full 3 hours."},
     ],
     must:["⭐ Anne Frank House — book annefrank.org MONTHS AHEAD. No walk-in ever.","Van Gogh Museum — book vangoghmuseum.nl months ahead","Albert Cuypmarkt herring + stroopwafel","Rijksmuseum — Rembrandt's Night Watch"],
-    stay:{area:"De Pijp",why:"Albert Cuypmarkt at the door. Tram 24 to Rijksmuseum in 10 min. 30–40% cheaper than Jordaan/Centrum.",budget:"€130–185/night for 5 people — 2 nights (4–6 Jul)",search:"Search Airbnb: 'De Pijp Amsterdam 5 guests'. BOOK FIRST — July Amsterdam fills 3–4 months ahead.",picks:["Near Albert Cuypstraat (the market street)","Gerard Doustraat area — heart of De Pijp","Amsterdam-Oost is cheaper alternative — 15 min tram to centre"],bookingLinks:[
-      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=De+Pijp%2C+Amsterdam&checkin=2026-07-04&checkout=2026-07-06&group_adults=5&nflt=price%3DEUR-80-200-1",price:"€100–200/night",icon:"🔵"},
-      {name:"Airbnb",url:"https://www.airbnb.com/s/De-Pijp--Amsterdam--Netherlands/homes?checkin=2026-07-04&checkout=2026-07-06&adults=5&price_max=200",price:"€130–185/night",icon:"🔴"},
-      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Amsterdam&dateFrom=2026-07-04&dateTo=2026-07-06&guests=5",price:"€30–45pp",icon:"🟢"},
-      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=De+Pijp+Amsterdam&q-check-in=2026-07-04&q-check-out=2026-07-06&q-rooms=1&q-room-0-adults=5",price:"€120–230/night",icon:"🟡"},
-      {name:"Agoda",url:"https://www.agoda.com/search?city=16653&checkIn=2026-07-04&checkOut=2026-07-06&rooms=1&adults=5",price:"€110–200/night",icon:"🟣"},
+    stay:{area:"De Pijp",why:"Albert Cuypmarkt at the door. Tram 24 to Rijksmuseum in 10 min. 30–40% cheaper than Jordaan/Centrum.",budget:"€130–185/night for 3 people — 2 nights (4–6 Jul)",search:"Search Airbnb: 'De Pijp Amsterdam 3 guests'. BOOK FIRST — July Amsterdam fills 3–4 months ahead.",picks:["Near Albert Cuypstraat (the market street)","Gerard Doustraat area — heart of De Pijp","Amsterdam-Oost is cheaper alternative — 15 min tram to centre"],bookingLinks:[
+      {name:"Booking.com",url:"https://www.booking.com/searchresults.html?ss=De+Pijp%2C+Amsterdam&checkin=2026-07-04&checkout=2026-07-06&group_adults=3&nflt=price%3DEUR-80-200-1",price:"€100–200/night",icon:"🔵"},
+      {name:"Airbnb",url:"https://www.airbnb.com/s/De-Pijp--Amsterdam--Netherlands/homes?checkin=2026-07-04&checkout=2026-07-06&adults=3&price_max=200",price:"€130–185/night",icon:"🔴"},
+      {name:"Hostelworld",url:"https://www.hostelworld.com/s?q=Amsterdam&dateFrom=2026-07-04&dateTo=2026-07-06&guests=3",price:"€30–45pp",icon:"🟢"},
+      {name:"Hotels.com",url:"https://www.hotels.com/search.do?q-destination=De+Pijp+Amsterdam&q-check-in=2026-07-04&q-check-out=2026-07-06&q-rooms=1&q-room-0-adults=3",price:"€120–230/night",icon:"🟡"},
+      {name:"Agoda",url:"https://www.agoda.com/search?city=16653&checkIn=2026-07-04&checkOut=2026-07-06&rooms=1&adults=3",price:"€110–200/night",icon:"🟣"},
     ]},
     eat:[
       {name:"Albert Cuypmarkt haring + stroopwafel",type:"Street market",dish:"€5 total",note:"Raw herring head-tilted. Fresh stroopwafel from the stand."},
@@ -1140,15 +1140,15 @@ export const STOPS = [
       {name:"Café 't Smalle",type:"Brown café (1786)",dish:"Beer €4",note:"Oldest brown café in Jordaan. Egelantiersgracht 12. Canalside."},
     ],
     accommodation:{
-      airbnb:{ price:"€130–185/night", pros:"Kitchen, space for 5, De Pijp is vibrant and well-connected", cons:"Amsterdam strictly regulates Airbnb (max 30 nights/year), verify listing is legal, expensive city" },
-      hostel:{ price:"€30–45pp/night", pros:"Amsterdam has legendary hostels (Flying Pig, ClinkNOORD), very social", cons:"No privacy for group of 5, dorms, party city noise" },
-      hotel:{ price:"€160–250/night", pros:"Canal views possible, reception, daily cleaning", cons:"Very expensive for 5, tiny Dutch rooms, no kitchen — Amsterdam dining is €15+ per meal" },
-      recommendation:"Airbnb in De Pijp — best value for a group of 5 in Amsterdam's most expensive city. Kitchen saves €40+/day. Verify listing is legally registered (Amsterdam requires registration number).",
+      airbnb:{ price:"€130–185/night", pros:"Kitchen, space for 3, De Pijp is vibrant and well-connected", cons:"Amsterdam strictly regulates Airbnb (max 30 nights/year), verify listing is legal, expensive city" },
+      hostel:{ price:"€30–45pp/night", pros:"Amsterdam has legendary hostels (Flying Pig, ClinkNOORD), very social", cons:"No privacy for group of 3, dorms, party city noise" },
+      hotel:{ price:"€160–250/night", pros:"Canal views possible, reception, daily cleaning", cons:"Very expensive for 3, tiny Dutch rooms, no kitchen — Amsterdam dining is €15+ per meal" },
+      recommendation:"Airbnb in De Pijp — best value for a group of 3 in Amsterdam's most expensive city. Kitchen saves €40+/day. Verify listing is legally registered (Amsterdam requires registration number).",
     },
     connections:{
       from:"Berlin Hbf",to:"Amsterdam Centraal",changes:0,
       legs:[
-        {train:"🌙 Nightjet overnight couchette",dep:"Berlin Hbf · 23:03 SHARP",arr:"Amsterdam Centraal · ~09:30",dur:"10.5hrs overnight",cost:"€70–120pp 6-berth couchette",platform:"Berlin Hbf: platform announced 30 min before on departure board. Look for 'Nightjet NJ' and 'Amsterdam'. The train is long — find your car number on the platform.",notes:"BOOK IMMEDIATELY at nightjet.com or oebb.at. 6-berth couchette for 5 people. Staff show you to your berth. Bedding provided. You sleep. You wake up in Amsterdam. This is the best way to travel in Europe."},
+        {train:"🌙 Nightjet overnight couchette",dep:"Berlin Hbf · 23:03 SHARP",arr:"Amsterdam Centraal · ~09:30",dur:"10.5hrs overnight",cost:"€70–120pp 6-berth couchette",platform:"Berlin Hbf: platform announced 30 min before on departure board. Look for 'Nightjet NJ' and 'Amsterdam'. The train is long — find your car number on the platform.",notes:"BOOK IMMEDIATELY at nightjet.com or oebb.at. 6-berth couchette for 3 people. Staff show you to your berth. Bedding provided. You sleep. You wake up in Amsterdam. This is the best way to travel in Europe."},
       ],
       tip:"BE AT BERLIN HBF BY 22:30. The Nightjet departs exactly at 23:03 — it will not wait. S-Bahn from Friedrichshain to Berlin Hbf is 8 min. Collect bags from Airbnb by 22:00 (5-night guests are always allowed late bag collection — confirm with host).",
     },
@@ -1207,7 +1207,7 @@ export const STOPS = [
 
 export const JOURNEYS = [
   { from:"Nepal", to:"Delhi DEL", via:"Flight (1hr)", date:"Mon 15 Jun", dur:"1hr", cost:"Included", type:"flight", bookingUrl:"https://www.skyscanner.com/" },
-  { from:"Delhi DEL", to:"Rome FCO", via:"Turkish Airlines TK717+TK1865 via Istanbul", date:"Tue 16 Jun 06:30", dur:"11h 10m", cost:"$500–600pp", type:"flight", bookingUrl:"https://www.skyscanner.com/transport/flights/del/fco/260616/" },
+  { from:"Delhi DEL", to:"Rome FCO", via:"Turkish Airlines TK717+TK1865 via Istanbul", date:"Tue 16 Jun 06:00", dur:"11h 10m", cost:"$500–600pp", type:"flight", bookingUrl:"https://www.skyscanner.com/transport/flights/del/fco/260616/" },
   { from:"FCO Terminal 3", to:"Roma Termini", via:"Leonardo Express", date:"Tue 16 Jun 15:15", dur:"32 min", cost:"€14pp", type:"train", bookingUrl:"https://www.trenitalia.com/en.html" },
   { from:"Roma Termini", to:"Napoli Centrale", via:"Frecciarossa", date:"Tue 16 Jun 16:30", dur:"1h 10min", cost:"€15–25pp", type:"highspeed", bookingUrl:"https://www.trenitalia.com/en.html" },
   { from:"Naples", to:"Amalfi Coast (Positano)", via:"Private minivan", date:"Wed 17 Jun 10:00", dur:"1.5hrs", cost:"€150–200 total", type:"car", bookingUrl:"https://www.getyourguide.com/" },
@@ -1217,11 +1217,14 @@ export const JOURNEYS = [
   { from:"Milano Centrale", to:"Como San Giovanni", via:"Trenord regional", date:"Fri 19 Jun ~14:00", dur:"40 min", cost:"€5pp", type:"regional", bookingUrl:"https://www.trenitalia.com/en.html" },
   { from:"Como San Giovanni", to:"Lucerne Hbf", via:"Lugano + SBB", date:"Sat 20 Jun 06:24", dur:"~3hrs", cost:"€4 + CHF 22", type:"regional", bookingUrl:"https://www.sbb.ch/en" },
   { from:"Lucerne Hbf", to:"Interlaken West", via:"Brünig scenic line", date:"Sat 20 Jun 10:15", dur:"2hrs", cost:"CHF 30pp", type:"scenic", bookingUrl:"https://www.sbb.ch/en" },
-  { from:"Interlaken Ost", to:"Lauterbrunnen", via:"Local train", date:"Sat 20 Jun 12:35", dur:"20min", cost:"CHF 6pp", type:"regional", bookingUrl:"https://www.sbb.ch/en" },
-  { from:"Interlaken", to:"Zürich HB", via:"Direct via Bern", date:"Sun 21 Jun 07:30", dur:"2hrs", cost:"CHF 35pp", type:"highspeed", bookingUrl:"https://www.sbb.ch/en" },
-  { from:"Zürich HB", to:"Imst-Pitztal", via:"EC — exit early", date:"Sun 21 Jun 19:30", dur:"2h 15min", cost:"CHF 40pp", type:"highspeed", bookingUrl:"https://www.oebb.at/en/" },
-  { from:"Imst-Pitztal", to:"Innsbruck Hbf", via:"OBB regional (part of Innsbruck stop)", date:"Mon 22 Jun ~11:30", dur:"30 min", cost:"€6pp", type:"regional", bookingUrl:"https://www.oebb.at/en/" },
-  { from:"Innsbruck Hbf", to:"Salzburg Hbf", via:"OBB Railjet", date:"Tue 23 Jun 15:00", dur:"1h 50m", cost:"€9–25pp ⭐Sparschiene", type:"highspeed", bookingUrl:"https://www.oebb.at/en/" },
+  { from:"Interlaken Ost", to:"Lauterbrunnen", via:"BLS local train", date:"Sat 20 Jun 12:35", dur:"20min", cost:"CHF 6pp", type:"regional", bookingUrl:"https://www.sbb.ch/en" },
+  { from:"Lauterbrunnen", to:"Interlaken Ost", via:"BLS regional return", date:"Sat 20 Jun 15:35", dur:"20min", cost:"CHF 6pp", type:"regional", bookingUrl:"https://www.sbb.ch/en" },
+  { from:"Interlaken West", to:"Zürich HB", via:"SBB direct via Bern", date:"Sat 20 Jun 16:30", dur:"2hrs", cost:"CHF 35pp", type:"highspeed", bookingUrl:"https://www.sbb.ch/en" },
+  { from:"Zürich HB", to:"Innsbruck Hbf", via:"🚄 EC163 Transalpin direct", date:"Sat 20 Jun 19:33", dur:"3h 27m", cost:"CHF 60–80pp", type:"highspeed", bookingUrl:"https://www.oebb.at/en/" },
+  { from:"Innsbruck Hbf", to:"Imst-Pitztal", via:"ÖBB regional (Alpine Coaster day-trip)", date:"Mon 22 Jun 09:00", dur:"40min", cost:"€6pp", type:"regional", bookingUrl:"https://www.oebb.at/en/" },
+  { from:"Imst-Pitztal", to:"Innsbruck Hbf", via:"ÖBB regional return", date:"Mon 22 Jun 13:30", dur:"40min", cost:"€6pp", type:"regional", bookingUrl:"https://www.oebb.at/en/" },
+  { from:"Innsbruck Hbf", to:"Salzburg Hbf", via:"ÖBB Railjet", date:"Mon 22 Jun 15:00", dur:"1h 50m", cost:"€9–25pp ⭐Sparschiene", type:"highspeed", bookingUrl:"https://www.oebb.at/en/" },
+  { from:"Salzburg Hbf", to:"Hallstatt", via:"ÖBB + ferry across lake (via Attnang-Puchheim)", date:"Tue 23 Jun 08:30", dur:"2h 30m", cost:"€30pp roundtrip", type:"regional", bookingUrl:"https://www.oebb.at/en/" },
   { from:"Salzburg Hbf", to:"Wien Hbf", via:"OBB Railjet", date:"Thu 25 Jun 17:00", dur:"2h 25m", cost:"€9–35pp ⭐Sparschiene", type:"highspeed", bookingUrl:"https://www.oebb.at/en/" },
   { from:"Wien Hbf", to:"Praha hlavní nádraží", via:"Regiojet (free coffee!)", date:"Sat 27 Jun 09:00", dur:"4hrs", cost:"€15–25pp", type:"regional", bookingUrl:"https://www.regiojet.com/en/" },
   { from:"Praha hlavní nádraží", to:"Berlin Hbf", via:"EuroCity direct", date:"Sun 28 Jun 14:30", dur:"4h 30m", cost:"€25–45pp", type:"highspeed", bookingUrl:"https://www.cd.cz/en/" },
@@ -1230,13 +1233,13 @@ export const JOURNEYS = [
 ];
 
 export const BOOKING = [
-  { priority: 1, urgency: "TODAY", item: "🌙 Nightjet Berlin → Amsterdam", detail: "Sells out months ahead in summer. 6-berth couchette for 5 people.", url: "https://www.nightjet.com/en/", date: "Fri 3 Jul 23:03" },
+  { priority: 1, urgency: "TODAY", item: "🌙 Nightjet Berlin → Amsterdam", detail: "Sells out months ahead in summer. 6-berth couchette for 3 people.", url: "https://www.nightjet.com/en/", date: "Fri 3 Jul 23:03" },
   { priority: 2, urgency: "TODAY", item: "⭐ Schafbergbahn steam cogwheel", detail: "Sells out in summer. Book your 09:20 ascent time.", url: "https://www.5schaetze.at/en/schafbergbahn/prices-and-timetables.html", date: "Wed 24 Jun ~09:20" },
-  { priority: 3, urgency: "TODAY", item: "🇳🇱 Amsterdam Airbnb", detail: "July Amsterdam sells out 3–4 months ahead. Book before any other city.", url: "https://www.airbnb.com/s/Amsterdam--Netherlands/homes?checkin=2026-07-04&checkout=2026-07-06&adults=5", date: "4–6 Jul" },
-  { priority: 4, urgency: "THIS WEEK", item: "🇩🇪 Berlin Airbnb (5 nights!)", detail: "Your longest stay — comfort matters most here.", url: "https://www.airbnb.com/s/Friedrichshain--Berlin--Germany/homes?checkin=2026-06-28&checkout=2026-07-03&adults=5", date: "28 Jun–3 Jul" },
+  { priority: 3, urgency: "TODAY", item: "🇳🇱 Amsterdam Airbnb", detail: "July Amsterdam sells out 3–4 months ahead. Book before any other city.", url: "https://www.airbnb.com/s/Amsterdam--Netherlands/homes?checkin=2026-07-04&checkout=2026-07-06&adults=3", date: "4–6 Jul" },
+  { priority: 4, urgency: "THIS WEEK", item: "🇩🇪 Berlin Airbnb (5 nights!)", detail: "Your longest stay — comfort matters most here.", url: "https://www.airbnb.com/s/Friedrichshain--Berlin--Germany/homes?checkin=2026-06-28&checkout=2026-07-03&adults=3", date: "28 Jun–3 Jul" },
   { priority: 5, urgency: "THIS WEEK", item: "📖 Anne Frank House Amsterdam", detail: "MONTHS AHEAD — no walk-in ever. Non-negotiable.", url: "https://www.annefrank.org/en/museum/tickets/", date: "Sun 5 Jul" },
   { priority: 6, urgency: "THIS WEEK", item: "🚄 Frecciarossa Rome→Naples ×2", detail: "Book round trip: Tue 16 Jun 16:30 Rome→Naples + Wed 17 Jun 17:30 Naples→Rome. €15-25pp each way.", url: "https://www.trenitalia.com/en.html", date: "16-17 Jun" },
-  { priority: 7, urgency: "THIS WEEK", item: "🚐 Amalfi Coast private minivan", detail: "Book driver for 5 people: Naples→Positano→Amalfi→Naples. €150-200 total.", url: "https://www.getyourguide.com/naples-l67/amalfi-coast-private-tour-t1/", date: "Wed 17 Jun 10:00" },
+  { priority: 7, urgency: "THIS WEEK", item: "🚐 Amalfi Coast private minivan", detail: "Book driver for 3 people: Naples→Positano→Amalfi→Naples. €150-200 total.", url: "https://www.getyourguide.com/naples-l67/amalfi-coast-private-tour-t1/", date: "Wed 17 Jun 10:00" },
   { priority: 8, urgency: "THIS WEEK", item: "⛪ Vatican Museums & Sistine Chapel", detail: "June sells out completely. Walk straight past queues.", url: "https://www.museivaticani.va/content/museivaticani/en.html", date: "Thu 18 Jun 15:00" },
   { priority: 9, urgency: "THIS WEEK", item: "🚄 OBB Sparschiene ×2", detail: "Innsbruck→Salzburg + Salzburg→Vienna. €9pp if booked now.", url: "https://www.oebb.at/en/", date: "23 Jun + 25 Jun" },
   { priority: 10, urgency: "SOON", item: "🖼 Van Gogh Museum Amsterdam", detail: "Book months ahead in summer — often sold out.", url: "https://www.vangoghmuseum.nl/en/plan-your-visit/tickets-and-opening-hours", date: "Sun 5 Jul" },
@@ -1248,14 +1251,14 @@ export const BOOKING = [
 
 export const CALENDAR = [
   { date:"Mon 15 Jun", dayN:0,  type:"travel",  icon:"✈",  stop:"ktm",           city:"Nepal → Delhi",                   flag:"🇳🇵",    summary:"Fly Nepal → Delhi (1hr) · Check into Delhi hotel · Rest 12+ hours before early morning flight tomorrow", move:true },
-  { date:"Tue 16 Jun", dayN:1,  type:"arrive",  icon:"✈",  stop:"fco",           city:"Delhi → Rome → Naples",           flag:"✈️🇮🇹",  summary:"DEL 06:30 → IST 10:50 (TK717) → FCO 14:10 (TK1865) · Leonardo Express → Termini · Store bags Kipoint · 🚄 Frecciarossa → Naples 17:40 · 🍕 Pizza at Da Michele/Sorbillo!", move:true },
+  { date:"Tue 16 Jun", dayN:1,  type:"arrive",  icon:"✈",  stop:"fco",           city:"Delhi → Rome → Naples",           flag:"✈️🇮🇹",  summary:"DEL 06:00 → IST 10:20 (TK717) → FCO 14:00 (TK1865) · Leonardo Express → Termini · Store bags Kipoint · 🚄 Frecciarossa → Naples 17:40 · 🍕 Pizza at Da Michele/Sorbillo!", move:true },
   { date:"Wed 17 Jun", dayN:2,  type:"explore", icon:"🏖",  stop:"amalfi",        city:"Amalfi Coast + → Rome",           flag:"🏖️🇮🇹",  summary:"Morning Naples walk · 🚐 Private minivan to Positano (€30-40pp) · Lunch on the coast · Optional Amalfi town · Return Naples · 🚄 Frecciarossa → Rome 18:40 · Check in Trastevere", move:true },
   { date:"Thu 18 Jun", dayN:3,  type:"explore", icon:"🏛",  stop:"rome",          city:"Rome — Full Day",                 flag:"🇮🇹",    summary:"Colosseum + Roman Forum 09:00 (pre-booked) · Pantheon €5 · Trevi Fountain · Vatican + Sistine Chapel 15:00 (pre-booked) · Trastevere dinner — cacio e pepe" },
   { date:"Fri 19 Jun", dayN:4,  type:"move",    icon:"🚄",  stop:"rome",          city:"Rome → Como",                     flag:"🇮🇹",    summary:"🚄 10:00 Frecciarossa → Milano Centrale (3hrs, €22pp) · Trenord → Como San Giovanni 40min · Arrive ~15:00 · Brunate funicular · Ferry to Varenna or Bellagio · Lakefront dinner", move:true },
-  { date:"Sat 20 Jun", dayN:5,  type:"explore", icon:"🌊",  stop:"como",          city:"Lake Como → Switzerland",         flag:"🇮🇹🇨🇭",  summary:"06:24 FIRST TRAIN · Como → Lugano → Lucerne · Chapel Bridge + Lion Monument · Brünig Line → Interlaken → Lauterbrunnen · Staubach Falls + Trümmelbach Falls · Sleep Interlaken", move:true },
-  { date:"Sun 21 Jun", dayN:6,  type:"move",    icon:"🏙",  stop:"zurich",        city:"Interlaken → Zürich → Imst",      flag:"🇨🇭🇦🇹", summary:"07:30 direct Interlaken → Zürich via Bern (2hrs) · Zürich 09:30–19:30: Fraumünster Chagall windows CHF 4 + Lake + Niederdorf + Sprüngli · 19:30 EC → Imst-Pitztal 21:45 · Sleep Imst", move:true },
-  { date:"Mon 22 Jun", dayN:7,  type:"move",    icon:"🎿",  stop:"innsbruck",     city:"Imst Coaster → Innsbruck",        flag:"🇦🇹",    summary:"09:00 ⭐ Imst Alpine Coaster (3.5km stainless steel, €12–15pp/ride, do 2–3 rides) · Train Imst-Pitztal → Innsbruck 12:00 · Golden Roof · Hofburg · Altstadt evening · Sleep Innsbruck", move:true },
-  { date:"Tue 23 Jun", dayN:8,  type:"move",    icon:"🏔",  stop:"innsbruck",     city:"Innsbruck → Salzburg",            flag:"🇦🇹",    summary:"08:00 ⭐ Nordkette 2334m (FIRST THING — clouds by noon!) · Inn Valley panorama · Altstadt + Golden Roof · 15:00 Railjet → Salzburg 16:50", move:true },
+  { date:"Sat 20 Jun", dayN:5,  type:"move",    icon:"🌊",  stop:"innsbruck",     city:"Switzerland day-trip → Innsbruck",flag:"🇮🇹🇨🇭🇦🇹", summary:"⚠️ HEAVY DAY — pack snacks · 06:24 Como → Lucerne 09:25 · Drop bags station lockers · Brünig scenic 10:15 → Interlaken Ost 12:15 (sit RIGHT) · 12:35 → Lauterbrunnen 12:55 · Staubbach Falls + valley walk (2.5hr) · 15:35 back to Interlaken · 16:30 → Zürich HB 18:30 · 19:33 EC163 Transalpin → Innsbruck Hbf 23:00 · Sleep Innsbruck", move:true },
+  { date:"Sun 21 Jun", dayN:6,  type:"explore", icon:"🚠",  stop:"innsbruck",     city:"Innsbruck — Nordkette + Old Town",flag:"🇦🇹",    summary:"Sleep in! · 10:00 ⭐ Nordkette cable car to 2,334m (Hafelekar) — 20min ascent from city centre, panorama of Inn Valley · Lunch top-of-mountain · Old Town: Golden Roof, Hofburg palace · Inn River walk · Evening Stiftskeller dinner — Tyrolean schnitzel" },
+  { date:"Mon 22 Jun", dayN:7,  type:"move",    icon:"🎿",  stop:"innsbruck",     city:"Imst Coaster → Salzburg",         flag:"🇦🇹",    summary:"09:00 ⭐ Imst Alpine Coaster (40min train Innsbruck→Imst-Pitztal, €6pp; 3.5km stainless coaster €12–15pp/ride, do 2 rides) · Lunch in Imst · Back to Innsbruck 14:00 · 15:00 Railjet Innsbruck → Salzburg Hbf 16:50 · Check in Salzburg · Mirabell Gardens evening · Sleep Salzburg", move:true },
+  { date:"Tue 23 Jun", dayN:8,  type:"explore", icon:"🏞",  stop:"salzburg",      city:"Salzburg + Hallstatt day trip",   flag:"🇦🇹",    summary:"⭐ HALLSTATT DAY TRIP · 08:30 train Salzburg → Hallstatt (via Attnang-Puchheim, 2.5hr, €30pp) · Ferry across lake · UNESCO village + bone chapel + salt mine · Last train back ~17:00 · Salzburg evening: Hohensalzburg fortress + Old Town · Sleep Salzburg" },
   { date:"Wed 24 Jun", dayN:9,  type:"move",    icon:"🚞",  stop:"salzburg",      city:"Salzburg Schafbergbahn → Vienna", flag:"🇦🇹",    summary:"07:30 Bus 150 → St. Gilgen · ⛵ Wolfgangsee ferry (turquoise lake, 30min) · ⭐ 09:20 SCHAFBERGBAHN steam cogwheel 1783m · 11 lakes 360° · Back 14:00 · Hohensalzburg fortress · 🚄 Evening Railjet → Wien Hbf ~20:00", move:true },
   { date:"Thu 25 Jun", dayN:10, type:"explore", icon:"🏰",  stop:"vienna",        city:"Vienna — Day 1",                  flag:"🇦🇹",    summary:"Schönbrunn Palace gardens 09:00 (free walk + Gloriette panorama) · Naschmarkt lunch €6–8 · ⭐ Belvedere — Klimt's The Kiss €16pp (book belvedere.at) · Ringstrasse evening walk" },
   { date:"Fri 26 Jun", dayN:11, type:"explore", icon:"🎭",  stop:"vienna",        city:"Vienna — Day 2",                  flag:"🇦🇹",    summary:"Hofburg Palace free walk · Kunsthistorisches Museum optional · ⭐ Vienna State Opera €3 standing (queue 80min before) · Café Landtmann (Freud's regular, 1873) · Naschmarkt Saturday flea market" },
@@ -1272,20 +1275,20 @@ export const CALENDAR = [
 ];
 
 export const TRIP_BUDGET = {
-  flights: { total: 850, perPerson: 170, currency: "USD", note: "KTM→Rome FCO, Amsterdam→KTM return" },
+  flights: { total: 510, perPerson: 170, currency: "USD", note: "KTM→Rome FCO, Amsterdam→KTM return (3 pax)" },
   visa: { perPerson: 80, currency: "EUR", note: "Schengen Type C via German Embassy" },
   insurance: { perPerson: 40, currency: "EUR", note: "€30,000 coverage Schengen insurance" },
-  trainTotal: { total: 650, perPerson: 130, currency: "EUR", note: "All 16 train journeys combined" },
-  accommodationTotal: { perNight: 65, totalNights: 18, currency: "EUR", note: "Average across all cities for 5 people" },
+  trainTotal: { total: 390, perPerson: 130, currency: "EUR", note: "All 18 train + ferry journeys combined (3 pax)" },
+  accommodationTotal: { perNight: 75, totalNights: 18, currency: "EUR", note: "Average across all cities for 3 people (smaller flats than 5)" },
   foodDaily: { perPerson: 22, currency: "EUR", note: "Mix of restaurants, street food, supermarket" },
   activitiesTotal: { perPerson: 180, currency: "EUR", note: "All museums, tours, transport passes" },
   miscDaily: { perPerson: 8, currency: "EUR", note: "Snacks, souvenirs, tips, laundry" },
   summary: {
-    perPersonTotal: 1850,
-    groupTotal: 9250,
+    perPersonTotal: 1950,
+    groupTotal: 5850,
     currency: "EUR",
-    perPersonNPR: 265000,
-    groupTotalNPR: 1325000,
+    perPersonNPR: 279000,
+    groupTotalNPR: 837000,
     note: "Approximate total including flights, visa, insurance, accommodation, food, activities, transport, misc"
   }
 };

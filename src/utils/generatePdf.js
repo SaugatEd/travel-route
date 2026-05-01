@@ -208,7 +208,7 @@ export function generateStopPdf(stop, calendarDay, opts = {}) {
     y = subheading(doc, "Daily Budget per Person", y);
 
     const budgetItems = [
-      ["Accommodation (for 5)", `${sym}${bb.accommodation}/night`],
+      ["Accommodation (for 3)", `${sym}${bb.accommodation}/night`],
       ["Food", `${sym}${bb.food}/person/day`],
       ["Transport", `${sym}${bb.transport}/person/day`],
       ["Activities", `${sym}${bb.activities}/person/day`],
@@ -821,7 +821,7 @@ export function generateFullTripPdf(stops, calendar, opts = {}) {
     doc.setFontSize(9);
     doc.setFont("helvetica", "italic");
     doc.setTextColor(...mid);
-    doc.text("Print this page and check off items as you pack. 21 days, 7 countries, 5 people.", LM, y);
+    doc.text("Print this page and check off items as you pack. 21 days, 7 countries, 3 people.", LM, y);
     y += 8;
 
     const categories = [

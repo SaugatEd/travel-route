@@ -27,7 +27,7 @@ export const DOCS = {
       description: "Retired or homemaker. Travelling as dependents sponsored by working children.",
       specificDocs: [
         { doc: "Sponsorship letter from children", detail: "States: 'I will bear all expenses for my parent for the trip 16 Jun–6 Jul 2026.' Signed with passport copy.", required: true },
-        { doc: "Sponsor's bank statements", detail: "Same 6-month statements. Must cover all 5 travellers. Min NPR 8–12 lakh combined.", required: true },
+        { doc: "Sponsor's bank statements", detail: "Same 6-month statements. Must cover all 3 travellers. Min NPR 8–12 lakh combined.", required: true },
         { doc: "Relationship proof", detail: "Birth certificate, family relation certificate from ward office, or citizenship showing parent-child link.", required: true },
         { doc: "Retirement/pension proof", detail: "If retired. Homemakers: declaration letter.", required: false },
         { doc: "Property documents", detail: "Land ownership (lalpurja). Shows ties to Nepal.", required: false },
@@ -78,7 +78,7 @@ export const DOCS = {
       { item: "Dummy flight ticket", amount: "$14 (~₨2,200)" },
     ],
     totalPerPerson: "~₨26,000–33,000",
-    totalForFive: "~₨1,30,000–1,65,000",
+    totalForThree: "~₨1,30,000–1,65,000",
   },
   importantWarnings: [
     "Do NOT buy flights before visa approval — use dummy tickets only",

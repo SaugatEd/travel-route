@@ -253,7 +253,7 @@ export const TIPS = {
         "The OV-chipkaart is the Dutch contactless public transport card. Buy an anonymous one at Schiphol Airport or any train station for €7.50, then load credit. It works on all trains (NS), trams (GVB), buses, and metro across the Netherlands. Alternatively, use your contactless debit/credit card to tap in/out on most Amsterdam transport.",
         "Amsterdam's best area for budget food is Albert Cuyp Market (De Pijp neighborhood), open Monday–Saturday. Fresh stroopwafels (€3), Surinamese roti (€6–8), Vietnamese pho (€7–9), raw herring (€4), and fresh fruit are all here. It is the most multicultural food market in Europe.",
         "The Van Gogh Museum and Anne Frank House require advance booking — they sell out days to weeks ahead. Book the Anne Frank House tickets exactly 6 weeks before your visit date when they are released (Tuesday at 12:00 CEST). Van Gogh Museum can usually be booked 2–3 days ahead.",
-        "Amsterdam canal cruises range from overpriced tourist boats (€15–20) to affordable alternatives. Those Boats (€15 for a small electric boat you drive yourself, 90 min) is far more fun than a commercial tour. Split among 5 people, it is €3 each for a private canal cruise.",
+        "Amsterdam canal cruises range from overpriced tourist boats (€15–20) to affordable alternatives. Those Boats (€15 for a small electric boat you drive yourself, 90 min) is far more fun than a commercial tour. Split among 3 people, it is €3 each for a private canal cruise.",
         "Bikes rule in the Netherlands — Amsterdam has more bikes than people. Walk on the sidewalk, never in the red-painted bike lanes. Look both ways before crossing any path. Bike bells ring constantly as warnings. If you rent a bike, ride confidently and predictably — do not stop suddenly.",
         "The Rijksmuseum and Stedelijk Museum in Amsterdam's Museumplein are world-class. If you visit 3+ museums, the Museumkaart (€67.90) gives free entry to 400+ museums across the Netherlands for 31 days. It pays for itself after 3–4 museum visits.",
         "Day trips from Amsterdam by train: Haarlem (15 min, lovely canal town), Zaanse Schans (17 min, historic windmills, free entry to the village), Keukenhof Gardens (only open mid-March to mid-May, so sadly closed for your June–July dates), Delft (1 hour, Vermeer's hometown, blue pottery).",
@@ -270,18 +270,18 @@ export const TIPS = {
   },
 
   budgetHacks: [
-    "Cook group dinners at your Airbnb 3–4 times per week. Five people eating pasta with sauce and salad from Lidl costs €8–10 total (€2/person). A restaurant dinner for five costs €60–100. Over a 30-day trip, cooking half your dinners saves approximately €750–1,200 for the group.",
+    "Cook group dinners at your Airbnb 3–4 times per week. Three people eating pasta with sauce and salad from Lidl costs €8–10 total (€2/person). A restaurant dinner for five costs €60–100. Over a 30-day trip, cooking half your dinners saves approximately €750–1,200 for the group.",
     "Buy a Wise multi-currency card and a Revolut card before the trip. These cards use the real mid-market exchange rate, saving 3–5% on every transaction compared to Nepali bank cards. On a €5,000 trip spend, that is €150–250 saved — the cards are free.",
     "Use FlixBus for intercity travel instead of trains when time is not critical. Prague to Munich: FlixBus €15 vs. train €50. Munich to Amsterdam: FlixBus €25 vs. train €80+. The buses have WiFi, power, and toilets. Over 6–8 long journeys, savings can be €200–400 for the group.",
-    "Fill water bottles from taps and public fountains everywhere. Bottled water costs €1–3 in shops and €3–5 in restaurants. With 5 people drinking 2 bottles/day over 30 days, free water saves €300–900. Rome's nasoni and Swiss Brunnen fountains are everywhere.",
+    "Fill water bottles from taps and public fountains everywhere. Bottled water costs €1–3 in shops and €3–5 in restaurants. With 3 people drinking 2 bottles/day over 30 days, free water saves €300–900. Rome's nasoni and Swiss Brunnen fountains are everywhere.",
     "Visit free attractions first in every city. Almost every European city has free churches, public squares, parks, street markets, and viewpoints that are as impressive as paid museums. The Pantheon in Rome is free. The Reichstag dome in Berlin is free. Prague Castle grounds are free.",
     "Take advantage of student/youth discounts even if you are not technically enrolled. Some museums accept any student-looking ID or international student card. An ISIC card (isic.org) costs €15 and saves money at dozens of attractions — worth it if you are under 30 or can get one.",
     "Book Sparschiene (advance purchase) train tickets as early as possible: ÖBB (oebb.at) opens 180 days ahead, Trenitalia opens 120 days ahead, Deutsche Bahn opens 180 days ahead. Early booking saves 50–70% on major routes. Set calendar reminders for when your travel dates become bookable.",
     "Eat lunch as your main meal, not dinner. In Italy and Czech Republic, many restaurants offer fixed-price lunch menus (menu del giorno / denní menu) that are 30–50% cheaper than dinner. A Czech denní menu is 120–150 CZK (€5–6) for soup + main course. Italian pranzo menus are €10–15 for two courses.",
     "Use free walking tours in every city (available through GuruWalk, Civitatis, or just search 'free walking tour [city]'). They operate on tips — €5–10/person at the end is appropriate. You get a 2–3 hour guided tour covering major sights and local knowledge. In paid tours, this would cost €20–30/person.",
-    "Share one large Airbnb instead of booking multiple hotel rooms. A 3-bedroom Airbnb in Rome for 5 people costs €80–120/night total (€16–24/person). Five beds in a budget hotel would cost €200–350/night total. Over 25+ nights, the Airbnb savings are enormous — easily €2,000–4,000 for the group.",
+    "Share one large Airbnb instead of booking multiple hotel rooms. A 3-bedroom Airbnb in Rome for 3 people costs €80–120/night total (€16–24/person). Five beds in a budget hotel would cost €200–350/night total. Over 25+ nights, the Airbnb savings are enormous — easily €2,000–4,000 for the group.",
     "Get the Deutschland-Ticket (€49/month) for unlimited regional transport across Germany. A single Berlin–Dresden train ticket costs €40+ — the monthly pass pays for itself on day one. It covers all S-Bahn, U-Bahn, tram, bus, and regional trains across the entire country.",
-    "Supermarket picnics in parks are a European tradition. Buy bread, cheese, salami, fruit, and a bottle of wine from Lidl (total €10–15 for 5 people) and eat in a park. Lunch at Villa Borghese in Rome, Letná Park in Prague, or Vondelpark in Amsterdam costs next to nothing and is a genuine local experience.",
+    "Supermarket picnics in parks are a European tradition. Buy bread, cheese, salami, fruit, and a bottle of wine from Lidl (total €10–15 for 3 people) and eat in a park. Lunch at Villa Borghese in Rome, Letná Park in Prague, or Vondelpark in Amsterdam costs next to nothing and is a genuine local experience.",
   ],
 
   emergencyInfo: {
@@ -413,7 +413,7 @@ export const TIPS = {
     },
     {
       title: "Alternate between eating out and cooking in",
-      description: "Book Airbnbs with kitchens and cook group meals 3–4 nights per week. A pasta dinner from Lidl feeds 5 people for €8–10. On eating-out nights, go to trattorias and local pubs rather than tourist restaurants. Have your big meal at lunch (cheaper set menus) and cook a light dinner.",
+      description: "Book Airbnbs with kitchens and cook group meals 3–4 nights per week. A pasta dinner from Lidl feeds 3 people for €8–10. On eating-out nights, go to trattorias and local pubs rather than tourist restaurants. Have your big meal at lunch (cheaper set menus) and cook a light dinner.",
       savings: "€1,000–1,500 for the group over a 30-day trip",
     },
     {
