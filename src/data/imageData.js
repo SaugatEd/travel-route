@@ -5,37 +5,6 @@
 // Highlights: portrait-oriented images with title/category for "top picks" carousels
 
 export const CITY_IMAGES = {
-  fco: {
-    hero: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1280&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=640&q=80",
-      "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=640&q=80",
-      "https://images.unsplash.com/photo-1517438322307-e67111335449?w=640&q=80",
-      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=640&q=80",
-    ],
-    highlights: [
-      { url: "https://images.unsplash.com/photo-1517438322307-e67111335449?w=640&q=80", title: "Naples Street Life", category: "City" },
-      { url: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=640&q=80", title: "Neapolitan Pizza", category: "Food" },
-      { url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=640&q=80", title: "Bay of Naples", category: "Scenery" },
-    ],
-    mapEmbed: "https://www.openstreetmap.org/export/embed.html?bbox=14.20,40.82,14.32,40.88&layer=mapnik&marker=40.8518,14.2681",
-  },
-  amalfi: {
-    hero: "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?w=1280&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?w=640&q=80",
-      "https://images.unsplash.com/photo-1534850336045-c6c6d287e89e?w=640&q=80",
-      "https://images.unsplash.com/photo-1455587734955-081b22074882?w=640&q=80",
-      "https://images.unsplash.com/photo-1612698093158-e07ac200d44e?w=640&q=80",
-    ],
-    highlights: [
-      { url: "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?w=640&q=80", title: "Positano", category: "Village" },
-      { url: "https://images.unsplash.com/photo-1534850336045-c6c6d287e89e?w=640&q=80", title: "Amalfi Coast Road", category: "Scenery" },
-      { url: "https://images.unsplash.com/photo-1612698093158-e07ac200d44e?w=640&q=80", title: "Amalfi Cathedral", category: "Landmark" },
-      { url: "https://images.unsplash.com/photo-1455587734955-081b22074882?w=640&q=80", title: "Mediterranean Views", category: "Scenery" },
-    ],
-    mapEmbed: "https://www.openstreetmap.org/export/embed.html?bbox=14.44,40.60,14.54,40.66&layer=mapnik&marker=40.6333,14.4840",
-  },
   rome: {
     hero: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1280&q=80",
     gallery: [
@@ -163,6 +132,23 @@ export const CITY_IMAGES = {
       { url: "https://images.unsplash.com/photo-1565711561500-49678a10a63f?w=640&q=80", title: "Inn River Old Town", category: "Scenery" },
     ],
     mapEmbed: "https://www.openstreetmap.org/export/embed.html?bbox=11.34,47.23,11.47,47.30&layer=mapnik&marker=47.2692,11.4041",
+  },
+  munich: {
+    hero: "https://images.unsplash.com/photo-1595867818082-083862f3d630?w=1280&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1595867818082-083862f3d630?w=640&q=80",
+      "https://images.unsplash.com/photo-1599946347371-68eb71b16afc?w=640&q=80",
+      "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=640&q=80",
+      "https://images.unsplash.com/photo-1577462281852-279bbf3a36bf?w=640&q=80",
+      "https://images.unsplash.com/photo-1601979105003-37d12e0935d9?w=640&q=80",
+    ],
+    highlights: [
+      { url: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=640&q=80", title: "Marienplatz", category: "Square" },
+      { url: "https://images.unsplash.com/photo-1577462281852-279bbf3a36bf?w=640&q=80", title: "Hofbräuhaus", category: "Beer Hall" },
+      { url: "https://images.unsplash.com/photo-1601979105003-37d12e0935d9?w=640&q=80", title: "Frauenkirche", category: "Landmark" },
+      { url: "https://images.unsplash.com/photo-1599946347371-68eb71b16afc?w=640&q=80", title: "Bavarian Beer", category: "Food" },
+    ],
+    mapEmbed: "https://www.openstreetmap.org/export/embed.html?bbox=11.55,48.13,11.60,48.16&layer=mapnik&marker=48.1351,11.5820",
   },
   salzburg: {
     hero: "https://images.unsplash.com/photo-1595867818082-083862f3d630?w=1280&q=80",

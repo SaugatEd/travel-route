@@ -34,6 +34,48 @@ const TYPE_ICONS = {
   scenic: "🎬", nightjet: "🌙", train: "🚂",
 };
 const URGENCY_COLORS = { TODAY: "#DC2626", "THIS WEEK": "#D97706", SOON: "#2563EB" };
+
+// Parse a stop's `duration` field (e.g., "2 nights · Tue 16 – Thu 18 Jun") into
+// nights count + checkin/checkout date strings + sortable Date objects. Used by
+// the country-grouped timeline sidebar to compute accurate per-country totals.
+const MONTH_TO_NUM = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
+function parseStopDuration(duration) {
+  const result = { nights: 0, checkinLabel: null, checkoutLabel: null, checkinDate: null, checkoutDate: null };
+  if (!duration || typeof duration !== "string") return result;
+  result.nights = parseInt(duration.match(/(\d+)\s*nights?/i)?.[1] || "0", 10);
+
+  // Collect every "DD Mon" pattern, attaching the immediate day-of-week prefix when present.
+  // Matches "Tue 16 Jun", "16 Jun", or just "16" (with month inherited from the next match).
+  const dateRe = /(?:([A-Z][a-z]{2})\s+)?(\d{1,2})(?:\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))?/g;
+  const candidates = [];
+  let m;
+  while ((m = dateRe.exec(duration)) !== null) {
+    // Skip standalone numbers that aren't dates (e.g., "21:45", "150 St. Gilgen")
+    if (!m[1] && !m[3]) continue;
+    candidates.push({ dow: m[1] || null, day: parseInt(m[2], 10), month: m[3] || null });
+  }
+  if (!candidates.length) return result;
+
+  // Forward-fill missing months from next candidate that has one (e.g., "Tue 16" inherits "Jun" from "Thu 18 Jun").
+  for (let i = candidates.length - 1; i >= 0; i--) {
+    if (!candidates[i].month) {
+      const next = candidates.slice(i + 1).find((c) => c.month);
+      if (next) candidates[i].month = next.month;
+    }
+  }
+  // Drop any still-missing-month entries (defensive).
+  const valid = candidates.filter((c) => c.month && MONTH_TO_NUM[c.month] !== undefined);
+  if (!valid.length) return result;
+
+  const first = valid[0];
+  const last = valid[valid.length - 1];
+  const fmt = (c) => `${c.day} ${c.month}`;
+  result.checkinLabel = fmt(first);
+  result.checkoutLabel = fmt(last);
+  result.checkinDate = new Date(2026, MONTH_TO_NUM[first.month], first.day);
+  result.checkoutDate = new Date(2026, MONTH_TO_NUM[last.month], last.day);
+  return result;
+}
 const CAL_TYPES = {
   explore: { border: "#2E5E2E", dot: "#4CAF50", glow: "rgba(76,175,80,0.06)", text: "#A8D5A2" },
   move:    { border: "#4A3000", dot: "#FF9800", glow: "rgba(255,152,0,0.06)", text: "#FFB74D" },
@@ -1074,6 +1116,161 @@ function StoryContent({ stop }) {
   );
 }
 
+// Approximate lat/lon for each stop — used by the SVG overview map.
+const STOP_COORDS = {
+  rome:          { lat: 41.90, lon: 12.50, label: "Rome",        flag: "🇮🇹" },
+  como:          { lat: 45.81, lon:  9.08, label: "Como",        flag: "🇮🇹" },
+  lucerne:       { lat: 47.05, lon:  8.31, label: "Lucerne",     flag: "🇨🇭" },
+  lauterbrunnen: { lat: 46.59, lon:  7.91, label: "Lauterbr.",   flag: "🇨🇭" },
+  interlaken:    { lat: 46.69, lon:  7.86, label: "Interlaken",  flag: "🇨🇭" },
+  zurich:        { lat: 47.38, lon:  8.54, label: "Zürich",      flag: "🇨🇭" },
+  innsbruck:     { lat: 47.27, lon: 11.40, label: "Innsbruck",   flag: "🇦🇹" },
+  munich:        { lat: 48.14, lon: 11.58, label: "Munich",      flag: "🇩🇪" },
+  salzburg:      { lat: 47.81, lon: 13.05, label: "Salzburg",    flag: "🇦🇹" },
+  vienna:        { lat: 48.21, lon: 16.37, label: "Vienna",      flag: "🇦🇹" },
+  prague:        { lat: 50.07, lon: 14.43, label: "Prague",      flag: "🇨🇿" },
+  berlin:        { lat: 52.52, lon: 13.41, label: "Berlin",      flag: "🇩🇪" },
+  amsterdam:     { lat: 52.37, lon:  4.90, label: "Amsterdam",   flag: "🇳🇱" },
+};
+
+function EuropeRouteMap({ stops, idx, onStopChange }) {
+  const W = 700, H = 500;
+  // Bounding box covering all stops with a little margin.
+  const lonMin = 2,  lonMax = 18;
+  const latMin = 40, latMax = 54;
+  const project = (lat, lon) => {
+    const x = ((lon - lonMin) / (lonMax - lonMin)) * (W - 80) + 40;
+    const y = H - (((lat - latMin) / (latMax - latMin)) * (H - 80) + 40);
+    return [x, y];
+  };
+
+  // Only stops that have known coords AND are still in the active route.
+  const points = stops
+    .map((s, i) => {
+      const c = STOP_COORDS[s.id];
+      if (!c) return null;
+      const [x, y] = project(c.lat, c.lon);
+      const nights = parseInt((s.duration || "").match(/(\d+)\s*nights?/i)?.[1] || "0", 10);
+      return { ...c, id: s.id, i, x, y, nights, isCurrent: i === idx };
+    })
+    .filter(Boolean);
+
+  // Sleeping stops (nights >= 1) are pinned with a label; transit stops are smaller markers.
+  const sleepers = points.filter(p => p.nights >= 1);
+  const transitOnly = points.filter(p => p.nights < 1);
+
+  // Path connecting all stops in chronological order.
+  const pathD = points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
+
+  // Plane icons at start (Rome arrival) and end (Amsterdam departure).
+  const first = points[0];
+  const last = points[points.length - 1];
+
+  // Country shading rectangles — very rough geographic blocks for a flat aesthetic.
+  const countryBlocks = [
+    { id: "italy",   d: "M 380 460 L 460 470 L 470 380 L 360 360 Z",   fill: "#FFF4F0" },
+    { id: "swiss",   d: "M 270 280 L 360 290 L 360 360 L 260 350 Z",   fill: "#FFF8F0" },
+    { id: "austria", d: "M 360 290 L 530 300 L 530 360 L 370 360 Z",   fill: "#FFFBEC" },
+    { id: "germany", d: "M 270 100 L 460 90 L 470 290 L 270 280 Z",    fill: "#F0F4FF" },
+    { id: "czech",   d: "M 460 90 L 540 100 L 540 200 L 470 200 Z",    fill: "#F8F0FF" },
+    { id: "nl",      d: "M 80 70 L 180 60 L 200 130 L 90 140 Z",       fill: "#FFFEEC" },
+  ];
+
+  return (
+    <div style={{
+      marginBottom: 28,
+      borderRadius: "var(--radius-lg)",
+      overflow: "hidden",
+      border: "1px solid var(--border-light)",
+      boxShadow: "var(--shadow-md)",
+      background: "linear-gradient(180deg, #FAFCFF 0%, #F4F8FB 100%)",
+      padding: "16px 16px 8px",
+    }}>
+      <div style={{
+        display: "flex", justifyContent: "space-between", alignItems: "baseline",
+        marginBottom: 8, padding: "0 4px",
+      }}>
+        <h3 style={{ fontSize: 16, fontWeight: 800, color: "var(--text)", margin: 0, fontFamily: "var(--sans)", letterSpacing: "-0.3px" }}>
+          Trip Map · 10 cities · 21 days
+        </h3>
+        <span style={{ fontSize: 11, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>
+          ✈️ Rome → Amsterdam ✈️
+        </span>
+      </div>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "auto", display: "block" }}>
+        {/* Country fill blocks */}
+        {countryBlocks.map(c => (
+          <path key={c.id} d={c.d} fill={c.fill} stroke="#E2E8F0" strokeWidth="1" />
+        ))}
+
+        {/* Route line */}
+        <path
+          d={pathD}
+          fill="none"
+          stroke="#1565C0"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray="0"
+          opacity="0.9"
+        />
+
+        {/* Plane icon at arrival (Rome) */}
+        {first && (
+          <g transform={`translate(${first.x - 30} ${first.y + 18})`}>
+            <text fontSize="20" fill="#0277BD">✈️</text>
+          </g>
+        )}
+        {/* Plane icon at departure (Amsterdam) */}
+        {last && (
+          <g transform={`translate(${last.x - 8} ${last.y - 30})`}>
+            <text fontSize="20" fill="#0277BD">✈️</text>
+          </g>
+        )}
+
+        {/* Transit-only markers (small dots, no labels) */}
+        {transitOnly.map(p => (
+          <g key={p.id} onClick={() => onStopChange(p.id)} style={{ cursor: "pointer" }}>
+            <circle cx={p.x} cy={p.y} r="4" fill="#94A3B8" stroke="#fff" strokeWidth="1.5" />
+          </g>
+        ))}
+
+        {/* Sleeping stop pins with night badges */}
+        {sleepers.map(p => {
+          const r = p.isCurrent ? 11 : 8;
+          const fill = p.isCurrent ? "#C62828" : "#1565C0";
+          return (
+            <g key={p.id} onClick={() => onStopChange(p.id)} style={{ cursor: "pointer" }}>
+              {p.isCurrent && (
+                <circle cx={p.x} cy={p.y} r={r + 6} fill="#C62828" opacity="0.18">
+                  <animate attributeName="r" values={`${r + 6};${r + 12};${r + 6}`} dur="2s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0.18;0.05;0.18" dur="2s" repeatCount="indefinite" />
+                </circle>
+              )}
+              <circle cx={p.x} cy={p.y} r={r} fill={fill} stroke="#fff" strokeWidth="2" />
+              <text x={p.x} y={p.y + 3} textAnchor="middle" fontSize="9" fill="#fff" fontWeight="700">
+                {p.nights}
+              </text>
+              <text x={p.x} y={p.y - r - 6} textAnchor="middle" fontSize="11" fill="var(--text)" fontWeight={p.isCurrent ? 800 : 600} fontFamily="var(--sans)">
+                {p.flag} {p.label}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+      <div style={{
+        display: "flex", gap: 16, justifyContent: "center",
+        fontSize: 10, color: "var(--text-dim)", fontFamily: "var(--sans)",
+        padding: "4px 0 8px",
+      }}>
+        <span><span style={{ color: "#1565C0", fontWeight: 700 }}>●</span> overnight stop (number = nights)</span>
+        <span><span style={{ color: "#94A3B8", fontWeight: 700 }}>●</span> Swiss day-tour transit</span>
+        <span><span style={{ color: "#C62828", fontWeight: 700 }}>●</span> currently viewing</span>
+      </div>
+    </div>
+  );
+}
+
 function RouteContent({ stop, idx, stops, journeys, onStopChange }) {
   const prevStop = idx > 0 ? stops[idx - 1] : null;
   const nextStop = idx < stops.length - 1 ? stops[idx + 1] : null;
@@ -1102,7 +1299,10 @@ function RouteContent({ stop, idx, stops, journeys, onStopChange }) {
     <>
       <h2 className="story-title">Route Overview</h2>
 
-      {/* Route Map — Google Maps */}
+      {/* Trafalgar-style Europe overview map — SVG, lightweight */}
+      <EuropeRouteMap stops={stops} idx={idx} onStopChange={onStopChange} />
+
+      {/* Route Map — Google Maps (zoomed to current city) */}
       <div style={{ marginBottom: 28, borderRadius: "var(--radius-lg)", overflow: "hidden", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-md)" }}>
         <iframe
           src={`https://maps.google.com/maps?q=${encodeURIComponent(stop.city)}&t=&z=12&ie=UTF8&iwloc=&output=embed`}
@@ -3643,31 +3843,51 @@ function BookingsPanel() {
 }
 
 /* ─────────────────────────── Trip Timeline Sidebar ─────────────────────────── */
-/* Left aside — calendar days grouped by country, collapsible per group.
-   Active country auto-expanded; others can be toggled. */
+/* Left aside — chronological list of stops (one entry per overnight or transit
+   block). Each stop is collapsible and shows the calendar days inside. Stops
+   are ordered by first CALENDAR appearance, so the route reads top-to-bottom in
+   real travel order even when countries are revisited (Austria→Germany→Austria). */
 function TripTimelineSidebar({ active, onClickDay, npr }) {
-  // Build country groups in chronological order
+  // Build stop-based groups in chronological order from CALENDAR.
+  // Each consecutive run of CALENDAR days with the same resolved stop becomes
+  // one timeline entry. This means Innsbruck (Fri+Sat) is one entry, then
+  // Munich (Sun+Mon) is the next, then Salzburg (Mon-Wed), etc.
   const groups = [];
-  const seen = new Map(); // country → group index
   CALENDAR.forEach((day) => {
     const resolvedStop = day.stop === "imst" ? "innsbruck" : day.stop;
-    const stopData = STOPS.find((s) => s.id === resolvedStop);
-    const country = stopData?.country || "Transit";
-    const flag = stopData?.flag || day.flag || "🌐";
-    if (!seen.has(country)) {
-      seen.set(country, groups.length);
-      groups.push({ country, flag, days: [] });
+    const last = groups[groups.length - 1];
+    if (last && last.stopId === resolvedStop) {
+      last.days.push(day);
+    } else {
+      const stopData = STOPS.find((s) => s.id === resolvedStop);
+      groups.push({
+        stopId: resolvedStop,
+        title: stopData?.city || day.city || "Transit",
+        country: stopData?.country || "—",
+        flag: stopData?.flag || day.flag || "🌐",
+        days: [day],
+        stopData,
+      });
     }
-    groups[seen.get(country)].days.push(day);
   });
 
-  // Determine which group contains the active stop
-  const activeGroupIdx = groups.findIndex((g) =>
-    g.days.some((d) => {
-      const r = d.stop === "imst" ? "innsbruck" : d.stop;
-      return r === active;
-    })
-  );
+  // Attach night count + checkin→checkout date span per group from STOPS data.
+  groups.forEach((g) => {
+    if (!g.stopData) {
+      // Transit-only group (Mon 15 Jun Nepal→Delhi or Mon 6 Jul AMS→Delhi)
+      g.totalNights = 0;
+      g.firstDateLabel = g.days[0].date.replace(/^\w+\s/, "");
+      g.lastDateLabel = g.days[g.days.length - 1].date.replace(/^\w+\s/, "");
+      return;
+    }
+    const parsed = parseStopDuration(g.stopData.duration);
+    g.totalNights = parsed.nights;
+    g.firstDateLabel = parsed.checkinLabel || g.days[0].date.replace(/^\w+\s/, "");
+    g.lastDateLabel = parsed.checkoutLabel || g.days[g.days.length - 1].date.replace(/^\w+\s/, "");
+  });
+
+  // Determine which group contains the active stop (first match in chronological order)
+  const activeGroupIdx = groups.findIndex((g) => g.stopId === active);
 
   const [openIdx, setOpenIdx] = useState(activeGroupIdx);
 
@@ -3676,25 +3896,52 @@ function TripTimelineSidebar({ active, onClickDay, npr }) {
     if (activeGroupIdx >= 0) setOpenIdx(activeGroupIdx);
   }, [activeGroupIdx]);
 
+  // Top-of-sidebar trip stats
+  const totalDays = CALENDAR.length;
+  const totalNights = groups.reduce((sum, g) => sum + (g.totalNights || 0), 0);
+  const totalCountries = new Set(STOPS.map((s) => s.country)).size; // includes day-trip-only countries (e.g. Switzerland)
+  const totalCities = new Set(STOPS.map((s) => s.id)).size;
+  const TYPE_BADGE = {
+    arrive:  { label: "Arrive",  bg: "#E3F2FD", fg: "#1565C0" },
+    explore: { label: "Explore", bg: "#E8F5E9", fg: "#2E7D32" },
+    move:    { label: "Travel",  bg: "#FFF3E0", fg: "#E65100" },
+    night:   { label: "Night",   bg: "#EDE7F6", fg: "#5E35B1" },
+    travel:  { label: "Flight",  bg: "#FCE4EC", fg: "#C2185B" },
+  };
+
   return (
     <aside className="sidebar">
+      <div className="sidebar-stats">
+        <div className="sidebar-stats-row">
+          <div className="sidebar-stat"><b>{totalDays}</b><span>days</span></div>
+          <div className="sidebar-stat"><b>{totalNights}</b><span>nights</span></div>
+          <div className="sidebar-stat"><b>{totalCountries}</b><span>countries</span></div>
+          <div className="sidebar-stat"><b>{totalCities}</b><span>cities</span></div>
+        </div>
+      </div>
       <div className="sidebar-section-label">Trip Timeline</div>
       {groups.map((g, gi) => {
         const isOpen = openIdx === gi;
-        const dayCount = g.days.length;
-        const firstDay = g.days[0];
-        const lastDay = g.days[dayCount - 1];
         const isActiveGroup = gi === activeGroupIdx;
+        // Overnight stops show nights; transit-only entries show day count.
+        const countLabel = g.totalNights > 0
+          ? `${g.totalNights}n`
+          : `${g.days.length}d`;
+        // Strip leading day-of-week (e.g. "Tue 16 Jun" → "16 Jun") to fit narrow column.
+        const stripDow = (s) => (s || "").replace(/^[A-Z][a-z]{2}\s+/, "");
+        const first = stripDow(g.firstDateLabel);
+        const last = stripDow(g.lastDateLabel);
+        const rangeLabel = first === last ? first : `${first}–${last}`;
         return (
-          <div key={g.country} className="timeline-group">
+          <div key={`${g.stopId}-${gi}`} className="timeline-group">
             <button
               className={`timeline-group-header${isActiveGroup ? " active" : ""}`}
               onClick={() => setOpenIdx(isOpen ? -1 : gi)}
             >
               <span style={{ fontSize: 16 }}>{g.flag}</span>
-              <span className="timeline-group-name">{g.country}</span>
+              <span className="timeline-group-name">{g.title}</span>
               <span className="timeline-group-meta">
-                {dayCount}d · {firstDay.date.replace(/^\w+\s/, "")}–{lastDay.date.replace(/^\w+\s/, "")}
+                {countLabel} · {rangeLabel}
               </span>
               <span
                 className="timeline-group-caret"
@@ -3710,6 +3957,14 @@ function TripTimelineSidebar({ active, onClickDay, npr }) {
                   const isActive = resolvedStop === active;
                   const isClickable = resolvedStop && resolvedStop !== "ktm";
                   const calStyle = CAL_TYPES[day.type] || CAL_TYPES.explore;
+                  const badge = TYPE_BADGE[day.type] || TYPE_BADGE.explore;
+                  // Pull the first 1–2 highlight phrases from the day summary as a preview.
+                  const preview = (day.summary || "")
+                    .split(/[·•]/)
+                    .map((s) => s.trim())
+                    .filter((s) => s && !/^[⭐⚠️]+$/.test(s))
+                    .slice(0, 2)
+                    .join(" · ");
                   return (
                     <button
                       key={i}
@@ -3719,15 +3974,27 @@ function TripTimelineSidebar({ active, onClickDay, npr }) {
                         opacity: isClickable ? 1 : 0.5,
                         cursor: isClickable ? "pointer" : "default",
                         borderLeftColor: calStyle.dot,
+                        alignItems: "flex-start",
                       }}
                     >
                       <div className="timeline-day-num">{day.dayN}</div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div className="timeline-day-date">{day.date}</div>
+                        <div className="timeline-day-meta">
+                          <span className="timeline-day-date">{day.date}</span>
+                          <span
+                            className="timeline-day-badge"
+                            style={{ background: badge.bg, color: badge.fg }}
+                          >
+                            {badge.label}
+                          </span>
+                        </div>
                         <div className="timeline-day-city">
-                          <span style={{ fontSize: 11 }}>{day.icon}</span>
+                          <span style={{ fontSize: 12 }}>{day.icon}</span>
                           {day.city}
                         </div>
+                        {preview && (
+                          <div className="timeline-day-preview">{preview}</div>
+                        )}
                       </div>
                     </button>
                   );

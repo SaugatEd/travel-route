@@ -2377,6 +2377,74 @@ img { display: block; max-width: 100%; }
 
 .timeline-day.active .timeline-day-city { font-weight: 700; }
 
+/* Date + type badge row above the city name */
+.timeline-day-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.timeline-day-badge {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-family: var(--sans);
+  flex-shrink: 0;
+}
+
+/* Summary excerpt under the city name (2-line clamp) */
+.timeline-day-preview {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-dim);
+  font-family: var(--sans);
+  line-height: 1.4;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+  text-align: left;
+}
+
+/* Sidebar stats strip at the very top */
+.sidebar-stats {
+  margin: 0 8px 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-light);
+}
+.sidebar-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.sidebar-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--sans);
+}
+.sidebar-stat b {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+}
+.sidebar-stat span {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 1px;
+}
+
 /* Sidebar overall lighter */
 .sidebar { padding: 8px 0 16px; }
 .sidebar-rates { margin: 16px 8px 0; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-hover); }
