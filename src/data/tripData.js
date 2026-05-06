@@ -1167,13 +1167,66 @@ export const BOOKING = [
   { priority: 14, urgency: "SOON", item: "🏛 Reichstag Dome Berlin (FREE)", detail: "Free but must book at bundestag.de — fills up weeks ahead.", url: "https://www.bundestag.de/en/visitthebundestag/dome/registration-245686", date: "Thu 2 Jul" },
 ];
 
+// Confirmed Airbnb bookings — list shown in image dated 2026-05-06.
+// Cancel-by dates are from Airbnb's free-cancellation deadline; after that the booking is non-refundable.
+export const AIRBNBS = [
+  {
+    id: "rome-villa-fiorelli",
+    name: "Luminoso appartamento - Villa Fiorelli",
+    city: "Rome", country: "Italy", flag: "🇮🇹",
+    host: "Giusy",
+    address: "Via Montepulciano, 8",
+    checkIn:  { date: "Tue 16 Jun", time: "15:00" },
+    checkOut: { date: "Wed 17 Jun", time: "10:00" },
+    nights: 1,
+    cancelBy: { date: "Thu 11 Jun", time: "15:00" },
+    note: "First Roman night. Move to Prati flat tomorrow afternoon.",
+  },
+  {
+    id: "rome-prati-vatican",
+    name: "Bright Spacious Flat in Prati, Near Vatican",
+    city: "Rome", country: "Italy", flag: "🇮🇹",
+    host: "Elia",
+    address: "Via Filippo Corridoni, 19",
+    checkIn:  { date: "Wed 17 Jun", time: "15:00" },
+    checkOut: { date: "Thu 18 Jun", time: "10:00" },
+    nights: 1,
+    cancelBy: { date: "Tue 16 Jun", time: "15:00" },
+    note: "Walking distance to the Vatican. Check out by 10:00 — Rome → Lake Como train ~10:00 from Termini.",
+  },
+  {
+    id: "lucerne-neustadt",
+    name: "In der Mitte der Neustadt",
+    city: "Lucerne", country: "Switzerland", flag: "🇨🇭",
+    host: "Erik",
+    address: "Spannortstrasse 11",
+    checkIn:  { date: "Fri 19 Jun", time: "15:00" },
+    checkOut: { date: "Sat 20 Jun", time: "11:00" },
+    nights: 1,
+    cancelBy: { date: "Sun 14 Jun", time: "15:00" },
+    note: "Spannortstrasse is in Lucerne's Neustadt district, ~10 min walk from Hbf and 5 min from the lake.",
+  },
+  {
+    id: "alkmaar-red-city",
+    name: "Red City Apartment Alkmaar",
+    city: "Alkmaar", country: "Netherlands", flag: "🇳🇱",
+    host: "Joris",
+    address: "Lombardsteeg 44",
+    checkIn:  { date: "Sat 4 Jul", time: "15:00" },
+    checkOut: { date: "Mon 6 Jul", time: "11:00" },
+    nights: 2,
+    cancelBy: { date: "Fri 3 Jul", time: "15:00", refundType: "partial" },
+    note: "⚠️ Alkmaar is ~40 min by train north of Amsterdam Centraal (Sprinter, ~€8pp). Plan to commute for Amsterdam sights. Mon 6 Jul departure: Alkmaar → Schiphol direct ~50 min, ~€10pp.",
+  },
+];
+
 export const CALENDAR = [
   { date:"Mon 15 Jun", dayN:0,  type:"travel",  icon:"✈",  stop:"ktm",           city:"Nepal → Delhi",                   flag:"🇳🇵",    summary:"Fly Nepal → Delhi (1hr) · Check into Delhi hotel · Rest 12+ hours before early morning flight tomorrow", move:true },
-  { date:"Tue 16 Jun", dayN:1,  type:"arrive",  icon:"✈",  stop:"rome",          city:"Delhi → Rome",                    flag:"✈️🇮🇹",  summary:"DEL 06:00 → IST 10:20 (TK717) → FCO 14:00 (TK1865) · Leonardo Express → Roma Termini · Walk/taxi to Trastevere · Rest then 20:00 first cacio e pepe in a side-street trattoria", move:true },
-  { date:"Wed 17 Jun", dayN:2,  type:"explore", icon:"🏛",  stop:"rome",          city:"Rome — Full Day",                 flag:"🇮🇹",    summary:"Colosseum + Roman Forum 09:00 (pre-booked) · Pantheon €5 · Trevi Fountain · Vatican + Sistine Chapel 15:00 (pre-booked) · Trastevere dinner — supplì + carbonara" },
-  { date:"Thu 18 Jun", dayN:3,  type:"move",    icon:"🚄",  stop:"como",          city:"Rome → Lake Como",                flag:"🇮🇹",    summary:"🚄 10:00 Frecciarossa → Milano Centrale (3hrs, €22pp) · Trenord → Como San Giovanni 40min · Arrive ~15:00 · Brunate funicular · Ferry to Varenna or Bellagio · Lakefront dinner · Sleep near Lake Como", move:true },
-  { date:"Fri 19 Jun", dayN:4,  type:"move",    icon:"🌉",  stop:"lucerne",       city:"Lake Como → Lucerne",             flag:"🇨🇭",    summary:"06:24 Como → Lugano → Lucerne 09:25 (3hrs via Gotthard) · Check in Lucerne Airbnb · Chapel Bridge (1333) — oldest wooden covered bridge in Europe · Lion Monument · Lake Lucerne walk · Mt Pilatus or Rigi optional afternoon · Lakefront dinner · Sleep Lucerne", move:true },
-  { date:"Sat 20 Jun", dayN:5,  type:"move",    icon:"🏔",  stop:"innsbruck",     city:"Switzerland day → Innsbruck",     flag:"🇨🇭🇦🇹",  summary:"⚠️ HEAVY DAY — pack snacks · Brünig scenic 10:15 → Interlaken Ost 12:15 (sit RIGHT) · 12:35 → Lauterbrunnen 12:55 · Staubbach Falls + valley walk (2.5hr) · 15:35 back to Interlaken · 16:30 → Zürich HB 18:30 (change of trains only) · 19:30 EuroCity → Innsbruck Hbf ~22:30 · Sleep Innsbruck", move:true },
+  { date:"Tue 16 Jun", dayN:1,  type:"arrive",  icon:"✈",  stop:"rome",          city:"Delhi → Rome",                    flag:"✈️🇮🇹",  summary:"DEL 06:00 → IST 10:20 (TK717) → FCO 14:00 (TK1865) · Leonardo Express → Roma Termini · 🏠 CHECK-IN 15:00 Villa Fiorelli (Giusy, Via Montepulciano 8) · 20:00 first cacio e pepe in a side-street trattoria", move:true, airbnb:[{action:"check-in", id:"rome-villa-fiorelli", time:"15:00"}] },
+  { date:"Wed 17 Jun", dayN:2,  type:"explore", icon:"🏛",  stop:"rome",          city:"Rome — Full Day",                 flag:"🇮🇹",    summary:"🏠 CHECK-OUT 10:00 Villa Fiorelli · Bag drop at Termini lockers €6/bag · Colosseum + Roman Forum 09:00 (pre-booked) · Pantheon €5 · Vatican + Sistine Chapel 15:00 (pre-booked) · 🏠 CHECK-IN 15:00 Prati flat (Elia, Via Filippo Corridoni 19) — walk straight from Vatican · Trastevere dinner — supplì + carbonara", airbnb:[{action:"check-out", id:"rome-villa-fiorelli", time:"10:00"},{action:"check-in", id:"rome-prati-vatican", time:"15:00"}] },
+  { date:"Thu 18 Jun", dayN:3,  type:"move",    icon:"🚄",  stop:"como",          city:"Rome → Lake Como",                flag:"🇮🇹",    summary:"🏠 CHECK-OUT 10:00 Prati flat (Elia) · 🚄 10:00 Frecciarossa → Milano Centrale (3hrs, €22pp) · Trenord → Como San Giovanni 40min · Arrive ~15:00 · Brunate funicular · Ferry to Varenna or Bellagio · Lakefront dinner · Sleep near Lake Como", move:true, airbnb:[{action:"check-out", id:"rome-prati-vatican", time:"10:00"}] },
+  { date:"Fri 19 Jun", dayN:4,  type:"move",    icon:"🌉",  stop:"lucerne",       city:"Lake Como → Lucerne",             flag:"🇨🇭",    summary:"06:24 Como → Lugano → Lucerne 09:25 (3hrs via Gotthard) · Drop bags in Hbf lockers (CHF 5–8) until 15:00 · Chapel Bridge (1333) + Lion Monument morning · 🏠 CHECK-IN 15:00 Erik's place (Spannortstrasse 11, Neustadt — 10 min walk from Hbf) · Lake Lucerne walk · Mt Pilatus or Rigi optional · Lakefront dinner · Sleep Lucerne", move:true, airbnb:[{action:"check-in", id:"lucerne-neustadt", time:"15:00"}] },
+  { date:"Sat 20 Jun", dayN:5,  type:"move",    icon:"🏔",  stop:"innsbruck",     city:"Switzerland day → Innsbruck",     flag:"🇨🇭🇦🇹",  summary:"⚠️ HEAVY DAY — pack snacks · 🏠 CHECK-OUT 11:00 Erik's Lucerne flat · Brünig scenic 10:15 → Interlaken Ost 12:15 (sit RIGHT) · 12:35 → Lauterbrunnen 12:55 · Staubbach Falls + valley walk (2.5hr) · 15:35 back to Interlaken · 16:30 → Zürich HB 18:30 (change of trains only) · 19:30 EuroCity → Innsbruck Hbf ~22:30 · Sleep Innsbruck", move:true, airbnb:[{action:"check-out", id:"lucerne-neustadt", time:"11:00"}] },
   { date:"Sun 21 Jun", dayN:6,  type:"move",    icon:"🚠",  stop:"salzburg",      city:"Explore Innsbruck → Salzburg",    flag:"🇦🇹",    summary:"⭐ 08:00 Nordkette cable car to 2,334m (Hafelekar) — clouds by noon, GO EARLY · Golden Roof + Hofburg + Maria-Theresien-Straße · Markthalle lunch · Evening Railjet → Salzburg Hbf · Check in Schallmoos · Salzach river walk — fortress lit at night · Sleep Salzburg", move:true },
   { date:"Mon 22 Jun", dayN:7,  type:"explore", icon:"🚂",  stop:"salzburg",      city:"Salzburg — Hallstatt half-day",   flag:"🇦🇹",    summary:"⭐ HALLSTATT HALF-DAY · 07:30 ÖBB Salzburg → Attnang-Puchheim → Hallstatt (2hrs each way, €30pp roundtrip) · Ferry across the lake to UNESCO village · Bone chapel + Marktplatz · Return Salzburg early afternoon · Hohensalzburg fortress + Mirabell Gardens · Augustiner Bräustübl monastery brewery dinner · Sleep Salzburg" },
   { date:"Tue 23 Jun", dayN:8,  type:"move",    icon:"🚞",  stop:"vienna",        city:"Schafbergbahn → Vienna",          flag:"🇦🇹",    summary:"07:30 Bus 150 → St. Gilgen · ⛵ Wolfgangsee ferry (turquoise lake, 30min) · ⭐ 09:20 SCHAFBERGBAHN steam cogwheel 1,783m · 11 lakes 360° · Back Salzburg ~14:30 · Evening Railjet → Wien Hbf · Check in · Late Schnitzel dinner near Naschmarkt · Sleep Vienna", move:true },
@@ -1187,9 +1240,9 @@ export const CALENDAR = [
   { date:"Wed 1 Jul",  dayN:16, type:"explore", icon:"👑",  stop:"berlin",        city:"Berlin Day 3",                    flag:"🇩🇪",    summary:"Potsdam: S1/RE1 25min · Sanssouci Palace grounds free · Frederick the Great buried in vineyard · Palace €14pp · UNESCO · Return for Kreuzberg evening" },
   { date:"Thu 2 Jul",  dayN:17, type:"explore", icon:"🏛",  stop:"berlin",        city:"Berlin Day 4",                    flag:"🇩🇪",    summary:"Brandenburg Gate free (1791) · Reichstag dome FREE — book bundestag.de NOW · Memorial to Murdered Jews (2,711 slabs) · Checkpoint Charlie" },
   { date:"Fri 3 Jul",  dayN:18, type:"night",   icon:"🌙",  stop:"berlin",        city:"Berlin Day 5 → NIGHTJET 23:03",   flag:"🇩🇪",    summary:"Tempelhof field free (former airport, now park) · Konnopke's Currywurst €3 (since 1930) · Collect bags 22:30 · NIGHTJET 23:03 SHARP Berlin Hbf → Amsterdam Centraal — sleep on board", move:true },
-  { date:"Sat 4 Jul",  dayN:19, type:"arrive",  icon:"🌷",  stop:"amsterdam",     city:"Amsterdam — Nightjet Arrives",    flag:"🇳🇱",    summary:"Nightjet arrives Centraal 09:30 · Bags in lockers €6–8 · Jordaan canal walk free · Albert Cuypmarkt: raw haring + stroopwafel · Check in De Pijp 14:00 · Rijksmuseum afternoon", move:true },
-  { date:"Sun 5 Jul",  dayN:20, type:"explore", icon:"🎨",  stop:"amsterdam",     city:"Amsterdam — Full Day",            flag:"🇳🇱",    summary:"⭐ Van Gogh Museum 09:00 (pre-booked months ahead) · ⭐⭐ Anne Frank House (MONTHS ahead — NO walk-in ever) · Canal boat tour €15pp · Vondelpark free · Brown café evening" },
-  { date:"Mon 6 Jul",  dayN:21, type:"travel",  icon:"✈",  stop:"ktm",           city:"Amsterdam → Delhi",               flag:"🇳🇱✈",   summary:"Check out · IC Direct Centraal → Schiphol 17min · AMS 14:40 → IST 19:05 (TK1958) → DEL 04:50 Jul 7 (TK716) · 22 days, 11 cities, done 🏔", move:true },
+  { date:"Sat 4 Jul",  dayN:19, type:"arrive",  icon:"🌷",  stop:"amsterdam",     city:"Amsterdam ↔ Alkmaar arrival",     flag:"🇳🇱",    summary:"Nightjet arrives Amsterdam Centraal 09:30 · Bags in Centraal lockers €6–8 · Jordaan canal walk free · Albert Cuypmarkt: raw haring + stroopwafel · Rijksmuseum afternoon · ~14:00 Sprinter Centraal → Alkmaar (40 min, ~€8pp) · 🏠 CHECK-IN 15:00 Joris's Red City Apartment (Lombardsteeg 44, Alkmaar) · Alkmaar canal evening — much quieter than Amsterdam", move:true, airbnb:[{action:"check-in", id:"alkmaar-red-city", time:"15:00"}] },
+  { date:"Sun 5 Jul",  dayN:20, type:"explore", icon:"🎨",  stop:"amsterdam",     city:"Amsterdam day-trip from Alkmaar", flag:"🇳🇱",    summary:"Sprinter Alkmaar → Amsterdam Centraal 08:00 (40 min, ~€8pp) · ⭐ Van Gogh Museum 09:00 (pre-booked months ahead) · ⭐⭐ Anne Frank House (MONTHS ahead — NO walk-in ever) · Canal boat tour €15pp · Vondelpark free · Brown café evening · Last train back to Alkmaar ~00:30 · Sleep Alkmaar" },
+  { date:"Mon 6 Jul",  dayN:21, type:"travel",  icon:"✈",  stop:"ktm",           city:"Alkmaar → Schiphol → Delhi",      flag:"🇳🇱✈",   summary:"🏠 CHECK-OUT 11:00 Joris's flat · Sprinter Alkmaar → Schiphol direct ~50 min, ~€10pp (no need to go via Centraal) · AMS 14:40 → IST 19:05 (TK1958) → DEL 04:50 Jul 7 (TK716) · 22 days, 11 cities, done 🏔", move:true, airbnb:[{action:"check-out", id:"alkmaar-red-city", time:"11:00"}] },
 ];
 
 export const TRIP_BUDGET = {

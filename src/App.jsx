@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { STOPS, JOURNEYS, BOOKING, CALENDAR, TRIP_BUDGET } from "./data/tripData";
+import { STOPS, JOURNEYS, BOOKING, CALENDAR, TRIP_BUDGET, AIRBNBS } from "./data/tripData";
 import { useRates } from "./utils/useRates";
 import { generateStopPdf, generateFullTripPdf } from "./utils/generatePdf";
 import "./styles/app.css";
@@ -91,6 +91,7 @@ export default function App() {
   const [view, setView] = useState("overview");
   const [topTab, setTopTab] = useState(null);
   const [showNPR, setShowNPR] = useState(true);
+  const [calDialogDay, setCalDialogDay] = useState(null);
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("theme");
     return saved || "light";
@@ -228,7 +229,17 @@ export default function App() {
       </header>
 
       {/* ── TOP PANELS ── */}
-      {topTab === "calendar" && <CalendarPanel active={active} onClickDay={handleCalClick} />}
+      {topTab === "calendar" && <CalendarPanel active={active} onOpenDay={setCalDialogDay} />}
+      {calDialogDay && (
+        <CalendarDayDialog
+          day={calDialogDay}
+          onClose={() => setCalDialogDay(null)}
+          onGoToStop={(stopId) => {
+            setCalDialogDay(null);
+            handleCalClick({ stop: stopId });
+          }}
+        />
+      )}
       {topTab === "journeys" && <JourneysPanel showNPR={showNPR} npr={npr} />}
       {topTab === "bookings" && <BookingsPanel />}
       {topTab === "money" && <MoneyPanel />}
@@ -3244,7 +3255,208 @@ function parseCalDate(dateStr) {
 
 const DOW_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function CalendarPanel({ active, onClickDay }) {
+function CalendarDayDialog({ day, onClose, onGoToStop }) {
+  const s = CAL_TYPES[day.type] || CAL_TYPES.explore;
+  const resolvedStop = day.stop === "imst" ? "innsbruck" : day.stop;
+  const stop = STOPS.find((x) => x.id === resolvedStop);
+  const airbnbActions = (day.airbnb || []).map((a) => ({
+    ...a,
+    booking: AIRBNBS.find((b) => b.id === a.id),
+  }));
+
+  // Lock body scroll while open + close on Escape
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.55)",
+        zIndex: 1000,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 20,
+        animation: "fadeIn 0.15s",
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          width: "min(640px, 100%)",
+          maxHeight: "90vh",
+          overflowY: "auto",
+          background: "var(--bg-raised)",
+          borderRadius: 14,
+          border: "1px solid var(--border)",
+          boxShadow: "0 24px 64px rgba(0,0,0,0.35)",
+          fontFamily: "var(--sans)",
+        }}
+      >
+        {/* Header */}
+        <div
+          style={{
+            padding: "20px 24px 16px",
+            borderBottom: "1px solid var(--border)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            gap: 12,
+            background: s.glow,
+            borderTopLeftRadius: 14,
+            borderTopRightRadius: 14,
+            borderLeft: `4px solid ${s.dot}`,
+          }}
+        >
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-dim)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              {day.date} · DAY {day.dayN}
+            </div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text)", marginTop: 6, display: "flex", alignItems: "center", gap: 8 }}>
+              <span>{day.flag}</span>
+              <span>{day.city}</span>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            style={{
+              background: "transparent",
+              border: "1px solid var(--border)",
+              borderRadius: 8,
+              width: 32,
+              height: 32,
+              fontSize: 16,
+              cursor: "pointer",
+              color: "var(--text-muted)",
+            }}
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Body */}
+        <div style={{ padding: "20px 24px" }}>
+          {/* Summary */}
+          <div style={{ marginBottom: 18 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-dim)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>
+              Plan
+            </div>
+            <div style={{ fontSize: 14, lineHeight: 1.55, color: "var(--text)" }}>
+              <span style={{ marginRight: 6 }}>{day.icon}</span>
+              {day.summary}
+            </div>
+          </div>
+
+          {/* Airbnb section */}
+          {airbnbActions.length > 0 && (
+            <div style={{ marginBottom: 18 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "var(--accent)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10 }}>
+                🏠 Airbnb today
+              </div>
+              {airbnbActions.map((a, i) => {
+                const b = a.booking;
+                if (!b) return null;
+                const isOut = a.action === "check-out";
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      padding: "12px 14px",
+                      marginBottom: 8,
+                      borderRadius: 10,
+                      border: "1px solid var(--accent-border)",
+                      background: "var(--accent-bg)",
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text)" }}>
+                        {isOut ? "Check-out" : "Check-in"} · {a.time} · {b.flag} {b.name}
+                      </div>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: "var(--accent)", whiteSpace: "nowrap" }}>
+                        Host: {b.host}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.5 }}>
+                      <div>📍 {b.address}, {b.city}</div>
+                      <div style={{ marginTop: 2 }}>
+                        Stay: {b.checkIn.date} {b.checkIn.time} → {b.checkOut.date} {b.checkOut.time} ({b.nights} {b.nights === 1 ? "night" : "nights"})
+                      </div>
+                      <div style={{ marginTop: 2, color: b.cancelBy.refundType === "partial" ? "var(--text-muted)" : "var(--accent)" }}>
+                        ⚠️ Free-cancel by: {b.cancelBy.date} {b.cancelBy.time}
+                        {b.cancelBy.refundType === "partial" && " (partial refund only)"}
+                      </div>
+                      {b.note && <div style={{ marginTop: 6, fontStyle: "italic" }}>{b.note}</div>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Tags */}
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 700,
+                color: s.text,
+                background: s.glow,
+                padding: "4px 10px",
+                borderRadius: 6,
+                border: `1px solid ${s.dot}40`,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
+              {day.type}
+            </span>
+            {day.move && (
+              <span style={{ fontSize: 11, fontWeight: 700, color: s.text, background: "var(--bg-hover)", padding: "4px 10px", borderRadius: 6, border: "1px solid var(--border)", letterSpacing: "0.05em" }}>
+                ✈ TRAVEL DAY
+              </span>
+            )}
+          </div>
+
+          {/* Actions */}
+          {stop && resolvedStop !== "ktm" && (
+            <button
+              onClick={() => onGoToStop(resolvedStop)}
+              style={{
+                width: "100%",
+                padding: "12px 16px",
+                background: "var(--accent)",
+                color: "#fff",
+                border: "none",
+                borderRadius: 10,
+                fontSize: 13,
+                fontWeight: 700,
+                cursor: "pointer",
+                fontFamily: "var(--sans)",
+                letterSpacing: "0.04em",
+              }}
+            >
+              View {stop.city} stop details →
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CalendarPanel({ active, onOpenDay }) {
   const legends = [
     ["explore", "#4CAF50", "Explore"],
     ["move", "#FF9800", "Travel Day"],
@@ -3366,22 +3578,23 @@ function CalendarPanel({ active, onClickDay }) {
                 const s = day ? CAL_TYPES[day.type] || CAL_TYPES.explore : null;
                 const resolvedStop = day?.stop === "imst" ? "innsbruck" : day?.stop;
                 const isActive = day && active === resolvedStop;
-                const isClickable = day && resolvedStop && resolvedStop !== "ktm";
+                const isClickable = !!day;
                 const isWeekend = ci === 0 || ci === 6;
                 const dateNum = cell.date.getDate();
                 const monthChange = ci === 0 || dateNum === 1;
                 const monthLabel = cell.date.toLocaleString("en-US", { month: "short" });
+                const hasAirbnb = day?.airbnb && day.airbnb.length > 0;
 
                 return (
                   <div
                     key={ci}
-                    onClick={() => isClickable && onClickDay(day)}
+                    onClick={() => isClickable && onOpenDay(day)}
                     style={{
-                      minHeight: 110,
-                      padding: "8px 10px",
+                      minHeight: 168,
+                      padding: "12px 14px",
                       borderRight: ci < 6 ? "1px solid var(--border)" : "none",
                       borderLeft: isActive ? `3px solid ${s.dot}` : "none",
-                      paddingLeft: isActive ? 7 : 10,
+                      paddingLeft: isActive ? 11 : 14,
                       background: !day
                         ? "var(--bg-hover)"
                         : isActive
@@ -3390,7 +3603,13 @@ function CalendarPanel({ active, onClickDay }) {
                       cursor: isClickable ? "pointer" : "default",
                       position: "relative",
                       overflow: "hidden",
-                      transition: "background 0.15s",
+                      transition: "background 0.15s, transform 0.15s",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (isClickable) e.currentTarget.style.background = s ? s.glow : "var(--bg-hover)";
+                    }}
+                    onMouseLeave={(e) => {
+                      if (isClickable && !isActive) e.currentTarget.style.background = "var(--bg-raised)";
                     }}
                   >
                     {/* Date number */}
@@ -3399,12 +3618,12 @@ function CalendarPanel({ active, onClickDay }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        marginBottom: 6,
+                        marginBottom: 8,
                       }}
                     >
                       <span
                         style={{
-                          fontSize: 13,
+                          fontSize: 16,
                           fontWeight: 700,
                           fontFamily: "var(--sans)",
                           color: !day
@@ -3419,7 +3638,7 @@ function CalendarPanel({ active, onClickDay }) {
                       {day && (
                         <span
                           style={{
-                            fontSize: 9,
+                            fontSize: 10,
                             fontWeight: 700,
                             color: "var(--text-faint)",
                             fontFamily: "var(--sans)",
@@ -3435,7 +3654,7 @@ function CalendarPanel({ active, onClickDay }) {
                     {day && (
                       <div
                         style={{
-                          padding: "4px 6px",
+                          padding: "6px 8px",
                           borderRadius: 6,
                           borderLeft: `3px solid ${s.dot}`,
                           background: s.glow,
@@ -3443,13 +3662,13 @@ function CalendarPanel({ active, onClickDay }) {
                       >
                         <div
                           style={{
-                            fontSize: 12,
+                            fontSize: 13,
                             fontWeight: 700,
                             color: "var(--text)",
                             fontFamily: "var(--sans)",
                             display: "flex",
                             alignItems: "center",
-                            gap: 4,
+                            gap: 5,
                             whiteSpace: "nowrap",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
@@ -3467,40 +3686,56 @@ function CalendarPanel({ active, onClickDay }) {
                         </div>
                         <div
                           style={{
-                            fontSize: 10,
+                            fontSize: 11,
                             color: s.text,
                             fontFamily: "var(--sans)",
-                            marginTop: 3,
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 4,
+                            marginTop: 5,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            lineHeight: 1.4,
                           }}
                         >
-                          <span>{day.icon}</span>
-                          <span
-                            style={{
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            {day.summary}
-                          </span>
+                          <span style={{ marginRight: 4 }}>{day.icon}</span>
+                          {day.summary}
                         </div>
-                        {day.move && (
-                          <div
-                            style={{
-                              marginTop: 4,
-                              fontSize: 9,
-                              fontWeight: 700,
-                              color: s.text,
-                              fontFamily: "var(--sans)",
-                              letterSpacing: "0.05em",
-                            }}
-                          >
-                            ✈ TRAVEL
-                          </div>
-                        )}
+                        <div style={{ display: "flex", gap: 6, marginTop: 6, flexWrap: "wrap" }}>
+                          {day.move && (
+                            <span
+                              style={{
+                                fontSize: 9,
+                                fontWeight: 700,
+                                color: s.text,
+                                fontFamily: "var(--sans)",
+                                letterSpacing: "0.05em",
+                                background: "var(--bg-raised)",
+                                padding: "2px 6px",
+                                borderRadius: 4,
+                                border: `1px solid ${s.dot}40`,
+                              }}
+                            >
+                              ✈ TRAVEL
+                            </span>
+                          )}
+                          {hasAirbnb && (
+                            <span
+                              style={{
+                                fontSize: 9,
+                                fontWeight: 700,
+                                color: "var(--accent)",
+                                fontFamily: "var(--sans)",
+                                letterSpacing: "0.05em",
+                                background: "var(--accent-bg)",
+                                padding: "2px 6px",
+                                borderRadius: 4,
+                                border: "1px solid var(--accent-border)",
+                              }}
+                            >
+                              🏠 {day.airbnb.map(a => a.action === "check-in" ? "IN" : "OUT").join(" / ")}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>
