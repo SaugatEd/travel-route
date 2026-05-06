@@ -3393,6 +3393,11 @@ function CalendarDayDialog({ day, onClose, onGoToStop }) {
                       <div style={{ marginTop: 2 }}>
                         Stay: {b.checkIn.date} {b.checkIn.time} → {b.checkOut.date} {b.checkOut.time} ({b.nights} {b.nights === 1 ? "night" : "nights"})
                       </div>
+                      {b.confirmationCode && (
+                        <div style={{ marginTop: 2, fontFamily: "var(--mono, monospace)", fontSize: 11 }}>
+                          Confirmation: <strong style={{ color: "var(--text)" }}>{b.confirmationCode}</strong>
+                        </div>
+                      )}
                       <div style={{ marginTop: 2, color: b.cancelBy.refundType === "partial" ? "var(--text-muted)" : "var(--accent)" }}>
                         ⚠️ Free-cancel by: {b.cancelBy.date} {b.cancelBy.time}
                         {b.cancelBy.refundType === "partial" && " (partial refund only)"}
