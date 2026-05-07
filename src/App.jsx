@@ -209,6 +209,7 @@ export default function App() {
             ["calendar", "📅", "Calendar"],
             ["journeys", "🚄", "Trains"],
             ["bookings", "🔗", "Book"],
+            ["guide", "📖", "Guides"],
             ["timeline", "📆", "Timeline"],
             ["money", "💳", "Money"],
             ["transport", "🚇", "Transport"],
@@ -242,6 +243,7 @@ export default function App() {
       )}
       {topTab === "journeys" && <JourneysPanel showNPR={showNPR} npr={npr} />}
       {topTab === "bookings" && <BookingsPanel />}
+      {topTab === "guide" && <GuidePanel />}
       {topTab === "money" && <MoneyPanel />}
       {topTab === "transport" && <TransportValidationPanel />}
       {topTab === "timeline" && <BookingTimelinePanel />}
@@ -3276,182 +3278,100 @@ function CalendarDayDialog({ day, onClose, onGoToStop }) {
     };
   }, [onClose]);
 
+  // Split summary by middle-dot for bullet rendering
+  const planBullets = (day.summary || "").split(" · ").map((s) => s.trim()).filter(Boolean);
+  // Parse the date for the big calendar tile
+  const dt = parseCalDate(day.date);
+  const dayNum = dt ? dt.getDate() : "";
+  const monShort = dt ? dt.toLocaleString("en-US", { month: "short" }).toUpperCase() : "";
+  const dowShort = dt ? dt.toLocaleString("en-US", { weekday: "short" }).toUpperCase() : "";
+
   return (
-    <div
-      onClick={onClose}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,0.55)",
-        zIndex: 1000,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 20,
-        animation: "fadeIn 0.15s",
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          width: "min(640px, 100%)",
-          maxHeight: "90vh",
-          overflowY: "auto",
-          background: "var(--bg-raised)",
-          borderRadius: 14,
-          border: "1px solid var(--border)",
-          boxShadow: "0 24px 64px rgba(0,0,0,0.35)",
-          fontFamily: "var(--sans)",
-        }}
-      >
+    <div className="caldlg-overlay" onClick={onClose}>
+      <div className="caldlg" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div
-          style={{
-            padding: "20px 24px 16px",
-            borderBottom: "1px solid var(--border)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            gap: 12,
-            background: s.glow,
-            borderTopLeftRadius: 14,
-            borderTopRightRadius: 14,
-            borderLeft: `4px solid ${s.dot}`,
-          }}
-        >
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-dim)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              {day.date} · DAY {day.dayN}
+        <div className="caldlg-head" style={{ background: s.glow, borderColor: s.dot }}>
+          <div className="caldlg-datebox" style={{ borderColor: s.dot, color: s.dot }}>
+            <div className="caldlg-datebox-dow">{dowShort}</div>
+            <div className="caldlg-datebox-num">{dayNum}</div>
+            <div className="caldlg-datebox-mon">{monShort}</div>
+          </div>
+          <div className="caldlg-titles">
+            <div className="caldlg-tags">
+              <span className="caldlg-tag" style={{ color: s.dot, background: s.glow, borderColor: `${s.dot}55` }}>
+                {day.type}
+              </span>
+              {day.move && <span className="caldlg-tag caldlg-tag--travel">✈ travel day</span>}
+              <span className="caldlg-tag-faint">Day {day.dayN}</span>
             </div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text)", marginTop: 6, display: "flex", alignItems: "center", gap: 8 }}>
+            <div className="caldlg-city">
               <span>{day.flag}</span>
               <span>{day.city}</span>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            style={{
-              background: "transparent",
-              border: "1px solid var(--border)",
-              borderRadius: 8,
-              width: 32,
-              height: 32,
-              fontSize: 16,
-              cursor: "pointer",
-              color: "var(--text-muted)",
-            }}
-          >
-            ✕
-          </button>
+          <button onClick={onClose} aria-label="Close" className="caldlg-close">✕</button>
         </div>
 
         {/* Body */}
-        <div style={{ padding: "20px 24px" }}>
-          {/* Summary */}
-          <div style={{ marginBottom: 18 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-dim)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}>
-              Plan
-            </div>
-            <div style={{ fontSize: 14, lineHeight: 1.55, color: "var(--text)" }}>
-              <span style={{ marginRight: 6 }}>{day.icon}</span>
-              {day.summary}
-            </div>
-          </div>
-
-          {/* Airbnb section */}
-          {airbnbActions.length > 0 && (
-            <div style={{ marginBottom: 18 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "var(--accent)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10 }}>
-                🏠 Airbnb today
-              </div>
-              {airbnbActions.map((a, i) => {
-                const b = a.booking;
-                if (!b) return null;
-                const isOut = a.action === "check-out";
-                return (
-                  <div
-                    key={i}
-                    style={{
-                      padding: "12px 14px",
-                      marginBottom: 8,
-                      borderRadius: 10,
-                      border: "1px solid var(--accent-border)",
-                      background: "var(--accent-bg)",
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: "var(--text)" }}>
-                        {isOut ? "Check-out" : "Check-in"} · {a.time} · {b.flag} {b.name}
-                      </div>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: "var(--accent)", whiteSpace: "nowrap" }}>
-                        Host: {b.host}
-                      </div>
-                    </div>
-                    <div style={{ fontSize: 12, color: "var(--text-muted)", lineHeight: 1.5 }}>
-                      <div>📍 {b.address}, {b.city}</div>
-                      <div style={{ marginTop: 2 }}>
-                        Stay: {b.checkIn.date} {b.checkIn.time} → {b.checkOut.date} {b.checkOut.time} ({b.nights} {b.nights === 1 ? "night" : "nights"})
-                      </div>
-                      {b.confirmationCode && (
-                        <div style={{ marginTop: 2, fontFamily: "var(--mono, monospace)", fontSize: 11 }}>
-                          Confirmation: <strong style={{ color: "var(--text)" }}>{b.confirmationCode}</strong>
-                        </div>
-                      )}
-                      <div style={{ marginTop: 2, color: b.cancelBy.refundType === "partial" ? "var(--text-muted)" : "var(--accent)" }}>
-                        ⚠️ Free-cancel by: {b.cancelBy.date} {b.cancelBy.time}
-                        {b.cancelBy.refundType === "partial" && " (partial refund only)"}
-                      </div>
-                      {b.note && <div style={{ marginTop: 6, fontStyle: "italic" }}>{b.note}</div>}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+        <div className="caldlg-body">
+          {/* Plan as bullets */}
+          {planBullets.length > 0 && (
+            <section className="caldlg-section">
+              <div className="caldlg-section-title">Plan</div>
+              <ul className="caldlg-bullets">
+                {planBullets.map((line, i) => (
+                  <li key={i}>{line}</li>
+                ))}
+              </ul>
+            </section>
           )}
 
-          {/* Tags */}
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
-            <span
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                color: s.text,
-                background: s.glow,
-                padding: "4px 10px",
-                borderRadius: 6,
-                border: `1px solid ${s.dot}40`,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-              }}
-            >
-              {day.type}
-            </span>
-            {day.move && (
-              <span style={{ fontSize: 11, fontWeight: 700, color: s.text, background: "var(--bg-hover)", padding: "4px 10px", borderRadius: 6, border: "1px solid var(--border)", letterSpacing: "0.05em" }}>
-                ✈ TRAVEL DAY
-              </span>
-            )}
-          </div>
+          {/* Airbnb actions */}
+          {airbnbActions.length > 0 && (
+            <section className="caldlg-section">
+              <div className="caldlg-section-title">🏠 Airbnb today</div>
+              <div className="caldlg-airbnb-list">
+                {airbnbActions.map((a, i) => {
+                  const b = a.booking;
+                  if (!b) return null;
+                  const isOut = a.action === "check-out";
+                  return (
+                    <div key={i} className={`caldlg-airbnb caldlg-airbnb--${isOut ? "out" : "in"}`}>
+                      <div className="caldlg-airbnb-time">
+                        <span className="caldlg-airbnb-action">{isOut ? "OUT" : "IN"}</span>
+                        <span className="caldlg-airbnb-clock">{a.time}</span>
+                      </div>
+                      <div className="caldlg-airbnb-info">
+                        <div className="caldlg-airbnb-name">
+                          <span style={{ marginRight: 4 }}>{b.flag}</span>
+                          {b.name}
+                        </div>
+                        <div className="caldlg-airbnb-meta">
+                          {b.host} · {b.address}
+                          {b.confirmationCode && <span className="caldlg-airbnb-code"> · {b.confirmationCode}</span>}
+                        </div>
+                      </div>
+                      {b.bookingUrl && (
+                        <a
+                          href={b.bookingUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="caldlg-airbnb-link"
+                        >
+                          ↗
+                        </a>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
 
-          {/* Actions */}
+          {/* Action button */}
           {stop && resolvedStop !== "ktm" && (
-            <button
-              onClick={() => onGoToStop(resolvedStop)}
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                background: "var(--accent)",
-                color: "#fff",
-                border: "none",
-                borderRadius: 10,
-                fontSize: 13,
-                fontWeight: 700,
-                cursor: "pointer",
-                fontFamily: "var(--sans)",
-                letterSpacing: "0.04em",
-              }}
-            >
+            <button onClick={() => onGoToStop(resolvedStop)} className="caldlg-cta">
               View {stop.city} stop details →
             </button>
           )}
@@ -4053,12 +3973,139 @@ function JourneysPanel({ showNPR, npr }) {
   );
 }
 
+const COUNTRY_TINT = {
+  Italy:        { tint: "#FFF6EE", accent: "#B8311E", strip: "linear-gradient(180deg, #008C45 0%, #F4F5F0 50%, #CD212A 100%)" },
+  Switzerland:  { tint: "#FFF1F1", accent: "#C8102E", strip: "linear-gradient(180deg, #C8102E 0%, #FFFFFF 100%)" },
+  Austria:      { tint: "#FFF1F1", accent: "#C8102E", strip: "linear-gradient(180deg, #ED2939 0%, #FFFFFF 50%, #ED2939 100%)" },
+  Netherlands:  { tint: "#FFF8EC", accent: "#C76200", strip: "linear-gradient(180deg, #AE1C28 0%, #FFFFFF 33%, #21468B 100%)" },
+  Germany:      { tint: "#FBF7F0", accent: "#9A5300", strip: "linear-gradient(180deg, #000 0%, #DD0000 50%, #FFCE00 100%)" },
+  Czechia:      { tint: "#F0F5FA", accent: "#11457E", strip: "linear-gradient(180deg, #FFFFFF 0%, #D7141A 50%, #11457E 100%)" },
+};
+
+function shortDate(s) { return s.replace(/^\w+ /, ""); } // "Tue 16 Jun" → "16 Jun"
+function dayOfWeek(s) { return (s.match(/^\w+/) || [""])[0]; } // "Tue 16 Jun" → "Tue"
+
 function BookingsPanel() {
+  // Sort confirmed bookings by check-in date (chronological)
+  const confirmed = [...AIRBNBS].sort((a, b) => {
+    const da = parseCalDate(a.checkIn.date);
+    const db = parseCalDate(b.checkIn.date);
+    return (da?.getTime() || 0) - (db?.getTime() || 0);
+  });
+
+  // Today (project-time) for cancel-by urgency
+  const today = new Date(2026, 4, 7); // 2026-05-07 — keep in sync with currentDate
+
   return (
     <div className="top-panel">
       <div className="top-panel-inner">
-        <h2>Book Everything — In Priority Order</h2>
-        <p className="subtitle">Start from #1 and work down. The first 5 are genuinely urgent.</p>
+        {/* ── CONFIRMED AIRBNBS ── */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 12, marginBottom: 6 }}>
+          <h2 style={{ margin: 0 }}>Confirmed Airbnbs</h2>
+          <span style={{ fontSize: 12, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>
+            {confirmed.length} bookings · {confirmed.reduce((n, b) => n + b.nights, 0)} nights
+          </span>
+        </div>
+        <p className="subtitle" style={{ marginTop: 4, marginBottom: 18 }}>
+          Click any card to open the listing on Airbnb.
+        </p>
+
+        <div className="airbnb-grid">
+          {confirmed.map((b) => {
+            const cancelDate = parseCalDate(b.cancelBy.date);
+            const daysToCancel = cancelDate ? Math.ceil((cancelDate - today) / 86400000) : null;
+            const cancelState = daysToCancel == null
+              ? "ok"
+              : daysToCancel < 0 ? "passed"
+              : daysToCancel <= 3 ? "urgent"
+              : daysToCancel <= 10 ? "soon"
+              : "ok";
+            const cancelLabel = {
+              passed: "🔒 Reservation locked in",
+              urgent: `⚠️ Cancel by ${shortDate(b.cancelBy.date)} ${b.cancelBy.time}`,
+              soon:   `Free cancel until ${shortDate(b.cancelBy.date)}`,
+              ok:     `Free cancel until ${shortDate(b.cancelBy.date)}`,
+            }[cancelState];
+            const tint = COUNTRY_TINT[b.country] || { tint: "var(--bg-raised)", accent: "var(--accent)", strip: "var(--accent)" };
+            // Strip the country/extra qualifier in parens for the headline
+            const cityHead = b.city.replace(/\s*\(.+\)\s*$/, "");
+            const cityTag = (b.city.match(/\(([^)]+)\)/) || [, ""])[1];
+
+            return (
+              <a
+                key={b.id}
+                href={b.bookingUrl || "#"}
+                target="_blank"
+                rel="noreferrer"
+                className={`ticket ticket--${cancelState}`}
+                style={!b.bookingUrl ? { pointerEvents: "none", opacity: 0.85 } : undefined}
+              >
+                <div className="ticket-strip" style={{ background: tint.strip }} aria-hidden="true" />
+                <div className="ticket-body" style={{ background: tint.tint }}>
+                  <div className="ticket-head">
+                    <div className="ticket-flag">{b.flag}</div>
+                    <div className="ticket-titles">
+                      <div className="ticket-city">{cityHead}</div>
+                      {cityTag && <div className="ticket-cityqual">{cityTag}</div>}
+                    </div>
+                    <div className="ticket-nights" style={{ color: tint.accent, borderColor: tint.accent }}>
+                      <strong>{b.nights}</strong>
+                      <span>{b.nights === 1 ? "night" : "nights"}</span>
+                    </div>
+                  </div>
+
+                  <div className="ticket-name">{b.name}</div>
+
+                  <div className="ticket-dates">
+                    <div className="ticket-stub">
+                      <div className="ticket-stub-label">Arrive</div>
+                      <div className="ticket-stub-day">{dayOfWeek(b.checkIn.date)} · {shortDate(b.checkIn.date)}</div>
+                      <div className="ticket-stub-time">{b.checkIn.time}</div>
+                    </div>
+                    <div className="ticket-arrow" aria-hidden="true">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    <div className="ticket-stub">
+                      <div className="ticket-stub-label">Depart</div>
+                      <div className="ticket-stub-day">{dayOfWeek(b.checkOut.date)} · {shortDate(b.checkOut.date)}</div>
+                      <div className="ticket-stub-time">{b.checkOut.time}</div>
+                    </div>
+                  </div>
+
+                  <div className="ticket-meta">
+                    <div className="ticket-meta-row">
+                      <span className="ticket-meta-key">Host</span>
+                      <span className="ticket-meta-val">{b.host}</span>
+                    </div>
+                    <div className="ticket-meta-row">
+                      <span className="ticket-meta-key">Address</span>
+                      <span className="ticket-meta-val">{b.address}</span>
+                    </div>
+                    {b.confirmationCode && (
+                      <div className="ticket-meta-row">
+                        <span className="ticket-meta-key">Code</span>
+                        <span className="ticket-meta-val ticket-mono">{b.confirmationCode}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="ticket-foot">
+                    <span className={`ticket-cancel ticket-cancel--${cancelState}`}>
+                      {cancelLabel}{b.cancelBy.refundType === "partial" && " · partial only"}
+                    </span>
+                    {b.bookingUrl && <span className="ticket-cta">Airbnb&nbsp;↗</span>}
+                  </div>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+
+        {/* ── REMAINING TODOS ── */}
+        <h2 style={{ marginTop: 36 }}>Still to book</h2>
+        <p className="subtitle">Things you haven't booked yet — work top-down.</p>
         <div className="booking-grid">
           {BOOKING.map((b, i) => (
             <a key={i} href={b.url} target="_blank" rel="noreferrer" className="booking-card" style={{ borderLeftColor: URGENCY_COLORS[b.urgency] || "#444" }}>
@@ -4074,6 +4121,55 @@ function BookingsPanel() {
                 <div className="booking-date">{b.date}</div>
               </div>
               <span className="booking-arrow">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GuidePanel() {
+  const base = import.meta.env.BASE_URL;
+  const guides = [
+    {
+      title: "Europe Trip Packing Checklist",
+      desc: "Comprehensive packing list for the 3-week trip — clothing layers, train essentials, tech, documents, weather kit, daypack split. Print before you start packing.",
+      url: `${base}guides/europe_packing_checklist.pdf`,
+      icon: "🎒",
+      kb: 15,
+    },
+    {
+      title: "Austria Begins — First Stops",
+      desc: "Detailed guide to the Austrian leg: arrival logistics, language basics, train ticket types (Sparschiene), what to do in Bregenz/Innsbruck/Salzburg/Vienna, and a few traps to avoid.",
+      url: `${base}guides/austria_begins.pdf`,
+      icon: "🇦🇹",
+      kb: 31,
+    },
+  ];
+
+  return (
+    <div className="top-panel">
+      <div className="top-panel-inner">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 12, marginBottom: 6 }}>
+          <h2 style={{ margin: 0 }}>Guides</h2>
+          <span style={{ fontSize: 12, color: "var(--text-dim)", fontFamily: "var(--sans)" }}>
+            {guides.length} PDFs
+          </span>
+        </div>
+        <p className="subtitle" style={{ marginTop: 4, marginBottom: 18 }}>
+          Reference docs for the trip. Open in browser or download for offline.
+        </p>
+
+        <div className="guide-grid">
+          {guides.map((g) => (
+            <a key={g.title} href={g.url} target="_blank" rel="noreferrer" className="guide-card">
+              <div className="guide-card-icon">{g.icon}</div>
+              <div className="guide-card-body">
+                <div className="guide-card-title">{g.title}</div>
+                <div className="guide-card-desc">{g.desc}</div>
+                <div className="guide-card-meta">PDF · {g.kb} KB · <span style={{ color: "var(--accent)", fontWeight: 700 }}>View →</span></div>
+              </div>
             </a>
           ))}
         </div>
