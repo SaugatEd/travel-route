@@ -3335,11 +3335,14 @@ function CalendarDayDialog({ day, onClose, onGoToStop }) {
                   const b = a.booking;
                   if (!b) return null;
                   const isOut = a.action === "check-out";
+                  const windowLabel = isOut
+                    ? `by ${b.checkOut.time}`
+                    : (b.checkIn.until ? `${b.checkIn.time} – ${b.checkIn.until}` : `from ${b.checkIn.time}`);
                   return (
                     <div key={i} className={`caldlg-airbnb caldlg-airbnb--${isOut ? "out" : "in"}`}>
                       <div className="caldlg-airbnb-time">
                         <span className="caldlg-airbnb-action">{isOut ? "OUT" : "IN"}</span>
-                        <span className="caldlg-airbnb-clock">{a.time}</span>
+                        <span className="caldlg-airbnb-clock">{windowLabel}</span>
                       </div>
                       <div className="caldlg-airbnb-info">
                         <div className="caldlg-airbnb-name">
@@ -4058,9 +4061,12 @@ function BookingsPanel() {
 
                   <div className="ticket-dates">
                     <div className="ticket-stub">
-                      <div className="ticket-stub-label">Arrive</div>
+                      <div className="ticket-stub-label">Check-in window</div>
                       <div className="ticket-stub-day">{dayOfWeek(b.checkIn.date)} · {shortDate(b.checkIn.date)}</div>
-                      <div className="ticket-stub-time">{b.checkIn.time}</div>
+                      <div className="ticket-stub-time">
+                        {b.checkIn.time}
+                        {b.checkIn.until && <> – {b.checkIn.until}</>}
+                      </div>
                     </div>
                     <div className="ticket-arrow" aria-hidden="true">
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -4068,7 +4074,7 @@ function BookingsPanel() {
                       </svg>
                     </div>
                     <div className="ticket-stub">
-                      <div className="ticket-stub-label">Depart</div>
+                      <div className="ticket-stub-label">Check-out by</div>
                       <div className="ticket-stub-day">{dayOfWeek(b.checkOut.date)} · {shortDate(b.checkOut.date)}</div>
                       <div className="ticket-stub-time">{b.checkOut.time}</div>
                     </div>
