@@ -15,7 +15,7 @@ import { BOOKING_TIMELINE } from "./data/bookingTimelineData";
 import { SCAMS } from "./data/scamsData";
 import { ALT_ROUTES } from "./data/altRoutesData";
 
-const getCityHero = (id) => CITY_IMAGES?.[id]?.hero || null;
+export const getCityHero = (id) => CITY_IMAGES?.[id]?.hero || null;
 const getCityMap = (id) => CITY_IMAGES?.[id]?.mapEmbed || null;
 const getCityGallery = (id) => CITY_IMAGES?.[id]?.gallery || [];
 
@@ -178,29 +178,8 @@ export default function App() {
               </span>
             </div>
           </div>
-          <div className="header-actions">
-            <button
-              className="pill pill--icon"
-              onClick={toggleTheme}
-              title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-            >
-              {theme === "light" ? "🌙" : "☀️"}
-            </button>
-            <button
-              className={`pill pill--icon${showNPR ? " active" : ""}`}
-              onClick={() => setShowNPR((p) => !p)}
-              title="Show NPR conversions"
-            >
-              ₨
-            </button>
-            <button
-              className="pdf-btn"
-              onClick={() => generateFullTripPdf(STOPS, CALENDAR, { journeys: JOURNEYS, tripBudget: TRIP_BUDGET, packingChecklist: PACKING_CHECKLIST, practical: PRACTICAL })}
-              title="Download complete trip PDF"
-            >
-              ↓ PDF
-            </button>
-          </div>
+          <div className="header-actions" />
+
         </div>
 
         {/* Sub-nav: single horizontal scroll strip, no group labels — pills speak for themselves */}
@@ -391,9 +370,6 @@ export default function App() {
                   <div className="label" style={heroImg ? { color: "rgba(255,255,255,0.6)" } : {}}>June weather</div>
                   <div className="val" style={heroImg ? { color: "#fff" } : {}}>{stop.weather.temp}</div>
                 </div>
-                <button className="pdf-btn" onClick={() => generateStopPdf(stop, calDay)} title={`Download ${stop.city} PDF`}>
-                  ↓ Download PDF
-                </button>
               </div>
             </div>
           </div>
@@ -649,7 +625,7 @@ function VideosContent({ stop }) {
   );
 }
 
-function GalleryView({ stop }) {
+export function GalleryView({ stop }) {
   const gallery = getCityGallery(stop.id);
   const highlights = CITY_IMAGES?.[stop.id]?.highlights || [];
   const heroImg = getCityHero(stop.id);
@@ -715,7 +691,7 @@ function GalleryView({ stop }) {
   );
 }
 
-function OverviewView({ stop, idx, stops, journeys, onStopChange, showNPR, npr }) {
+export function OverviewView({ stop, idx, stops, journeys, onStopChange, showNPR, npr }) {
   const [section, setSection] = useState("highlights");
 
   const gallery = getCityGallery(stop.id);
@@ -2468,7 +2444,7 @@ function MustTryContent({ stop }) {
   );
 }
 
-function DocsView() {
+export function DocsView() {
   const [openSection, setOpenSection] = useState(null);
   const toggle = (key) => setOpenSection(prev => prev === key ? null : key);
 
@@ -2612,7 +2588,7 @@ function DocsView() {
 }
 
 /* ── BUDGET VIEW ── */
-function BudgetView({ stop, stops, showNPR, npr }) {
+export function BudgetView({ stop, stops, showNPR, npr }) {
   const allStops = stops.filter(s => s.budgetBreakdown && s.budgetBreakdown.days > 0);
   const currentBb = stop?.budgetBreakdown;
 
@@ -2740,7 +2716,7 @@ function BudgetView({ stop, stops, showNPR, npr }) {
 }
 
 /* ── CHECKLIST VIEW ── */
-function ChecklistView() {
+export function ChecklistView() {
   const [checked, setChecked] = useState(() => {
     try { return JSON.parse(localStorage.getItem("jamnata-checklist") || "{}"); } catch { return {}; }
   });
@@ -2888,7 +2864,7 @@ function ChecklistView() {
 }
 
 /* ── PHRASEBOOK VIEW ── */
-function PhrasebookView({ stop }) {
+export function PhrasebookView({ stop }) {
   const countryMap = { "Italy": "italy", "Switzerland": "switzerland", "Austria": "austria", "Czech Republic": "czech", "Germany": "germany", "Netherlands": "netherlands" };
   const activeCountryKey = countryMap[stop?.country] || null;
 
@@ -2984,7 +2960,7 @@ function PhrasebookView({ stop }) {
 }
 
 /* ── SURVIVAL GUIDE VIEW ── */
-function SurvivalGuideView({ stop }) {
+export function SurvivalGuideView({ stop }) {
   const [guideTab, setGuideTab] = useState("destination");
   const [openSection, setOpenSection] = useState(null);
   const countryMap = { "Italy": "italy", "Switzerland": "switzerland", "Austria": "austria", "Czech Republic": "czech", "Germany": "germany", "Netherlands": "netherlands" };
@@ -3257,7 +3233,7 @@ function parseCalDate(dateStr) {
 
 const DOW_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function CalendarDayDialog({ day, onClose, onGoToStop }) {
+export function CalendarDayDialog({ day, onClose, onGoToStop }) {
   const s = CAL_TYPES[day.type] || CAL_TYPES.explore;
   const resolvedStop = day.stop === "imst" ? "innsbruck" : day.stop;
   const stop = STOPS.find((x) => x.id === resolvedStop);
@@ -3384,7 +3360,7 @@ function CalendarDayDialog({ day, onClose, onGoToStop }) {
   );
 }
 
-function CalendarPanel({ active, onOpenDay }) {
+export function CalendarPanel({ active, onOpenDay }) {
   const legends = [
     ["explore", "#4CAF50", "Explore"],
     ["move", "#FF9800", "Travel Day"],
@@ -3782,7 +3758,7 @@ function trainNameFromVia(via, type) {
   return cleaned.split(/\s+/).slice(0, 6).join(" ");
 }
 
-function JourneysPanel({ showNPR, npr }) {
+export function JourneysPanel({ showNPR, npr }) {
   const [openIdx, setOpenIdx] = useState(null);
 
   const totalDuration = JOURNEYS.reduce((acc, j) => {
@@ -3988,7 +3964,7 @@ const COUNTRY_TINT = {
 function shortDate(s) { return s.replace(/^\w+ /, ""); } // "Tue 16 Jun" → "16 Jun"
 function dayOfWeek(s) { return (s.match(/^\w+/) || [""])[0]; } // "Tue 16 Jun" → "Tue"
 
-function BookingsPanel() {
+export function BookingsPanel() {
   // Sort confirmed bookings by check-in date (chronological)
   const confirmed = [...AIRBNBS].sort((a, b) => {
     const da = parseCalDate(a.checkIn.date);
@@ -4015,33 +3991,49 @@ function BookingsPanel() {
 
         <div className="airbnb-grid">
           {confirmed.map((b) => {
-            const cancelDate = parseCalDate(b.cancelBy.date);
+            const isTodo = b.status === "todo";
+            const cancelDate = !isTodo && b.cancelBy ? parseCalDate(b.cancelBy.date) : null;
             const daysToCancel = cancelDate ? Math.ceil((cancelDate - today) / 86400000) : null;
-            const cancelState = daysToCancel == null
+            const cancelState = isTodo
+              ? "todo"
+              : daysToCancel == null
               ? "ok"
               : daysToCancel < 0 ? "passed"
               : daysToCancel <= 3 ? "urgent"
               : daysToCancel <= 10 ? "soon"
               : "ok";
-            const cancelLabel = {
-              passed: "🔒 Reservation locked in",
-              urgent: `⚠️ Cancel by ${shortDate(b.cancelBy.date)} ${b.cancelBy.time}`,
-              soon:   `Free cancel until ${shortDate(b.cancelBy.date)}`,
-              ok:     `Free cancel until ${shortDate(b.cancelBy.date)}`,
-            }[cancelState];
+            const cancelLabel = isTodo
+              ? "📌 Not yet booked — search Airbnb"
+              : {
+                  passed: "🔒 Reservation locked in",
+                  urgent: `⚠️ Cancel by ${shortDate(b.cancelBy.date)} ${b.cancelBy.time}`,
+                  soon:   `Free cancel until ${shortDate(b.cancelBy.date)}`,
+                  ok:     `Free cancel until ${shortDate(b.cancelBy.date)}`,
+                }[cancelState];
             const tint = COUNTRY_TINT[b.country] || { tint: "var(--bg-raised)", accent: "var(--accent)", strip: "var(--accent)" };
             // Strip the country/extra qualifier in parens for the headline
             const cityHead = b.city.replace(/\s*\(.+\)\s*$/, "");
             const cityTag = (b.city.match(/\(([^)]+)\)/) || [, ""])[1];
+            // For TODO entries, link to an Airbnb search for the city/dates/3 guests
+            const isoDate = (d) => {
+              const dt = parseCalDate(d);
+              if (!dt) return "";
+              const y = dt.getFullYear();
+              const m = String(dt.getMonth() + 1).padStart(2, "0");
+              const day = String(dt.getDate()).padStart(2, "0");
+              return `${y}-${m}-${day}`;
+            };
+            const todoSearchUrl = isTodo ? `https://www.airbnb.com/s/${encodeURIComponent(cityHead)}/homes?checkin=${isoDate(b.checkIn.date)}&checkout=${isoDate(b.checkOut.date)}&adults=${b.guests || 3}` : null;
+            const cardHref = b.bookingUrl || todoSearchUrl || "#";
 
             return (
               <a
                 key={b.id}
-                href={b.bookingUrl || "#"}
+                href={cardHref}
                 target="_blank"
                 rel="noreferrer"
                 className={`ticket ticket--${cancelState}`}
-                style={!b.bookingUrl ? { pointerEvents: "none", opacity: 0.85 } : undefined}
+                style={isTodo ? { borderStyle: "dashed", opacity: 0.92 } : (!b.bookingUrl ? { pointerEvents: "none", opacity: 0.85 } : undefined)}
               >
                 <div className="ticket-strip" style={{ background: tint.strip }} aria-hidden="true" />
                 <div className="ticket-body" style={{ background: tint.tint }}>
@@ -4083,11 +4075,11 @@ function BookingsPanel() {
                   <div className="ticket-meta">
                     <div className="ticket-meta-row">
                       <span className="ticket-meta-key">Host</span>
-                      <span className="ticket-meta-val">{b.host}</span>
+                      <span className="ticket-meta-val">{b.host || "— TBD —"}</span>
                     </div>
                     <div className="ticket-meta-row">
                       <span className="ticket-meta-key">Address</span>
-                      <span className="ticket-meta-val">{b.address}</span>
+                      <span className="ticket-meta-val">{b.address || "— TBD —"}</span>
                     </div>
                     {b.confirmationCode && (
                       <div className="ticket-meta-row">
@@ -4095,13 +4087,31 @@ function BookingsPanel() {
                         <span className="ticket-meta-val ticket-mono">{b.confirmationCode}</span>
                       </div>
                     )}
+                    {b.directionsUrl && (
+                      <div className="ticket-meta-row">
+                        <span className="ticket-meta-key">Map</span>
+                        <span className="ticket-meta-val">
+                          <a
+                            href={b.directionsUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            style={{ color: tint.accent, textDecoration: "underline", fontWeight: 600 }}
+                          >
+                            🗺 Walk from station&nbsp;↗
+                          </a>
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="ticket-foot">
                     <span className={`ticket-cancel ticket-cancel--${cancelState}`}>
-                      {cancelLabel}{b.cancelBy.refundType === "partial" && " · partial only"}
+                      {cancelLabel}{!isTodo && b.cancelBy?.refundType === "partial" && " · partial only"}
                     </span>
-                    {b.bookingUrl && <span className="ticket-cta">Airbnb&nbsp;↗</span>}
+                    {isTodo
+                      ? <span className="ticket-cta">Search&nbsp;↗</span>
+                      : b.bookingUrl && <span className="ticket-cta">Airbnb&nbsp;↗</span>}
                   </div>
                 </div>
               </a>
@@ -4135,7 +4145,7 @@ function BookingsPanel() {
   );
 }
 
-function GuidePanel() {
+export function GuidePanel() {
   const base = import.meta.env.BASE_URL;
   const guides = [
     {
@@ -4189,7 +4199,7 @@ function GuidePanel() {
    block). Each stop is collapsible and shows the calendar days inside. Stops
    are ordered by first CALENDAR appearance, so the route reads top-to-bottom in
    real travel order even when countries are revisited (Austria→Germany→Austria). */
-function TripTimelineSidebar({ active, onClickDay, npr }) {
+export function TripTimelineSidebar({ active, onClickDay, npr }) {
   // Build stop-based groups in chronological order from CALENDAR.
   // Each consecutive run of CALENDAR days with the same resolved stop becomes
   // one timeline entry. This means Innsbruck (Fri+Sat) is one entry, then
@@ -4501,7 +4511,7 @@ function PanelHeader({ icon, title, headline, body }) {
 }
 
 /* ─────────────────────────── Money panel ─────────────────────────── */
-function MoneyPanel() {
+export function MoneyPanel() {
   return (
     <div className="top-panel">
       <div className="top-panel-inner">
@@ -4522,7 +4532,7 @@ function MoneyPanel() {
 }
 
 /* ─────────────────────────── Transport-validation panel ─────────────────────────── */
-function TransportValidationPanel() {
+export function TransportValidationPanel() {
   return (
     <div className="top-panel">
       <div className="top-panel-inner">
@@ -4543,7 +4553,7 @@ function TransportValidationPanel() {
 }
 
 /* ─────────────────────────── Booking-timeline panel ─────────────────────────── */
-function BookingTimelinePanel() {
+export function BookingTimelinePanel() {
   const [sortByPriority, setSortByPriority] = useState(true);
   const rows = sortByPriority
     ? [...BOOKING_TIMELINE.rows].sort((a, b) => a.priority - b.priority)
@@ -4703,7 +4713,7 @@ function BookingTimelinePanel() {
 }
 
 /* ─────────────────────────── Scams panel ─────────────────────────── */
-function ScamsPanel() {
+export function ScamsPanel() {
   return (
     <div className="top-panel">
       <div className="top-panel-inner">
@@ -4724,7 +4734,7 @@ function ScamsPanel() {
 }
 
 /* ─────────────────────────── Alt-Routes panel ─────────────────────────── */
-function AltRoutesPanel() {
+export function AltRoutesPanel() {
   const [activeRoute, setActiveRoute] = useState(ALT_ROUTES.routes[0].id);
   const route = ALT_ROUTES.routes.find((r) => r.id === activeRoute) || ALT_ROUTES.routes[0];
 

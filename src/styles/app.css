@@ -1572,6 +1572,7 @@ img { display: block; max-width: 100%; }
 .ticket-cancel--soon    { color: var(--text-muted); }
 .ticket-cancel--urgent  { color: #B45309; font-weight: 700; }
 .ticket-cancel--passed  { color: var(--text-faint); }
+.ticket-cancel--todo    { color: #7C2D12; font-weight: 700; }
 
 .ticket-cta {
   flex-shrink: 0;
@@ -1591,6 +1592,17 @@ img { display: block; max-width: 100%; }
 .ticket--urgent { box-shadow: var(--shadow), 0 0 0 1px rgba(217,119,6,0.18); }
 .ticket--passed { opacity: 0.78; }
 .ticket--passed:hover { opacity: 1; }
+/* TODO (unbooked) tickets: dashed outline + faint background to read as "placeholder" */
+.ticket--todo {
+  background-image: repeating-linear-gradient(135deg, rgba(124,45,18,0.04) 0 12px, transparent 12px 24px);
+  box-shadow: var(--shadow), 0 0 0 1.5px rgba(124,45,18,0.28);
+}
+.ticket--todo .ticket-cta {
+  color: #7C2D12; border-color: #7C2D12;
+}
+.ticket--todo:hover .ticket-cta {
+  background: #7C2D12; color: #fff;
+}
 
 /* ─── GUIDE CARDS: book-cover energy ─── */
 .guide-grid {
