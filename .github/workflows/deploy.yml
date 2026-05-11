@@ -25,7 +25,9 @@ jobs:
           node-version: 24
           cache: npm
 
-      - run: npm ci
+      # `npm install` (not `npm ci`) — picks up platform-specific optional deps
+      # (e.g. @emnapi on Linux) that don't always materialize in a macOS-generated lockfile.
+      - run: npm install --no-audit --no-fund
       - run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
