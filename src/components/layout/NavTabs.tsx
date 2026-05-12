@@ -20,6 +20,7 @@ const TABS: TabDef[] = [
   { to: '/money',       label: 'Money',      icon: '💶' },
   { to: '/transport',   label: 'Transport',  icon: '🚆' },
   { to: '/scams',       label: 'Scams',      icon: '⚠️' },
+  { to: '/visa-docs',   label: 'Visa Docs',  icon: '📋' },
 ];
 
 const linkStyle: CSSProperties = {

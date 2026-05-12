@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VisaDocsRouteImport } from './routes/visa-docs'
 import { Route as TransportRouteImport } from './routes/transport'
 import { Route as TrainsRouteImport } from './routes/trains'
 import { Route as TimelineRouteImport } from './routes/timeline'
@@ -24,6 +25,11 @@ import { Route as BookIndexRouteImport } from './routes/book/index'
 import { Route as StopIdRouteImport } from './routes/stop.$id'
 import { Route as BookIdRouteImport } from './routes/book/$id'
 
+const VisaDocsRoute = VisaDocsRouteImport.update({
+  id: '/visa-docs',
+  path: '/visa-docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TransportRoute = TransportRouteImport.update({
   id: '/transport',
   path: '/transport',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/timeline': typeof TimelineRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
+  '/visa-docs': typeof VisaDocsRoute
   '/book/$id': typeof BookIdRoute
   '/stop/$id': typeof StopIdRoute
   '/book/': typeof BookIndexRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/timeline': typeof TimelineRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
+  '/visa-docs': typeof VisaDocsRoute
   '/book/$id': typeof BookIdRoute
   '/stop/$id': typeof StopIdRoute
   '/book': typeof BookIndexRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/timeline': typeof TimelineRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
+  '/visa-docs': typeof VisaDocsRoute
   '/book/$id': typeof BookIdRoute
   '/stop/$id': typeof StopIdRoute
   '/book/': typeof BookIndexRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/timeline'
     | '/trains'
     | '/transport'
+    | '/visa-docs'
     | '/book/$id'
     | '/stop/$id'
     | '/book/'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/timeline'
     | '/trains'
     | '/transport'
+    | '/visa-docs'
     | '/book/$id'
     | '/stop/$id'
     | '/book'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/timeline'
     | '/trains'
     | '/transport'
+    | '/visa-docs'
     | '/book/$id'
     | '/stop/$id'
     | '/book/'
@@ -207,6 +219,7 @@ export interface RootRouteChildren {
   TimelineRoute: typeof TimelineRoute
   TrainsRoute: typeof TrainsRoute
   TransportRoute: typeof TransportRoute
+  VisaDocsRoute: typeof VisaDocsRoute
   BookIdRoute: typeof BookIdRoute
   StopIdRoute: typeof StopIdRoute
   BookIndexRoute: typeof BookIndexRoute
@@ -214,6 +227,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/visa-docs': {
+      id: '/visa-docs'
+      path: '/visa-docs'
+      fullPath: '/visa-docs'
+      preLoaderRoute: typeof VisaDocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/transport': {
       id: '/transport'
       path: '/transport'
@@ -327,6 +347,7 @@ const rootRouteChildren: RootRouteChildren = {
   TimelineRoute: TimelineRoute,
   TrainsRoute: TrainsRoute,
   TransportRoute: TransportRoute,
+  VisaDocsRoute: VisaDocsRoute,
   BookIdRoute: BookIdRoute,
   StopIdRoute: StopIdRoute,
   BookIndexRoute: BookIndexRoute,
