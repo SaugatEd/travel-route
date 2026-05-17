@@ -1818,8 +1818,9 @@ img { display: block; max-width: 100%; }
   border-radius: 8px;
   line-height: 1;
 }
-.caldlg-airbnb--in  .caldlg-airbnb-time { background: #DCFCE7; color: #166534; }
-.caldlg-airbnb--out .caldlg-airbnb-time { background: #FFEDD5; color: #9A3412; }
+.caldlg-airbnb--in   .caldlg-airbnb-time { background: #DCFCE7; color: #166534; }
+.caldlg-airbnb--out  .caldlg-airbnb-time { background: #FFEDD5; color: #9A3412; }
+.caldlg-airbnb--stay .caldlg-airbnb-time { background: #E0E7FF; color: #3730A3; }
 .caldlg-airbnb-action {
   font-size: 9px; font-weight: 800;
   letter-spacing: 0.12em;

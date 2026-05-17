@@ -3311,13 +3311,18 @@ export function CalendarDayDialog({ day, onClose, onGoToStop }) {
                   const b = a.booking;
                   if (!b) return null;
                   const isOut = a.action === "check-out";
+                  const isStay = a.action === "stay";
+                  const variant = isOut ? "out" : isStay ? "stay" : "in";
+                  const actionLabel = isOut ? "OUT" : isStay ? "STAY" : "IN";
                   const windowLabel = isOut
                     ? `by ${b.checkOut.time}`
+                    : isStay
+                    ? `night ${b.checkIn.date} → ${b.checkOut.date}`
                     : (b.checkIn.until ? `${b.checkIn.time} – ${b.checkIn.until}` : `from ${b.checkIn.time}`);
                   return (
-                    <div key={i} className={`caldlg-airbnb caldlg-airbnb--${isOut ? "out" : "in"}`}>
+                    <div key={i} className={`caldlg-airbnb caldlg-airbnb--${variant}`}>
                       <div className="caldlg-airbnb-time">
-                        <span className="caldlg-airbnb-action">{isOut ? "OUT" : "IN"}</span>
+                        <span className="caldlg-airbnb-action">{actionLabel}</span>
                         <span className="caldlg-airbnb-clock">{windowLabel}</span>
                       </div>
                       <div className="caldlg-airbnb-info">
@@ -3636,7 +3641,7 @@ export function CalendarPanel({ active, onOpenDay }) {
                                 border: "1px solid var(--accent-border)",
                               }}
                             >
-                              🏠 {day.airbnb.map(a => a.action === "check-in" ? "IN" : "OUT").join(" / ")}
+                              🏠 {day.airbnb.map(a => a.action === "check-in" ? "IN" : a.action === "check-out" ? "OUT" : "STAY").join(" / ")}
                             </span>
                           )}
                         </div>

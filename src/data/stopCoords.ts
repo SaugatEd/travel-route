@@ -131,8 +131,8 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '15:00',
     nights: 2,
     label: 'Salzburg · 2 nights',
-    bookingId: 'salzburg-todo',
-    // Arrival is past check-in window — head straight to flat once booked.
+    bookingId: 'salzburg-boho-city',
+    // Arrival is past check-in window — head straight to BOHO City Apartment (Denise, Gewerbegasse 7).
   },
   {
     id: 'vienna',

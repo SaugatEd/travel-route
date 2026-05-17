@@ -46,9 +46,9 @@ export interface Booking {
 }
 
 export interface AirbnbAction {
-  action: 'check-in' | 'check-out';
+  action: 'check-in' | 'check-out' | 'stay';
   id: string;
-  time: string;
+  time?: string;
 }
 
 export interface CalendarDay {
