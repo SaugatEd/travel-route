@@ -9,13 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VisaDocsRouteImport } from './routes/visa-docs'
 import { Route as TransportRouteImport } from './routes/transport'
 import { Route as TrainsRouteImport } from './routes/trains'
 import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as ScamsRouteImport } from './routes/scams'
 import { Route as MoneyRouteImport } from './routes/money'
 import { Route as MapRouteImport } from './routes/map'
+import { Route as ItineraryRouteImport } from './routes/itinerary'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as FlightsRouteImport } from './routes/flights'
 import { Route as CalendarRouteImport } from './routes/calendar'
@@ -25,11 +25,6 @@ import { Route as BookIndexRouteImport } from './routes/book/index'
 import { Route as StopIdRouteImport } from './routes/stop.$id'
 import { Route as BookIdRouteImport } from './routes/book/$id'
 
-const VisaDocsRoute = VisaDocsRouteImport.update({
-  id: '/visa-docs',
-  path: '/visa-docs',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TransportRoute = TransportRouteImport.update({
   id: '/transport',
   path: '/transport',
@@ -58,6 +53,11 @@ const MoneyRoute = MoneyRouteImport.update({
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ItineraryRoute = ItineraryRouteImport.update({
+  id: '/itinerary',
+  path: '/itinerary',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuidesRoute = GuidesRouteImport.update({
@@ -107,13 +107,13 @@ export interface FileRoutesByFullPath {
   '/calendar': typeof CalendarRoute
   '/flights': typeof FlightsRoute
   '/guides': typeof GuidesRoute
+  '/itinerary': typeof ItineraryRoute
   '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
   '/timeline': typeof TimelineRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
-  '/visa-docs': typeof VisaDocsRoute
   '/book/$id': typeof BookIdRoute
   '/stop/$id': typeof StopIdRoute
   '/book/': typeof BookIndexRoute
@@ -124,13 +124,13 @@ export interface FileRoutesByTo {
   '/calendar': typeof CalendarRoute
   '/flights': typeof FlightsRoute
   '/guides': typeof GuidesRoute
+  '/itinerary': typeof ItineraryRoute
   '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
   '/timeline': typeof TimelineRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
-  '/visa-docs': typeof VisaDocsRoute
   '/book/$id': typeof BookIdRoute
   '/stop/$id': typeof StopIdRoute
   '/book': typeof BookIndexRoute
@@ -142,13 +142,13 @@ export interface FileRoutesById {
   '/calendar': typeof CalendarRoute
   '/flights': typeof FlightsRoute
   '/guides': typeof GuidesRoute
+  '/itinerary': typeof ItineraryRoute
   '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
   '/timeline': typeof TimelineRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
-  '/visa-docs': typeof VisaDocsRoute
   '/book/$id': typeof BookIdRoute
   '/stop/$id': typeof StopIdRoute
   '/book/': typeof BookIndexRoute
@@ -161,13 +161,13 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/flights'
     | '/guides'
+    | '/itinerary'
     | '/map'
     | '/money'
     | '/scams'
     | '/timeline'
     | '/trains'
     | '/transport'
-    | '/visa-docs'
     | '/book/$id'
     | '/stop/$id'
     | '/book/'
@@ -178,13 +178,13 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/flights'
     | '/guides'
+    | '/itinerary'
     | '/map'
     | '/money'
     | '/scams'
     | '/timeline'
     | '/trains'
     | '/transport'
-    | '/visa-docs'
     | '/book/$id'
     | '/stop/$id'
     | '/book'
@@ -195,13 +195,13 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/flights'
     | '/guides'
+    | '/itinerary'
     | '/map'
     | '/money'
     | '/scams'
     | '/timeline'
     | '/trains'
     | '/transport'
-    | '/visa-docs'
     | '/book/$id'
     | '/stop/$id'
     | '/book/'
@@ -213,13 +213,13 @@ export interface RootRouteChildren {
   CalendarRoute: typeof CalendarRoute
   FlightsRoute: typeof FlightsRoute
   GuidesRoute: typeof GuidesRoute
+  ItineraryRoute: typeof ItineraryRoute
   MapRoute: typeof MapRoute
   MoneyRoute: typeof MoneyRoute
   ScamsRoute: typeof ScamsRoute
   TimelineRoute: typeof TimelineRoute
   TrainsRoute: typeof TrainsRoute
   TransportRoute: typeof TransportRoute
-  VisaDocsRoute: typeof VisaDocsRoute
   BookIdRoute: typeof BookIdRoute
   StopIdRoute: typeof StopIdRoute
   BookIndexRoute: typeof BookIndexRoute
@@ -227,13 +227,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/visa-docs': {
-      id: '/visa-docs'
-      path: '/visa-docs'
-      fullPath: '/visa-docs'
-      preLoaderRoute: typeof VisaDocsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/transport': {
       id: '/transport'
       path: '/transport'
@@ -274,6 +267,13 @@ declare module '@tanstack/react-router' {
       path: '/map'
       fullPath: '/map'
       preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/itinerary': {
+      id: '/itinerary'
+      path: '/itinerary'
+      fullPath: '/itinerary'
+      preLoaderRoute: typeof ItineraryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guides': {
@@ -341,13 +341,13 @@ const rootRouteChildren: RootRouteChildren = {
   CalendarRoute: CalendarRoute,
   FlightsRoute: FlightsRoute,
   GuidesRoute: GuidesRoute,
+  ItineraryRoute: ItineraryRoute,
   MapRoute: MapRoute,
   MoneyRoute: MoneyRoute,
   ScamsRoute: ScamsRoute,
   TimelineRoute: TimelineRoute,
   TrainsRoute: TrainsRoute,
   TransportRoute: TransportRoute,
-  VisaDocsRoute: VisaDocsRoute,
   BookIdRoute: BookIdRoute,
   StopIdRoute: StopIdRoute,
   BookIndexRoute: BookIndexRoute,

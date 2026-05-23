@@ -33,6 +33,11 @@ export const COUNTRY_TINT: Record<string, CountryTint> = {
     accent: '#11457E',
     strip: 'linear-gradient(180deg, #FFFFFF 0%, #D7141A 50%, #11457E 100%)',
   },
+  India: {
+    tint: '#FFF8EF',
+    accent: '#C0431F',
+    strip: 'linear-gradient(180deg, #FF9933 0%, #FFFFFF 50%, #138808 100%)',
+  },
 };
 
 export const FALLBACK_TINT: CountryTint = {

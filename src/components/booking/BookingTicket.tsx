@@ -16,10 +16,11 @@ interface BookingTicketProps {
 /** Booking-specific ticket. Composes the generic Ticket primitive. */
 export function BookingTicket({ booking: b, today, internalLink = false }: BookingTicketProps) {
   const isTodo = b.status === 'todo';
+  const isOptional = b.status === 'optional';
   const cancelDate = !isTodo && b.cancelBy ? parseCalDate(b.cancelBy.date) : null;
   const daysToCancel = cancelDate ? Math.ceil((cancelDate.getTime() - today.getTime()) / 86_400_000) : null;
 
-  const state: TicketState = isTodo
+  const state: TicketState = isTodo || isOptional
     ? 'todo'
     : daysToCancel == null ? 'ok'
       : daysToCancel < 0 ? 'passed'
@@ -33,13 +34,17 @@ export function BookingTicket({ booking: b, today, internalLink = false }: Booki
 
   const cancelLabel = isTodo
     ? '📌 Not yet booked — search Airbnb'
-    : !b.cancelBy
-      ? ''
-      : daysToCancel != null && daysToCancel < 0
-        ? '🔒 Reservation locked in'
-        : daysToCancel != null && daysToCancel <= 3
-          ? `⚠️ Cancel by ${shortDate(b.cancelBy.date)} ${b.cancelBy.time}`
-          : `Free cancel until ${shortDate(b.cancelBy.date)}`;
+    : isOptional
+      ? b.cancelBy
+        ? `🛏 Backup · cancel by ${shortDate(b.cancelBy.date)} ${b.cancelBy.time}`
+        : '🛏 Backup booking'
+      : !b.cancelBy
+        ? ''
+        : daysToCancel != null && daysToCancel < 0
+          ? '🔒 Reservation locked in'
+          : daysToCancel != null && daysToCancel <= 3
+            ? `⚠️ Cancel by ${shortDate(b.cancelBy.date)} ${b.cancelBy.time}`
+            : `Free cancel until ${shortDate(b.cancelBy.date)}`;
 
   const todoSearchUrl = isTodo
     ? makeAirbnbSearch({
@@ -122,6 +127,36 @@ export function BookingTicket({ booking: b, today, internalLink = false }: Booki
             >
               🗺 Walk from station&nbsp;↗
             </a>
+            {b.mapUrl && (
+              <>
+                {' · '}
+                <a
+                  href={b.mapUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  style={{ color: tint.accent, textDecoration: 'underline', fontWeight: 600 }}
+                >
+                  📍 Pin&nbsp;↗
+                </a>
+              </>
+            )}
+          </span>
+        </div>
+      )}
+      {!b.directionsUrl && b.mapUrl && (
+        <div className="ticket-meta-row">
+          <span className="ticket-meta-key">Map</span>
+          <span className="ticket-meta-val">
+            <a
+              href={b.mapUrl}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              style={{ color: tint.accent, textDecoration: 'underline', fontWeight: 600 }}
+            >
+              📍 View on Google Maps&nbsp;↗
+            </a>
           </span>
         </div>
       )}
@@ -136,7 +171,9 @@ export function BookingTicket({ booking: b, today, internalLink = false }: Booki
       </span>
       {isTodo
         ? <span className="ticket-cta">Search&nbsp;↗</span>
-        : externalHref && <span className="ticket-cta">Airbnb&nbsp;↗</span>}
+        : isOptional
+          ? externalHref && <span className="ticket-cta">Plan B&nbsp;↗</span>
+          : externalHref && <span className="ticket-cta">Airbnb&nbsp;↗</span>}
     </>
   );
 

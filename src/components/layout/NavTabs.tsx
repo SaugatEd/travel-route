@@ -10,6 +10,7 @@ interface TabDef {
 // Every section is one click from the nav. URLs are the source of truth.
 const TABS: TabDef[] = [
   { to: '/',            label: 'Home',       icon: '🏠' },
+  { to: '/itinerary',   label: 'Itinerary',  icon: '📋' },
   { to: '/map',         label: 'Map',        icon: '📍' },
   { to: '/calendar',    label: 'Calendar',   icon: '🗓' },
   { to: '/flights',     label: 'Flights',    icon: '✈️' },
@@ -20,7 +21,6 @@ const TABS: TabDef[] = [
   { to: '/money',       label: 'Money',      icon: '💶' },
   { to: '/transport',   label: 'Transport',  icon: '🚆' },
   { to: '/scams',       label: 'Scams',      icon: '⚠️' },
-  { to: '/visa-docs',   label: 'Visa Docs',  icon: '📋' },
 ];
 
 const linkStyle: CSSProperties = {

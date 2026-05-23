@@ -10,7 +10,7 @@ export type Country =
   | 'Netherlands'
   | string;
 
-export type BookingStatus = 'booked' | 'todo';
+export type BookingStatus = 'booked' | 'todo' | 'optional';
 
 export interface DateTimeWindow {
   date: string;          // "Tue 16 Jun"
@@ -40,6 +40,9 @@ export interface Booking {
   cancelBy: CancelPolicy | null;
   bookingUrl: string | null;
   directionsUrl: string | null;
+  /** Optional Google Maps "place" URL (the location pin), distinct from
+   *  `directionsUrl` which is the routed walk/transit directions. */
+  mapUrl?: string;
   confirmationCode?: string;
   note?: string;
   pricePaid?: { amount: number; currency: string };

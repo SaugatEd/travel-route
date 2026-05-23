@@ -161,7 +161,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '15:00',
     nights: 5,
     label: 'Berlin · 5 nights',
-    bookingId: 'berlin-todo',
+    bookingId: 'berlin-visionapartments',
     // Past check-in. Pick a flat with self check-in for late arrival.
   },
   {

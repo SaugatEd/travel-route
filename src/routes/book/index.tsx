@@ -24,7 +24,10 @@ function BookPage() {
 
   if (bookings.isLoading) return <LoadingState label="Loading bookings…" />;
   const stays = bookings.data ?? [];
-  const totalNights = stays.reduce((n, b) => n + b.nights, 0);
+  // Optional (Plan-B) stays don't count toward trip nights.
+  const primary = stays.filter((b) => b.status !== 'optional');
+  const totalNights = primary.reduce((n, b) => n + b.nights, 0);
+  const optionalCount = stays.length - primary.length;
 
   return (
     <div>
@@ -40,7 +43,8 @@ function BookPage() {
       >
         <h2 style={{ margin: 0 }}>Confirmed Airbnbs</h2>
         <span style={{ fontSize: 12, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>
-          {stays.length} bookings · {totalNights} nights
+          {primary.length} bookings · {totalNights} nights
+          {optionalCount > 0 && ` · +${optionalCount} backup`}
         </span>
       </div>
       <p className="subtitle" style={{ marginTop: 4, marginBottom: 18 }}>

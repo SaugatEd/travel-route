@@ -3241,6 +3241,12 @@ export function CalendarDayDialog({ day, onClose, onGoToStop }) {
     ...a,
     booking: AIRBNBS.find((b) => b.id === a.id),
   }));
+  // Surface any Plan-B (optional) bookings whose check-in falls on this day,
+  // so the user is reminded of the backup option without making it look like
+  // a primary stay.
+  const optionalToday = AIRBNBS.filter(
+    (b) => b.status === "optional" && b.checkIn.date === day.date
+  );
 
   // Lock body scroll while open + close on Escape
   useEffect(() => {
@@ -3349,6 +3355,56 @@ export function CalendarDayDialog({ day, onClose, onGoToStop }) {
                     </div>
                   );
                 })}
+              </div>
+            </section>
+          )}
+
+          {/* Plan-B / backup bookings */}
+          {optionalToday.length > 0 && (
+            <section className="caldlg-section">
+              <div className="caldlg-section-title">🛏 Plan B (backup — only if primary plan falls through)</div>
+              <div className="caldlg-airbnb-list">
+                {optionalToday.map((b, i) => (
+                  <div
+                    key={i}
+                    className="caldlg-airbnb caldlg-airbnb--in"
+                    style={{ borderStyle: "dashed", opacity: 0.9 }}
+                  >
+                    <div className="caldlg-airbnb-time">
+                      <span className="caldlg-airbnb-action">ALT</span>
+                      <span className="caldlg-airbnb-clock">from {b.checkIn.time}</span>
+                    </div>
+                    <div className="caldlg-airbnb-info">
+                      <div className="caldlg-airbnb-name">
+                        <span style={{ marginRight: 4 }}>{b.flag}</span>
+                        {b.name}
+                      </div>
+                      <div className="caldlg-airbnb-meta">
+                        {b.host} · {b.address}
+                        {b.confirmationCode && <span className="caldlg-airbnb-code"> · {b.confirmationCode}</span>}
+                      </div>
+                      {b.cancelBy && (
+                        <div
+                          className="caldlg-airbnb-meta"
+                          style={{ marginTop: 4, color: "#B45309", fontWeight: 600 }}
+                        >
+                          ⚠️ Free cancel until {b.cancelBy.date} {b.cancelBy.time} — cancel by then if FlixBus is going ahead
+                        </div>
+                      )}
+                    </div>
+                    {b.bookingUrl && (
+                      <a
+                        href={b.bookingUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="caldlg-airbnb-link"
+                      >
+                        ↗
+                      </a>
+                    )}
+                  </div>
+                ))}
               </div>
             </section>
           )}
@@ -3997,9 +4053,10 @@ export function BookingsPanel() {
         <div className="airbnb-grid">
           {confirmed.map((b) => {
             const isTodo = b.status === "todo";
+            const isOptional = b.status === "optional";
             const cancelDate = !isTodo && b.cancelBy ? parseCalDate(b.cancelBy.date) : null;
             const daysToCancel = cancelDate ? Math.ceil((cancelDate - today) / 86400000) : null;
-            const cancelState = isTodo
+            const cancelState = isTodo || isOptional
               ? "todo"
               : daysToCancel == null
               ? "ok"
@@ -4009,6 +4066,10 @@ export function BookingsPanel() {
               : "ok";
             const cancelLabel = isTodo
               ? "📌 Not yet booked — search Airbnb"
+              : isOptional
+              ? (b.cancelBy
+                  ? `🛏 Backup · cancel by ${shortDate(b.cancelBy.date)} ${b.cancelBy.time}`
+                  : "🛏 Backup booking")
               : {
                   passed: "🔒 Reservation locked in",
                   urgent: `⚠️ Cancel by ${shortDate(b.cancelBy.date)} ${b.cancelBy.time}`,
@@ -4038,7 +4099,7 @@ export function BookingsPanel() {
                 target="_blank"
                 rel="noreferrer"
                 className={`ticket ticket--${cancelState}`}
-                style={isTodo ? { borderStyle: "dashed", opacity: 0.92 } : (!b.bookingUrl ? { pointerEvents: "none", opacity: 0.85 } : undefined)}
+                style={isTodo ? { borderStyle: "dashed", opacity: 0.92 } : isOptional ? { borderStyle: "dashed", opacity: 0.85 } : (!b.bookingUrl ? { pointerEvents: "none", opacity: 0.85 } : undefined)}
               >
                 <div className="ticket-strip" style={{ background: tint.strip }} aria-hidden="true" />
                 <div className="ticket-body" style={{ background: tint.tint }}>
@@ -4116,6 +4177,8 @@ export function BookingsPanel() {
                     </span>
                     {isTodo
                       ? <span className="ticket-cta">Search&nbsp;↗</span>
+                      : isOptional
+                      ? b.bookingUrl && <span className="ticket-cta">Plan B&nbsp;↗</span>
                       : b.bookingUrl && <span className="ticket-cta">Airbnb&nbsp;↗</span>}
                   </div>
                 </div>

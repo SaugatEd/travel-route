@@ -72,6 +72,11 @@ function BookingDetailPage() {
             🔗 Open on Airbnb
           </a>
         )}
+        {b.mapUrl && (
+          <a href={b.mapUrl} target="_blank" rel="noreferrer" className="booking-card" style={{ padding: '10px 16px' }}>
+            📍 View on Google Maps
+          </a>
+        )}
         {b.directionsUrl && (
           <a href={b.directionsUrl} target="_blank" rel="noreferrer" className="booking-card" style={{ padding: '10px 16px' }}>
             🗺 Walk from central station
