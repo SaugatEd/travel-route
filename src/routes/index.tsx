@@ -1,9 +1,12 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useStops, useCalendar } from '@/hooks/queries/itinerary';
 import { useBookings } from '@/hooks/queries/bookings';
+import { useNprRate } from '@/hooks/useNprRate';
+import { useActiveStopId } from '@/store/useUiStore';
 import { Resource } from '@/components/ui/Resource';
 import { tintFor } from '@/lib/country';
 import { parseCalDate } from '@/lib/dates';
+import { TripTimelineSidebar } from '@/App.jsx';
 import type { Stop, CalendarDay, Booking } from '@/types';
 
 export const Route = createFileRoute('/')({
@@ -14,30 +17,46 @@ function HomePage() {
   const stops = useStops();
   const calendar = useCalendar();
   const bookings = useBookings();
+  const { data: rate } = useNprRate();
+  const npr = rate?.npr ?? ((v: number, cur = 'EUR') => `${cur} ${v}`);
+  const activeStopId = useActiveStopId();
+  const navigate = useNavigate();
+
+  const goToStop = (newId: string) => {
+    const resolved = newId === 'imst' ? 'innsbruck' : newId;
+    navigate({ to: '/stop/$id', params: { id: resolved }, search: { view: 'overview' } });
+  };
 
   return (
-    <div style={{ maxWidth: 1180, margin: '0 auto' }}>
-      <Hero />
+    <div className="app-layout">
+      <TripTimelineSidebar
+        active={activeStopId}
+        onClickDay={(day: { stop: string }) => goToStop(day.stop)}
+        npr={npr}
+      />
+      <main className="main" style={{ maxWidth: 1180, margin: '0 auto', padding: '0 16px' }}>
+        <Hero />
 
-      <Resource query={calendar}>
-        {(days) => (
-          <Resource query={bookings}>
-            {(stays) => <NextUpRow days={days} stays={stays} stops={(stops.data ?? []) as Stop[]} />}
-          </Resource>
-        )}
-      </Resource>
+        <Resource query={calendar}>
+          {(days) => (
+            <Resource query={bookings}>
+              {(stays) => <NextUpRow days={days} stays={stays} stops={(stops.data ?? []) as Stop[]} />}
+            </Resource>
+          )}
+        </Resource>
 
-      <Resource query={calendar}>
-        {(days) => (
-          <Resource query={bookings}>
-            {(stays) => <TripStats days={days} stays={stays} />}
-          </Resource>
-        )}
-      </Resource>
+        <Resource query={calendar}>
+          {(days) => (
+            <Resource query={bookings}>
+              {(stays) => <TripStats days={days} stays={stays} />}
+            </Resource>
+          )}
+        </Resource>
 
-      <Resource query={bookings}>
-        {(stays) => <BookingsPreview stays={stays} />}
-      </Resource>
+        <Resource query={bookings}>
+          {(stays) => <BookingsPreview stays={stays} />}
+        </Resource>
+      </main>
     </div>
   );
 }
