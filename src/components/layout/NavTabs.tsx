@@ -16,6 +16,7 @@ const TABS: TabDef[] = [
   { to: '/luggage',    label: 'Luggage',   icon: '🧳' },
   { to: '/trains',     label: 'Trains',    icon: '🚄' },
   { to: '/flights',    label: 'Flights',   icon: '✈️' },
+  { to: '/seats',      label: 'Seat & Pass', icon: '💺' },
   { to: '/map',        label: 'Map',       icon: '📍' },
   { to: '/documents',  label: 'Docs',      icon: '📄' },
 ];

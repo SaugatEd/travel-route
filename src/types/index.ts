@@ -113,6 +113,8 @@ export interface Journey {
   cost: string;
   /** Fare basis — advance vs walk-up, operator, source notes. Researched, optional. */
   costNote?: string;
+  /** Public-bus alternative with line numbers, where a bus is relevant/better. */
+  busAlt?: string;
   type: string;
   bookingUrl: string | null;
 }

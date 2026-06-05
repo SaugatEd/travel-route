@@ -1,5 +1,5 @@
 import { CITY_IMAGES } from '@/data/imageData';
-import { makeGoogleMapsRoute } from '@/lib/urls';
+import { LocationMap } from '@/components/ui/LocationMap';
 
 interface Highlight {
   url: string;
@@ -27,9 +27,6 @@ export function StopSights({ stopId, city }: StopSightsProps) {
   const highlights = data?.highlights ?? [];
   if (highlights.length === 0) return null;
 
-  const routeUrl =
-    highlights.length >= 2 ? makeGoogleMapsRoute(highlights.map((h) => `${h.title}, ${city}`)) : '';
-
   return (
     <div className="panel" style={{ padding: 24 }}>
       <div className="section-header">
@@ -38,30 +35,6 @@ export function StopSights({ stopId, city }: StopSightsProps) {
           Tap a place to open it in Google Maps
         </span>
       </div>
-
-      {routeUrl && (
-        <a
-          href={routeUrl}
-          target="_blank"
-          rel="noreferrer"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            marginBottom: 16,
-            padding: '9px 14px',
-            borderRadius: 999,
-            background: 'var(--accent)',
-            color: '#fff',
-            fontSize: 13,
-            fontWeight: 700,
-            fontFamily: 'var(--sans)',
-            textDecoration: 'none',
-          }}
-        >
-          🗺 Walking route through all {city} sights ↗
-        </a>
-      )}
 
       <div
         style={{
@@ -133,20 +106,9 @@ export function StopSights({ stopId, city }: StopSightsProps) {
         ))}
       </div>
 
-      <iframe
-        src={`https://maps.google.com/maps?q=${encodeURIComponent(`${city} tourist attractions`)}&z=12&output=embed`}
-        title={`${city} map`}
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        style={{
-          width: '100%',
-          height: 280,
-          border: '1px solid var(--border)',
-          borderRadius: 'var(--radius, 12px)',
-          marginTop: 16,
-          display: 'block',
-        }}
-      />
+      <div style={{ marginTop: 16 }}>
+        <LocationMap query={`${city} old town`} label="Show route to the sights" />
+      </div>
     </div>
   );
 }

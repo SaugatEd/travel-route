@@ -3,17 +3,16 @@
 
 import { toIsoDate } from './dates';
 
+// Omitting `origin` makes Google Maps route from the user's current location.
 export function makeGoogleMapsDirections(opts: {
-  origin: string;
+  origin?: string;
   destination: string;
   mode?: 'walking' | 'transit' | 'driving' | 'bicycling';
 }): string {
-  const params = new URLSearchParams({
-    api: '1',
-    origin: opts.origin,
-    destination: opts.destination,
-    travelmode: opts.mode ?? 'transit',
-  });
+  const params = new URLSearchParams({ api: '1' });
+  if (opts.origin) params.set('origin', opts.origin);
+  params.set('destination', opts.destination);
+  params.set('travelmode', opts.mode ?? 'transit');
   return `https://www.google.com/maps/dir/?${params.toString()}`;
 }
 

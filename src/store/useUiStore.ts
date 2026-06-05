@@ -6,6 +6,7 @@ import { persist } from 'zustand/middleware';
 
 type Theme = 'light' | 'dark';
 export type CurrencyMode = 'native' | 'npr';
+export type MapsProvider = 'google' | 'apple';
 
 interface UiState {
   // appearance
@@ -17,6 +18,10 @@ interface UiState {
   currencyMode: CurrencyMode;
   setCurrencyMode: (m: CurrencyMode) => void;
   toggleCurrency: () => void;
+
+  // preferred maps app for "open in maps" / directions handoff
+  mapsProvider: MapsProvider;
+  setMapsProvider: (p: MapsProvider) => void;
 
   // navigation context
   activeStopId: string;          // for views that show a single stop
@@ -37,6 +42,9 @@ export const useUiStore = create<UiState>()(
       setCurrencyMode: (currencyMode) => set({ currencyMode }),
       toggleCurrency: () => set((s) => ({ currencyMode: s.currencyMode === 'npr' ? 'native' : 'npr' })),
 
+      mapsProvider: 'google',
+      setMapsProvider: (mapsProvider) => set({ mapsProvider }),
+
       activeStopId: 'rome',
       setActiveStopId: (activeStopId) => set({ activeStopId }),
 
@@ -51,3 +59,4 @@ export const useUiStore = create<UiState>()(
 export const useTheme        = () => useUiStore((s) => s.theme);
 export const useCurrencyMode = () => useUiStore((s) => s.currencyMode);
 export const useActiveStopId = () => useUiStore((s) => s.activeStopId);
+export const useMapsProvider = () => useUiStore((s) => s.mapsProvider);

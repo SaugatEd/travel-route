@@ -30,3 +30,14 @@ createRoot(rootEl).render(
     </QueryClientProvider>
   </StrictMode>
 );
+
+// Offline map tiles — caches only tile images (see public/sw.js). Best-effort.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register(`${import.meta.env.BASE_URL}sw.js`)
+      .catch(() => {
+        /* offline tiles unavailable — app still works online */
+      });
+  });
+}

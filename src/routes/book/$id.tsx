@@ -109,6 +109,19 @@ function ArrivalRoute({ booking: b, accent }: { booking: Booking; accent: string
   const origin = b.directionsUrl ? parseRouteOrigin(b.directionsUrl) : null;
   if (!origin || !b.directionsUrl) return null;
 
+  let originRaw = '';
+  let destination = '';
+  try {
+    const p = new URL(b.directionsUrl).searchParams;
+    originRaw = p.get('origin') ?? '';
+    destination = p.get('destination') ?? '';
+  } catch {
+    return null;
+  }
+  // Live route preview (classic no-key embed) + directions from the device's current location.
+  const embedUrl = `https://maps.google.com/maps?saddr=${encodeURIComponent(originRaw)}&daddr=${encodeURIComponent(destination)}&output=embed`;
+  const fromMeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=walking`;
+
   return (
     <Panel label="Getting there">
       <div className="route-map">
@@ -138,9 +151,36 @@ function ArrivalRoute({ booking: b, accent }: { booking: Booking; accent: string
         </div>
       </div>
 
-      <a className="route-cta" href={b.directionsUrl} target="_blank" rel="noreferrer" style={{ background: accent }}>
-        Open route in Google Maps →
-      </a>
+      {destination && (
+        <iframe
+          title={`Route to ${b.name}`}
+          src={embedUrl}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          style={{ width: '100%', height: 200, border: 0, borderRadius: 12, margin: '12px 0', display: 'block' }}
+        />
+      )}
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <a
+          href={b.directionsUrl}
+          target="_blank"
+          rel="noreferrer"
+          style={{ flex: '1 1 150px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 40, padding: '9px 14px', borderRadius: 10, background: accent, color: '#fff', fontSize: 13, fontWeight: 800, textDecoration: 'none' }}
+        >
+          Open route in Google Maps →
+        </a>
+        {destination && (
+          <a
+            href={fromMeUrl}
+            target="_blank"
+            rel="noreferrer"
+            style={{ flex: '1 1 150px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, minHeight: 40, padding: '9px 14px', borderRadius: 10, background: 'var(--bg-raised)', color: accent, border: `1.5px solid ${accent}55`, fontSize: 13, fontWeight: 800, textDecoration: 'none' }}
+          >
+            📍 From my location →
+          </a>
+        )}
+      </div>
     </Panel>
   );
 }

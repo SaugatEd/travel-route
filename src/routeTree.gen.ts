@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TransportRouteImport } from './routes/transport'
 import { Route as TrainsRouteImport } from './routes/trains'
 import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as SeatsRouteImport } from './routes/seats'
 import { Route as ScamsRouteImport } from './routes/scams'
 import { Route as MoneyRouteImport } from './routes/money'
 import { Route as MapRouteImport } from './routes/map'
@@ -40,6 +41,11 @@ const TrainsRoute = TrainsRouteImport.update({
 const TimelineRoute = TimelineRouteImport.update({
   id: '/timeline',
   path: '/timeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SeatsRoute = SeatsRouteImport.update({
+  id: '/seats',
+  path: '/seats',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ScamsRoute = ScamsRouteImport.update({
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
+  '/seats': typeof SeatsRoute
   '/timeline': typeof TimelineRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
+  '/seats': typeof SeatsRoute
   '/timeline': typeof TimelineRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
+  '/seats': typeof SeatsRoute
   '/timeline': typeof TimelineRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/map'
     | '/money'
     | '/scams'
+    | '/seats'
     | '/timeline'
     | '/trains'
     | '/transport'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/map'
     | '/money'
     | '/scams'
+    | '/seats'
     | '/timeline'
     | '/trains'
     | '/transport'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/map'
     | '/money'
     | '/scams'
+    | '/seats'
     | '/timeline'
     | '/trains'
     | '/transport'
@@ -243,6 +255,7 @@ export interface RootRouteChildren {
   MapRoute: typeof MapRoute
   MoneyRoute: typeof MoneyRoute
   ScamsRoute: typeof ScamsRoute
+  SeatsRoute: typeof SeatsRoute
   TimelineRoute: typeof TimelineRoute
   TrainsRoute: typeof TrainsRoute
   TransportRoute: typeof TransportRoute
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: '/timeline'
       fullPath: '/timeline'
       preLoaderRoute: typeof TimelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seats': {
+      id: '/seats'
+      path: '/seats'
+      fullPath: '/seats'
+      preLoaderRoute: typeof SeatsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/scams': {
@@ -387,6 +407,7 @@ const rootRouteChildren: RootRouteChildren = {
   MapRoute: MapRoute,
   MoneyRoute: MoneyRoute,
   ScamsRoute: ScamsRoute,
+  SeatsRoute: SeatsRoute,
   TimelineRoute: TimelineRoute,
   TrainsRoute: TrainsRoute,
   TransportRoute: TransportRoute,

@@ -1,10 +1,15 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import 'leaflet/dist/leaflet.css';
 
-import { STOP_COORDS, TRIP_ROUTE, DAY_TRIPS, minutesBetween, formatGap, type RouteStop, type DayTrip } from '@/data/stopCoords';
+import { STOP_COORDS, TRIP_ROUTE, DAY_TRIPS, minutesBetween, formatGap, type RouteStop, type DayTrip, type StopCoord } from '@/data/stopCoords';
+import { LOCKERS } from '@/data/lockerData';
+import { OfflineMapControl } from '@/components/map/OfflineMapControl';
+import { useMapsProvider, useUiStore } from '@/store/useUiStore';
+import { directionsLink, PROVIDER_LABEL } from '@/lib/mapsProvider';
 
 export const Route = createFileRoute('/map')({
   component: MapPage,
@@ -173,22 +178,6 @@ function legMode(arriveVia?: string): Mode {
   return arriveVia && /flix|\bbus\b/i.test(arriveVia) ? 'bus' : 'train';
 }
 
-/** Why this mode is the best choice for the leg INTO each stop (by stop id). */
-const LEG_WHY: Record<string, string> = {
-  como: 'Frecciarossa high-speed to the lakes + a short regional — far faster than driving and cheap booked ahead.',
-  lucerne: 'One scenic SBB ride over the Gotthard — no bus matches it on time or views.',
-  lauterbrunnen: 'The Brünig panorama line is the sightseeing — ride it into the Alps.',
-  bern: 'Direct SBB from Interlaken, ~50 min — trivially the train.',
-  lauterach: 'ÖBB EuroCity via Zürich — one change, no sensible bus equivalent.',
-  innsbruck: 'Railjet through the Arlberg tunnel — a fast Alpine crossing.',
-  salzburg: 'Railjet Express under 2h — Austria’s trains are the spine of the trip.',
-  vienna: 'Railjet Salzburg → Vienna, 2h25 — frequent and fast.',
-  prague: 'RegioJet train (free coffee + snacks), 4h — comfier and cheaper than flying.',
-  berlin: 'EuroCity direct Prague → Berlin, 4h30 — one seat, zero transfers.',
-  amsterdam: 'Overnight FlixBus saves a hotel night and beats the pricey ~7h day train — sleep on board, arrive 07:15.',
-  alkmaar: 'Sprinter from Amsterdam Centraal, 40 min — local train to your base.',
-};
-
 interface ModeSegment {
   from: ResolvedStop;
   to: ResolvedStop;
@@ -217,7 +206,6 @@ function useModeSegments(stops: ResolvedStop[]): ModeSegment[] {
   const [segments, setSegments] = useState<ModeSegment[]>(base);
 
   useEffect(() => {
-    setSegments(base);
     if (base.length === 0) return;
     const controller = new AbortController();
 
@@ -262,44 +250,234 @@ function FitBounds({ stops }: { stops: ResolvedStop[] }) {
   return null;
 }
 
-function RouteLine({ stops }: { stops: ResolvedStop[] }) {
-  const { path, routed } = useRoadRoute(stops);
+function RouteLines({ stops }: { stops: ResolvedStop[] }) {
+  const segments = useModeSegments(stops);
   return (
-    <Polyline
-      positions={path}
-      pathOptions={{
-        color: '#B8860B',
-        weight: routed ? 4 : 3,
-        opacity: routed ? 0.85 : 0.6,
-        dashArray: routed ? undefined : '6 6',
-      }}
-    />
+    <>
+      {segments.map((seg, i) => (
+        <Polyline
+          key={`${seg.from.id}-${seg.to.id}-${i}`}
+          positions={seg.path}
+          pathOptions={{
+            color: MODE_STYLE[seg.mode].color,
+            weight: seg.routed ? 4 : 3,
+            opacity: 0.85,
+            dashArray: seg.mode === 'bus' ? '10 7' : seg.routed ? undefined : '6 6',
+          }}
+        />
+      ))}
+    </>
   );
 }
 
+/* ── Live location + destination navigation ──────────────────── */
+interface Place {
+  id: string;
+  label: string;
+  lat: number;
+  lng: number;
+  query: string;
+}
+
+const DEST_GROUPS: { group: string; items: Place[] }[] = [
+  {
+    group: 'Train stations',
+    items: Object.values(STOP_COORDS).map((s: StopCoord) => ({
+      id: `st-${s.id}`, label: `${s.flag} ${s.name} station`, lat: s.lat, lng: s.lng, query: `${s.name} train station`,
+    })),
+  },
+  {
+    group: 'Luggage lockers',
+    items: LOCKERS.map((l) => {
+      const c = STOP_COORDS[l.stopId];
+      return { id: `lk-${l.stopId}`, label: `🧳 ${l.station}`, lat: c?.lat ?? 0, lng: c?.lng ?? 0, query: l.mapsQuery };
+    }).filter((p) => p.lat !== 0),
+  },
+  {
+    group: 'Day trips',
+    items: DAY_TRIPS.map((d) => ({ id: `dt-${d.id}`, label: `${d.flag} ${d.name}`, lat: d.lat, lng: d.lng, query: d.name })),
+  },
+];
+const ALL_DESTS = DEST_GROUPS.flatMap((g) => g.items);
+
+type LatLng = { lat: number; lng: number; accuracy?: number };
+
+function haversineKm(a: LatLng, b: { lat: number; lng: number }): number {
+  const R = 6371;
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const dLat = toRad(b.lat - a.lat);
+  const dLng = toRad(b.lng - a.lng);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+interface RouteResult { path: [number, number][]; km: number | null; min: number | null; routed: boolean }
+
+/** Driving route (free OSRM) from `from` to `to`; straight-line fallback when unroutable/offline. */
+function useUserRoute(from: LatLng | null, to: Place | null): RouteResult | null {
+  const [result, setResult] = useState<RouteResult | null>(null);
+  useEffect(() => {
+    if (!from || !to) { setResult(null); return; }
+    setResult({ path: [[from.lat, from.lng], [to.lat, to.lng]], km: haversineKm(from, to), min: null, routed: false });
+    const controller = new AbortController();
+    fetch(
+      `https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson`,
+      { signal: controller.signal },
+    )
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        const route = d?.routes?.[0];
+        const coords = route?.geometry?.coordinates as [number, number][] | undefined;
+        if (coords?.length) {
+          setResult({ path: coords.map(([lng, lat]) => [lat, lng]), km: route.distance / 1000, min: route.duration / 60, routed: true });
+        }
+      })
+      .catch(() => { /* keep straight-line */ });
+    return () => controller.abort();
+  }, [from?.lat, from?.lng, to?.id, to?.lat, to?.lng]);
+  return result;
+}
+
+function userIcon(): L.DivIcon {
+  return L.divIcon({
+    className: 'jamnata-userloc',
+    iconSize: [22, 22],
+    iconAnchor: [11, 11],
+    html: '<div style="width:18px;height:18px;border-radius:50%;background:#2563EB;border:3px solid #fff;box-shadow:0 0 0 4px rgba(37,99,235,0.3);"></div>',
+  });
+}
+
+const destIcon = L.divIcon({
+  className: 'jamnata-dest',
+  iconSize: [30, 34],
+  iconAnchor: [15, 32],
+  html: '<div style="font-size:28px;line-height:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.45));">📍</div>',
+});
+
+/** Imperative map moves driven by control state (fit-route, recenter, fit-all). */
+function MapController({ userPos, route, recenterTick, fitAllTick, allPoints }: {
+  userPos: LatLng | null;
+  route: RouteResult | null;
+  recenterTick: number;
+  fitAllTick: number;
+  allPoints: [number, number][];
+}) {
+  const map = useMap();
+  useEffect(() => {
+    if (route?.path && route.path.length > 1) {
+      map.fitBounds(L.latLngBounds(route.path), { padding: [50, 50], maxZoom: 14 });
+    }
+  }, [route, map]);
+
+  const rPrev = useRef(0);
+  useEffect(() => {
+    if (recenterTick !== rPrev.current) {
+      rPrev.current = recenterTick;
+      if (userPos) map.setView([userPos.lat, userPos.lng], 14, { animate: true });
+    }
+  }, [recenterTick, userPos, map]);
+
+  const fPrev = useRef(0);
+  useEffect(() => {
+    if (fitAllTick !== fPrev.current) {
+      fPrev.current = fitAllTick;
+      if (allPoints.length) map.fitBounds(L.latLngBounds(allPoints), { padding: [40, 40], maxZoom: 7 });
+    }
+  }, [fitAllTick, allPoints, map]);
+
+  return null;
+}
+
 function MapPage() {
-  const today = new Date(); // trip starts 2026-06-16 — date drives phase logic automatically
+  const today = useMemo(() => new Date(), []);
   const stops = useMemo(() => classifyStops(today), [today]);
   const navigate = useNavigate();
+  const provider = useMapsProvider();
+  const setMapsProvider = useUiStore((s) => s.setMapsProvider);
 
-  const current = stops.find((s) => s.phase === 'current');
-  const next = stops.find((s) => s.phase === 'next');
+  const [userPos, setUserPos] = useState<LatLng | null>(null);
+  const [geoError, setGeoError] = useState<string | null>(null);
+  const [dest, setDest] = useState<Place | null>(null);
+  const [recenterTick, setRecenterTick] = useState(0);
+  const [fitAllTick, setFitAllTick] = useState(0);
+
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !navigator.geolocation) {
+      setGeoError('Geolocation not supported on this device.');
+      return;
+    }
+    const id = navigator.geolocation.watchPosition(
+      (p) => { setUserPos({ lat: p.coords.latitude, lng: p.coords.longitude, accuracy: p.coords.accuracy }); setGeoError(null); },
+      (e) => setGeoError(e.message || 'Location unavailable — enable location access.'),
+      { enableHighAccuracy: true, maximumAge: 10_000, timeout: 20_000 },
+    );
+    return () => navigator.geolocation.clearWatch(id);
+  }, []);
+
+  const route = useUserRoute(userPos, dest);
+  const allPoints = useMemo<[number, number][]>(
+    () => [
+      ...stops.map((s) => [s.lat, s.lng] as [number, number]),
+      ...DAY_TRIPS.map((d) => [d.lat, d.lng] as [number, number]),
+      ...(userPos ? [[userPos.lat, userPos.lng] as [number, number]] : []),
+    ],
+    [stops, userPos],
+  );
+
+  const externalUrl = dest
+    ? directionsLink(provider, dest.query, userPos ? `${userPos.lat},${userPos.lng}` : undefined)
+    : provider === 'apple' ? 'https://maps.apple.com' : 'https://www.google.com/maps';
+
+  const tracking = Boolean(userPos) && !geoError;
+  const distLabel = route?.routed && route.km != null
+    ? `${route.km.toFixed(route.km < 10 ? 1 : 0)} km${route.min != null ? ` · ~${Math.round(route.min)} min drive` : ''}`
+    : route?.km != null ? `~${route.km.toFixed(route.km < 10 ? 1 : 0)} km straight-line` : '';
 
   return (
-    <div style={{ display: 'grid', gridTemplateRows: 'auto 1fr', gap: 12 }}>
-      <Header today={today} current={current} next={next} />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={controlBar}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span aria-hidden style={{ width: 9, height: 9, borderRadius: '50%', background: tracking ? '#16A34A' : geoError ? '#DC2626' : '#D97706', boxShadow: tracking ? '0 0 0 4px rgba(22,163,74,0.18)' : 'none' }} />
+          <strong style={{ fontSize: 13, color: 'var(--text)' }}>{tracking ? 'Tracking you' : geoError ? 'Location off' : 'Locating…'}</strong>
+          {userPos && (
+            <span style={{ fontSize: 12, color: 'var(--text-muted)', fontFamily: 'var(--mono)' }}>
+              {userPos.lat.toFixed(4)}, {userPos.lng.toFixed(4)}{userPos.accuracy ? ` · ±${Math.round(userPos.accuracy)}m` : ''}
+            </span>
+          )}
+          <div style={{ marginLeft: 'auto', display: 'inline-flex', border: '1px solid var(--border)', borderRadius: 999, overflow: 'hidden' }}>
+            {(['google', 'apple'] as const).map((p) => (
+              <button key={p} type="button" onClick={() => setMapsProvider(p)} aria-pressed={provider === p}
+                style={{ padding: '4px 11px', fontSize: 12, fontWeight: 800, cursor: 'pointer', border: 'none', background: provider === p ? 'var(--accent)' : 'transparent', color: provider === p ? '#fff' : 'var(--text-muted)' }}>
+                {p === 'google' ? '🟢 Google' : '🍎 Apple'}
+              </button>
+            ))}
+          </div>
+        </div>
 
-      <div
-        style={{
-          position: 'relative',
-          height: 'calc(100vh - 280px)',
-          minHeight: 480,
-          borderRadius: 14,
-          overflow: 'hidden',
-          border: '1px solid var(--border)',
-          boxShadow: 'var(--shadow)',
-        }}
-      >
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+          <select aria-label="Navigate to" value={dest?.id ?? ''} onChange={(e) => setDest(ALL_DESTS.find((d) => d.id === e.target.value) ?? null)} style={selectStyle}>
+            <option value="">Navigate to…</option>
+            {DEST_GROUPS.map((g) => (
+              <optgroup key={g.group} label={g.group}>
+                {g.items.map((it) => <option key={it.id} value={it.id}>{it.label}</option>)}
+              </optgroup>
+            ))}
+          </select>
+          <button type="button" onClick={() => setRecenterTick((n) => n + 1)} disabled={!userPos} style={{ ...pillBtn, opacity: userPos ? 1 : 0.5 }}>📍 Recenter on me</button>
+          <button type="button" onClick={() => setFitAllTick((n) => n + 1)} style={pillBtn}>🗺 Whole trip</button>
+        </div>
+
+        {dest && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', fontSize: 12.5 }}>
+            <span style={{ color: 'var(--text-muted)' }}>To <strong style={{ color: 'var(--text)' }}>{dest.label}</strong>{distLabel ? ` · ${distLabel}` : ''}</span>
+            <a href={externalUrl} target="_blank" rel="noreferrer" style={{ fontWeight: 800, color: 'var(--accent)', textDecoration: 'none' }}>Turn-by-turn in {PROVIDER_LABEL[provider]} ↗</a>
+            <button type="button" onClick={() => setDest(null)} style={{ ...pillBtn, padding: '3px 9px' }}>✕ Clear</button>
+          </div>
+        )}
+        {geoError && <div style={{ fontSize: 11.5, color: 'var(--text-dim)' }}>{geoError} — you can still pick a destination for directions in {PROVIDER_LABEL[provider]}.</div>}
+      </div>
+
+      <div style={{ position: 'relative', height: 'clamp(420px, 62vh, 720px)', borderRadius: 14, overflow: 'hidden', border: '1px solid var(--border)', boxShadow: 'var(--shadow)' }}>
         <MapContainer center={[48, 11]} zoom={5} style={{ width: '100%', height: '100%' }} scrollWheelZoom>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -307,38 +485,87 @@ function MapPage() {
             subdomains="abcd"
           />
 
-          <RouteLine stops={stops} />
+          <RouteLines stops={stops} />
           <DayTripLayer navigate={navigate} />
 
           {stops.map((s, i) => (
-            <Marker
-              key={`${s.id}-${i}`}
-              position={[s.lat, s.lng]}
-              icon={makeIcon(s)}
-              zIndexOffset={PHASE_STYLE[s.phase].z * 1000}
-              eventHandlers={{
-                click: () => {
-                  const target = s.id === 'lauterach' ? 'innsbruck' : s.id === 'bern' ? 'zurich' : s.id;
-                  navigate({ to: '/stop/$id', params: { id: target }, search: { view: 'overview' } });
-                },
-              }}
-            >
+            <Marker key={`${s.id}-${i}`} position={[s.lat, s.lng]} icon={makeIcon(s)} zIndexOffset={PHASE_STYLE[s.phase].z * 1000}>
               <Popup maxWidth={300}>
-                <StopPopup stop={s} />
+                <StopPopup
+                  stop={s}
+                  onNavigate={() => setDest({ id: `st-${s.id}`, label: `${s.flag} ${s.name}`, lat: s.lat, lng: s.lng, query: `${s.name} ${s.id === 'lauterbrunnen' ? '' : 'station'}`.trim() })}
+                  onOpen={() => navigate({ to: '/stop/$id', params: { id: s.id === 'lauterach' ? 'innsbruck' : s.id === 'bern' ? 'zurich' : s.id }, search: { view: 'overview' } })}
+                />
               </Popup>
             </Marker>
           ))}
 
+          {userPos && (
+            <>
+              <Circle center={[userPos.lat, userPos.lng]} radius={Math.min(userPos.accuracy ?? 60, 2000)} pathOptions={{ color: '#2563EB', weight: 1, fillColor: '#2563EB', fillOpacity: 0.08 }} />
+              <Marker position={[userPos.lat, userPos.lng]} icon={userIcon()} zIndexOffset={3000}>
+                <Popup>You are here</Popup>
+              </Marker>
+            </>
+          )}
+
+          {dest && (
+            <Marker position={[dest.lat, dest.lng]} icon={destIcon} zIndexOffset={2500}>
+              <Popup>{dest.label}</Popup>
+            </Marker>
+          )}
+
+          {route?.path && route.path.length > 1 && (
+            <Polyline positions={route.path} pathOptions={{ color: '#DC2626', weight: 4, opacity: 0.9, dashArray: route.routed ? undefined : '4 9' }} />
+          )}
+
           <FitBounds stops={stops} />
+          <MapController userPos={userPos} route={route} recenterTick={recenterTick} fitAllTick={fitAllTick} allPoints={allPoints} />
         </MapContainer>
       </div>
 
+      <OfflineMapControl />
       <Legend />
     </div>
   );
 }
 
-function StopPopup({ stop }: { stop: ResolvedStop }) {
+const controlBar: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 9,
+  padding: '11px 13px',
+  borderRadius: 14,
+  border: '1px solid var(--border)',
+  background: 'var(--bg-raised)',
+};
+const selectStyle: CSSProperties = {
+  flex: '1 1 220px',
+  minWidth: 0,
+  padding: '8px 11px',
+  borderRadius: 10,
+  border: '1px solid var(--border)',
+  background: 'var(--bg)',
+  color: 'var(--text)',
+  fontSize: 13,
+  fontFamily: 'var(--sans)',
+};
+const pillBtn: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 6,
+  padding: '8px 13px',
+  borderRadius: 10,
+  border: '1px solid var(--border)',
+  background: 'var(--bg)',
+  color: 'var(--text)',
+  fontSize: 12.5,
+  fontWeight: 800,
+  cursor: 'pointer',
+  whiteSpace: 'nowrap',
+};
+
+function StopPopup({ stop, onNavigate, onOpen }: { stop: ResolvedStop; onNavigate: () => void; onOpen: () => void }) {
   const phase = PHASE_STYLE[stop.phase];
   const gap = minutesBetween(stop.checkInTime, stop.arriveTime);
   return (
@@ -389,32 +616,18 @@ function StopPopup({ stop }: { stop: ResolvedStop }) {
         </div>
       )}
 
-      <div style={{ marginTop: 8, fontSize: 11, color: '#999' }}>Tap the pin to open the stop →</div>
+      <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+        <button type="button" onClick={onNavigate} style={{ flex: 1, padding: '7px 10px', borderRadius: 8, border: 'none', background: '#2563EB', color: '#fff', fontSize: 12.5, fontWeight: 700, cursor: 'pointer' }}>
+          Navigate here
+        </button>
+        <button type="button" onClick={onOpen} style={{ flex: 1, padding: '7px 10px', borderRadius: 8, border: '1px solid #ddd', background: '#fff', color: '#222', fontSize: 12.5, fontWeight: 700, cursor: 'pointer' }}>
+          Open stop →
+        </button>
+      </div>
     </div>
   );
 }
 
-function Header({ today, current, next }: { today: Date; current?: ResolvedStop; next?: ResolvedStop }) {
-  const tripStart = new Date('2026-06-16T00:00:00');
-  const beforeTrip = today.getTime() < tripStart.getTime();
-  const daysToStart = Math.ceil((tripStart.getTime() - today.getTime()) / 86_400_000);
-
-  return (
-    <header style={{ textAlign: 'center', padding: '8px 0 4px' }}>
-      <h1 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '0 0 4px' }}>Trip Map</h1>
-      <p style={{ margin: 0, fontSize: 13, color: 'var(--text-muted)' }}>
-        {beforeTrip
-          ? <><strong>{daysToStart} {daysToStart === 1 ? 'day' : 'days'}</strong> until Rome.</>
-          : current
-            ? <>Currently in <strong style={{ color: '#DC2626' }}>{current.flag} {current.name}</strong>{next ? <> · next: {next.flag} {next.name}</> : null}.</>
-            : next
-              ? <>Up next: <strong style={{ color: '#B45309' }}>{next.flag} {next.name}</strong> on {formatDate(next.arriveOn)}.</>
-              : <>Trip complete ✓</>
-        }
-      </p>
-    </header>
-  );
-}
 
 function Legend() {
   const items: { phase: Phase; label: string }[] = [
@@ -435,6 +648,14 @@ function Legend() {
         color: 'var(--text-muted)',
       }}
     >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span style={{ width: 18, borderTop: `3px solid ${MODE_STYLE.train.color}`, display: 'inline-block' }} />
+        Train
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span style={{ width: 18, borderTop: `3px dashed ${MODE_STYLE.bus.color}`, display: 'inline-block' }} />
+        Bus
+      </div>
       {items.map((it) => (
         <div key={it.phase} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <span

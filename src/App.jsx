@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { STOPS, JOURNEYS, BOOKING, CALENDAR, TRIP_BUDGET, AIRBNBS } from "./data/tripData";
 import { DayPlanSections, hasPlanContent } from "./components/day/DayPlanSections";
+import { makeGoogleMapsDirections } from "./lib/urls";
 import { useRates } from "./utils/useRates";
 import { generateStopPdf, generateFullTripPdf } from "./utils/generatePdf";
 import "./styles/app.css";
@@ -418,25 +419,16 @@ function HiddenGemsContent({ stop }) {
 }
 
 function WorkspacesContent({ stop }) {
-  if (!stop.workspaces?.length) return null;
-
-  const typeStyles = {
-    Library: { bg: 'var(--green-bg)', border: 'var(--green-border)', color: 'var(--green)', icon: '📚' },
-    Cafe: { bg: 'var(--orange-bg)', border: 'var(--orange-border)', color: 'var(--orange)', icon: '☕' },
-    'Cafe/Bookshop': { bg: 'var(--orange-bg)', border: 'var(--orange-border)', color: 'var(--orange)', icon: '📖' },
-    'Cafe/Coworking': { bg: 'var(--accent-bg)', border: 'var(--accent-border)', color: 'var(--accent)', icon: '💻' },
-    Coworking: { bg: 'var(--accent-bg)', border: 'var(--accent-border)', color: 'var(--accent)', icon: '💻' },
-    'Traditional Coffeehouse': { bg: 'var(--orange-bg)', border: 'var(--orange-border)', color: 'var(--orange)', icon: '🫖' },
-    'Beer Garden': { bg: 'var(--orange-bg)', border: 'var(--orange-border)', color: 'var(--orange)', icon: '🍺' },
-  };
+  const spots = stop.workspaces?.filter((ws) => ws.cost === 'Free' && ws.power) ?? [];
+  if (!spots.length) return null;
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 14 }}>
-      {stop.workspaces.map((ws, i) => {
-        const style = typeStyles[ws.type] || typeStyles.Cafe;
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 10 }}>
+      {spots.map((ws, i) => {
+        const mapsUrl = makeGoogleMapsDirections({ destination: `${ws.name}, ${stop.city}`, mode: 'walking' });
         return (
           <div key={i} style={{
-            padding: '18px 20px',
+            padding: '12px 14px',
             borderRadius: 'var(--radius-lg)',
             background: 'var(--bg-raised)',
             border: '1px solid var(--border)',
@@ -445,48 +437,37 @@ function WorkspacesContent({ stop }) {
           onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
           onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; }}
           >
-            {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10, gap: 8 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 20 }}>{style.icon}</span>
-                <div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)' }}>{ws.name}</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 6 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+                <span style={{ fontSize: 18 }}>📚</span>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)' }}>{ws.name}</div>
                   <div style={{ fontSize: 11, color: 'var(--text-dim)', fontFamily: 'var(--sans)', marginTop: 1 }}>{ws.area}</div>
                 </div>
               </div>
               <span style={{
-                fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
-                background: style.bg, color: style.color, border: `1px solid ${style.border}`,
+                fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                background: 'var(--green-bg)', color: 'var(--green)', border: '1px solid var(--green-border)',
                 whiteSpace: 'nowrap', fontFamily: 'var(--sans)',
               }}>
                 {ws.type}
               </span>
             </div>
 
-            {/* Details row */}
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontFamily: 'var(--sans)' }}>
-                <span style={{ color: 'var(--green)', fontWeight: 700 }}>💰</span>
-                <span style={{ fontWeight: 600, color: ws.cost === 'Free' ? 'var(--green)' : 'var(--text)' }}>{ws.cost}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontFamily: 'var(--sans)' }}>
-                <span>📶</span>
-                <span style={{ color: 'var(--text-muted)' }}>{ws.wifi}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontFamily: 'var(--sans)' }}>
-                <span>{ws.power ? '🔌' : '🔋'}</span>
-                <span style={{ color: ws.power ? 'var(--green)' : 'var(--text-dim)' }}>{ws.power ? 'Outlets' : 'No outlets'}</span>
-              </div>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', fontSize: 11.5, fontFamily: 'var(--sans)', marginBottom: 8 }}>
+              <span style={{ color: 'var(--green)', fontWeight: 600 }}>💰 Free</span>
+              <span style={{ color: 'var(--green)', fontWeight: 600 }}>🔌 Outlets</span>
+              <span style={{ color: 'var(--text-muted)' }}>📶 {ws.wifi}</span>
             </div>
 
-            {/* Hours */}
-            <div style={{ fontSize: 11, color: 'var(--text-dim)', fontFamily: 'var(--sans)', marginBottom: 8 }}>
-              🕐 {ws.hours}
-            </div>
-
-            {/* Note */}
-            <div style={{ fontSize: 13, color: 'var(--text-muted)', fontFamily: 'var(--sans)', lineHeight: 1.6 }}>
-              {ws.note}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 11, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>🕐 {ws.hours}</span>
+              <a href={mapsUrl} target="_blank" rel="noreferrer" style={{
+                flexShrink: 0, fontSize: 11.5, fontWeight: 700, color: '#2563EB',
+                textDecoration: 'none', whiteSpace: 'nowrap', fontFamily: 'var(--sans)',
+              }}>
+                Directions ↗
+              </a>
             </div>
           </div>
         );

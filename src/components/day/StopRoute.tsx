@@ -1,4 +1,5 @@
 import { makeGoogleMapsDirections } from '@/lib/urls';
+import { LocationMap } from '@/components/ui/LocationMap';
 import type { Journey } from '@/types';
 
 interface StopRouteProps {
@@ -25,16 +26,6 @@ const STATION_KEYS: Record<string, string[]> = {
   berlin: ['berlin'],
   amsterdam: ['amsterdam', 'schiphol', 'ruijterkade', 'centraal'],
   alkmaar: ['alkmaar'],
-};
-
-const LEG_COLOR: Record<string, string> = {
-  flight: '#7C3AED',
-  highspeed: '#C2410C',
-  regional: '#166534',
-  scenic: '#0891B2',
-  train: '#166534',
-  flixbus: '#16A34A',
-  walk: '#6B7280',
 };
 
 const timeOf = (date: string) => date.match(/\d{2}:\d{2}/)?.[0] ?? '';
@@ -70,21 +61,34 @@ export function StopRoute({ stopId, city, journeys, accent, isDayTrip }: StopRou
         </span>
       </div>
 
-      {inbound.length > 0 && <RouteGroup title="🚆 Getting here" legs={inbound} accent={accent} />}
-      {outbound.length > 0 && (
-        <RouteGroup
-          title={isDayTrip ? '🔙 Getting back' : '🚆 Onward & day trips'}
-          legs={outbound}
-          accent={accent}
-        />
-      )}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: 16,
+          alignItems: 'start',
+          marginTop: 4,
+        }}
+      >
+        {inbound.length > 0 && <RouteGroup title="🚆 Getting here" legs={inbound} />}
+        {outbound.length > 0 && (
+          <RouteGroup
+            title={isDayTrip ? '🔙 Getting back' : '🚆 Onward & day trips'}
+            legs={outbound}
+          />
+        )}
+      </div>
+
+      <div style={{ marginTop: 12 }}>
+        <LocationMap query={`${city} train station`} accent={accent} label="Show the station" />
+      </div>
     </div>
   );
 }
 
-function RouteGroup({ title, legs, accent }: { title: string; legs: Journey[]; accent: string }) {
+function RouteGroup({ title, legs }: { title: string; legs: Journey[] }) {
   return (
-    <div style={{ marginTop: 2 }}>
+    <div>
       <div
         style={{
           fontSize: 11,
@@ -92,22 +96,21 @@ function RouteGroup({ title, legs, accent }: { title: string; legs: Journey[]; a
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           color: 'var(--text-muted)',
-          margin: '12px 0 6px',
+          margin: '0 0 8px',
         }}
       >
         {title}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {legs.map((j) => (
-          <RouteLeg key={`${j.from}-${j.to}-${j.date}`} j={j} accent={accent} />
+          <RouteLeg key={`${j.from}-${j.to}-${j.date}`} j={j} />
         ))}
       </div>
     </div>
   );
 }
 
-function RouteLeg({ j, accent }: { j: Journey; accent: string }) {
-  const color = LEG_COLOR[j.type] ?? accent;
+function RouteLeg({ j }: { j: Journey }) {
   const time = timeOf(j.date);
   const directionsUrl =
     j.type === 'flight'
@@ -117,10 +120,11 @@ function RouteLeg({ j, accent }: { j: Journey; accent: string }) {
   return (
     <div
       style={{
-        borderLeft: `3px solid ${color}`,
         background: 'var(--bg-raised)',
-        borderRadius: 8,
-        padding: '6px 10px',
+        border: '1px solid var(--border)',
+        borderRadius: 10,
+        padding: '10px 12px',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, minWidth: 0 }}>
@@ -128,7 +132,7 @@ function RouteLeg({ j, accent }: { j: Journey; accent: string }) {
           {j.via.replace(/^🚌\s*/, '')}
         </span>
         {time && (
-          <span style={{ flexShrink: 0, fontFamily: 'var(--mono)', fontSize: 12, fontWeight: 700, color }}>
+          <span style={{ flexShrink: 0, fontFamily: 'var(--mono)', fontSize: 12, fontWeight: 700, color: 'var(--text)' }}>
             {time}
           </span>
         )}

@@ -53,7 +53,6 @@ export function Ticket({
 
   const inner = (
     <>
-      <div className="ticket-strip" style={{ background: tint.strip }} aria-hidden />
       <div className="ticket-body" style={{ background: tint.tint }}>
         <div className="ticket-head">{header}</div>
         <div className="ticket-name">{title}</div>

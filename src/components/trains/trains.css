@@ -62,53 +62,56 @@
 }
 
 /* ── Sticky jump nav ──────────────────────────────────── */
-.trains-jump {
-  position: sticky;
-  top: var(--app-nav-h, 0px);
-  z-index: 5;
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  margin: 18px 0 4px;
-  padding: 10px 2px;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(10px) saturate(1.4);
-  -webkit-backdrop-filter: blur(10px) saturate(1.4);
-  border-bottom: 1px solid var(--border);
-  scrollbar-width: none;
+/* ── Country selector cards ───────────────────────────── */
+.trains-countries {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 18px 0 22px;
 }
-.trains-jump::-webkit-scrollbar { display: none; }
-
-.trains-chip {
-  flex: 0 0 auto;
+.trains-cc {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-raised);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--sans);
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s, background 0.15s;
+}
+.trains-cc:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+.trains-cc.is-active {
+  border-color: var(--c-accent, var(--accent));
+  background: var(--country-tint);
+  box-shadow: inset 0 0 0 1px var(--c-accent, var(--accent));
+}
+.trains-cc-flag { font-size: 26px; line-height: 1; flex-shrink: 0; }
+.trains-cc-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.trains-cc-name { font-size: 15px; font-weight: 800; color: var(--text); }
+.trains-cc-meta { font-size: 11.5px; color: var(--text-muted); }
+.trains-cc-count {
+  flex-shrink: 0;
+  min-width: 22px;
+  height: 22px;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 13px;
+  justify-content: center;
+  padding: 0 6px;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--bg-raised);
-  color: var(--text-muted);
-  font-size: 12.5px;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.15s, background 0.15s, border-color 0.15s;
-}
-.trains-chip:hover { color: var(--text); border-color: var(--chip-accent, var(--accent)); }
-.trains-chip.is-active {
-  color: var(--chip-accent, var(--accent));
-  background: color-mix(in srgb, var(--chip-accent, var(--accent)) 9%, transparent);
-  border-color: var(--chip-accent, var(--accent));
-}
-.trains-chip-count {
+  font-size: 12px;
+  font-weight: 800;
   font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 1px 6px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--chip-accent, var(--accent)) 12%, transparent);
-  color: var(--chip-accent, var(--accent));
+  color: var(--c-accent, var(--accent));
+  background: color-mix(in srgb, var(--c-accent, var(--accent)) 14%, transparent);
+}
+.trains-empty {
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--text-muted);
+  font-size: 14px;
 }
 
 /* ── Country chapter ──────────────────────────────────── */

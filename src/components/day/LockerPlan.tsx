@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 import { tintFor } from '@/lib/country';
 import { LOCKERS, type LockerStop } from '@/data/lockerData';
-
-const mapsUrl = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+import { LocationMap } from '@/components/ui/LocationMap';
 
 /** Luggage-locker plan. With no stopId it renders the whole trip's bag-drop checklist;
  *  with a stopId it shows only that stop's locker card. Pure LOCKERS data. */
@@ -111,23 +110,9 @@ function LockerCard({ l, hideDay }: { l: LockerStop; hideDay: boolean }) {
         </div>
       )}
 
-      <a
-        href={mapsUrl(l.mapsQuery)}
-        target="_blank"
-        rel="noreferrer"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 6,
-          marginTop: 11,
-          fontSize: 12,
-          fontWeight: 700,
-          color: tint.accent,
-          textDecoration: 'none',
-        }}
-      >
-        🗺 Find the lockers ↗
-      </a>
+      <div style={{ marginTop: 11 }}>
+        <LocationMap query={l.mapsQuery} accent={tint.accent} label="Show location" />
+      </div>
     </div>
   );
 }

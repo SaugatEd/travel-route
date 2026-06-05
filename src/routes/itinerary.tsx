@@ -69,14 +69,14 @@ function FullItinerary({
         </p>
       </header>
 
-      {/* Day cards laid out as a responsive grid — every day visible as a card, not one long scroll. */}
+      {/* Day cards laid out as a responsive grid — equal-size cards, transport lives in Trains. */}
       <div
         role="list"
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 340px), 1fr))',
           gap: 16,
-          alignItems: 'start',
+          alignItems: 'stretch',
         }}
       >
         {days.map((d, i) => {
@@ -96,21 +96,22 @@ function FullItinerary({
                     letterSpacing: '0.18em',
                     textTransform: 'uppercase',
                     color: 'var(--text-muted)',
-                    margin: i === 0 ? '4px 4px 0' : '18px 4px 0',
-                    paddingTop: i === 0 ? 0 : 14,
+                    margin: i === 0 ? '4px 4px 0' : '12px 4px 0',
+                    paddingTop: i === 0 ? 0 : 10,
                     borderTop: i === 0 ? 'none' : '1px dashed var(--border)',
                   }}
                 >
                   {country}
                 </div>
               )}
-              <div role="listitem">
+              <div role="listitem" style={{ height: '100%' }}>
                 <DayCard
                   day={d}
                   journeys={journeys}
                   tint={tintFor(country ?? undefined)}
                   stopLinkId={stopLinkId}
-                  fullRouteCountry={country && country !== 'Transit' ? country : undefined}
+                  hideJourneys
+                  placesOnly
                 />
               </div>
             </Fragment>

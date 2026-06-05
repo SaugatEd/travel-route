@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { DayPlanSections, hasPlanContent } from './DayPlanSections';
+import { DayNotes } from './DayNotes';
 import { makeGoogleMapsDirections } from '@/lib/urls';
 import type { CalendarDay, CountryTint, Journey } from '@/types';
 
@@ -13,6 +14,10 @@ interface DayCardProps {
   hideJourneys?: boolean;
   /** Country name for the "Full route" jump into the Trains section (e.g. "Italy"). */
   fullRouteCountry?: string;
+  /** Fold the "Good to know" overview behind a summary so it doesn't crowd the card. */
+  collapsibleNotes?: boolean;
+  /** Itinerary mode — show only the ordered list of places to visit, nothing else. */
+  placesOnly?: boolean;
 }
 
 /**
@@ -20,7 +25,7 @@ interface DayCardProps {
  * strip with a live Google Maps directions button, then the structured plan.
  * Shared by the global itinerary grid and each stop's overview.
  */
-export function DayCard({ day, journeys, tint, stopLinkId = null, hideJourneys = false, fullRouteCountry }: DayCardProps) {
+export function DayCard({ day, journeys, tint, stopLinkId = null, hideJourneys = false, fullRouteCountry, collapsibleNotes = false, placesOnly = false }: DayCardProps) {
   const bullets = splitSummary(day.summary);
   const dayJourneys = hideJourneys ? [] : journeys.filter((j) => j.date.startsWith(day.date));
 
@@ -36,6 +41,7 @@ export function DayCard({ day, journeys, tint, stopLinkId = null, hideJourneys =
       onMouseLeave={stopLinkId ? (e) => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; } : undefined}
       style={{
         position: 'relative',
+        height: '100%',
         border: '1px solid var(--border)',
         borderRadius: 14,
         background: 'var(--bg)',
@@ -118,23 +124,70 @@ export function DayCard({ day, journeys, tint, stopLinkId = null, hideJourneys =
           </div>
         )}
 
-        {hasPlanContent(day.plan) ? (
-          <DayPlanSections plan={day.plan} accent={tint.accent} hideTransit={hideJourneys || dayJourneys.length > 0} />
+        {placesOnly ? (
+          <PlacesList plan={day.plan} accent={tint.accent} />
         ) : (
-          bullets.length > 0 && (
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {bullets.map((b, i) => (
-                <li key={i} style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--text)', paddingLeft: 16, position: 'relative' }}>
-                  <span aria-hidden style={{ position: 'absolute', left: 0, top: 8, width: 5, height: 5, borderRadius: 999, background: tint.accent }} />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          )
-        )}
+          <>
+            {hasPlanContent(day.plan) ? (
+              <DayPlanSections plan={day.plan} accent={tint.accent} hideTransit={hideJourneys || dayJourneys.length > 0} />
+            ) : (
+              bullets.length > 0 && (
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {bullets.map((b, i) => (
+                    <li key={i} style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--text)', paddingLeft: 16, position: 'relative' }}>
+                      <span aria-hidden style={{ position: 'absolute', left: 0, top: 8, width: 5, height: 5, borderRadius: 999, background: tint.accent }} />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              )
+            )}
 
+            {collapsibleNotes ? (
+              <div style={{ position: 'relative', zIndex: 2 }}>
+                <DayNotes dayN={day.dayN} accent={tint.accent} collapsible />
+              </div>
+            ) : (
+              <DayNotes dayN={day.dayN} accent={tint.accent} />
+            )}
+          </>
+        )}
       </div>
     </article>
+  );
+}
+
+/* ─── Itinerary mode: just the places to visit, in order ─── */
+function PlacesList({ plan, accent }: { plan: CalendarDay['plan']; accent: string }) {
+  const places = plan?.visit ?? [];
+  if (places.length === 0) return null;
+  return (
+    <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
+      {places.map((p, i) => (
+        <li key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+          <span
+            style={{
+              flexShrink: 0,
+              width: 20,
+              height: 20,
+              borderRadius: 999,
+              background: `${accent}18`,
+              color: accent,
+              fontSize: 11,
+              fontWeight: 800,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              lineHeight: 1,
+              marginTop: 1,
+            }}
+          >
+            {i + 1}
+          </span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', lineHeight: 1.4 }}>{p.title}</span>
+        </li>
+      ))}
+    </ol>
   );
 }
 

@@ -9,7 +9,8 @@ import {
 import { STOPS, CALENDAR, JOURNEYS } from '@/data/tripData.js';
 import { useUiStore } from '@/store/useUiStore';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { StopItinerary } from '@/components/day/StopItinerary';
+import { StopStory } from '@/components/day/StopStory';
+import { StopPlan, type StopPlanItem } from '@/components/day/StopPlan';
 import { StopSights } from '@/components/day/StopSights';
 import { StopSuggestions } from '@/components/day/StopSuggestions';
 import { StopRoute } from '@/components/day/StopRoute';
@@ -181,15 +182,21 @@ function StopDetailPage() {
               accent={tintFor(stop.country).accent}
               isDayTrip={/day[\s-]?trip/i.test(stop.duration)}
             />
+            <StopStory
+              city={stop.city}
+              story={stop.story as string | undefined}
+              history={stop.history as string | undefined}
+              must={stop.must as string[] | undefined}
+              accent={tintFor(stop.country).accent}
+            />
+            <StopPlan
+              city={stop.city}
+              country={stop.country}
+              itinerary={stop.itinerary as StopPlanItem[] | undefined}
+            />
             <LockerPlan stopId={stop.id} />
             <StopSights stopId={stop.id} city={stop.city} />
             <StopSuggestions stopId={stop.id} city={stop.city} accent={tintFor(stop.country).accent} />
-            <StopItinerary
-              city={stop.city}
-              country={stop.country}
-              days={stopCalDays}
-              journeys={JOURNEYS as Journey[]}
-            />
             <OverviewView stop={stop} />
           </>
         )}

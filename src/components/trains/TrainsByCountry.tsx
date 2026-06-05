@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useMemo, useState, type CSSProperties } from 'react';
 import { JOURNEYS, CALENDAR, STOPS } from '@/data/tripData.js';
 import { tintFor } from '@/lib/country';
 import { DayPlanSections, hasPlanContent } from '@/components/day/DayPlanSections';
@@ -155,6 +155,7 @@ function LegCard({ j, npr }: { j: Journey; npr: string | null }) {
         </div>
         <div className="trains-leg-meta">{stripWeekday(j.date)} · {j.dur}</div>
         {j.costNote && <div className="trains-leg-note">💶 {j.costNote}</div>}
+        {j.busAlt && <div className="trains-leg-note">{j.busAlt}</div>}
       </div>
       <div className="trains-leg-end">
         <span className="trains-leg-cost">{j.cost}</span>
@@ -186,24 +187,8 @@ export function TrainsByCountry() {
     0,
   );
 
-  const [activeId, setActiveId] = useState(countries[0]?.id ?? '');
-  const sectionRefs = useRef(new Map<string, HTMLElement>());
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActiveId(visible[0].target.id);
-      },
-      { rootMargin: '-72px 0px -60% 0px', threshold: 0 },
-    );
-    sectionRefs.current.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [countries]);
-
-  const jumpTo = (id: string) => sectionRefs.current.get(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selected = countries.find((c) => c.id === selectedId) ?? null;
 
   const nprFor = (cost: string, type: string): string | null => {
     if (!showNPR || !npr || type === 'flight') return null;
@@ -217,8 +202,7 @@ export function TrainsByCountry() {
         <div className="trains-kicker">🚄 Country by country</div>
         <h1 className="trains-title">Trains &amp; route</h1>
         <p className="trains-lede">
-          Every leg of the ground journey, grouped by the country it carries you into — with the
-          plan for each travel day right under its train. Tap any ride to book it.
+          Pick a country to see its legs — which train or bus to catch, when, and how much.
         </p>
         <div className="trains-stats">
           <div className="trains-stat"><b>{totalTrains}</b><span>journeys</span></div>
@@ -227,82 +211,84 @@ export function TrainsByCountry() {
         </div>
       </header>
 
-      <nav className="trains-jump" aria-label="Jump to country">
+      <div className="trains-countries">
         {countries.map((c) => (
           <button
             key={c.id}
             type="button"
-            className={`trains-chip${activeId === c.id ? ' is-active' : ''}`}
-            style={{ '--chip-accent': c.tint.accent } as CSSProperties}
-            onClick={() => jumpTo(c.id)}
+            className={`trains-cc${selected?.id === c.id ? ' is-active' : ''}`}
+            style={{ '--c-accent': c.tint.accent, '--country-tint': c.tint.tint } as CSSProperties}
+            onClick={() => setSelectedId((id) => (id === c.id ? null : c.id))}
+            aria-pressed={selected?.id === c.id}
           >
-            <span aria-hidden>{c.flag}</span>
-            {c.name}
-            <span className="trains-chip-count">{c.trainCount}</span>
+            <span className="trains-cc-flag" aria-hidden>{c.flag}</span>
+            <span className="trains-cc-body">
+              <span className="trains-cc-name">{c.name}</span>
+              <span className="trains-cc-meta">{c.trainCount} {c.trainCount === 1 ? 'journey' : 'journeys'} · {c.dateLabel}</span>
+            </span>
+            <span className="trains-cc-count">{c.trainCount}</span>
           </button>
         ))}
-      </nav>
+      </div>
 
-      {countries.map((c) => (
-        <section
-          key={c.id}
-          id={c.id}
-          className="trains-country"
-          ref={(el) => {
-            if (el) sectionRefs.current.set(c.id, el);
-            else sectionRefs.current.delete(c.id);
-          }}
-          style={{
-            '--c-accent': c.tint.accent,
-            '--country-tint': c.tint.tint,
-            '--country-strip': c.tint.strip,
-          } as CSSProperties}
-        >
-          <header className="trains-country-head">
-            <span className="trains-country-strip" aria-hidden />
-            <span className="trains-country-flag" aria-hidden>{c.flag}</span>
-            <h2 className="trains-country-name">{c.name}</h2>
-            <div className="trains-country-meta">
-              <span className="big">{c.trainCount} {c.trainCount === 1 ? 'journey' : 'journeys'} · {c.daysCount} {c.daysCount === 1 ? 'day' : 'days'}</span>
-              <span className="small">{c.dateLabel}</span>
-            </div>
-          </header>
-
-          <div className="trains-rail">
-            {c.days.map((d) => {
-              const plan = d.day.plan;
-              return (
-                <div className="trains-day" key={d.day.dayN}>
-                  <span className="trains-day-dot" aria-hidden />
-                  <div className="trains-day-body">
-                    <div className="trains-day-head">
-                      <span className="trains-day-n">DAY {d.day.dayN}</span>
-                      <span className="trains-day-city">{d.day.city}</span>
-                      <span className="trains-day-date">{d.day.date}</span>
-                    </div>
-
-                    <div className="trains-legs">
-                      {d.legs.map((j) => (
-                        <LegCard key={`${j.from}-${j.to}-${j.date}`} j={j} npr={nprFor(j.cost, j.type)} />
-                      ))}
-                    </div>
-
-                    {hasPlanContent(plan) && (
-                      <div className="trains-day-plan">
-                        <DayPlanSections plan={plan} accent={c.tint.accent} hideTransit />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      ))}
-
-      <p className="trains-foot">
-        {countries.length} countries · {totalTrains} journeys · {Math.floor(totalMins / 60)}h {totalMins % 60}m on the rails
-      </p>
+      {selected ? (
+        <CountrySection c={selected} nprFor={nprFor} />
+      ) : (
+        <p className="trains-empty">👆 Tap a country to see its train routes &amp; directions.</p>
+      )}
     </div>
+  );
+}
+
+function CountrySection({ c, nprFor }: { c: CountryVM; nprFor: (cost: string, type: string) => string | null }) {
+  return (
+    <section
+      className="trains-country"
+      style={{
+        '--c-accent': c.tint.accent,
+        '--country-tint': c.tint.tint,
+        '--country-strip': c.tint.strip,
+      } as CSSProperties}
+    >
+      <header className="trains-country-head">
+        <span className="trains-country-strip" aria-hidden />
+        <span className="trains-country-flag" aria-hidden>{c.flag}</span>
+        <h2 className="trains-country-name">{c.name}</h2>
+        <div className="trains-country-meta">
+          <span className="big">{c.trainCount} {c.trainCount === 1 ? 'journey' : 'journeys'} · {c.daysCount} {c.daysCount === 1 ? 'day' : 'days'}</span>
+          <span className="small">{c.dateLabel}</span>
+        </div>
+      </header>
+
+      <div className="trains-rail">
+        {c.days.map((d) => {
+          const plan = d.day.plan;
+          return (
+            <div className="trains-day" key={d.day.dayN}>
+              <span className="trains-day-dot" aria-hidden />
+              <div className="trains-day-body">
+                <div className="trains-day-head">
+                  <span className="trains-day-n">DAY {d.day.dayN}</span>
+                  <span className="trains-day-city">{d.day.city}</span>
+                  <span className="trains-day-date">{d.day.date}</span>
+                </div>
+
+                <div className="trains-legs">
+                  {d.legs.map((j) => (
+                    <LegCard key={`${j.from}-${j.to}-${j.date}`} j={j} npr={nprFor(j.cost, j.type)} />
+                  ))}
+                </div>
+
+                {hasPlanContent(plan) && (
+                  <div className="trains-day-plan">
+                    <DayPlanSections plan={plan} accent={c.tint.accent} hideTransit />
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }
