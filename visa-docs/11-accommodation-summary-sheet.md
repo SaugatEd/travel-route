@@ -20,11 +20,11 @@
 | Thu 25 Jun | Booked | Vienna (Kreuzgasse 41) |
 | Fri 26 Jun | Booked | Prague (Staropramenná 7) |
 | Sat 27 Jun | Booked | Prague (Staropramenná 7) |
-| Sun 28 Jun | **Sponsored — TO BE CONFIRMED by eduneon** | Berlin `[address pending]` |
-| Mon 29 Jun | Sponsored | Berlin |
-| Tue 30 Jun | Sponsored | Berlin |
-| Wed 1 Jul | Sponsored | Berlin |
-| Thu 2 Jul | Sponsored | Berlin |
+| Sun 28 Jun | Booked — sponsored by eduneon | VISIONAPARTMENTS Berlin (Otto-Braun-Straße 67) |
+| Mon 29 Jun | Booked — sponsored by eduneon | VISIONAPARTMENTS Berlin (Otto-Braun-Straße 67) |
+| Tue 30 Jun | Booked — sponsored by eduneon | VISIONAPARTMENTS Berlin (Otto-Braun-Straße 67) |
+| Wed 1 Jul | Booked — sponsored by eduneon | VISIONAPARTMENTS Berlin (Otto-Braun-Straße 67) |
+| Thu 2 Jul | Booked — sponsored by eduneon | VISIONAPARTMENTS Berlin (Otto-Braun-Straße 67) |
 | Fri 3 Jul (night) | Booked — FlixBus overnight | Berlin ZOB → Amsterdam Centraal |
 | Sat 4 Jul | Booked | Alkmaar (Lombardsteeg 44) |
 | Sun 5 Jul | Booked | Alkmaar (Lombardsteeg 44) |
@@ -52,7 +52,7 @@
 
 | # | Stop | Address | Check-in | Check-out | Nights | Confirmation | Paid by |
 |---|------|---------|----------|-----------|--------|--------------|---------|
-| 10 | **Berlin** 🇩🇪 | `[ADDRESS — TO BE CONFIRMED BY SPONSOR]` | Sun 28 Jun 15:00 | Fri 3 Jul 11:00 | 5 | `[pending]` | **eduneon GmbH** |
+| 10 | **Berlin** 🇩🇪 | VISIONAPARTMENTS Berlin, Otto-Braun-Straße 67, 10178 Berlin | Sun 28 Jun 15:00 | Fri 3 Jul 10:00 | 5 | **6310.359.080** · PIN **3043** | **eduneon GmbH** |
 
 ## Overnight transport (no accommodation needed)
 
@@ -77,18 +77,9 @@
 
 ---
 
-## Berlin booking — what eduneon GmbH must provide
+## Berlin booking confirmation
 
-When the sponsor confirms the Berlin reservation, they must provide:
-
-1. A booking confirmation showing:
-   - Property name and full Berlin address
-   - **Applicant(s) listed as guest(s)** by name
-   - **Sponsor listed as payer**
-   - Check-in 28 Jun, check-out 3 Jul 2026, 5 nights
-2. A short cover note from the sponsor (on letterhead, signed) confirming the reservation is paid by the company
-
-> A booking that lists only the company without the guest's name will raise a question — make sure the guest's name appears.
+Booking.com confirmation **6310.359.080** covers **VISIONAPARTMENTS Berlin, Otto-Braun-Straße 67, 10178 Berlin** from **28 Jun 2026 15:00** to **3 Jul 2026 10:00**: **5 nights**, **7 units**, **12 adults**, total **EUR 4,415.37**, PIN **3043**.
 
 ---
 

@@ -31,9 +31,9 @@ PURPOSE
 
 
 SPONSORSHIP — bounded
-  eduneon GmbH covers (≈ EUR 4,725 – 5,825 total for 3 pax):
+  eduneon GmbH covers (EUR 8,441.96 – 8,741.96 total for 3 pax):
     · Round-trip flights, PNR TCA424:        EUR 3,826.59  (PAID)
-    · Berlin accommodation, 5 nights:        EUR 700 – 1,500
+    · Berlin accommodation, 5 nights:        EUR 4,415.37  (CONFIRMED)
     · Berlin business meals + transport:     EUR 200 – 500
 
   You cover (per applicant, ≈ EUR 2,400 – 2,700):
@@ -102,7 +102,6 @@ SUPPORTING ATTACHMENTS (per master 25-tab checklist)
 
 STILL PENDING — must finalise before submission
   □ Salzburg accommodation (2 nights, 22 – 24 Jun)
-  □ Berlin accommodation address (sponsor to confirm)
   □ Travel medical insurance certificate
   □ Sponsor's flight-payment receipt
   □ Employer's signed and stamped employment + leave letters
@@ -111,7 +110,7 @@ STILL PENDING — must finalise before submission
   □ English translations of citizenship + lalpurja
 
 
-STATUS:   Ready for submission once the eight items above are complete.
+STATUS:   Ready for submission once the seven items above are complete.
 ```
 
 ---

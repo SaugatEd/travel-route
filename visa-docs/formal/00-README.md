@@ -50,7 +50,7 @@ Personal data fields, clearly marked `[BRACKETS]` throughout every document:
 - Existing Airbnb codes for Rome, Lucerne, Alkmaar (codes were not in the source data — copy from the booking PDFs)
 
 ### Sponsor side
-- Berlin accommodation address (sponsor to confirm)
+- Berlin booking guest-name alignment, if the Booking.com PDF does not list each applicant
 - eduneon GmbH HRB number, VAT ID, full corporate address, Geschäftsführer name
 - Sponsor's flight-payment receipt or invoice
 - Salzburg accommodation (currently pending — 22–24 Jun 2026)

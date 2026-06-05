@@ -1,12 +1,10 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { useStops, useCalendar } from '@/hooks/queries/itinerary';
 import { useBookings } from '@/hooks/queries/bookings';
-import { useNprRate } from '@/hooks/useNprRate';
 import { useActiveStopId } from '@/store/useUiStore';
 import { Resource } from '@/components/ui/Resource';
 import { tintFor } from '@/lib/country';
 import { parseCalDate } from '@/lib/dates';
-import { TripTimelineSidebar } from '@/App.jsx';
 import type { Stop, CalendarDay, Booking } from '@/types';
 
 export const Route = createFileRoute('/')({
@@ -17,46 +15,31 @@ function HomePage() {
   const stops = useStops();
   const calendar = useCalendar();
   const bookings = useBookings();
-  const { data: rate } = useNprRate();
-  const npr = rate?.npr ?? ((v: number, cur = 'EUR') => `${cur} ${v}`);
   const activeStopId = useActiveStopId();
-  const navigate = useNavigate();
-
-  const goToStop = (newId: string) => {
-    const resolved = newId === 'imst' ? 'innsbruck' : newId;
-    navigate({ to: '/stop/$id', params: { id: resolved }, search: { view: 'overview' } });
-  };
 
   return (
-    <div className="app-layout">
-      <TripTimelineSidebar
-        active={activeStopId}
-        onClickDay={(day: { stop: string }) => goToStop(day.stop)}
-        npr={npr}
-      />
-      <main className="main" style={{ maxWidth: 1180, margin: '0 auto', padding: '0 16px' }}>
-        <Hero />
+    <div style={{ maxWidth: 1180, margin: '0 auto' }}>
+      <Hero />
 
-        <Resource query={calendar}>
-          {(days) => (
-            <Resource query={bookings}>
-              {(stays) => <NextUpRow days={days} stays={stays} stops={(stops.data ?? []) as Stop[]} />}
-            </Resource>
-          )}
-        </Resource>
+      <Resource query={calendar}>
+        {(days) => (
+          <Resource query={bookings}>
+            {(stays) => <NextUpRow days={days} stays={stays} stops={(stops.data ?? []) as Stop[]} />}
+          </Resource>
+        )}
+      </Resource>
 
-        <Resource query={calendar}>
-          {(days) => (
-            <Resource query={bookings}>
-              {(stays) => <TripStats days={days} stays={stays} />}
-            </Resource>
-          )}
-        </Resource>
+      <Resource query={calendar}>
+        {(days) => (
+          <Resource query={bookings}>
+            {(stays) => <TripStats days={days} stays={stays} />}
+          </Resource>
+        )}
+      </Resource>
 
-        <Resource query={bookings}>
-          {(stays) => <BookingsPreview stays={stays} />}
-        </Resource>
-      </main>
+      <Resource query={stops}>
+        {(allStops) => <StopsGrid stops={allStops as Stop[]} activeStopId={activeStopId} />}
+      </Resource>
     </div>
   );
 }
@@ -108,18 +91,19 @@ function Hero() {
 }
 
 /* ─── NEXT UP — single most important card ───────────────────────── */
-const TODAY = new Date(2026, 4, 11); // 2026-05-11
+const TODAY = new Date(2026, 5, 5); // 2026-06-05
 
 function NextUpRow({ days, stays, stops }: { days: CalendarDay[]; stays: Booking[]; stops: Stop[] }) {
   const upcomingDay = days
     .map((d) => ({ ...d, _date: parseCalDate(d.date) }))
     .filter((d) => d._date && d._date >= TODAY)
-    .sort((a, b) => (a._date!.getTime()) - (b._date!.getTime()))[0];
+    .sort((a, b) => a._date!.getTime() - b._date!.getTime())[0];
 
   const nextStay = stays
+    .filter((b) => b.status !== 'optional')
     .map((b) => ({ ...b, _date: parseCalDate(b.checkIn.date) }))
     .filter((b) => b._date && b._date >= TODAY)
-    .sort((a, b) => (a._date!.getTime()) - (b._date!.getTime()))[0];
+    .sort((a, b) => a._date!.getTime() - b._date!.getTime())[0];
 
   if (!upcomingDay) return null;
 
@@ -181,20 +165,19 @@ function NextUpRow({ days, stays, stops }: { days: CalendarDay[]; stays: Booking
 
 /* ─── TRIP STATS STRIP ───────────────────────────────────────────── */
 function TripStats({ days, stays }: { days: CalendarDay[]; stays: Booking[] }) {
-  // Optional stays are Plan-B backups and don't count toward the real trip totals.
-  const primary = stays.filter((b) => b.status !== 'optional');
-  const booked = primary.filter((b) => b.status === 'booked');
-  const todos  = primary.filter((b) => b.status === 'todo');
-  const totalNights = primary.reduce((n, b) => n + b.nights, 0);
-  const countries = new Set(primary.map((b) => b.country)).size;
+  const confirmed = stays.filter((b) => b.status !== 'optional');
+  const booked = confirmed.filter((b) => b.status === 'booked');
+  const todos = confirmed.filter((b) => b.status === 'todo');
+  const totalNights = confirmed.reduce((n, b) => n + b.nights, 0);
+  const countries = new Set(confirmed.map((b) => b.country)).size;
 
   const items = [
-    { label: 'Days',      value: days.length },
-    { label: 'Cities',    value: 11 },
-    { label: 'Stays',     value: `${booked.length}/${primary.length}` },
-    { label: 'Nights',    value: totalNights },
+    { label: 'Days', value: days.length },
+    { label: 'Cities', value: 11 },
+    { label: 'Stays', value: `${booked.length}/${confirmed.length}` },
+    { label: 'Nights', value: totalNights },
     { label: 'Countries', value: countries },
-    { label: 'TODO',      value: todos.length, urgent: todos.length > 0 },
+    { label: 'TODO', value: todos.length, urgent: todos.length > 0 },
   ];
 
   return (
@@ -241,65 +224,42 @@ function TripStats({ days, stays }: { days: CalendarDay[]; stays: Booking[] }) {
   );
 }
 
-/* ─── BOOKINGS PREVIEW ───────────────────────────────────────────── */
-function BookingsPreview({ stays }: { stays: Booking[] }) {
+/* ─── STOPS GRID ─────────────────────────────────────────────────── */
+function StopsGrid({ stops, activeStopId }: { stops: Stop[]; activeStopId: string }) {
   return (
     <section style={{ marginBottom: 36 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
-        <h2 style={{ ...sectionHeading, marginBottom: 0 }}>Stays</h2>
-        <Link to="/book" style={{ fontSize: 13, color: 'var(--accent)', textDecoration: 'none', fontWeight: 700 }}>
-          See all →
-        </Link>
-      </div>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-          gap: 10,
-        }}
-      >
-        {stays.map((b) => {
-          const tint = tintFor(b.country);
-          const isTodo = b.status === 'todo';
-          const isOptional = b.status === 'optional';
-          const isDashed = isTodo || isOptional;
-          const borderColor = isTodo ? '#7C2D12' : isOptional ? '#6B7280' : 'var(--border)';
-          const subColor = isTodo ? '#7C2D12' : isOptional ? '#4B5563' : 'var(--text-faint)';
-          const subLabel = isTodo
-            ? '📌 Not booked yet'
-            : isOptional
-              ? `🛏 Backup · ${b.host}`
-              : `✓ ${b.host}`;
+      <h2 style={sectionHeading}>Stops</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
+        {stops.map((s) => {
+          const tint = tintFor(s.country);
+          const isActive = s.id === activeStopId;
           return (
             <Link
-              key={b.id}
-              to="/book/$id"
-              params={{ id: b.id }}
+              key={s.id}
+              to="/stop/$id"
+              params={{ id: s.id }}
+              search={{ view: 'overview' }}
               style={{
-                display: 'block',
-                padding: '12px 14px',
+                ...stopCardStyle,
                 background: tint.tint,
-                border: `1.5px ${isDashed ? 'dashed' : 'solid'} ${borderColor}`,
-                borderRadius: 12,
-                textDecoration: 'none',
-                color: 'inherit',
-                opacity: isOptional ? 0.85 : 1,
+                borderColor: isActive ? tint.accent : 'var(--border)',
+                boxShadow: isActive ? `0 0 0 2px ${tint.accent}33` : undefined,
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <div style={{ fontSize: 14, fontWeight: 800, color: tint.accent }}>
-                  {b.flag} {b.city.replace(/\s*\(.+\)\s*$/, '')}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 22 }}>{s.flag}</span>
+                <span style={{ fontSize: 16, fontWeight: 800, color: tint.accent }}>{s.city as string}</span>
+              </div>
+              {typeof s.tagline === 'string' && (
+                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 6, lineHeight: 1.4 }}>
+                  {s.tagline}
                 </div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', fontFamily: 'var(--mono)' }}>
-                  {b.nights}n
+              )}
+              {typeof s.duration === 'string' && (
+                <div style={{ fontSize: 11, color: 'var(--text-faint)', marginTop: 8, fontFamily: 'var(--mono)' }}>
+                  {s.duration}
                 </div>
-              </div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
-                {b.checkIn.date} → {b.checkOut.date}
-              </div>
-              <div style={{ fontSize: 11, color: subColor, marginTop: 6, fontWeight: isDashed ? 700 : 500 }}>
-                {subLabel}
-              </div>
+              )}
             </Link>
           );
         })}
@@ -313,4 +273,14 @@ const sectionHeading = {
   fontSize: 22,
   margin: '0 0 14px',
   color: 'var(--text)',
+} as const;
+
+const stopCardStyle = {
+  display: 'block',
+  padding: 14,
+  border: '1.5px solid',
+  borderRadius: 12,
+  textDecoration: 'none',
+  color: 'inherit',
+  transition: 'transform 0.12s, box-shadow 0.12s',
 } as const;

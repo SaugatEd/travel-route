@@ -35,6 +35,8 @@ export interface RouteStop {
   checkInTime?: string;    // HH:MM (Airbnb earliest check-in)
   nights: number;
   label: string;
+  /** How you reach this stop — transport mode + duration, mirrored from JOURNEYS. */
+  arriveVia?: string;
   /** Booking id from AIRBNBS that maps to this stop, if any. */
   bookingId?: string;
   /** Where to drop bags if there's a wait until check-in. */
@@ -53,6 +55,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '15:00',
     nights: 2,
     label: 'Rome · 2 nights',
+    arriveVia: 'Turkish Airlines via Istanbul + Leonardo Express',
     bookingId: 'rome-villa-fiorelli',
     // No gap — arrival is after check-in window opens, head straight to flat.
   },
@@ -63,6 +66,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '15:00',
     nights: 1,
     label: 'Lake Como · 1 night',
+    arriveVia: 'Frecciarossa + Trenord regional · ~3h40m',
     bookingId: 'como-center-terra',
     // Right on time, walk straight to Via Armando Diaz.
   },
@@ -73,6 +77,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '15:00',
     nights: 1,
     label: 'Lucerne · 1 night',
+    arriveVia: 'SBB via Lugano (Gotthard) · ~3h',
     bookingId: 'lucerne-neustadt',
     luggage: {
       place: 'Lucerne Hbf left-luggage lockers',
@@ -86,6 +91,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     arriveTime: '12:55',
     nights: 0,
     label: 'Lauterbrunnen · day trip',
+    arriveVia: 'Brünig scenic line + BLS local · ~2h20m',
     luggage: {
       place: 'Bring only daypacks',
       cost: 'Free',
@@ -99,6 +105,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '15:00',
     nights: 1,
     label: 'Bern · 1 night',
+    arriveVia: 'SBB direct from Interlaken · ~50m',
     bookingId: 'bern-renovated',
     // Arrival is past check-in. ⚠️ flat is at Freiburgstrasse 511 — 4km from Hbf, take Tram 7/8.
   },
@@ -109,6 +116,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '14:00',
     nights: 1,
     label: 'Lauterach · 1 night',
+    arriveVia: 'ÖBB EuroCity via Zürich + Sargans · ~3h30m',
     bookingId: 'lauterach-cosy-home',
     // 1-hour gap: short bus to Lauterach is fine, café at Bregenz Bahnhof if you arrive early.
   },
@@ -118,6 +126,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     arriveTime: '13:00',     // ÖBB from Bregenz arrives Innsbruck ~13:00
     nights: 0,
     label: 'Innsbruck · 90 min stop',
+    arriveVia: 'ÖBB Railjet via Arlberg Tunnel · 1h35m',
     luggage: {
       place: 'Innsbruck Hbf lockers',
       cost: '€2–4 / 90 min',
@@ -131,6 +140,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '15:00',
     nights: 2,
     label: 'Salzburg · 2 nights',
+    arriveVia: 'ÖBB Railjet Express from Innsbruck · 1h50m',
     bookingId: 'salzburg-boho-city',
     // Arrival is past check-in window — head straight to BOHO City Apartment (Denise, Gewerbegasse 7).
   },
@@ -141,6 +151,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '14:00',
     nights: 2,
     label: 'Vienna · 2 nights',
+    arriveVia: 'ÖBB Railjet from Salzburg · 2h25m',
     bookingId: 'vienna-schubert-park',
     // Late arrival. U6 to Volksoper / Währinger Straße, message Eva for late check-in.
   },
@@ -151,6 +162,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '15:00',
     nights: 2,
     label: 'Prague · 2 nights',
+    arriveVia: 'Regiojet from Vienna (free coffee!) · 4h',
     bookingId: 'prague-yellow-garden',
     // Past check-in. Metro B 1 stop to Anděl, walk to Smíchov.
   },
@@ -161,6 +173,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '15:00',
     nights: 5,
     label: 'Berlin · 5 nights',
+    arriveVia: 'EuroCity direct from Prague · 4h30m',
     bookingId: 'berlin-visionapartments',
     // Past check-in. Pick a flat with self check-in for late arrival.
   },
@@ -170,6 +183,7 @@ export const TRIP_ROUTE: RouteStop[] = [
     arriveTime: '07:15',     // FlixBus from Berlin arrives De Ruijterkade 07:15
     nights: 0,
     label: 'Amsterdam · day visit',
+    arriveVia: 'FlixBus night bus from Berlin · 9h30m',
     luggage: {
       place: 'Amsterdam Centraal lockers (2 min walk from FlixBus stop)',
       cost: '€6–8 / 24h',
@@ -183,9 +197,31 @@ export const TRIP_ROUTE: RouteStop[] = [
     checkInTime: '15:00',
     nights: 2,
     label: 'Alkmaar · 2 nights',
+    arriveVia: 'Sprinter from Amsterdam Centraal · 40m',
     bookingId: 'alkmaar-red-city',
     // 20-min wait: have a coffee on the canal.
   },
+];
+
+/** Day-trips & excursions — out-and-back spurs off a base stop. Drawn on the map
+ *  so every place the trip reaches is covered, not just the overnight stops. */
+export interface DayTrip {
+  id: string;
+  from: string;        // base stop id (key in STOP_COORDS)
+  name: string;
+  flag: string;
+  lat: number;
+  lng: number;
+  via: string;
+  label: string;
+  optional?: boolean;
+}
+
+export const DAY_TRIPS: DayTrip[] = [
+  { id: 'grindelwald', from: 'interlaken', name: 'Grindelwald', flag: '🏔', lat: 46.6244, lng: 8.0414, via: '~35 min from Interlaken Ost', label: 'Alpine village under the Eiger', optional: true },
+  { id: 'zurich-daytrip', from: 'lucerne', name: 'Zürich', flag: '🇨🇭', lat: 47.3769, lng: 8.5417, via: '~45 min by SBB', label: 'Old Town, Bahnhofstrasse & lakefront', optional: true },
+  { id: 'hallstatt', from: 'salzburg', name: 'Hallstatt', flag: '🇦🇹', lat: 47.5615, lng: 13.6493, via: 'ÖBB via Attnang-Puchheim + lake ferry', label: 'UNESCO lake village & bone chapel' },
+  { id: 'schafberg', from: 'salzburg', name: 'Schafberg (St. Gilgen)', flag: '🚞', lat: 47.7783, lng: 13.4361, via: 'Bus 150 + Wolfgangsee ferry + cog railway', label: 'Cogwheel railway to the 1,783m summit' },
 ];
 
 /** Helper: minutes between two HH:MM strings. Negative if a < b reversed. */

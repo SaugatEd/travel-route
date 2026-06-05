@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { STOPS, JOURNEYS, BOOKING, CALENDAR, TRIP_BUDGET, AIRBNBS } from "./data/tripData";
+import { DayPlanSections, hasPlanContent } from "./components/day/DayPlanSections";
 import { useRates } from "./utils/useRates";
 import { generateStopPdf, generateFullTripPdf } from "./utils/generatePdf";
 import "./styles/app.css";
@@ -691,257 +692,25 @@ export function GalleryView({ stop }) {
   );
 }
 
-export function OverviewView({ stop, idx, stops, journeys, onStopChange, showNPR, npr }) {
-  const [section, setSection] = useState("highlights");
-
-  const gallery = getCityGallery(stop.id);
-  const highlights = CITY_IMAGES?.[stop.id]?.highlights || [];
-
-  const chips = [
-    { id: "highlights", label: "Highlights", icon: "✨" },
-    { id: "itinerary", label: "Itinerary", icon: "📅" },
-    { id: "gems", label: "Hidden Gems", icon: "💎" },
-    { id: "work", label: "Work & Rest", icon: "💻" },
-    { id: "activities", label: "Activities", icon: "🎯" },
-    { id: "transport", label: "Getting Here", icon: "🚄" },
-    { id: "stay", label: "Stay & Eat", icon: "🏠" },
-    { id: "compare", label: "Train vs Flight", icon: "📊" },
-    { id: "tips", label: "Tips", icon: "💡" },
-    { id: "musttry", label: "Food & Shopping", icon: "🍽" },
-    { id: "weather", label: "Weather", icon: "🌡" },
-    { id: "route", label: "Route", icon: "🗺" },
-    { id: "videos", label: "Videos", icon: "▶" },
-  ];
-
+export function OverviewView({ stop }) {
   return (
     <div className="panel" style={{ padding: 0 }}>
 
-      {/* Quick Facts Strip */}
-      <div style={{ padding: '0 24px' }}>
-        <div className="quick-facts">
-          {[
-            { icon: "📍", label: "Duration", value: stop.duration.split('·')[0].trim() },
-            { icon: "🌡", label: "Weather", value: stop.weather.temp },
-            { icon: "💰", label: "Budget", value: stop.budget },
-            { icon: "💵", label: "Currency", value: stop.currency },
-          ].map((f, i) => (
-            <div key={i} className="quick-fact">
-              <span className="quick-fact__icon">{f.icon}</span>
-              <div>
-                <div className="quick-fact__label">{f.label}</div>
-                <div className="quick-fact__value">{f.value}</div>
-              </div>
-            </div>
-          ))}
+      {/* Work & Rest — the only section kept */}
+      <div style={{ padding: 24 }} className="panel">
+        <div className="section-header">
+          <h2 className="section-title">Work & Rest Spots</h2>
+          <span style={{ fontSize: 12, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>
+            Libraries, cafes & coworking for laptop work
+          </span>
         </div>
-      </div>
-
-      {/* Photo Grid — always visible */}
-      {gallery.length >= 3 && (
-        <div style={{ padding: '0 24px', marginBottom: 24 }}>
-          <div className="photo-grid">
-            {gallery.slice(0, 3).map((img, i) => (
-              <div key={i} className="photo-grid__item">
-                <img src={typeof img === 'string' ? img : img.url} alt={typeof img === 'object' ? img.alt : `${stop.city} ${i+1}`} loading="lazy" onError={(e) => { e.target.onerror = null; e.target.src = IMG_FALLBACK; }} />
-                {i === 2 && gallery.length > 3 && (
-                  <div className="photo-grid__more">+{gallery.length - 3} more photos</div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Section Chips — click to switch content below */}
-      <div className="chip-nav chip-nav--section">
-        {chips.map(chip => (
-          <button
-            key={chip.id}
-            className={`chip${section === chip.id ? ' active' : ''}`}
-            onClick={() => setSection(chip.id)}
-          >
-            <span>{chip.icon}</span>
-            <span>{chip.label}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* === SECTION CONTENT — only the active section renders === */}
-      <div key={section} style={{ padding: 24 }} className="panel">
-
-        {section === "highlights" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Top Picks in {stop.city}</h2>
-            </div>
-            {highlights.length > 0 ? (
-              <div className="highlights-carousel">
-                {highlights.map((h, i) => (
-                  <div key={i} className="highlight-card">
-                    <img src={h.url} alt={h.title} loading="lazy" onError={(e) => { e.target.onerror = null; e.target.src = IMG_FALLBACK; }} />
-                    <div className="highlight-card__overlay">
-                      <div className="highlight-card__category">{h.category}</div>
-                      <div className="highlight-card__title">{h.title}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="must-do-strip">
-                {stop.must?.map((m, i) => (
-                  <div key={i} className="must-do-item">
-                    <span className="must-do-num">{i + 1}</span>
-                    <span>{m}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-            <div style={{ marginTop: 24 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>About {stop.city} — tap to read</h3>
-              <DrillDown
-                items={[
-                  { head: `📖 The Story — why ${stop.city} feels like ${stop.city}`, detail: stop.story },
-                  { head: `🏛 History — what built it`, detail: stop.history },
-                ]}
-              />
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--sans)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '24px 0 12px' }}>Must Do</h3>
-              <div className="must-do-strip">
-                {stop.must?.map((m, i) => (
-                  <div key={i} className="must-do-item">
-                    <span className="must-do-num">{i + 1}</span>
-                    <span>{m}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
+        {stop.workspaces?.length > 0 ? <WorkspacesContent stop={stop} /> : (
+          <p style={{ color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>No workspace data for this stop yet.</p>
         )}
-
-        {section === "itinerary" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Day by Day</h2>
-            </div>
-            <ItineraryContent stop={stop} />
-          </>
-        )}
-
-        {section === "gems" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Hidden Gems & Local Tips</h2>
-            </div>
-            {stop.hiddenGems?.length > 0 ? <HiddenGemsContent stop={stop} /> : (
-              <p style={{ color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>No hidden gems data for this stop yet.</p>
-            )}
-          </>
-        )}
-
-        {section === "work" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Work & Rest Spots</h2>
-              <span style={{ fontSize: 12, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>
-                Libraries, cafes & coworking for laptop work
-              </span>
-            </div>
-            {stop.workspaces?.length > 0 ? <WorkspacesContent stop={stop} /> : (
-              <p style={{ color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>No workspace data for this transit stop.</p>
-            )}
-          </>
-        )}
-
-        {section === "transport" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Getting to {stop.city}</h2>
-            </div>
-            <TransportContent stop={stop} />
-          </>
-        )}
-
-        {section === "stay" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Where to Stay & Eat</h2>
-            </div>
-            <StayEatContent stop={stop} />
-          </>
-        )}
-
-        {section === "compare" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Train vs Flight</h2>
-            </div>
-            <CompareContent stop={stop} />
-          </>
-        )}
-
-        {section === "tips" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Tips & Tricks</h2>
-            </div>
-            <TipsContent stop={stop} />
-          </>
-        )}
-
-        {section === "musttry" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Must Try Food & Shopping</h2>
-            </div>
-            <MustTryContent stop={stop} />
-          </>
-        )}
-
-        {section === "weather" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Weather Details</h2>
-            </div>
-            <WeatherContent stop={stop} />
-          </>
-        )}
-
-        {section === "route" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Route Overview</h2>
-            </div>
-            <RouteContent stop={stop} idx={idx} stops={stops} journeys={journeys} onStopChange={onStopChange} />
-          </>
-        )}
-
-        {section === "activities" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Activities & Experiences</h2>
-            </div>
-            {stop.activities?.length > 0 ? <ActivitiesContent stop={stop} /> : (
-              <p style={{ color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>No activities data for this transit stop.</p>
-            )}
-          </>
-        )}
-
-        {section === "videos" && (
-          <>
-            <div className="section-header">
-              <h2 className="section-title">Watch on YouTube</h2>
-              <span style={{ fontSize: 12, color: 'var(--text-dim)', fontFamily: 'var(--sans)' }}>
-                Opens YouTube search results
-              </span>
-            </div>
-            <VideosContent stop={stop} />
-          </>
-        )}
-
       </div>
     </div>
   );
 }
-
 function StoryContent({ stop }) {
   const landmarks = getCityGallery(stop.id);
 
@@ -3237,16 +3006,6 @@ export function CalendarDayDialog({ day, onClose, onGoToStop }) {
   const s = CAL_TYPES[day.type] || CAL_TYPES.explore;
   const resolvedStop = day.stop === "imst" ? "innsbruck" : day.stop;
   const stop = STOPS.find((x) => x.id === resolvedStop);
-  const airbnbActions = (day.airbnb || []).map((a) => ({
-    ...a,
-    booking: AIRBNBS.find((b) => b.id === a.id),
-  }));
-  // Surface any Plan-B (optional) bookings whose check-in falls on this day,
-  // so the user is reminded of the backup option without making it look like
-  // a primary stay.
-  const optionalToday = AIRBNBS.filter(
-    (b) => b.status === "optional" && b.checkIn.date === day.date
-  );
 
   // Lock body scroll while open + close on Escape
   useEffect(() => {
@@ -3294,119 +3053,24 @@ export function CalendarDayDialog({ day, onClose, onGoToStop }) {
           <button onClick={onClose} aria-label="Close" className="caldlg-close">✕</button>
         </div>
 
-        {/* Body */}
+        {/* Body — brief day itinerary (booking lives in the Book section) */}
         <div className="caldlg-body">
-          {/* Plan as bullets */}
-          {planBullets.length > 0 && (
+          {/* Plan — See & Do · Eat · Getting around */}
+          {hasPlanContent(day.plan) ? (
             <section className="caldlg-section">
-              <div className="caldlg-section-title">Plan</div>
-              <ul className="caldlg-bullets">
-                {planBullets.map((line, i) => (
-                  <li key={i}>{line}</li>
-                ))}
-              </ul>
+              <DayPlanSections plan={day.plan} accent={s.dot} />
             </section>
-          )}
-
-          {/* Airbnb actions */}
-          {airbnbActions.length > 0 && (
-            <section className="caldlg-section">
-              <div className="caldlg-section-title">🏠 Airbnb today</div>
-              <div className="caldlg-airbnb-list">
-                {airbnbActions.map((a, i) => {
-                  const b = a.booking;
-                  if (!b) return null;
-                  const isOut = a.action === "check-out";
-                  const isStay = a.action === "stay";
-                  const variant = isOut ? "out" : isStay ? "stay" : "in";
-                  const actionLabel = isOut ? "OUT" : isStay ? "STAY" : "IN";
-                  const windowLabel = isOut
-                    ? `by ${b.checkOut.time}`
-                    : isStay
-                    ? `night ${b.checkIn.date} → ${b.checkOut.date}`
-                    : (b.checkIn.until ? `${b.checkIn.time} – ${b.checkIn.until}` : `from ${b.checkIn.time}`);
-                  return (
-                    <div key={i} className={`caldlg-airbnb caldlg-airbnb--${variant}`}>
-                      <div className="caldlg-airbnb-time">
-                        <span className="caldlg-airbnb-action">{actionLabel}</span>
-                        <span className="caldlg-airbnb-clock">{windowLabel}</span>
-                      </div>
-                      <div className="caldlg-airbnb-info">
-                        <div className="caldlg-airbnb-name">
-                          <span style={{ marginRight: 4 }}>{b.flag}</span>
-                          {b.name}
-                        </div>
-                        <div className="caldlg-airbnb-meta">
-                          {b.host} · {b.address}
-                          {b.confirmationCode && <span className="caldlg-airbnb-code"> · {b.confirmationCode}</span>}
-                        </div>
-                      </div>
-                      {b.bookingUrl && (
-                        <a
-                          href={b.bookingUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="caldlg-airbnb-link"
-                        >
-                          ↗
-                        </a>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-          )}
-
-          {/* Plan-B / backup bookings */}
-          {optionalToday.length > 0 && (
-            <section className="caldlg-section">
-              <div className="caldlg-section-title">🛏 Plan B (backup — only if primary plan falls through)</div>
-              <div className="caldlg-airbnb-list">
-                {optionalToday.map((b, i) => (
-                  <div
-                    key={i}
-                    className="caldlg-airbnb caldlg-airbnb--in"
-                    style={{ borderStyle: "dashed", opacity: 0.9 }}
-                  >
-                    <div className="caldlg-airbnb-time">
-                      <span className="caldlg-airbnb-action">ALT</span>
-                      <span className="caldlg-airbnb-clock">from {b.checkIn.time}</span>
-                    </div>
-                    <div className="caldlg-airbnb-info">
-                      <div className="caldlg-airbnb-name">
-                        <span style={{ marginRight: 4 }}>{b.flag}</span>
-                        {b.name}
-                      </div>
-                      <div className="caldlg-airbnb-meta">
-                        {b.host} · {b.address}
-                        {b.confirmationCode && <span className="caldlg-airbnb-code"> · {b.confirmationCode}</span>}
-                      </div>
-                      {b.cancelBy && (
-                        <div
-                          className="caldlg-airbnb-meta"
-                          style={{ marginTop: 4, color: "#B45309", fontWeight: 600 }}
-                        >
-                          ⚠️ Free cancel until {b.cancelBy.date} {b.cancelBy.time} — cancel by then if FlixBus is going ahead
-                        </div>
-                      )}
-                    </div>
-                    {b.bookingUrl && (
-                      <a
-                        href={b.bookingUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="caldlg-airbnb-link"
-                      >
-                        ↗
-                      </a>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </section>
+          ) : (
+            planBullets.length > 0 && (
+              <section className="caldlg-section">
+                <div className="caldlg-section-title">Plan</div>
+                <ul className="caldlg-bullets">
+                  {planBullets.map((line, i) => (
+                    <li key={i}>{line}</li>
+                  ))}
+                </ul>
+              </section>
+            )
           )}
 
           {/* Action button */}

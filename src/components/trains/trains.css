@@ -1,0 +1,354 @@
+/* Trains — country-chapter rail timeline.
+   Relies only on global design tokens (works in light + dark). */
+
+.trains {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 4px 80px;
+}
+
+/* ── Header ───────────────────────────────────────────── */
+.trains-head { padding: 14px 2px 0; }
+
+.trains-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.trains-title {
+  font-family: var(--serif);
+  font-size: 34px;
+  line-height: 1.1;
+  margin: 10px 0 0;
+  color: var(--text);
+}
+
+.trains-lede {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 620px;
+}
+
+.trains-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 18px 0 4px;
+  padding: 13px 18px;
+  border-radius: 14px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+}
+.trains-stat { display: flex; align-items: baseline; gap: 7px; }
+.trains-stat b {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+}
+.trains-stat span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ── Sticky jump nav ──────────────────────────────────── */
+.trains-jump {
+  position: sticky;
+  top: var(--app-nav-h, 0px);
+  z-index: 5;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 18px 0 4px;
+  padding: 10px 2px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px) saturate(1.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  scrollbar-width: none;
+}
+.trains-jump::-webkit-scrollbar { display: none; }
+
+.trains-chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text-muted);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+.trains-chip:hover { color: var(--text); border-color: var(--chip-accent, var(--accent)); }
+.trains-chip.is-active {
+  color: var(--chip-accent, var(--accent));
+  background: color-mix(in srgb, var(--chip-accent, var(--accent)) 9%, transparent);
+  border-color: var(--chip-accent, var(--accent));
+}
+.trains-chip-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--chip-accent, var(--accent)) 12%, transparent);
+  color: var(--chip-accent, var(--accent));
+}
+
+/* ── Country chapter ──────────────────────────────────── */
+.trains-country {
+  scroll-margin-top: calc(var(--app-nav-h, 0px) + 64px);
+  margin-top: 26px;
+}
+
+.trains-country-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--country-tint, var(--bg-raised));
+  position: relative;
+  overflow: hidden;
+}
+.trains-country-strip {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 6px;
+  background: var(--country-strip, var(--c-accent));
+}
+.trains-country-flag {
+  font-size: 30px;
+  line-height: 1;
+  margin-left: 4px;
+}
+.trains-country-name {
+  font-family: var(--serif);
+  font-size: 23px;
+  color: var(--text);
+  line-height: 1.1;
+  flex: 1;
+  min-width: 0;
+}
+.trains-country-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-align: right;
+}
+.trains-country-meta .big {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--c-accent);
+}
+.trains-country-meta .small {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+}
+
+/* ── Rail timeline ────────────────────────────────────── */
+.trains-rail {
+  position: relative;
+  margin: 6px 0 0;
+  padding: 8px 0 0;
+}
+.trains-rail::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 16px;
+  bottom: 18px;
+  width: 2px;
+  background: color-mix(in srgb, var(--c-accent) 28%, transparent);
+}
+
+.trains-day {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  column-gap: 12px;
+  padding: 8px 0 14px;
+}
+.trains-day-dot {
+  width: 14px;
+  height: 14px;
+  margin: 6px 0 0 8px;
+  border-radius: 50%;
+  background: var(--bg-raised);
+  border: 3px solid var(--c-accent);
+  box-shadow: 0 0 0 4px var(--country-tint, var(--bg));
+  position: relative;
+  z-index: 1;
+}
+.trains-day-body { min-width: 0; }
+
+.trains-day-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 2px 0 10px;
+}
+.trains-day-n {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 11%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c-accent) 24%, transparent);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.trains-day-city {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text);
+}
+.trains-day-date {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+}
+
+/* ── Leg cards ────────────────────────────────────────── */
+.trains-legs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.trains-leg {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  border-radius: 12px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--leg-color, var(--c-accent));
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+a.trains-leg:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.trains-leg-icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 17px;
+  background: color-mix(in srgb, var(--leg-color, var(--c-accent)) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--leg-color, var(--c-accent)) 28%, transparent);
+}
+.trains-leg-main { min-width: 0; }
+.trains-leg-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text);
+}
+.trains-leg-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.trains-leg-type {
+  flex: 0 0 auto;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--leg-color, var(--c-accent));
+  background: color-mix(in srgb, var(--leg-color, var(--c-accent)) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--leg-color, var(--c-accent)) 35%, transparent);
+  padding: 2px 6px;
+  border-radius: 5px;
+}
+.trains-leg-route {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.trains-leg-route .arrow { color: var(--leg-color, var(--c-accent)); font-weight: 800; }
+.trains-leg-meta {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  margin-top: 3px;
+}
+.trains-leg-note {
+  margin-top: 6px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--leg-color, var(--c-accent)) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--leg-color, var(--c-accent)) 18%, transparent);
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+.trains-leg-end {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+.trains-leg-cost {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text);
+}
+.trains-leg-npr { font-size: 10px; color: var(--text-dim); font-family: var(--mono); }
+.trains-leg-go {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--leg-color, var(--c-accent));
+  white-space: nowrap;
+}
+
+/* Itinerary plan sits indented under the day's legs */
+.trains-day-plan { margin-top: 12px; }
+
+.trains-foot {
+  text-align: center;
+  margin: 36px 0 8px;
+  font-size: 12px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+}
+
+@media (max-width: 560px) {
+  .trains-title { font-size: 27px; }
+  .trains-leg { grid-template-columns: 30px minmax(0, 1fr); }
+  .trains-leg-end { grid-column: 2; flex-direction: row; align-items: baseline; gap: 8px; margin-top: 2px; }
+  .trains-country-name { font-size: 20px; }
+}

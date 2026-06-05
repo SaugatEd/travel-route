@@ -371,12 +371,12 @@ A formal *Verpflichtungserklärung* (Formal Obligation under §§ 66–68 Aufent
 | 10 | Thu 25 Jun 2026 | Tourism | Austria | Vienna | (same) | U-Bahn / tram | Belvedere (Klimt — €16pp), Schönbrunn, Hofburg, evening Naschmarkt | **[P]** | `[Belvedere ticket #]` |
 | 11 | Fri 26 Jun 2026 | Travel | Austria → 🇨🇿 Czech Rep. | Vienna → **Prague** | Prague — *Staropramenná 7* (Airbnb, host: Jan) | Regiojet Wien Hbf 13:00 → Praha hl.n. 17:00 (free coffee on board) | Charles Bridge dusk walk, Smíchov dinner | **[P]** | Regiojet `[ref]` / Airbnb **HMJCAJB38S** |
 | 12 | Sat 27 Jun 2026 | Tourism | Czech Rep. | Prague | (same) | Walking + Metro B | Prague Castle (free entry, paid interiors), Petrin Hill, Jewish Quarter, Lokál lunch CZK 185 | **[P]** | — |
-| 13 | **Sun 28 Jun 2026** | **Travel + start of sponsored business segment** | Czech Rep. → 🇩🇪 **Germany** | Prague → **Berlin** | Berlin — *`[address — to be confirmed by sponsor]`* | EuroCity Praha → Berlin Hbf arr ~19:00 | Arrival Berlin, check-in, light evening | **[S] hotel from this point** | `[Berlin reservation pending]` |
+| 13 | **Sun 28 Jun 2026** | **Travel + start of sponsored business segment** | Czech Rep. → 🇩🇪 **Germany** | Prague → **Berlin** | Berlin — *VISIONAPARTMENTS Berlin, Otto-Braun-Straße 67, 10178 Berlin* | EuroCity Praha → Berlin Hbf arr ~19:00 | Arrival Berlin, contactless self check-in from 15:00, light evening | **[S] hotel from this point** | Booking.com **6310.359.080** · PIN **3043** |
 | 14 | Mon 29 Jun 2026 | **Business [S]** | Germany | Berlin | (same — sponsored) | U-Bahn / S-Bahn (sponsor-arranged) | On-site at `[SPONSOR COMPANY]` — `[Activity 1: onboarding session]` | **[S]** | — |
 | 15 | Tue 30 Jun 2026 | **Business [S]** | Germany | Berlin | (same — sponsored) | Local | On-site at `[SPONSOR COMPANY]` — `[Activity 2: team workshop / event]` | **[S]** | — |
 | 16 | Wed 1 Jul 2026 | **Business [S]** | Germany | Berlin | (same — sponsored) | Local | On-site at `[SPONSOR COMPANY]` — `[Activity 3: review meetings]` | **[S]** | — |
 | 17 | Thu 2 Jul 2026 | **Business [S] + light tourism evening** | Germany | Berlin | (same — sponsored) | Local | On-site morning; evening East Side Gallery (free), Kreuzberg dinner — *self-funded* | **[S]** day / **[P]** evening | — |
-| 18 | Fri 3 Jul 2026 | **End of sponsored segment + travel** | Germany → 🇳🇱 Netherlands | Berlin → Amsterdam (overnight bus) | Onboard FlixBus (sleep) | Berlin ZOB → Amsterdam Centraal, FlixBus 21:45 → 07:15 next day, €143/3pax | Wrap-up meeting AM; departure PM | **[S]** until check-out 11:00; **[P]** from bus onward | FlixBus `[order #]` |
+| 18 | Fri 3 Jul 2026 | **End of sponsored segment + travel** | Germany → 🇳🇱 Netherlands | Berlin → Amsterdam (overnight bus) | Onboard FlixBus (sleep) | Berlin ZOB → Amsterdam Centraal, FlixBus 21:45 → 07:15 next day, €143/3pax | Wrap-up meeting AM; departure PM | **[S]** until check-out 10:00; **[P]** from bus onward | FlixBus `[order #]` |
 | 19 | Sat 4 Jul 2026 | Tourism + transit | Netherlands | Amsterdam (day) → **Alkmaar** | Alkmaar — *Lombardsteeg 44* (Airbnb, host: Joris) | Arrive Amsterdam Centraal 07:15; locker storage at station; Sprinter to Alkmaar ~14:00 arr 14:40 | Jordaan canals, Albert Cuypmarkt, Rijksmuseum | **[P]** | `[Airbnb code]` |
 | 20 | Sun 5 Jul 2026 | Tourism | Netherlands | Alkmaar | (same) | Local | Alkmaar canal walk, cheese market square, rest day | **[P]** | — |
 | 21 | **Mon 6 Jul 2026** | **Departure** | Netherlands → Türkiye → India | Alkmaar → Schiphol → Istanbul → Delhi | n/a | Sprinter Alkmaar → AMS ~50 min; TK1958 AMS 14:40 → IST 19:05; TK716 IST 20:15 → DEL 04:50 (7 Jul) | Departure from Schengen Area | **[S] flight** | PNR **TCA424** |
@@ -502,13 +502,14 @@ Include **one** of the following from the sponsor as proof the flight is fully p
 | Field | Value |
 |-------|-------|
 | Check-in | **Sunday 28 June 2026, 15:00** |
-| Check-out | **Friday 3 July 2026, 11:00** |
+| Check-out | **Friday 3 July 2026, 10:00** |
 | Nights | **5** |
-| Address | `[Full Berlin street address — Strasse, Hausnr., PLZ, Berlin, Deutschland]` |
-| Property type | `[Hotel / Serviced apartment / Company guesthouse / Airbnb]` |
-| Booking reference | `[Confirmation #]` |
+| Address | VISIONAPARTMENTS Berlin, Otto-Braun-Straße 67, 10178 Berlin, Germany |
+| Property type | Serviced apartment / contactless self check-in |
+| Booking reference | Booking.com **6310.359.080** · PIN **3043** |
+| Total | **EUR 4,415.37** · 7 units · 12 adults |
 | **Paid by** | **`[SPONSOR COMPANY NAME]` GmbH** (corporate card / direct invoice) |
-| Booking confirmation document | Enclosed at Tab 13 (sponsor's invoice or hotel-issued confirmation in the *sponsor's* name **and** the *guest's* name) |
+| Booking confirmation document | Enclosed at Tab 13 (Booking.com confirmation in the sponsor's name **and** the guest's name) |
 
 > **Important — name on booking:** The Berlin reservation must show both (a) the sponsor as **payer** and (b) the applicant as **guest**. A reservation listing only the sponsor without the guest's name will raise questions.
 
@@ -524,14 +525,14 @@ Include **one** of the following from the sponsor as proof the flight is fully p
 | 6 | Salzburg 🇦🇹 | Mon 22 Jun 15:00 | Wed 24 Jun 11:00 | 2 | `[address — to be confirmed]` | `[pending]` | `[Airbnb / Booking.com]` |
 | 7 | Vienna 🇦🇹 | Wed 24 Jun 14:00 | Fri 26 Jun 11:00 | 2 | Kreuzgasse 41, Vienna | **HMSHE2EEA9** | Airbnb (host: Eva) |
 | 8 | Prague 🇨🇿 | Fri 26 Jun 15:00 | Sun 28 Jun 10:00 | 2 | Staropramenná 7, Prague | **HMJCAJB38S** | Airbnb (host: Jan) |
-| 9 | *(Berlin — sponsored — see 6.1)* | Sun 28 Jun 15:00 | Fri 3 Jul 11:00 | 5 | `[sponsored]` | `[sponsored]` | `[sponsored]` |
+| 9 | *(Berlin — sponsored — see 6.1)* | Sun 28 Jun 15:00 | Fri 3 Jul 10:00 | 5 | VISIONAPARTMENTS Berlin, Otto-Braun-Straße 67 | **6310.359.080** | Booking.com |
 | 10 | **FlixBus overnight** | Fri 3 Jul 21:45 | Sat 4 Jul 07:15 | (1) | Berlin ZOB → Amsterdam Centraal | `[FlixBus #]` | FlixBus (€143 / 3 pax) |
 | 11 | Alkmaar 🇳🇱 | Sat 4 Jul 15:00 | Mon 6 Jul 11:00 | 2 | Lombardsteeg 44, Alkmaar | `[Airbnb code]` | Airbnb (host: Joris) |
 
 **Gap audit (must pass before submission):**
 - 16 Jun 14:10 (FCO arrival) → 16 Jun 15:00 (Rome check-in) — **0 h gap, OK** (Leonardo Express + transit)
 - 18 Jun 10:00 (Rome out) → 18 Jun 15:00 (Como in) — **5 h gap covered by Frecciarossa + Trenord**
-- 3 Jul 11:00 (Berlin out) → 4 Jul 15:00 (Alkmaar in) — **gap bridged by FlixBus overnight + Amsterdam day-storage at Centraal lockers**
+- 3 Jul 10:00 (Berlin out) → 4 Jul 15:00 (Alkmaar in) — **gap bridged by FlixBus overnight + Amsterdam day-storage at Centraal lockers**
 - 6 Jul 11:00 (Alkmaar out) → 14:40 (AMS departure) — **3 h 40 m, OK** (NS Sprinter ~50 min + airport)
 
 ### 6.3 Booking-confirmation requirements (every accommodation reservation must show)
@@ -601,7 +602,7 @@ Provided by `[SPONSOR COMPANY NAME]` GmbH as part of the invitation packet. Shou
 | Cost category | Sponsored by sponsor | Self-funded (personal) | Notes |
 |----------------|---------------------|------------------------|-------|
 | International round-trip flight (Delhi ↔ Europe) | **EUR 3,826.59** (total, paid) | — | Turkish Airlines PNR TCA424 |
-| Accommodation — Berlin (5 nights) | **EUR `[~600–1,500]`** (paid) | — | Sponsored hotel/apartment |
+| Accommodation — Berlin (5 nights) | **EUR 4,415.37** (paid) | — | VISIONAPARTMENTS Berlin, Booking.com 6310.359.080 |
 | Accommodation — Rome / Como / Lucerne / Bern / Lauterach / Salzburg / Vienna / Prague / Alkmaar (15 nights) | — | **EUR `[~1,500–2,200]`** | Airbnb / Booking.com |
 | Internal trains + buses (12 segments) | — | **EUR `[~600–900]`** | Trenitalia, SBB, ÖBB, Regiojet, FlixBus |
 | Food & meals (~21 days × EUR 30) | — | **EUR `[~600]`** | Mid-range, mostly self-catering |

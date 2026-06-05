@@ -1,16 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
-import { CALENDAR, STOPS } from '@/data/tripData.js';
-import type { CalendarDay, Stop } from '@/types';
+import { CALENDAR, JOURNEYS, STOPS } from '@/data/tripData.js';
+import type { CalendarDay, Journey, Stop } from '@/types';
 
 const KEYS = {
   calendar: ['calendar'] as const,
   calendarDay: (dayN: number) => ['calendar', 'day', dayN] as const,
+  journeys: ['journeys'] as const,
   stops: ['stops'] as const,
   stop: (id: string) => ['stops', id] as const,
 };
 
 async function fetchCalendar(): Promise<CalendarDay[]> {
   return CALENDAR as CalendarDay[];
+}
+
+async function fetchJourneys(): Promise<Journey[]> {
+  return JOURNEYS as Journey[];
 }
 
 async function fetchStops(): Promise<Stop[]> {
@@ -30,6 +35,10 @@ export function useCalendarDay(dayN: number | undefined) {
     },
     enabled: dayN != null,
   });
+}
+
+export function useJourneys() {
+  return useQuery({ queryKey: KEYS.journeys, queryFn: fetchJourneys });
 }
 
 export function useStops() {

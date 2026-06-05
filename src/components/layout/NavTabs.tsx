@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import type { CSSProperties } from 'react';
+import { ThemeToggle } from './ThemeToggle';
 
 interface TabDef {
   to: string;
@@ -9,65 +9,46 @@ interface TabDef {
 
 // Every section is one click from the nav. URLs are the source of truth.
 const TABS: TabDef[] = [
-  { to: '/',            label: 'Home',       icon: '🏠' },
-  { to: '/itinerary',   label: 'Itinerary',  icon: '📋' },
-  { to: '/map',         label: 'Map',        icon: '📍' },
-  { to: '/calendar',    label: 'Calendar',   icon: '🗓' },
-  { to: '/flights',     label: 'Flights',    icon: '✈️' },
-  { to: '/trains',      label: 'Trains',     icon: '🚄' },
-  { to: '/book',        label: 'Book',       icon: '🔖' },
-  { to: '/guides',      label: 'Guides',     icon: '📖' },
-  { to: '/timeline',    label: 'Timeline',   icon: '⏳' },
-  { to: '/money',       label: 'Money',      icon: '💶' },
-  { to: '/transport',   label: 'Transport',  icon: '🚆' },
-  { to: '/scams',       label: 'Scams',      icon: '⚠️' },
+  { to: '/',           label: 'Home',      icon: '🏠' },
+  { to: '/calendar',   label: 'Calendar',  icon: '🗓' },
+  { to: '/book',       label: 'Book',      icon: '🔖' },
+  { to: '/itinerary',  label: 'Itinerary', icon: '📋' },
+  { to: '/luggage',    label: 'Luggage',   icon: '🧳' },
+  { to: '/trains',     label: 'Trains',    icon: '🚄' },
+  { to: '/flights',    label: 'Flights',   icon: '✈️' },
+  { to: '/map',        label: 'Map',       icon: '📍' },
+  { to: '/documents',  label: 'Docs',      icon: '📄' },
 ];
 
-const linkStyle: CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 6,
-  padding: '8px 14px',
-  fontSize: 13,
-  fontWeight: 600,
-  color: 'var(--text-muted)',
-  textDecoration: 'none',
-  borderRadius: 999,
-  transition: 'all 0.15s',
-  whiteSpace: 'nowrap',
-};
+interface NavTabsProps {
+  stuck?: boolean;
+}
 
-const activeStyle: CSSProperties = {
-  background: 'var(--bg-raised)',
-  color: 'var(--accent)',
-  boxShadow: '0 0 0 1px var(--accent-translucent, rgba(184,134,11,0.18)) inset',
-};
-
-export function NavTabs() {
+export function NavTabs({ stuck = false }: NavTabsProps) {
   return (
-    <nav
-      style={{
-        display: 'flex',
-        gap: 4,
-        padding: '6px 16px',
-        borderBottom: '1px solid var(--border)',
-        background: 'var(--bg)',
-        overflowX: 'auto',
-        justifyContent: 'center',
-      }}
-    >
-      {TABS.map((t) => (
-        <Link
-          key={t.to}
-          to={t.to}
-          style={linkStyle}
-          activeProps={{ style: { ...linkStyle, ...activeStyle } }}
-          activeOptions={{ exact: t.to === '/' }}
-        >
-          <span aria-hidden>{t.icon}</span>
-          <span>{t.label}</span>
-        </Link>
-      ))}
+    <nav className={`app-nav${stuck ? ' is-stuck' : ''}`} aria-label="Primary">
+      <Link to="/" className="app-nav-brand" tabIndex={stuck ? 0 : -1}>
+        Jamnata
+      </Link>
+
+      <div className="app-tabs">
+        {TABS.map((t) => (
+          <Link
+            key={t.to}
+            to={t.to}
+            className="app-tab"
+            activeProps={{ className: 'app-tab is-active', 'aria-current': 'page' }}
+            activeOptions={{ exact: t.to === '/' }}
+          >
+            <span className="app-tab-icon" aria-hidden>{t.icon}</span>
+            <span>{t.label}</span>
+          </Link>
+        ))}
+      </div>
+
+      <div className="app-nav-actions">
+        <ThemeToggle />
+      </div>
     </nav>
   );
 }

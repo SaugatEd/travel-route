@@ -1,0 +1,120 @@
+.dayplan {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.dayplan-sec {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dayplan-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dayplan-label--muted {
+  color: var(--text-dim);
+}
+
+.dayplan-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dayplan-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dayplan-item-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dayplan-time {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.dayplan-item-title {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.dayplan-booked {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border: 1px solid;
+  border-radius: 999px;
+}
+
+.dayplan-item-note {
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+
+.dayplan-transit,
+.dayplan-logistics {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dayplan-transit li,
+.dayplan-logistics li {
+  position: relative;
+  padding-left: 14px;
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.dayplan-transit li::before,
+.dayplan-logistics li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--text-faint);
+}
+
+.dayplan-logistics li {
+  font-size: 12px;
+  color: var(--text-dim);
+}

@@ -19,11 +19,11 @@
 | 6 | Salzburg | 🇦🇹 Austria | 2 | Jun 22 → Jun 24 | [Address — to be confirmed] | Airbnb | 3:00 PM | 11:00 AM | EUR 80 | EUR 160 | [pending] | **PENDING** |
 | 7 | Vienna | 🇦🇹 Austria | 2 | Jun 24 → Jun 26 | Kreuzgasse 41, Vienna | Airbnb · host Eva | 2:00 PM | 11:00 AM | EUR 95 | EUR 190 | **HMSHE2EEA9** | CONFIRMED |
 | 8 | Prague | 🇨🇿 Czech Rep. | 2 | Jun 26 → Jun 28 | Staropramenná 7, Prague | Airbnb · host Jan | 3:00 PM | 10:00 AM | CZK 1,650 (≈ EUR 65) | EUR 130 | **HMJCAJB38S** | CONFIRMED |
-| 9 | **Berlin** | 🇩🇪 **Germany** | 5 | **Jun 28 → Jul 3** | [Address — to be confirmed by sponsor] | **eduneon GmbH sponsorship** | 3:00 PM | 11:00 AM | **SPONSORED** | **SPONSORED** | [confirmation — sponsor] | **SPONSORED · TO CONFIRM** |
+| 9 | **Berlin** | 🇩🇪 **Germany** | 5 | **Jun 28 → Jul 3** | Otto-Braun-Straße 67, 10178 Berlin | **VISIONAPARTMENTS Berlin · Booking.com** | 3:00 PM | 10:00 AM | **SPONSORED** | **EUR 4,415.37** | **6310.359.080** | **CONFIRMED · SPONSORED** |
 | 10 | *(Berlin → Amsterdam)* | DE / NL | (overnight bus, 1 night) | Jul 3 21:45 → Jul 4 07:15 | Onboard FlixBus N870 | FlixBus | 21:45 dep | 07:15 arr | EUR 47.67 pp | EUR 143 / 3 pax | FlixBus [order #] | CONFIRMED |
 | 11 | Alkmaar | 🇳🇱 Netherlands | 2 | Jul 4 → Jul 6 | Lombardsteeg 44, Alkmaar | Airbnb · host Joris | 3:00 PM | 11:00 AM | EUR 105 | EUR 210 | [Airbnb code] | CONFIRMED |
 
-**Totals:** 20 nights covered (19 accommodation + 1 overnight bus) · 9 confirmed Airbnb reservations · 1 sponsored Berlin reservation (to confirm) · 1 confirmed FlixBus · **0 gaps.**
+**Totals:** 20 nights covered (19 accommodation + 1 overnight bus) · 9 confirmed Airbnb reservations · 1 confirmed sponsored Booking.com reservation · 1 confirmed FlixBus · **0 gaps.**
 
 ---
 
@@ -46,8 +46,8 @@
 
 | Item | Amount |
 |------|--------|
-| Berlin · 5 nights × EUR [hotel rate, sponsor-set] | EUR [700–1,500 estimated total] |
-| **Sponsor accommodation subtotal** | **EUR [700–1,500] — paid directly by sponsor** |
+| Berlin · VISIONAPARTMENTS · 5 nights | EUR 4,415.37 |
+| **Sponsor accommodation subtotal** | **EUR 4,415.37 — paid directly by sponsor** |
 
 ### You pay (per applicant)
 
@@ -73,7 +73,6 @@
 ## What is still pending (must finalise before submission)
 
 - [ ] **Salzburg accommodation** (2 nights, 22–24 Jun 2026) — booking pending
-- [ ] **Berlin accommodation** (5 nights, 28 Jun – 3 Jul 2026) — sponsor to confirm exact address and forward written confirmation
 - [ ] Airbnb codes for Rome, Lucerne, Alkmaar — fill in the actual confirmation numbers from each booking PDF
 
 ---
@@ -89,11 +88,11 @@ European postal format, one line per element:
 [Country]
 ```
 
-Example — Berlin (template):
+Example — Berlin:
 
 ```
-[Property name]
-[Strasse] [Nr.]
-[10XXX] Berlin
+VISIONAPARTMENTS Berlin
+Otto-Braun-Straße 67
+10178 Berlin
 Germany
 ```

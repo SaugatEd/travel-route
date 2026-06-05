@@ -1,7 +1,14 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
-import { CalendarPanel, CalendarDayDialog } from '@/App.jsx';
+import { CalendarPanel } from '@/App.jsx';
 import { useActiveStopId } from '@/store/useUiStore';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useCalendar } from '@/hooks/queries/itinerary';
+import { useBookings } from '@/hooks/queries/bookings';
+import { Resource } from '@/components/ui/Resource';
+import { CalendarMobileList } from '@/components/calendar/CalendarMobileList';
+import { CalendarDayDialog } from '@/components/calendar/CalendarDayDialog';
+import type { CalendarDay } from '@/types';
 
 export const Route = createFileRoute('/calendar')({
   component: CalendarRoute,
@@ -9,26 +16,32 @@ export const Route = createFileRoute('/calendar')({
 
 function CalendarRoute() {
   const activeStop = useActiveStopId();
-  const navigate = useNavigate();
-  const [openDay, setOpenDay] = useState<unknown>(null);
+  const [openDay, setOpenDay] = useState<CalendarDay | null>(null);
+  const isCompact = useMediaQuery('(max-width: 719px)');
+  const calendar = useCalendar();
+  const bookings = useBookings();
 
   return (
     <>
-      {/* Horizontal-scroll wrapper so the inline 7-col grid stays usable on mobile. */}
-      <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-        <div style={{ minWidth: 760 }}>
-          <CalendarPanel active={activeStop} onOpenDay={setOpenDay} />
+      {isCompact ? (
+        // Phones: the 7-col grid is unreadable, so swap to a tappable day list.
+        <Resource query={calendar}>
+          {(days) => (
+            <CalendarMobileList days={days} activeStopId={activeStop} onOpenDay={setOpenDay} />
+          )}
+        </Resource>
+      ) : (
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+          <div style={{ minWidth: 760 }}>
+            <CalendarPanel active={activeStop} onOpenDay={(d: CalendarDay) => setOpenDay(d)} />
+          </div>
         </div>
-      </div>
+      )}
       {openDay != null && (
         <CalendarDayDialog
           day={openDay}
+          bookings={bookings.data ?? []}
           onClose={() => setOpenDay(null)}
-          onGoToStop={(stopId: string) => {
-            const resolved = stopId === 'imst' ? 'innsbruck' : stopId;
-            setOpenDay(null);
-            navigate({ to: '/stop/$id', params: { id: resolved }, search: { view: 'overview' } });
-          }}
         />
       )}
     </>

@@ -15,9 +15,9 @@
 | # | Item | Period | Amount (EUR) | Paid by | Evidence |
 |---|------|--------|--------------|---------|----------|
 | S1 | Turkish Airlines round-trip flight (PNR **TCA424**), DEL ↔ Europe for 3 passengers | 16 Jun + 6 Jul 2026 | **3,826.59** | eduneon GmbH (corporate card / invoice) | Tab 11 — sponsor's payment receipt + e-ticket |
-| S2 | Accommodation in Berlin — 5 nights | 28 Jun – 3 Jul 2026 | **≈ 700 – 1,500** *(depends on property)* | eduneon GmbH (direct to property) | Tab 13 — booking confirmation in sponsor's name |
+| S2 | Accommodation in Berlin — VISIONAPARTMENTS Berlin, Booking.com **6310.359.080** | 28 Jun – 3 Jul 2026 | **4,415.37** | eduneon GmbH (direct to property) | Tab 13 — Booking.com confirmation |
 | S3 | Business meetings, hosted meals, local transport during Berlin engagement | 28 Jun – 3 Jul 2026 | **≈ 200 – 500** | eduneon GmbH | Covered by sponsor declaration, Tab 7 |
-| | **Subtotal — sponsored** | | **≈ 4,725 – 5,825 EUR** | | |
+| | **Subtotal — sponsored** | | **8,441.96 – 8,741.96 EUR** | | |
 
 ---
 
@@ -80,9 +80,9 @@
 
 | | EUR | Notes |
 |---|-----|-------|
-| Sponsored by eduneon GmbH (flights + Berlin + business) | **≈ 4,725 – 5,825** | Paid directly by sponsor — no out-of-pocket for applicant |
+| Sponsored by eduneon GmbH (flights + Berlin + business) | **8,441.96 – 8,741.96** | Paid directly by sponsor — no out-of-pocket for applicant |
 | Self-funded (accommodation + transport + food + tourism + insurance) | **≈ 5,120 – 5,990** | Per group of 3 |
-| **Total trip cost** | **≈ 9,845 – 11,815** | |
+| **Total trip cost** | **≈ 13,562 – 14,732** | |
 
 ---
 

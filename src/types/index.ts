@@ -24,6 +24,27 @@ export interface CancelPolicy {
   refundType?: 'partial' | 'full';
 }
 
+export interface CancellationPolicyStep {
+  phase: 'Before' | 'After';
+  date: string;
+  time: string;
+  title: string;
+  detail: string;
+  refundType?: 'full' | 'partial' | 'none';
+}
+
+export interface BookingStayInfoItem {
+  label: string;
+  value: string;
+  detail?: string;
+}
+
+export interface BookingStayInfo {
+  checkInOut?: BookingStayInfoItem[];
+  duringStay?: BookingStayInfoItem[];
+  additionalRules?: string[];
+}
+
 export interface Booking {
   id: string;
   status: BookingStatus;
@@ -37,6 +58,11 @@ export interface Booking {
   checkOut: { date: string; time: string };
   nights: number;
   guests: number;
+  /** true = self check-in (lockbox/smart lock/contactless), false = reception/host meet.
+   *  undefined when the method isn't recorded yet. */
+  selfCheckIn?: boolean;
+  /** Short human label for the check-in method, e.g. "Smart lock", "Hotel reception". */
+  checkInMethod?: string;
   cancelBy: CancelPolicy | null;
   bookingUrl: string | null;
   directionsUrl: string | null;
@@ -45,13 +71,50 @@ export interface Booking {
   mapUrl?: string;
   confirmationCode?: string;
   note?: string;
-  pricePaid?: { amount: number; currency: string };
+  cancellationPolicy?: CancellationPolicyStep[];
+  stayInfo?: BookingStayInfo;
+  pricePaid?: {
+    amount: number;
+    currency: string;
+    deductedOn?: string;
+    scheduledDeductionOn?: string;
+    note?: string;
+  };
 }
 
 export interface AirbnbAction {
   action: 'check-in' | 'check-out' | 'stay';
   id: string;
   time?: string;
+}
+
+export interface DayPlanItem {
+  title: string;
+  time?: string;
+  note?: string;
+  booked?: boolean;
+}
+
+/** Structured breakdown of a day's freeform summary, rendered as separated zones. */
+export interface DayPlan {
+  transit?: string[];
+  visit?: DayPlanItem[];
+  eat?: DayPlanItem[];
+  logistics?: string[];
+}
+
+export interface Journey {
+  id?: string;
+  from: string;
+  to: string;
+  via: string;
+  date: string;
+  dur: string;
+  cost: string;
+  /** Fare basis — advance vs walk-up, operator, source notes. Researched, optional. */
+  costNote?: string;
+  type: string;
+  bookingUrl: string | null;
 }
 
 export interface CalendarDay {
@@ -65,6 +128,8 @@ export interface CalendarDay {
   summary: string;
   move?: boolean;
   airbnb?: AirbnbAction[];
+  journeyIds?: string[];
+  plan?: DayPlan;
 }
 
 // Stop shape is wide and varies per stop in tripData.js. Keep it permissive

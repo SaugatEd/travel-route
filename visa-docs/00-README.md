@@ -54,7 +54,6 @@ The master reference document (full 15-section explanatory guide) lives at: `../
 ## What is still pending (must finalise before submission)
 
 - [ ] **Salzburg accommodation** (2 nights, 22–24 Jun 2026) — currently TODO
-- [ ] **Berlin accommodation** (5 nights, 28 Jun – 3 Jul 2026) — sponsor to confirm address
 - [ ] **Travel insurance certificate** (≥ EUR 30,000, 16 Jun – 7 Jul, all Schengen)
 - [ ] **Sponsor company registration extract** (HRB from `handelsregister.de`)
 - [ ] **Sponsor's flight-payment proof** (invoice or corporate-card receipt)

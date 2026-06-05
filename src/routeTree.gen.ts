@@ -15,9 +15,11 @@ import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as ScamsRouteImport } from './routes/scams'
 import { Route as MoneyRouteImport } from './routes/money'
 import { Route as MapRouteImport } from './routes/map'
+import { Route as LuggageRouteImport } from './routes/luggage'
 import { Route as ItineraryRouteImport } from './routes/itinerary'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as FlightsRouteImport } from './routes/flights'
+import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as AltRoutesRouteImport } from './routes/alt-routes'
 import { Route as IndexRouteImport } from './routes/index'
@@ -55,6 +57,11 @@ const MapRoute = MapRouteImport.update({
   path: '/map',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LuggageRoute = LuggageRouteImport.update({
+  id: '/luggage',
+  path: '/luggage',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ItineraryRoute = ItineraryRouteImport.update({
   id: '/itinerary',
   path: '/itinerary',
@@ -68,6 +75,11 @@ const GuidesRoute = GuidesRouteImport.update({
 const FlightsRoute = FlightsRouteImport.update({
   id: '/flights',
   path: '/flights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentsRoute = DocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CalendarRoute = CalendarRouteImport.update({
@@ -105,9 +117,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/alt-routes': typeof AltRoutesRoute
   '/calendar': typeof CalendarRoute
+  '/documents': typeof DocumentsRoute
   '/flights': typeof FlightsRoute
   '/guides': typeof GuidesRoute
   '/itinerary': typeof ItineraryRoute
+  '/luggage': typeof LuggageRoute
   '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
@@ -122,9 +136,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/alt-routes': typeof AltRoutesRoute
   '/calendar': typeof CalendarRoute
+  '/documents': typeof DocumentsRoute
   '/flights': typeof FlightsRoute
   '/guides': typeof GuidesRoute
   '/itinerary': typeof ItineraryRoute
+  '/luggage': typeof LuggageRoute
   '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
@@ -140,9 +156,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/alt-routes': typeof AltRoutesRoute
   '/calendar': typeof CalendarRoute
+  '/documents': typeof DocumentsRoute
   '/flights': typeof FlightsRoute
   '/guides': typeof GuidesRoute
   '/itinerary': typeof ItineraryRoute
+  '/luggage': typeof LuggageRoute
   '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
@@ -159,9 +177,11 @@ export interface FileRouteTypes {
     | '/'
     | '/alt-routes'
     | '/calendar'
+    | '/documents'
     | '/flights'
     | '/guides'
     | '/itinerary'
+    | '/luggage'
     | '/map'
     | '/money'
     | '/scams'
@@ -176,9 +196,11 @@ export interface FileRouteTypes {
     | '/'
     | '/alt-routes'
     | '/calendar'
+    | '/documents'
     | '/flights'
     | '/guides'
     | '/itinerary'
+    | '/luggage'
     | '/map'
     | '/money'
     | '/scams'
@@ -193,9 +215,11 @@ export interface FileRouteTypes {
     | '/'
     | '/alt-routes'
     | '/calendar'
+    | '/documents'
     | '/flights'
     | '/guides'
     | '/itinerary'
+    | '/luggage'
     | '/map'
     | '/money'
     | '/scams'
@@ -211,9 +235,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AltRoutesRoute: typeof AltRoutesRoute
   CalendarRoute: typeof CalendarRoute
+  DocumentsRoute: typeof DocumentsRoute
   FlightsRoute: typeof FlightsRoute
   GuidesRoute: typeof GuidesRoute
   ItineraryRoute: typeof ItineraryRoute
+  LuggageRoute: typeof LuggageRoute
   MapRoute: typeof MapRoute
   MoneyRoute: typeof MoneyRoute
   ScamsRoute: typeof ScamsRoute
@@ -269,6 +295,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MapRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/luggage': {
+      id: '/luggage'
+      path: '/luggage'
+      fullPath: '/luggage'
+      preLoaderRoute: typeof LuggageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/itinerary': {
       id: '/itinerary'
       path: '/itinerary'
@@ -288,6 +321,13 @@ declare module '@tanstack/react-router' {
       path: '/flights'
       fullPath: '/flights'
       preLoaderRoute: typeof FlightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documents': {
+      id: '/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof DocumentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/calendar': {
@@ -339,9 +379,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AltRoutesRoute: AltRoutesRoute,
   CalendarRoute: CalendarRoute,
+  DocumentsRoute: DocumentsRoute,
   FlightsRoute: FlightsRoute,
   GuidesRoute: GuidesRoute,
   ItineraryRoute: ItineraryRoute,
+  LuggageRoute: LuggageRoute,
   MapRoute: MapRoute,
   MoneyRoute: MoneyRoute,
   ScamsRoute: ScamsRoute,

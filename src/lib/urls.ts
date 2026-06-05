@@ -17,6 +17,39 @@ export function makeGoogleMapsDirections(opts: {
   return `https://www.google.com/maps/dir/?${params.toString()}`;
 }
 
+/**
+ * Multi-waypoint Google Maps directions ("route through several places in one"):
+ * first place = origin, last = destination, the rest = ordered waypoints.
+ * Returns '' for fewer than 2 places. Google's consumer URL handles ~9 waypoints,
+ * so longer lists keep the first + last and evenly sample the middle.
+ */
+export function makeGoogleMapsRoute(
+  places: string[],
+  mode: 'walking' | 'transit' | 'driving' | 'bicycling' = 'walking',
+): string {
+  const pts = places.map((p) => p.trim()).filter(Boolean);
+  if (pts.length < 2) return '';
+
+  const MAX = 11; // origin + destination + 9 waypoints
+  let route = pts;
+  if (pts.length > MAX) {
+    const middle = pts.slice(1, -1);
+    const step = (middle.length - 1) / (MAX - 3);
+    const sampled = Array.from({ length: MAX - 2 }, (_, i) => middle[Math.round(i * step)]);
+    route = [pts[0], ...sampled, pts[pts.length - 1]];
+  }
+
+  const params = new URLSearchParams({
+    api: '1',
+    origin: route[0],
+    destination: route[route.length - 1],
+    travelmode: mode,
+  });
+  const waypoints = route.slice(1, -1);
+  if (waypoints.length) params.set('waypoints', waypoints.join('|'));
+  return `https://www.google.com/maps/dir/?${params.toString()}`;
+}
+
 export function makeAirbnbSearch(opts: {
   city: string;
   checkIn: string;     // "Tue 22 Jun" or ISO

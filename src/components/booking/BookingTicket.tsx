@@ -11,10 +11,13 @@ interface BookingTicketProps {
   today: Date;
   /** When set, render an internal Link to /book/$id instead of jumping to Airbnb. */
   internalLink?: boolean;
+  /** Render as a static card (no wrapping anchor). Use on pages that already
+   *  expose the booking link separately, to avoid nesting <a> inside <a>. */
+  linkless?: boolean;
 }
 
 /** Booking-specific ticket. Composes the generic Ticket primitive. */
-export function BookingTicket({ booking: b, today, internalLink = false }: BookingTicketProps) {
+export function BookingTicket({ booking: b, today, internalLink = false, linkless = false }: BookingTicketProps) {
   const isTodo = b.status === 'todo';
   const isOptional = b.status === 'optional';
   const cancelDate = !isTodo && b.cancelBy ? parseCalDate(b.cancelBy.date) : null;
@@ -36,8 +39,8 @@ export function BookingTicket({ booking: b, today, internalLink = false }: Booki
     ? '📌 Not yet booked — search Airbnb'
     : isOptional
       ? b.cancelBy
-        ? `🛏 Backup · cancel by ${shortDate(b.cancelBy.date)} ${b.cancelBy.time}`
-        : '🛏 Backup booking'
+        ? `🛏 Temporary · ${refundLabel(b.cancelBy.refundType)} before ${shortDate(b.cancelBy.date)} ${b.cancelBy.time}`
+        : '🛏 Temporary booking'
       : !b.cancelBy
         ? ''
         : daysToCancel != null && daysToCancel < 0
@@ -55,7 +58,8 @@ export function BookingTicket({ booking: b, today, internalLink = false }: Booki
       })
     : null;
 
-  const externalHref = b.bookingUrl || todoSearchUrl || undefined;
+  const externalHref = linkless ? undefined : (b.bookingUrl || todoSearchUrl || undefined);
+  const ctaLabel = internalLink ? 'Details →' : bookingCtaLabel(b.bookingUrl, isTodo);
 
   const header = (
     <>
@@ -114,37 +118,7 @@ export function BookingTicket({ booking: b, today, internalLink = false }: Booki
           <span className="ticket-meta-val ticket-mono">{b.confirmationCode}</span>
         </div>
       )}
-      {b.directionsUrl && (
-        <div className="ticket-meta-row">
-          <span className="ticket-meta-key">Map</span>
-          <span className="ticket-meta-val">
-            <a
-              href={b.directionsUrl}
-              target="_blank"
-              rel="noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              style={{ color: tint.accent, textDecoration: 'underline', fontWeight: 600 }}
-            >
-              🗺 Walk from station&nbsp;↗
-            </a>
-            {b.mapUrl && (
-              <>
-                {' · '}
-                <a
-                  href={b.mapUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  style={{ color: tint.accent, textDecoration: 'underline', fontWeight: 600 }}
-                >
-                  📍 Pin&nbsp;↗
-                </a>
-              </>
-            )}
-          </span>
-        </div>
-      )}
-      {!b.directionsUrl && b.mapUrl && (
+      {b.mapUrl && (
         <div className="ticket-meta-row">
           <span className="ticket-meta-key">Map</span>
           <span className="ticket-meta-val">
@@ -172,8 +146,8 @@ export function BookingTicket({ booking: b, today, internalLink = false }: Booki
       {isTodo
         ? <span className="ticket-cta">Search&nbsp;↗</span>
         : isOptional
-          ? externalHref && <span className="ticket-cta">Plan B&nbsp;↗</span>
-          : externalHref && <span className="ticket-cta">Airbnb&nbsp;↗</span>}
+          ? externalHref && <span className="ticket-cta">Temporary&nbsp;↗</span>
+          : externalHref && <span className="ticket-cta">{ctaLabel}</span>}
     </>
   );
 
@@ -204,7 +178,22 @@ export function BookingTicket({ booking: b, today, internalLink = false }: Booki
       meta={meta}
       footer={footer}
       href={externalHref}
-      disabled={!externalHref}
+      disabled={!linkless && !externalHref}
     />
   );
+}
+
+function bookingCtaLabel(url: string | null, isTodo: boolean): string {
+  if (isTodo) return 'Search ↗';
+  const lower = url?.toLowerCase() ?? '';
+  if (lower.includes('/trips/') || lower.includes('reservation')) return 'Airbnb trip ↗';
+  if (lower.includes('airbnb')) return 'Airbnb ↗';
+  if (lower.includes('booking.com')) return 'Booking.com ↗';
+  return 'Open ↗';
+}
+
+function refundLabel(refundType: NonNullable<Booking['cancelBy']>['refundType']) {
+  if (refundType === 'full') return 'full refund';
+  if (refundType === 'partial') return 'partial refund';
+  return 'cancel';
 }

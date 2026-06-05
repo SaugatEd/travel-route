@@ -1,6 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { MoneyPanel } from '@/App.jsx';
+import { MONEY } from '@/data/moneyData';
+import { ReferenceGuide, type RefData } from '@/components/reference/ReferenceGuide';
 
 export const Route = createFileRoute('/money')({
-  component: MoneyPanel,
+  component: MoneyRoute,
 });
+
+function MoneyRoute() {
+  return (
+    <ReferenceGuide
+      icon="💳"
+      kicker="Wise · cash · cards"
+      title="Money & Payments"
+      tone="accent"
+      data={MONEY as RefData}
+    />
+  );
+}

@@ -59,9 +59,9 @@ BANK STATEMENT (attached separately):
 | Item | Detail | Cost (EUR) | Status |
 |------|--------|-----------|--------|
 | **1.** International round-trip flights — Turkish Airlines, PNR **TCA424** | DEL → IST → FCO (16 Jun) and AMS → IST → DEL (6 Jul), Economy H, all 3 passengers | **EUR 3,826.59 (total)** ≈ EUR 1,275.53 per passenger | **PAID** by sponsor |
-| **2.** Berlin accommodation — 5 nights (28 Jun – 3 Jul) | Sponsor-arranged hotel / serviced apartment | EUR 700 – 1,500 (estimated total) | Sponsor pays in full |
+| **2.** Berlin accommodation — 5 nights (28 Jun – 3 Jul) | VISIONAPARTMENTS Berlin, Otto-Braun-Straße 67, 10178 Berlin · Booking.com **6310.359.080** | **EUR 4,415.37 (total)** | Sponsor pays in full |
 | **3.** Berlin business meals + local transport (5 days) | During the on-site engagement | EUR 200 – 500 (estimated) | Sponsor pays |
-| **Sponsor total contribution** | | **EUR ≈ 4,725 – 5,825** | — |
+| **Sponsor total contribution** | | **EUR 8,441.96 – 8,741.96** | — |
 
 ### B.2 — What you pay (per applicant, in EUR; assumes 3-way split of joint costs)
 
@@ -144,10 +144,10 @@ ADDITIONAL INCOME (if applicable):
 ### C.2 — Whole-trip sponsorship analysis (all 3 applicants combined)
 
 ```
-Total trip cost for 3 applicants:         EUR ≈ 8,975 – 10,975
-Sponsor covers (≈ 50%):                   EUR ≈ 4,725 – 5,825
-  - Flights:        EUR 3,826.59  (32–40%)
-  - Berlin hotel:   EUR 700 – 1,500  (8–14%)
+Total trip cost for 3 applicants:         EUR ≈ 12,691.96 – 13,891.96
+Sponsor covers (≈ 63–69%):                EUR 8,441.96 – 8,741.96
+  - Flights:        EUR 3,826.59
+  - Berlin hotel:   EUR 4,415.37
   - Berlin business meals & transport:  EUR 200 – 500
 Self-funded total (3 pax combined):       EUR ≈ 4,250 – 5,150
   ≈ EUR 1,400 – 1,720 per applicant in joint costs
@@ -157,7 +157,7 @@ Self-funded total (3 pax combined):       EUR ≈ 4,250 – 5,150
 This split demonstrates:
 
 1. **Legitimate, bounded business sponsorship** — flights + 5 nights + business meals only.
-2. **Personal financial investment in the tourism segment** — independence from the sponsor for ~50% of trip cost.
+2. **Personal financial investment in the tourism segment** — the applicant remains responsible for all non-Berlin accommodation, transport, food, insurance, and visa costs.
 3. **No hidden compensation, no undeclared work** — sponsor's contribution is itemised and capped.
 4. **Genuine tourism beyond the business days** — 16 non-sponsored days across 8 cities, fully self-funded.
 

@@ -1,29 +1,25 @@
-import { createFileRoute, useNavigate, useParams, useSearch } from '@tanstack/react-router';
+import { createFileRoute, useNavigate, useParams, useSearch, Link } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import {
   OverviewView,
-  GalleryView,
-  BudgetView,
-  ChecklistView,
   PhrasebookView,
   SurvivalGuideView,
-  DocsView,
-  TripTimelineSidebar,
   CalendarDayDialog,
-  getCityHero,
 } from '@/App.jsx';
-import { STOPS, JOURNEYS, CALENDAR } from '@/data/tripData.js';
-import { useNprRate } from '@/hooks/useNprRate';
-import { useCurrencyMode, useUiStore } from '@/store/useUiStore';
+import { STOPS, CALENDAR, JOURNEYS } from '@/data/tripData.js';
+import { useUiStore } from '@/store/useUiStore';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { StopItinerary } from '@/components/day/StopItinerary';
+import { StopSights } from '@/components/day/StopSights';
+import { StopSuggestions } from '@/components/day/StopSuggestions';
+import { StopRoute } from '@/components/day/StopRoute';
+import { LockerPlan } from '@/components/day/LockerPlan';
+import { tintFor } from '@/lib/country';
+import type { CalendarDay, Journey } from '@/types';
 
-type SubView =
-  | 'overview' | 'gallery' | 'budget' | 'checklist'
-  | 'phrasebook' | 'survival' | 'docs';
+type SubView = 'overview' | 'phrasebook' | 'survival';
 
-const VALID_VIEWS: readonly SubView[] = [
-  'overview', 'gallery', 'budget', 'checklist', 'phrasebook', 'survival', 'docs',
-] as const;
+const VALID_VIEWS: readonly SubView[] = ['overview', 'phrasebook', 'survival'] as const;
 
 interface StopSearch {
   view?: SubView;
@@ -41,12 +37,8 @@ export const Route = createFileRoute('/stop/$id')({
 
 const VIEW_TABS: { id: SubView; icon: string; label: string }[] = [
   { id: 'overview',   icon: '✨', label: 'Overview' },
-  { id: 'gallery',    icon: '🖼', label: 'Gallery' },
-  { id: 'budget',     icon: '💰', label: 'Budget' },
-  { id: 'checklist',  icon: '✅', label: 'Checklist' },
   { id: 'phrasebook', icon: '🗣', label: 'Phrases' },
   { id: 'survival',   icon: '🧭', label: 'Survival' },
-  { id: 'docs',       icon: '📋', label: 'Visa & Docs' },
 ];
 
 interface StopRecord {
@@ -67,10 +59,6 @@ function StopDetailPage() {
   const search = useSearch({ from: '/stop/$id' });
   const navigate = useNavigate();
   const setActiveStopId = useUiStore((s) => s.setActiveStopId);
-  const mode = useCurrencyMode();
-  const { data: rate } = useNprRate();
-  const npr = rate?.npr ?? ((v: number, cur = 'EUR') => `${cur} ${v}`);
-  const showNPR = mode === 'npr';
 
   // Sync active stop into Zustand so other surfaces (header, /book "← Trip", etc.) stay in sync.
   useEffect(() => { setActiveStopId(id); }, [id, setActiveStopId]);
@@ -86,12 +74,15 @@ function StopDetailPage() {
   }
 
   const view = search.view ?? 'overview';
-  const stopCalDays = (CALENDAR as Array<{ stop: string; dayN: number; date: string }>).filter(
+  const stopCalDays = (CALENDAR as CalendarDay[]).filter(
     (d) => (d.stop === 'imst' ? 'innsbruck' : d.stop) === id
   );
-  const heroImg = getCityHero(stop.id);
   const prevStop = idx > 0 ? stops[idx - 1] : null;
   const nextStop = idx < stops.length - 1 ? stops[idx + 1] : null;
+  const nights = stop.duration.split('·')[0].trim();
+  const dateRange = stopCalDays.length
+    ? `${stopCalDays[0].date}${stopCalDays.length > 1 ? ` – ${stopCalDays[stopCalDays.length - 1].date}` : ''}`
+    : '';
 
   const goToStop = (newId: string) => {
     const resolved = newId === 'imst' ? 'innsbruck' : newId;
@@ -100,22 +91,22 @@ function StopDetailPage() {
   const setView = (v: SubView) => navigate({ to: '/stop/$id', params: { id }, search: { view: v } });
 
   return (
-    <div className="app-layout">
-      <TripTimelineSidebar active={id} onClickDay={(day: { stop: string }) => goToStop(day.stop)} npr={npr} />
-      <main className="main">
-        <div style={{ padding: '16px 20px 0' }}>
-          <select
-            className="mobile-stop-select"
-            value={id}
-            onChange={(e) => goToStop(e.target.value)}
-          >
-            {stops.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.flag} {s.city} — {s.duration.split('·')[0].trim()}
-              </option>
-            ))}
-          </select>
-        </div>
+    <main className="stop-page">
+      <div className="stop-page-bar">
+        <Link to="/" className="stop-back">← All stops</Link>
+        <select
+          className="stop-jump"
+          value={id}
+          aria-label="Jump to another stop"
+          onChange={(e) => goToStop(e.target.value)}
+        >
+          {stops.map((s) => (
+            <option key={s.id} value={s.id}>
+              {s.flag} {s.city} — {s.duration.split('·')[0].trim()}
+            </option>
+          ))}
+        </select>
+      </div>
 
         <div className="view-tabs">
           {VIEW_TABS.map((t) => (
@@ -130,106 +121,80 @@ function StopDetailPage() {
           ))}
         </div>
 
-        <div
-          className="hero"
-          style={{
-            position: 'relative',
-            overflow: 'hidden',
-            background: heroImg ? 'none' : `linear-gradient(135deg, ${stop.color}12 0%, transparent 60%)`,
-          }}
-        >
-          {heroImg && (
-            <>
+        <header style={{ padding: '16px 24px 6px' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+            <div style={{ minWidth: 0 }}>
               <div
                 style={{
-                  position: 'absolute', inset: '-10px',
-                  backgroundImage: `url(${heroImg})`,
-                  backgroundSize: 'cover', backgroundPosition: 'center',
-                  filter: 'brightness(0.4) saturate(1.2)',
-                  zIndex: 0,
-                  transition: 'background-image 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s ease',
-                  transform: 'scale(1.05)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  flexWrap: 'wrap',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  color: 'var(--text-muted)',
+                  fontFamily: 'var(--sans)',
                 }}
-              />
-              <div
-                style={{
-                  position: 'absolute', inset: 0,
-                  background: 'linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.75) 100%)',
-                  zIndex: 1,
-                }}
-              />
-            </>
-          )}
-
-          {prevStop && (
-            <button className="hero-arrow hero-arrow--prev" onClick={() => goToStop(prevStop.id)} title={`← ${prevStop.city}`}>
-              ←
-            </button>
-          )}
-          {nextStop && (
-            <button className="hero-arrow hero-arrow--next" onClick={() => goToStop(nextStop.id)} title={`${nextStop.city} →`}>
-              →
-            </button>
-          )}
-
-          <div style={{ position: 'relative', zIndex: 2, width: '100%' }}>
-            {stopCalDays.length > 0 && (
-              <div style={{ textAlign: 'center', marginBottom: 12 }}>
-                <span className="hero-day-badge">
-                  DAY {stopCalDays[0].dayN}
-                  {stopCalDays.length > 1 ? `–${stopCalDays[stopCalDays.length - 1].dayN}` : ''} · {stopCalDays[0].date}
-                  {stopCalDays.length > 1 ? ` – ${stopCalDays[stopCalDays.length - 1].date}` : ''}
-                </span>
+              >
+                <span>{stop.flag} {stop.country}</span>
+                <span aria-hidden style={{ opacity: 0.5 }}>·</span>
+                <span>{nights}</span>
+                {dateRange && (
+                  <>
+                    <span aria-hidden style={{ opacity: 0.5 }}>·</span>
+                    <span>{dateRange}</span>
+                  </>
+                )}
               </div>
-            )}
-
-            <div className="hero-meta" style={{ justifyContent: 'center' }}>
-              <span style={heroImg ? { color: 'rgba(255,255,255,0.75)' } : {}}>{stop.flag} {stop.country}</span>
-              <span className="dot" style={heroImg ? { color: 'rgba(255,255,255,0.3)' } : {}}>·</span>
-              <span style={heroImg ? { color: 'rgba(255,255,255,0.75)' } : {}}>{stop.duration}</span>
+              <h1 style={{ fontFamily: 'var(--serif)', fontSize: 32, lineHeight: 1.1, margin: '6px 0 4px', color: 'var(--text)' }}>
+                {stop.city}
+              </h1>
+              <p style={{ margin: 0, maxWidth: 620, fontSize: 14, fontStyle: 'italic', lineHeight: 1.5, color: 'var(--text-muted)' }}>
+                {stop.tagline}
+              </p>
             </div>
-            <h1
-              className="hero-title"
-              style={{
-                textAlign: 'center',
-                ...(heroImg ? { color: '#fff', textShadow: '0 4px 24px rgba(0,0,0,0.4)' } : {}),
-              }}
-            >
-              {stop.city}
-            </h1>
-            <p
-              className="hero-tagline"
-              style={{
-                textAlign: 'center',
-                maxWidth: 600,
-                margin: '0 auto 28px',
-                ...(heroImg ? { color: 'rgba(255,255,255,0.85)' } : {}),
-              }}
-            >
-              {stop.tagline}
-            </p>
-            <div className="hero-stats" style={{ justifyContent: 'center' }}>
-              <div className="stat-card" style={heroImg ? heroStatStyle : undefined}>
-                <div className="label" style={heroImg ? { color: 'rgba(255,255,255,0.6)' } : {}}>Stay (for 3)</div>
-                <div className="val"   style={heroImg ? { color: '#fff' } : {}}>{stop.budget}</div>
-              </div>
-              <div className="stat-card" style={heroImg ? heroStatStyle : undefined}>
-                <div className="label" style={heroImg ? { color: 'rgba(255,255,255,0.6)' } : {}}>June weather</div>
-                <div className="val"   style={heroImg ? { color: '#fff' } : {}}>{stop.weather.temp}</div>
-              </div>
+
+            <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+              {prevStop && (
+                <button onClick={() => goToStop(prevStop.id)} title={`← ${prevStop.city}`} style={navBtnStyle} aria-label={`Previous stop: ${prevStop.city}`}>
+                  ←
+                </button>
+              )}
+              {nextStop && (
+                <button onClick={() => goToStop(nextStop.id)} title={`${nextStop.city} →`} style={navBtnStyle} aria-label={`Next stop: ${nextStop.city}`}>
+                  →
+                </button>
+              )}
             </div>
           </div>
-        </div>
+        </header>
 
         {/* Sub-views */}
-        {view === 'overview'   && <OverviewView   stop={stop} idx={idx} stops={stops} journeys={JOURNEYS} onStopChange={goToStop} showNPR={showNPR} npr={npr} />}
-        {view === 'gallery'    && <GalleryView    stop={stop} />}
-        {view === 'budget'     && <BudgetView     stop={stop} stops={stops} showNPR={showNPR} npr={npr} />}
-        {view === 'checklist'  && <ChecklistView />}
+        {view === 'overview' && (
+          <>
+            <StopRoute
+              stopId={stop.id}
+              city={stop.city}
+              journeys={JOURNEYS as Journey[]}
+              accent={tintFor(stop.country).accent}
+              isDayTrip={/day[\s-]?trip/i.test(stop.duration)}
+            />
+            <LockerPlan stopId={stop.id} />
+            <StopSights stopId={stop.id} city={stop.city} />
+            <StopSuggestions stopId={stop.id} city={stop.city} accent={tintFor(stop.country).accent} />
+            <StopItinerary
+              city={stop.city}
+              country={stop.country}
+              days={stopCalDays}
+              journeys={JOURNEYS as Journey[]}
+            />
+            <OverviewView stop={stop} />
+          </>
+        )}
         {view === 'phrasebook' && <PhrasebookView stop={stop} />}
         {view === 'survival'   && <SurvivalGuideView stop={stop} />}
-        {view === 'docs'       && <DocsView />}
-      </main>
 
       {openDay != null && (
         <CalendarDayDialog
@@ -241,12 +206,20 @@ function StopDetailPage() {
           }}
         />
       )}
-    </div>
+    </main>
   );
 }
 
-const heroStatStyle = {
-  background: 'rgba(255,255,255,0.08)',
-  borderColor: 'rgba(255,255,255,0.12)',
-  backdropFilter: 'blur(16px) saturate(1.4)',
+const navBtnStyle = {
+  width: 36,
+  height: 36,
+  borderRadius: 999,
+  border: '1px solid var(--border)',
+  background: 'var(--bg-raised)',
+  color: 'var(--text)',
+  fontSize: 16,
+  cursor: 'pointer',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 } as const;
