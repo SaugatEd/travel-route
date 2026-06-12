@@ -26,24 +26,6 @@ export interface LockerStop {
 
 export const LOCKERS: LockerStop[] = [
   {
-    dayN: 2,
-    date: 'Wed 17 Jun',
-    stopId: 'rome',
-    country: 'Italy',
-    city: 'Rome',
-    station: 'Roma Termini',
-    drop: '10:30',
-    collect: '14:30',
-    why: 'Bridging the Villa Fiorelli → Prati flat move while you do the Colosseum + Vatican.',
-    price: '€6 for the first 5 h, then ~€1/h',
-    sizes: 'staffed deposit — any bag size',
-    hours: '06:00–23:00 daily',
-    location: 'KiPoint left-luggage, lower level near platform 24 (Via Giolitti side)',
-    payment: 'card or cash',
-    mapsQuery: 'KiPoint deposito bagagli Roma Termini',
-    warn: 'No public coin lockers — the staffed KiPoint is the reliable option and cheaper than the storefronts outside.',
-  },
-  {
     dayN: 4,
     date: 'Fri 19 Jun',
     stopId: 'lucerne',

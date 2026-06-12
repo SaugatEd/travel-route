@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TransportRouteImport } from './routes/transport'
 import { Route as TrainsRouteImport } from './routes/trains'
+import { Route as TodoRouteImport } from './routes/todo'
 import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as SeatsRouteImport } from './routes/seats'
 import { Route as ScamsRouteImport } from './routes/scams'
@@ -21,6 +22,7 @@ import { Route as ItineraryRouteImport } from './routes/itinerary'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as FlightsRouteImport } from './routes/flights'
 import { Route as DocumentsRouteImport } from './routes/documents'
+import { Route as DayGuideRouteImport } from './routes/day-guide'
 import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as AltRoutesRouteImport } from './routes/alt-routes'
 import { Route as IndexRouteImport } from './routes/index'
@@ -36,6 +38,11 @@ const TransportRoute = TransportRouteImport.update({
 const TrainsRoute = TrainsRouteImport.update({
   id: '/trains',
   path: '/trains',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TodoRoute = TodoRouteImport.update({
+  id: '/todo',
+  path: '/todo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TimelineRoute = TimelineRouteImport.update({
@@ -88,6 +95,11 @@ const DocumentsRoute = DocumentsRouteImport.update({
   path: '/documents',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DayGuideRoute = DayGuideRouteImport.update({
+  id: '/day-guide',
+  path: '/day-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CalendarRoute = CalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
@@ -123,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/alt-routes': typeof AltRoutesRoute
   '/calendar': typeof CalendarRoute
+  '/day-guide': typeof DayGuideRoute
   '/documents': typeof DocumentsRoute
   '/flights': typeof FlightsRoute
   '/guides': typeof GuidesRoute
@@ -133,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/scams': typeof ScamsRoute
   '/seats': typeof SeatsRoute
   '/timeline': typeof TimelineRoute
+  '/todo': typeof TodoRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
   '/book/$id': typeof BookIdRoute
@@ -143,6 +157,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/alt-routes': typeof AltRoutesRoute
   '/calendar': typeof CalendarRoute
+  '/day-guide': typeof DayGuideRoute
   '/documents': typeof DocumentsRoute
   '/flights': typeof FlightsRoute
   '/guides': typeof GuidesRoute
@@ -153,6 +168,7 @@ export interface FileRoutesByTo {
   '/scams': typeof ScamsRoute
   '/seats': typeof SeatsRoute
   '/timeline': typeof TimelineRoute
+  '/todo': typeof TodoRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
   '/book/$id': typeof BookIdRoute
@@ -164,6 +180,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/alt-routes': typeof AltRoutesRoute
   '/calendar': typeof CalendarRoute
+  '/day-guide': typeof DayGuideRoute
   '/documents': typeof DocumentsRoute
   '/flights': typeof FlightsRoute
   '/guides': typeof GuidesRoute
@@ -174,6 +191,7 @@ export interface FileRoutesById {
   '/scams': typeof ScamsRoute
   '/seats': typeof SeatsRoute
   '/timeline': typeof TimelineRoute
+  '/todo': typeof TodoRoute
   '/trains': typeof TrainsRoute
   '/transport': typeof TransportRoute
   '/book/$id': typeof BookIdRoute
@@ -186,6 +204,7 @@ export interface FileRouteTypes {
     | '/'
     | '/alt-routes'
     | '/calendar'
+    | '/day-guide'
     | '/documents'
     | '/flights'
     | '/guides'
@@ -196,6 +215,7 @@ export interface FileRouteTypes {
     | '/scams'
     | '/seats'
     | '/timeline'
+    | '/todo'
     | '/trains'
     | '/transport'
     | '/book/$id'
@@ -206,6 +226,7 @@ export interface FileRouteTypes {
     | '/'
     | '/alt-routes'
     | '/calendar'
+    | '/day-guide'
     | '/documents'
     | '/flights'
     | '/guides'
@@ -216,6 +237,7 @@ export interface FileRouteTypes {
     | '/scams'
     | '/seats'
     | '/timeline'
+    | '/todo'
     | '/trains'
     | '/transport'
     | '/book/$id'
@@ -226,6 +248,7 @@ export interface FileRouteTypes {
     | '/'
     | '/alt-routes'
     | '/calendar'
+    | '/day-guide'
     | '/documents'
     | '/flights'
     | '/guides'
@@ -236,6 +259,7 @@ export interface FileRouteTypes {
     | '/scams'
     | '/seats'
     | '/timeline'
+    | '/todo'
     | '/trains'
     | '/transport'
     | '/book/$id'
@@ -247,6 +271,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AltRoutesRoute: typeof AltRoutesRoute
   CalendarRoute: typeof CalendarRoute
+  DayGuideRoute: typeof DayGuideRoute
   DocumentsRoute: typeof DocumentsRoute
   FlightsRoute: typeof FlightsRoute
   GuidesRoute: typeof GuidesRoute
@@ -257,6 +282,7 @@ export interface RootRouteChildren {
   ScamsRoute: typeof ScamsRoute
   SeatsRoute: typeof SeatsRoute
   TimelineRoute: typeof TimelineRoute
+  TodoRoute: typeof TodoRoute
   TrainsRoute: typeof TrainsRoute
   TransportRoute: typeof TransportRoute
   BookIdRoute: typeof BookIdRoute
@@ -278,6 +304,13 @@ declare module '@tanstack/react-router' {
       path: '/trains'
       fullPath: '/trains'
       preLoaderRoute: typeof TrainsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/todo': {
+      id: '/todo'
+      path: '/todo'
+      fullPath: '/todo'
+      preLoaderRoute: typeof TodoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/timeline': {
@@ -350,6 +383,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocumentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/day-guide': {
+      id: '/day-guide'
+      path: '/day-guide'
+      fullPath: '/day-guide'
+      preLoaderRoute: typeof DayGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/calendar': {
       id: '/calendar'
       path: '/calendar'
@@ -399,6 +439,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AltRoutesRoute: AltRoutesRoute,
   CalendarRoute: CalendarRoute,
+  DayGuideRoute: DayGuideRoute,
   DocumentsRoute: DocumentsRoute,
   FlightsRoute: FlightsRoute,
   GuidesRoute: GuidesRoute,
@@ -409,6 +450,7 @@ const rootRouteChildren: RootRouteChildren = {
   ScamsRoute: ScamsRoute,
   SeatsRoute: SeatsRoute,
   TimelineRoute: TimelineRoute,
+  TodoRoute: TodoRoute,
   TrainsRoute: TrainsRoute,
   TransportRoute: TransportRoute,
   BookIdRoute: BookIdRoute,

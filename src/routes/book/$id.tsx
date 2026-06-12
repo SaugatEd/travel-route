@@ -322,12 +322,19 @@ type BookingActionLink = { href: string; icon: string; title: string; detail: st
 
 function BookingActions({ booking: b, accent }: { booking: Booking; accent: string }) {
   const actions = [
+    b.pdfUrl && {
+      href: `${import.meta.env.BASE_URL}${b.pdfUrl}`,
+      icon: '📄',
+      title: 'Booking PDF',
+      detail: b.confirmationCode ? `Confirmation ${b.confirmationCode}` : 'Open the saved confirmation',
+      primary: true,
+    },
     b.bookingUrl && {
       href: b.bookingUrl,
       icon: providerIcon(b.bookingUrl),
       title: providerTitle(b.bookingUrl),
       detail: b.confirmationCode ? `Confirmation ${b.confirmationCode}` : 'Open reservation details',
-      primary: true,
+      primary: !b.pdfUrl,
     },
     b.mapUrl && {
       href: b.mapUrl,

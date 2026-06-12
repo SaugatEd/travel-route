@@ -133,7 +133,7 @@ export const SURVIVAL_GUIDE = {
           "As South Asian travelers, you may get slightly more attention at immigration and random police checks. This is not personal — just have your passport and documents ready. Stay calm, be polite, and answer questions directly.",
           "Racism exists in Europe but is rare in tourist interactions. If you encounter it, walk away. Do not engage. Major European cities are very diverse and multicultural — you will see people from every background.",
           "Keep your Nepali passport EXTREMELY safe. Replacing it in Europe takes 2-4 weeks through the Berlin embassy. Without a passport, you cannot take flights or cross borders. Consider a waterproof passport pouch worn under your shirt on travel days.",
-          "Travel as a group of 5 is actually very safe. Pickpockets target solo travelers and couples, not groups. But stay alert in crowds, on metro, and at tourist hotspots in Rome, Prague, and Amsterdam.",
+          "Travel as a group of 3 is actually very safe. Pickpockets target solo travelers and couples, not groups. But stay alert in crowds, on metro, and at tourist hotspots in Rome, Prague, and Amsterdam.",
           "If police stop you, stay calm and cooperative. Show your passport and visa. European police are professional. If you are asked to show your train ticket, show it immediately. Being confrontational will make things worse.",
           "In case of emergency, 112 works in ALL six countries. It connects to police, fire, and ambulance. Operators speak English. You can call 112 even without a SIM card in your phone.",
         ],

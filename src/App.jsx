@@ -2369,7 +2369,7 @@ export function BudgetView({ stop, stops, showNPR, npr }) {
             </div>
             <div>
               <div style={{ fontSize: 20, fontWeight: 700 }}>€{TRIP_BUDGET.summary.groupTotal.toLocaleString()}</div>
-              <div style={{ fontSize: 13, opacity: 0.8 }}>group total (5 ppl)</div>
+              <div style={{ fontSize: 13, opacity: 0.8 }}>group total (3 ppl)</div>
             </div>
           </div>
         </div>
@@ -2384,13 +2384,13 @@ export function BudgetView({ stop, stops, showNPR, npr }) {
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[
               { label: "Flights (KTM↔Europe)", total: TRIP_BUDGET.flights.total, pp: TRIP_BUDGET.flights.perPerson, currency: "$", note: TRIP_BUDGET.flights.note },
-              { label: "Schengen Visa", total: TRIP_BUDGET.visa.perPerson * 5, pp: TRIP_BUDGET.visa.perPerson, currency: "€", note: TRIP_BUDGET.visa.note },
-              { label: "Travel Insurance", total: TRIP_BUDGET.insurance.perPerson * 5, pp: TRIP_BUDGET.insurance.perPerson, currency: "€", note: TRIP_BUDGET.insurance.note },
+              { label: "Schengen Visa", total: TRIP_BUDGET.visa.perPerson * 3, pp: TRIP_BUDGET.visa.perPerson, currency: "€", note: TRIP_BUDGET.visa.note },
+              { label: "Travel Insurance", total: TRIP_BUDGET.insurance.perPerson * 3, pp: TRIP_BUDGET.insurance.perPerson, currency: "€", note: TRIP_BUDGET.insurance.note },
               { label: "Train Journeys (16 total)", total: TRIP_BUDGET.trainTotal.total, pp: TRIP_BUDGET.trainTotal.perPerson, currency: "€", note: TRIP_BUDGET.trainTotal.note },
-              { label: `Accommodation (${TRIP_BUDGET.accommodationTotal.totalNights} nights)`, total: TRIP_BUDGET.accommodationTotal.perNight * TRIP_BUDGET.accommodationTotal.totalNights, pp: Math.round(TRIP_BUDGET.accommodationTotal.perNight * TRIP_BUDGET.accommodationTotal.totalNights / 5), currency: "€", note: TRIP_BUDGET.accommodationTotal.note },
-              { label: "Food (21 days)", total: TRIP_BUDGET.foodDaily.perPerson * 21 * 5, pp: TRIP_BUDGET.foodDaily.perPerson * 21, currency: "€", note: TRIP_BUDGET.foodDaily.note },
-              { label: "Activities & Attractions", total: TRIP_BUDGET.activitiesTotal.perPerson * 5, pp: TRIP_BUDGET.activitiesTotal.perPerson, currency: "€", note: TRIP_BUDGET.activitiesTotal.note },
-              { label: "Misc (souvenirs, tips)", total: TRIP_BUDGET.miscDaily.perPerson * 21 * 5, pp: TRIP_BUDGET.miscDaily.perPerson * 21, currency: "€", note: TRIP_BUDGET.miscDaily.note },
+              { label: `Accommodation (${TRIP_BUDGET.accommodationTotal.totalNights} nights)`, total: TRIP_BUDGET.accommodationTotal.perNight * TRIP_BUDGET.accommodationTotal.totalNights, pp: Math.round(TRIP_BUDGET.accommodationTotal.perNight * TRIP_BUDGET.accommodationTotal.totalNights / 3), currency: "€", note: TRIP_BUDGET.accommodationTotal.note },
+              { label: "Food (21 days)", total: TRIP_BUDGET.foodDaily.perPerson * 21 * 3, pp: TRIP_BUDGET.foodDaily.perPerson * 21, currency: "€", note: TRIP_BUDGET.foodDaily.note },
+              { label: "Activities & Attractions", total: TRIP_BUDGET.activitiesTotal.perPerson * 3, pp: TRIP_BUDGET.activitiesTotal.perPerson, currency: "€", note: TRIP_BUDGET.activitiesTotal.note },
+              { label: "Misc (souvenirs, tips)", total: TRIP_BUDGET.miscDaily.perPerson * 21 * 3, pp: TRIP_BUDGET.miscDaily.perPerson * 21, currency: "€", note: TRIP_BUDGET.miscDaily.note },
             ].map((item, i) => (
               <div key={i} style={{
                 display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -3375,7 +3375,7 @@ export function CalendarPanel({ active, onOpenDay }) {
             { n: "14", label: "Cities" },
             { n: "16", label: "Trains" },
             { n: "18", label: "Nights" },
-            { n: "5", label: "Travellers" },
+            { n: "3", label: "Travellers" },
           ].map((s) => (
             <div key={s.label} style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
               <span style={{ fontSize: 18, fontWeight: 800, color: "var(--text)", fontFamily: "var(--sans)" }}>

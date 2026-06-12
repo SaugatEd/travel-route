@@ -51,12 +51,12 @@ export const TRIP_ROUTE: RouteStop[] = [
   {
     id: 'rome',
     arriveOn: '2026-06-16',
-    arriveTime: '17:00',     // FCO 14:00 → Leonardo Express → Termini ~16:00 → walk to Trastevere
+    arriveTime: '17:00',     // FCO 14:00 → Leonardo Express → Termini ~16:00 → Metro B to Piramide/Testaccio
     checkInTime: '15:00',
     nights: 2,
     label: 'Rome · 2 nights',
     arriveVia: 'Turkish Airlines via Istanbul + Leonardo Express',
-    bookingId: 'rome-villa-fiorelli',
+    bookingId: 'rome-testaccio-soul',
     // No gap — arrival is after check-in window opens, head straight to flat.
   },
   {

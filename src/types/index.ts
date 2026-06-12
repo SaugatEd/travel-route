@@ -66,6 +66,9 @@ export interface Booking {
   cancelBy: CancelPolicy | null;
   bookingUrl: string | null;
   directionsUrl: string | null;
+  /** Booking confirmation PDF under /public, e.g. "tickets/india-booking.pdf".
+   *  Resolve with import.meta.env.BASE_URL at render. */
+  pdfUrl?: string;
   /** Optional Google Maps "place" URL (the location pin), distinct from
    *  `directionsUrl` which is the routed walk/transit directions. */
   mapUrl?: string;

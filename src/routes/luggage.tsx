@@ -12,7 +12,6 @@ export const Route = createFileRoute('/luggage')({
 // Cheapest reliable price for a CABIN-size bag at each stop (small-locker tier,
 // or a cheaper nearby provider where the station lockers are dear/unreliable).
 const CABIN_PRICE: Record<string, string> = {
-  rome: '€6 · first 5 h (staffed KiPoint)',
   lucerne: 'CHF 6 · per period (small locker)',
   lauterach: '€2–6 · short-term (Bregenz)',
   innsbruck: '€2 · per 24 h (small locker)',

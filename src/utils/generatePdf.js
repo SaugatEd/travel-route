@@ -539,7 +539,7 @@ export function generateFullTripPdf(stops, calendar, opts = {}) {
   doc.setFontSize(14);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...mid);
-  doc.text("16 Jun – 6 Jul · 5 Travellers", LM, y);
+  doc.text("16 Jun – 6 Jul · 3 Travellers", LM, y);
   y += 7;
   doc.text("Kathmandu → Europe → Kathmandu", LM, y);
   y += 14;
@@ -556,7 +556,7 @@ export function generateFullTripPdf(stops, calendar, opts = {}) {
   y = infoBox(doc, y, [
     { label: "FLIGHTS", value: "2 legs" },
     { label: "NIGHTJET", value: "1 sleeper" },
-    { label: "TRAVELLERS", value: "5" },
+    { label: "TRAVELLERS", value: "3" },
     { label: "FROM", value: "Kathmandu" },
   ], { h: 18 });
 
@@ -736,13 +736,13 @@ export function generateFullTripPdf(stops, calendar, opts = {}) {
 
     const budgetRows = [
       ["Flights (KTM↔Europe)", `$${tripBudget.flights.total}`, `$${tripBudget.flights.perPerson}/pp`],
-      ["Schengen Visa", `€${tripBudget.visa.perPerson * 5}`, `€${tripBudget.visa.perPerson}/pp`],
-      ["Travel Insurance", `€${tripBudget.insurance.perPerson * 5}`, `€${tripBudget.insurance.perPerson}/pp`],
+      ["Schengen Visa", `€${tripBudget.visa.perPerson * 3}`, `€${tripBudget.visa.perPerson}/pp`],
+      ["Travel Insurance", `€${tripBudget.insurance.perPerson * 3}`, `€${tripBudget.insurance.perPerson}/pp`],
       ["All Train Journeys", `€${tripBudget.trainTotal.total}`, `€${tripBudget.trainTotal.perPerson}/pp`],
-      [`Accommodation (${tripBudget.accommodationTotal.totalNights} nights)`, `€${tripBudget.accommodationTotal.perNight * tripBudget.accommodationTotal.totalNights}`, `€${tripBudget.accommodationTotal.perNight}/night (5 ppl)`],
-      ["Food (21 days)", `€${tripBudget.foodDaily.perPerson * 21 * 5}`, `€${tripBudget.foodDaily.perPerson}/pp/day`],
-      ["Activities", `€${tripBudget.activitiesTotal.perPerson * 5}`, `€${tripBudget.activitiesTotal.perPerson}/pp total`],
-      ["Misc (souvenirs, tips, etc.)", `€${tripBudget.miscDaily.perPerson * 21 * 5}`, `€${tripBudget.miscDaily.perPerson}/pp/day`],
+      [`Accommodation (${tripBudget.accommodationTotal.totalNights} nights)`, `€${tripBudget.accommodationTotal.perNight * tripBudget.accommodationTotal.totalNights}`, `€${tripBudget.accommodationTotal.perNight}/night (3 ppl)`],
+      ["Food (21 days)", `€${tripBudget.foodDaily.perPerson * 21 * 3}`, `€${tripBudget.foodDaily.perPerson}/pp/day`],
+      ["Activities", `€${tripBudget.activitiesTotal.perPerson * 3}`, `€${tripBudget.activitiesTotal.perPerson}/pp total`],
+      ["Misc (souvenirs, tips, etc.)", `€${tripBudget.miscDaily.perPerson * 21 * 3}`, `€${tripBudget.miscDaily.perPerson}/pp/day`],
     ];
 
     // Table header
@@ -1023,4 +1023,311 @@ export function generateFullTripPdf(stops, calendar, opts = {}) {
   pageFooter(doc, "Europe 2026 · Complete Itinerary");
 
   doc.save("Europe_2026_Complete_Itinerary.pdf");
+}
+
+/* ═══════════════════════════════════════════════════
+   DAY-BY-DAY TOUR GUIDE PDF
+   One page (or more) per trip day: schedule, stay moves,
+   a guided walkthrough of the day's places, and rotating
+   destination background so no two days read the same.
+   ═══════════════════════════════════════════════════ */
+
+// jsPDF's built-in Helvetica is WinAnsi-only — emoji and arrows render as
+// garbage glyphs, so strip/replace them before drawing.
+function tx(s) {
+  if (!s) return "";
+  return String(s)
+    .replace(/→/g, "->")
+    .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{2190}-\u{21FF}\u{2934}\u{2935}\u{3030}\u{303D}\u{24C2}\u{25A0}-\u{25FF}]|\u{FE0F}|\u{200D}/gu, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+const DAY_TYPE_LABEL = {
+  travel: "Travel day",
+  arrive: "Arrival day",
+  move: "Moving on",
+  explore: "Full day exploring",
+  transit: "In transit",
+  night: "Night journey",
+};
+
+function timeMinutes(t) {
+  const m = /^(\d{1,2}):(\d{2})/.exec(t || "");
+  return m ? Number(m[1]) * 60 + Number(m[2]) : Infinity;
+}
+
+function chip(doc, x, y, label, fill, textColor = white) {
+  const w = doc.getTextWidth(label) * 0.45 + 7;
+  doc.setFillColor(...fill);
+  doc.roundedRect(x, y - 4, w, 5.5, 1, 1, "F");
+  doc.setFontSize(7);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(...textColor);
+  doc.text(label, x + 3.5, y);
+  return x + w + 3;
+}
+
+function planTimeline(doc, y, plan) {
+  const items = [
+    ...(plan.visit || []).map((it) => ({ ...it, kind: "SEE" })),
+    ...(plan.eat || []).map((it) => ({ ...it, kind: "EAT" })),
+  ].sort((a, b) => timeMinutes(a.time) - timeMinutes(b.time));
+  if (items.length === 0) return y;
+
+  y = subheading(doc, "Today at a Glance", y);
+  items.forEach((it) => {
+    y = checkPage(doc, y, 16);
+    let x = LM;
+    x = chip(doc, x, y, it.time ? tx(it.time) : "anytime", accent);
+    x = chip(doc, x, y, it.kind, it.kind === "EAT" ? [121, 85, 72] : [69, 90, 100]);
+    if (it.booked) x = chip(doc, x, y, "BOOKED", greenAccent);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(...dark);
+    const titleLines = doc.splitTextToSize(tx(it.title), RM - x - 2);
+    doc.text(titleLines, x, y);
+    y += titleLines.length * 4.5 + 1;
+    if (it.note) y = bodyText(doc, tx(it.note), y, { size: 8, indent: 2 });
+    y += 1.5;
+  });
+  return y + 2;
+}
+
+function stayMoves(doc, y, day, airbnbs) {
+  const moves = day.airbnb || [];
+  if (moves.length === 0) return y;
+
+  y = subheading(doc, "Where You Sleep", y);
+  moves.forEach((m) => {
+    const stay = airbnbs.find((a) => a.id === m.id);
+    if (!stay) return;
+    const label =
+      m.action === "check-in" ? "CHECK-IN" : m.action === "check-out" ? "CHECK-OUT" : "YOUR BASE";
+    const fill = m.action === "check-out" ? redAccent : m.action === "check-in" ? greenAccent : accent;
+    const lines = [
+      `${tx(stay.name)} - host: ${tx(stay.host)}`,
+      tx(stay.address),
+      [
+        m.time && `${label === "CHECK-OUT" ? "Leave by" : "From"} ${m.time}`,
+        stay.confirmationCode && `Confirmation ${stay.confirmationCode}`,
+        stay.checkInMethod && tx(stay.checkInMethod),
+      ].filter(Boolean).join(" · "),
+    ].filter(Boolean);
+
+    const h = lines.length * 4.5 + 8;
+    y = checkPage(doc, y, h + 4);
+    doc.setFillColor(...infoBg);
+    doc.roundedRect(LM, y, W, h, 2, 2, "F");
+    doc.setDrawColor(...fill);
+    doc.setLineWidth(0.6);
+    doc.line(LM, y, LM, y + h);
+
+    chip(doc, LM + 4, y + 6, label, fill);
+    doc.setFontSize(8.5);
+    doc.setTextColor(...dark);
+    lines.forEach((line, i) => {
+      doc.setFont("helvetica", i === 0 ? "bold" : "normal");
+      doc.setTextColor(...(i === 0 ? dark : mid));
+      doc.text(doc.splitTextToSize(line, W - 36), LM + 32, y + 6 + i * 4.5);
+    });
+    y += h + 4;
+  });
+  return y + 2;
+}
+
+function guideWalkthrough(doc, y, day, stop) {
+  const entries = (stop?.itinerary || []).filter((it) => it.time.startsWith(day.date));
+  if (entries.length === 0) return y;
+
+  y = heading(doc, "Your Guide for Today", y);
+  entries.forEach((it) => {
+    y = checkPage(doc, y, 24);
+    let x = chip(doc, LM, y, tx(it.time.split("·").pop()), accent);
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(...dark);
+    const titleLines = doc.splitTextToSize(tx(it.title), RM - x - 2);
+    doc.text(titleLines, x, y);
+    y += titleLines.length * 5 + 1;
+    y = bodyText(doc, tx(it.desc), y, { indent: 2 });
+    if (it.tip) y = tipBox(doc, tx(it.tip), y);
+    y += 2;
+  });
+  return y;
+}
+
+// Rotating background section — first day at a stop gets the story, later
+// days get gems, food, activities and transport so repeat cities stay fresh.
+function aboutCity(doc, y, stop, nth) {
+  const variant = nth <= 5 ? nth : ((nth - 2) % 4) + 2;
+
+  if (variant === 1 && (stop.story || stop.history)) {
+    y = heading(doc, `About ${stop.city}`, y);
+    if (stop.story) y = bodyText(doc, tx(stop.story), y, { size: 9.5, color: [70, 70, 70] });
+    if (stop.history) {
+      y = subheading(doc, "A Little History", y);
+      y = bodyText(doc, tx(stop.history), y);
+    }
+    if (stop.weather?.tip) y = tipBox(doc, tx(stop.weather.tip), y);
+    return y;
+  }
+
+  if (variant === 2 && stop.hiddenGems?.length) {
+    y = heading(doc, `${stop.city} — Hidden Gems`, y);
+    stop.hiddenGems.slice(0, 3).forEach((g) => {
+      y = checkPage(doc, y, 16);
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(...dark);
+      doc.text(`${tx(g.title)}  (${tx(g.cost)})`, LM, y);
+      y += 4.5;
+      y = bodyText(doc, tx(g.desc), y, { indent: 2 });
+      if (g.tip) y = bodyText(doc, `Tip: ${tx(g.tip)}`, y, { size: 8, color: accent, indent: 2 });
+      y += 1;
+    });
+    return y;
+  }
+
+  if (variant === 3 && (stop.must?.length || stop.eat?.length)) {
+    y = heading(doc, `${stop.city} — Don't Miss`, y);
+    (stop.must || []).forEach((m, i) => {
+      y = checkPage(doc, y, 10);
+      doc.setFontSize(9);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(...accent);
+      doc.text(String(i + 1).padStart(2, "0"), LM, y);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(80, 80, 80);
+      const lines = doc.splitTextToSize(tx(m), W - 12);
+      doc.text(lines, LM + 10, y);
+      y += lines.length * 4.5 + 2;
+    });
+    (stop.eat || []).slice(0, 2).forEach((e) => {
+      y = checkPage(doc, y, 12);
+      y = bodyText(doc, `${tx(e.name)} — ${tx(e.dish)}. ${tx(e.note)}`, y, { size: 8.5 });
+    });
+    return y;
+  }
+
+  if (variant === 4 && (stop.activities?.length || stop.workspaces?.length)) {
+    y = heading(doc, `${stop.city} — If You Have Spare Hours`, y);
+    (stop.activities || []).slice(0, 3).forEach((a) => {
+      y = checkPage(doc, y, 14);
+      doc.setFontSize(9.5);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(...dark);
+      doc.text(`${tx(a.name)}  ·  ${tx(a.duration)} · ${tx(a.cost)}`, LM, y);
+      y += 4.5;
+      y = bodyText(doc, tx(a.desc), y, { indent: 2 });
+    });
+    (stop.workspaces || []).slice(0, 2).forEach((w) => {
+      y = bodyText(doc, `Work spot: ${tx(w.name)} (${tx(w.area)}, ${tx(w.cost)}) — ${tx(w.note)}`, y, { size: 8, color: accent });
+    });
+    return y;
+  }
+
+  if (stop.localTransport?.length) {
+    y = heading(doc, `Getting Around ${stop.city}`, y);
+    stop.localTransport.forEach((t) => {
+      y = checkPage(doc, y, 12);
+      y = bodyText(doc, `${tx(t.name)} (${tx(t.cost)}) — ${tx(t.detail)}. ${tx(t.tip)}`, y, { size: 8.5 });
+    });
+  }
+  return y;
+}
+
+export function generateDayGuidePdf(calendar, stops, airbnbs = []) {
+  const doc = newDoc();
+  let y = 15;
+
+  // ── COVER ──
+  y = accentBar(doc, y, 10);
+  y += 18;
+  doc.setFontSize(32);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(...dark);
+  doc.text("Day-by-Day Tour Guide", LM, y);
+  y += 12;
+  doc.setDrawColor(...accent);
+  doc.setLineWidth(1.2);
+  doc.line(LM, y, LM + 80, y);
+  y += 10;
+  doc.setFontSize(13);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...mid);
+  doc.text("Europe 2026 · 15 Jun – 6 Jul · Kathmandu -> Europe -> Kathmandu", LM, y);
+  y += 14;
+  y = infoBox(doc, y, [
+    { label: "DAYS", value: String(calendar.length) },
+    { label: "GUIDED PAGES", value: "1 per day" },
+    { label: "CITIES", value: String(new Set(calendar.map((d) => d.stop)).size) },
+  ], { h: 18 });
+  y += 4;
+  y = bodyText(doc,
+    "Every trip day has its own page: the schedule, where you sleep, a guided walkthrough of each place you visit — what it is, why it matters, what it costs, and the local tricks — plus background on the city itself. Print it or keep it offline; it is written to be read on the train to each stop.",
+    y, { size: 10, color: [70, 70, 70] });
+
+  // ── ONE SECTION PER DAY ──
+  const stopVisitCount = {};
+  calendar.forEach((day) => {
+    const stop = stops.find((s) => s.id === day.stop);
+    const nth = (stopVisitCount[day.stop] = (stopVisitCount[day.stop] || 0) + 1);
+
+    doc.addPage();
+    y = 15;
+    y = accentBar(doc, y, 4);
+    y += 8;
+
+    chip(doc, LM, y, `DAY ${day.dayN}`, accent);
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(...mid);
+    doc.text(`${day.date}  ·  ${DAY_TYPE_LABEL[day.type] || ""}`, LM + 24, y);
+    y += 9;
+
+    doc.setFontSize(22);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(...dark);
+    doc.text(tx(day.city), LM, y);
+    y += 8;
+    if (nth === 1 && stop?.tagline) {
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "italic");
+      doc.setTextColor(...light);
+      doc.text(`"${tx(stop.tagline)}"`, LM, y);
+      y += 7;
+    }
+
+    if (stop?.weather) {
+      y = infoBox(doc, y, [
+        { label: "WEATHER", value: stop.weather.temp, sub: tx(stop.weather.rain) },
+        { label: "BUDGET", value: stop.budget || "—" },
+        { label: "COUNTRY", value: tx(stop.country) },
+      ], { h: 18 });
+    }
+
+    const plan = day.plan || {};
+    if (plan.transit?.length) {
+      y = subheading(doc, "Getting There & Around", y);
+      plan.transit.forEach((leg) => {
+        y = bodyText(doc, `>  ${tx(leg)}`, y, { size: 9, color: dark });
+      });
+      y += 2;
+    }
+
+    y = planTimeline(doc, y, plan);
+    y = stayMoves(doc, y, day, airbnbs);
+
+    if (plan.logistics?.length) {
+      y = tipBox(doc, plan.logistics.map(tx).join("  ·  "), y);
+    }
+
+    y = guideWalkthrough(doc, y, day, stop);
+    if (stop) y = aboutCity(doc, y, stop, nth);
+  });
+
+  pageFooter(doc, "Europe 2026 · Day-by-Day Tour Guide");
+  doc.save("Europe_2026_Day_by_Day_Guide.pdf");
 }
