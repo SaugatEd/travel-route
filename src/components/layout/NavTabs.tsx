@@ -15,14 +15,13 @@ const TABS: TabDef[] = [
   { to: '/calendar',   label: 'Calendar',  icon: '🗓' },
   { to: '/book',       label: 'Book',      icon: '🔖' },
   { to: '/itinerary',  label: 'Itinerary', icon: '📋' },
-  { to: '/todo',       label: 'To-do',     icon: '✅' },
   { to: '/luggage',    label: 'Luggage',   icon: '🧳' },
   { to: '/trains',     label: 'Trains',    icon: '🚄' },
   { to: '/flights',    label: 'Flights',   icon: '✈️' },
   { to: '/seats',      label: 'Seat & Pass', icon: '💺' },
-  { to: '/map',        label: 'Map',       icon: '📍' },
   { to: '/documents',  label: 'Docs',      icon: '📄' },
   { to: '/day-guide',  label: 'Day Guide', icon: '📖' },
+  { to: '/todo',       label: 'To-do',     icon: '✅' },
 ];
 
 // Phone bottom bar: highest-frequency tabs + a More sheet for the rest.

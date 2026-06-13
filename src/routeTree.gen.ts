@@ -16,7 +16,6 @@ import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as SeatsRouteImport } from './routes/seats'
 import { Route as ScamsRouteImport } from './routes/scams'
 import { Route as MoneyRouteImport } from './routes/money'
-import { Route as MapRouteImport } from './routes/map'
 import { Route as LuggageRouteImport } from './routes/luggage'
 import { Route as ItineraryRouteImport } from './routes/itinerary'
 import { Route as GuidesRouteImport } from './routes/guides'
@@ -63,11 +62,6 @@ const ScamsRoute = ScamsRouteImport.update({
 const MoneyRoute = MoneyRouteImport.update({
   id: '/money',
   path: '/money',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MapRoute = MapRouteImport.update({
-  id: '/map',
-  path: '/map',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LuggageRoute = LuggageRouteImport.update({
@@ -141,7 +135,6 @@ export interface FileRoutesByFullPath {
   '/guides': typeof GuidesRoute
   '/itinerary': typeof ItineraryRoute
   '/luggage': typeof LuggageRoute
-  '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
   '/seats': typeof SeatsRoute
@@ -163,7 +156,6 @@ export interface FileRoutesByTo {
   '/guides': typeof GuidesRoute
   '/itinerary': typeof ItineraryRoute
   '/luggage': typeof LuggageRoute
-  '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
   '/seats': typeof SeatsRoute
@@ -186,7 +178,6 @@ export interface FileRoutesById {
   '/guides': typeof GuidesRoute
   '/itinerary': typeof ItineraryRoute
   '/luggage': typeof LuggageRoute
-  '/map': typeof MapRoute
   '/money': typeof MoneyRoute
   '/scams': typeof ScamsRoute
   '/seats': typeof SeatsRoute
@@ -210,7 +201,6 @@ export interface FileRouteTypes {
     | '/guides'
     | '/itinerary'
     | '/luggage'
-    | '/map'
     | '/money'
     | '/scams'
     | '/seats'
@@ -232,7 +222,6 @@ export interface FileRouteTypes {
     | '/guides'
     | '/itinerary'
     | '/luggage'
-    | '/map'
     | '/money'
     | '/scams'
     | '/seats'
@@ -254,7 +243,6 @@ export interface FileRouteTypes {
     | '/guides'
     | '/itinerary'
     | '/luggage'
-    | '/map'
     | '/money'
     | '/scams'
     | '/seats'
@@ -277,7 +265,6 @@ export interface RootRouteChildren {
   GuidesRoute: typeof GuidesRoute
   ItineraryRoute: typeof ItineraryRoute
   LuggageRoute: typeof LuggageRoute
-  MapRoute: typeof MapRoute
   MoneyRoute: typeof MoneyRoute
   ScamsRoute: typeof ScamsRoute
   SeatsRoute: typeof SeatsRoute
@@ -339,13 +326,6 @@ declare module '@tanstack/react-router' {
       path: '/money'
       fullPath: '/money'
       preLoaderRoute: typeof MoneyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/map': {
-      id: '/map'
-      path: '/map'
-      fullPath: '/map'
-      preLoaderRoute: typeof MapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/luggage': {
@@ -445,7 +425,6 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesRoute: GuidesRoute,
   ItineraryRoute: ItineraryRoute,
   LuggageRoute: LuggageRoute,
-  MapRoute: MapRoute,
   MoneyRoute: MoneyRoute,
   ScamsRoute: ScamsRoute,
   SeatsRoute: SeatsRoute,
