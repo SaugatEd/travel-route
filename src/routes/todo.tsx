@@ -23,8 +23,8 @@ function TodoPage() {
         <div style={kickerStyle}>Get ready — 3 travellers</div>
         <h1 style={titleStyle}>✅ Packing to-do</h1>
         <p style={introStyle}>
-          Everything to have ready before the flight on 16 Jun. Cabin bags only — all liquids ≤100 ml.
-          ×3 means one per person.
+          Everything to have ready before the flight on 16 Jun. Cabin only — 7 kg bag + 3 kg personal
+          item each, all liquids ≤100 ml. ×3 means one per person.
         </p>
         <div style={progressRowStyle}>
           <div style={progressTrackStyle} role="progressbar" aria-valuenow={doneCount} aria-valuemax={PACKING_TOTAL}>

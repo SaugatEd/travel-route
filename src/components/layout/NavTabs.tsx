@@ -15,7 +15,6 @@ const TABS: TabDef[] = [
   { to: '/calendar',   label: 'Calendar',  icon: '🗓' },
   { to: '/book',       label: 'Book',      icon: '🔖' },
   { to: '/itinerary',  label: 'Itinerary', icon: '📋' },
-  { to: '/day-guide',  label: 'Day Guide', icon: '📖' },
   { to: '/todo',       label: 'To-do',     icon: '✅' },
   { to: '/luggage',    label: 'Luggage',   icon: '🧳' },
   { to: '/trains',     label: 'Trains',    icon: '🚄' },
@@ -23,10 +22,11 @@ const TABS: TabDef[] = [
   { to: '/seats',      label: 'Seat & Pass', icon: '💺' },
   { to: '/map',        label: 'Map',       icon: '📍' },
   { to: '/documents',  label: 'Docs',      icon: '📄' },
+  { to: '/day-guide',  label: 'Day Guide', icon: '📖' },
 ];
 
-// Phone bottom bar: 4 highest-frequency tabs + a More sheet for the rest.
-const PRIMARY_PATHS = ['/', '/calendar', '/itinerary', '/map'];
+// Phone bottom bar: highest-frequency tabs + a More sheet for the rest.
+const PRIMARY_PATHS = ['/', '/calendar', '/itinerary'];
 const PRIMARY_TABS = TABS.filter((t) => PRIMARY_PATHS.includes(t.to));
 const SECONDARY_TABS = TABS.filter((t) => !PRIMARY_PATHS.includes(t.to));
 

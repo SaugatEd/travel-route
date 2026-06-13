@@ -92,6 +92,33 @@ export const PACKING: PackGroup[] = [
         head: '🧼 Soap + shampoo bars',
         detail: 'Solid bars beat bottles — no 100 ml limit, no leaks, last the whole trip.',
       },
+      {
+        id: 'shampoo',
+        head: '🧴 Shampoo (sachets or ≤100 ml)',
+        detail: 'If you prefer liquid over the bar, sachets weigh nothing and dodge the 100 ml limit. Otherwise one small bottle inside the clear zip bag.',
+      },
+      {
+        id: 'moisturizer',
+        head: '🧴 Moisturizer (≤100 ml)',
+        qty: '×3',
+        detail: 'Cabin air on the long-haul legs and dry Alpine days crack skin fast. Decant into a ≤100 ml travel bottle.',
+      },
+      {
+        id: 'face-serum',
+        head: '💧 Face serum (≤100 ml)',
+        detail: 'Small dropper bottle — counts as a liquid, so it lives in the clear zip bag.',
+      },
+      {
+        id: 'hair-oil',
+        head: '💆 Hair oil (≤100 ml)',
+        detail: 'Decant into a small leak-proof bottle; full-size bottles get binned at security.',
+      },
+      {
+        id: 'lipbalm',
+        head: '👄 Lip balm',
+        qty: '×3',
+        detail: 'Solid stick, no liquid limit. Mountain wind and sun chap lips quickly.',
+      },
       { id: 'deo', head: '🌸 Deodorant (≤100 ml)', qty: '×3' },
       { id: 'razor', head: '🪒 Disposable razor', detail: 'Disposable razors are fine in cabin bags.' },
       {
@@ -104,6 +131,12 @@ export const PACKING: PackGroup[] = [
         head: '🧻 Quick-dry towel',
         qty: '×3',
         detail: 'Some budget stays charge for towels; a thin quick-dry one packs flat.',
+      },
+      {
+        id: 'laundry',
+        head: '🧺 Detergent sheets / travel wash',
+        qty: '×1',
+        detail: '3 weeks in cabin bags means washing clothes in a sink mid-trip — sheets are solid (no liquid limit) and weigh almost nothing.',
       },
       {
         id: 'ziplock',
@@ -150,17 +183,41 @@ export const PACKING: PackGroup[] = [
       },
       { id: 'sim', head: '📶 EU eSIM / data SIM', detail: 'One per person, or one big data plan + hotspot for the group.' },
       { id: 'cables', head: '🎧 Charging cables + earphones', qty: '×3' },
+      {
+        id: 'phone-charger',
+        head: '🔌 Phone charger brick',
+        qty: '×3',
+        detail: 'The wall plug itself — easy to forget when only the cable gets packed. A small dual-port one charges two phones at once.',
+      },
+      {
+        id: 'macbook',
+        head: '💻 MacBook + USB-C charger',
+        detail: 'For the Berlin work days. Laptop rides in the cabin bag (never stored) and comes out at every security check. Pack the charger + a USB-C cable.',
+      },
     ],
   },
   {
     id: 'bags',
     title: 'Bags & security',
+    hint: '7 kg cabin + 3 kg personal each',
     items: [
       {
         id: 'cabinbag',
         head: '🧳 Cabin-size bag (≈55×40×20)',
         qty: '×3',
-        detail: 'The whole trip is planned around cabin bags — every locker price in the Luggage tab assumes this size.',
+        detail: 'The whole trip is planned around cabin bags — every locker price in the Luggage tab assumes this size. Keep it to the 7 kg cabin allowance.',
+      },
+      {
+        id: 'personalbag',
+        head: '🎒 Personal item / under-seat bag',
+        qty: '×3',
+        detail: 'The second 3 kg allowance — a small backpack for laptop, documents, power bank and snacks that stays with you on the plane.',
+      },
+      {
+        id: 'weigh',
+        head: '⚖️ Weigh both bags at home',
+        qty: '×3',
+        detail: 'Target 7 kg cabin + 3 kg personal per person and weigh on a luggage scale before leaving — gate weigh-ins and overweight fees are the easiest money to lose.',
       },
       {
         id: 'locks',
@@ -206,6 +263,18 @@ export const PACKING: PackGroup[] = [
         detail: 'Rome’s basilicas refuse entry in shorts and sleeveless tops. A thin scarf solves it for everyone.',
       },
       { id: 'sun', head: '🕶 Sunglasses + cap', qty: '×3' },
+      {
+        id: 'clothes-basics',
+        head: '👕 Tops, innerwear & socks',
+        qty: '~5–6 each',
+        detail: 'Pack for ~6 days and plan one sink-wash mid-trip — chasing a full 21-day wardrobe blows the 7 kg limit. Quick-dry fabrics wash and dry overnight.',
+      },
+      {
+        id: 'sleep-kit',
+        head: '😴 Eye mask + earplugs',
+        qty: '×3',
+        detail: 'The Berlin → Amsterdam night FlixBus and early-morning trains are far easier to sleep through with these.',
+      },
     ],
   },
   {
@@ -229,6 +298,11 @@ export const PACKING: PackGroup[] = [
         detail: 'Pickle in oil falls under the 100 ml rule in cabin bags — tiny jar or skip it.',
       },
       { id: 'tea', head: '🍵 Black tea bags', detail: 'Hotel-room tea costs nothing; café tea costs €4.' },
+      {
+        id: 'spices',
+        head: '🫙 Salt, ground masala & besar',
+        detail: 'Dried plant spices for personal use are fine through EU customs (the ban is only on meat and dairy). Keep them in small sealed, labelled bags or pots — loose powder gets pulled aside at security.',
+      },
     ],
   },
 ];
