@@ -157,7 +157,7 @@ function StopDetailPage() {
               </p>
             </div>
 
-            <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+            <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
               {prevStop && (
                 <button onClick={() => goToStop(prevStop.id)} title={`← ${prevStop.city}`} style={navBtnStyle} aria-label={`Previous stop: ${prevStop.city}`}>
                   ←
@@ -218,13 +218,13 @@ function StopDetailPage() {
 }
 
 const navBtnStyle = {
-  width: 36,
-  height: 36,
+  width: 44,
+  height: 44,
   borderRadius: 999,
   border: '1px solid var(--border)',
   background: 'var(--bg-raised)',
   color: 'var(--text)',
-  fontSize: 16,
+  fontSize: 18,
   cursor: 'pointer',
   display: 'inline-flex',
   alignItems: 'center',

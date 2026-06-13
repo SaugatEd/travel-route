@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useParams } from '@tanstack/react-router';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useBooking } from '@/hooks/queries/bookings';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { BookingTicket } from '@/components/booking/BookingTicket';
 import { EmptyState, LoadingState } from '@/components/ui/EmptyState';
 import { tintFor } from '@/lib/country';
@@ -151,22 +152,14 @@ function ArrivalRoute({ booking: b, accent }: { booking: Booking; accent: string
         </div>
       </div>
 
-      {destination && (
-        <iframe
-          title={`Route to ${b.name}`}
-          src={embedUrl}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          style={{ width: '100%', height: 200, border: 0, borderRadius: 12, margin: '12px 0', display: 'block' }}
-        />
-      )}
+      {destination && <RouteMapEmbed title={`Route to ${b.name}`} src={embedUrl} />}
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         <a
           href={b.directionsUrl}
           target="_blank"
           rel="noreferrer"
-          style={{ flex: '1 1 150px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 40, padding: '9px 14px', borderRadius: 10, background: accent, color: '#fff', fontSize: 13, fontWeight: 800, textDecoration: 'none' }}
+          style={{ flex: '1 1 150px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 44, padding: '9px 14px', borderRadius: 10, background: accent, color: '#fff', fontSize: 13, fontWeight: 800, textDecoration: 'none' }}
         >
           Open route in Google Maps →
         </a>
@@ -175,13 +168,41 @@ function ArrivalRoute({ booking: b, accent }: { booking: Booking; accent: string
             href={fromMeUrl}
             target="_blank"
             rel="noreferrer"
-            style={{ flex: '1 1 150px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, minHeight: 40, padding: '9px 14px', borderRadius: 10, background: 'var(--bg-raised)', color: accent, border: `1.5px solid ${accent}55`, fontSize: 13, fontWeight: 800, textDecoration: 'none' }}
+            style={{ flex: '1 1 150px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, minHeight: 44, padding: '9px 14px', borderRadius: 10, background: 'var(--bg-raised)', color: accent, border: `1.5px solid ${accent}55`, fontSize: 13, fontWeight: 800, textDecoration: 'none' }}
           >
             📍 From my location →
           </a>
         )}
       </div>
     </Panel>
+  );
+}
+
+function RouteMapEmbed({ title, src }: { title: string; src: string }) {
+  const isTouch = useMediaQuery('(pointer: coarse)');
+  const [active, setActive] = useState(false);
+  const locked = isTouch && !active;
+  return (
+    <div style={{ position: 'relative', margin: '12px 0' }}>
+      <iframe
+        title={title}
+        src={src}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        style={{ width: '100%', height: 200, border: 0, borderRadius: 12, display: 'block', pointerEvents: locked ? 'none' : 'auto' }}
+      />
+      {locked && (
+        <button
+          type="button"
+          onClick={() => setActive(true)}
+          style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: 10, background: 'transparent', border: 0, borderRadius: 12, cursor: 'pointer' }}
+        >
+          <span style={{ display: 'inline-flex', alignItems: 'center', padding: '7px 14px', borderRadius: 999, background: 'var(--bg-raised)', border: '1px solid var(--border)', color: 'var(--text-muted)', fontSize: 12, fontWeight: 700 }}>
+            Tap to interact with map
+          </span>
+        </button>
+      )}
+    </div>
   );
 }
 

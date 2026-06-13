@@ -47,14 +47,14 @@ export function LocationDialog({ title, subtitle, query, accent = 'var(--accent)
             <iframe
               title={`Map: ${query}`}
               src={src}
-              style={{ width: '100%', height: 380, border: '1px solid var(--border)', borderRadius: 10, display: 'block' }}
+              style={{ width: '100%', height: 'min(380px, 50dvh)', border: '1px solid var(--border)', borderRadius: 10, display: 'block' }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
           ) : (
             <div
               style={{
-                height: 380,
+                height: 'min(380px, 50dvh)',
                 display: 'grid',
                 placeItems: 'center',
                 borderRadius: 10,
@@ -91,14 +91,16 @@ const overlay: CSSProperties = {
   display: 'grid',
   placeItems: 'center',
   padding: 16,
+  paddingBottom: 'calc(16px + env(safe-area-inset-bottom))',
   background: 'rgba(0,0,0,0.5)',
   backdropFilter: 'blur(2px)',
 };
 
 const panel: CSSProperties = {
   width: 'min(680px, 100%)',
-  maxHeight: '90vh',
+  maxHeight: 'min(85dvh, 640px)',
   overflow: 'auto',
+  overscrollBehavior: 'contain',
   background: 'var(--bg)',
   borderRadius: 'var(--radius-xl)',
   border: '1px solid var(--border)',
@@ -116,13 +118,13 @@ const header: CSSProperties = {
 
 const closeBtn: CSSProperties = {
   flexShrink: 0,
-  width: 30,
-  height: 30,
+  width: 40,
+  height: 40,
   borderRadius: 999,
   border: '1px solid var(--border)',
   background: 'var(--bg-raised)',
   color: 'var(--text-muted)',
-  fontSize: 14,
+  fontSize: 16,
   cursor: 'pointer',
   lineHeight: 1,
 };

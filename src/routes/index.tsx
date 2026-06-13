@@ -118,13 +118,13 @@ function NextUpRow({ days, stays, stops }: { days: CalendarDay[]; stays: Booking
         background: tint.tint,
         border: `1.5px solid ${tint.accent}33`,
         borderRadius: 16,
-        display: 'grid',
-        gridTemplateColumns: 'minmax(0, 1fr) auto',
-        gap: 18,
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 14,
         alignItems: 'center',
       }}
     >
-      <div>
+      <div style={{ flex: '1 1 220px', minWidth: 0 }}>
         <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase', color: tint.accent, marginBottom: 4 }}>
           Next up
         </div>
@@ -146,7 +146,10 @@ function NextUpRow({ days, stays, stops }: { days: CalendarDay[]; stays: Booking
           params={{ id: stop.id }}
           search={{ view: 'overview' }}
           style={{
-            padding: '10px 18px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            minHeight: 44,
+            padding: '12px 20px',
             fontSize: 13,
             fontWeight: 700,
             color: '#fff',
@@ -184,7 +187,7 @@ function TripStats({ days, stays }: { days: CalendarDay[]; stays: Booking[] }) {
     <section
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(96px, 1fr))',
         gap: 8,
         margin: '0 0 32px',
         padding: '14px 18px',
@@ -208,9 +211,9 @@ function TripStats({ days, stays }: { days: CalendarDay[]; stays: Booking[] }) {
           </div>
           <div
             style={{
-              fontSize: 10,
+              fontSize: 11,
               fontWeight: 700,
-              letterSpacing: '0.12em',
+              letterSpacing: '0.1em',
               textTransform: 'uppercase',
               color: 'var(--text-muted)',
               marginTop: 4,

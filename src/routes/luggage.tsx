@@ -140,12 +140,15 @@ function Row({ icon, label, value, accent }: { icon: string; label: string; valu
 const mapBtn: CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  minHeight: 44,
   gap: 6,
-  padding: '6px 12px',
+  padding: '11px 16px',
   borderRadius: 999,
   border: '1px solid',
   background: 'var(--bg-raised)',
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: 800,
   cursor: 'pointer',
 };

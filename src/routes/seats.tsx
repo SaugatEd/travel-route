@@ -47,7 +47,8 @@ function TabButton({ active, onClick, children }: { active: boolean; onClick: ()
       aria-selected={active}
       onClick={onClick}
       style={{
-        padding: '8px 16px',
+        minHeight: 44,
+        padding: '12px 18px',
         borderRadius: 999,
         border: `1px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
         background: active ? 'var(--accent-bg, rgba(193,127,36,0.08))' : 'var(--bg-raised)',
@@ -96,13 +97,13 @@ function SeatCard({ t }: { t: SeatTip }) {
       <div
         style={{
           flexShrink: 0,
-          width: 116,
+          width: 'clamp(78px, 24vw, 116px)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'flex-start',
           gap: 4,
-          padding: '13px 10px',
+          padding: '13px 6px',
           background: `${m.color}12`,
           borderRight: `1px solid ${m.color}33`,
           textAlign: 'center',
@@ -249,7 +250,7 @@ function PassCard({ v }: { v: PassVerdict }) {
         href={v.checkUrl}
         target="_blank"
         rel="noreferrer"
-        style={{ display: 'inline-flex', marginTop: 10, fontSize: 12, fontWeight: 800, color: '#2563EB', textDecoration: 'none' }}
+        style={{ display: 'flex', alignItems: 'center', minHeight: 44, marginTop: 6, fontSize: 13, fontWeight: 800, color: '#2563EB', textDecoration: 'none' }}
       >
         {v.checkLabel} ↗
       </a>

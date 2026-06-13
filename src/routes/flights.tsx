@@ -75,8 +75,11 @@ function PageHeader({ booking, pdfHref }: { booking: FlightBooking; pdfHref: str
             target="_blank"
             rel="noreferrer"
             style={{
-              padding: '8px 14px',
-              fontSize: 13,
+              display: 'inline-flex',
+              alignItems: 'center',
+              minHeight: 44,
+              padding: '12px 18px',
+              fontSize: 14,
               fontWeight: 700,
               color: '#C8102E',
               background: '#fff',
@@ -178,13 +181,13 @@ function Endpoint({
       <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
         {label}
       </div>
-      <div style={{ fontSize: 28, fontWeight: 800, fontFamily: 'var(--mono, monospace)', color: accent, lineHeight: 1.1, marginTop: 2 }}>
+      <div style={{ fontSize: 'clamp(20px, 6vw, 28px)', fontWeight: 800, fontFamily: 'var(--mono, monospace)', color: accent, lineHeight: 1.1, marginTop: 2 }}>
         {time}
       </div>
-      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginTop: 4 }}>
+      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
         {airport.code} · {airport.city}
       </div>
-      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2, lineHeight: 1.35, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2, lineHeight: 1.35, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
         {airport.name}
       </div>
       <div style={{ fontSize: 11, color: 'var(--text-faint)', marginTop: 4 }}>

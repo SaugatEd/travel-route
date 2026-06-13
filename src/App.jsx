@@ -5,6 +5,7 @@ import { makeGoogleMapsDirections } from "./lib/urls";
 import { useRates } from "./utils/useRates";
 import { generateStopPdf, generateFullTripPdf } from "./utils/generatePdf";
 import "./styles/app.css";
+import "./styles/panels-mobile.css";
 
 import { CITY_IMAGES, LANDMARK_IMAGES } from "./data/imageData";
 import { TIPS, PACKING_CHECKLIST } from "./data/tipsData";
@@ -2662,20 +2663,20 @@ export function PhrasebookView({ stop }) {
               {isActive && <span style={{ marginLeft: 10, fontSize: 11, fontWeight: 700, color: "var(--accent)", padding: "2px 8px", borderRadius: 10, background: "var(--accent-bg)", border: "1px solid var(--accent-border)" }}>CURRENT</span>}
             </div>
             <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: "var(--sans)" }}>
+              <table className="comparison-table table-card-mobile pm-embedded">
                 <thead>
-                  <tr style={{ borderBottom: "1px solid var(--border-light)" }}>
-                    <th style={{ padding: "10px 16px", textAlign: "left", color: "var(--text-dim)", fontSize: 11, textTransform: "uppercase", fontWeight: 600 }}>English</th>
-                    <th style={{ padding: "10px 16px", textAlign: "left", color: "var(--text-dim)", fontSize: 11, textTransform: "uppercase", fontWeight: 600 }}>Local</th>
-                    <th style={{ padding: "10px 16px", textAlign: "left", color: "var(--text-dim)", fontSize: 11, textTransform: "uppercase", fontWeight: 600 }}>Pronunciation</th>
+                  <tr>
+                    <th>English</th>
+                    <th>Local</th>
+                    <th>Pronunciation</th>
                   </tr>
                 </thead>
                 <tbody>
                   {info.phrases.map((p, i) => (
-                    <tr key={i} style={{ borderBottom: "1px solid var(--border)", background: i % 2 === 1 ? "var(--bg-hover)" : "transparent" }}>
-                      <td style={{ padding: "8px 16px", color: "var(--text)" }}>{p.en}</td>
-                      <td style={{ padding: "8px 16px", fontWeight: 600, color: "var(--accent)" }}>{p.local}</td>
-                      <td style={{ padding: "8px 16px", fontStyle: "italic", color: "var(--text-muted)" }}>{p.pronunciation}</td>
+                    <tr key={i}>
+                      <td data-label="English">{p.en}</td>
+                      <td data-label="Local" style={{ fontWeight: 600, color: "var(--accent)" }}>{p.local}</td>
+                      <td data-label="Pronunciation" style={{ fontStyle: "italic", color: "var(--text-muted)" }}>{p.pronunciation}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -2864,21 +2865,21 @@ export function SurvivalGuideView({ stop }) {
             {stop?.country} Phrases with Nepali Hints
           </div>
           <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, fontFamily: "var(--sans)" }}>
+            <table className="comparison-table table-card-mobile pm-embedded">
               <thead>
-                <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                <tr>
                   {["Situation", "Say This", "Sounds Like", "Nepali Hint"].map(h => (
-                    <th key={h} style={{ padding: "8px 12px", textAlign: "left", color: "var(--text-dim)", fontSize: 10, textTransform: "uppercase", fontWeight: 600 }}>{h}</th>
+                    <th key={h}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {countryPhrases.map((p, i) => (
-                  <tr key={i} style={{ borderBottom: "1px solid var(--border-light)", background: i % 2 === 1 ? "var(--bg-hover)" : "transparent" }}>
-                    <td style={{ padding: "7px 12px", color: "var(--text-muted)" }}>{p.situation}</td>
-                    <td style={{ padding: "7px 12px", fontWeight: 600, color: "var(--accent)" }}>{p.phrase}</td>
-                    <td style={{ padding: "7px 12px", fontStyle: "italic", color: "var(--text)" }}>{p.pronunciation}</td>
-                    <td style={{ padding: "7px 12px", fontSize: 11, color: "var(--text-muted)" }}>{p.nepaliHint}</td>
+                  <tr key={i}>
+                    <td data-label="Situation" style={{ color: "var(--text-muted)" }}>{p.situation}</td>
+                    <td data-label="Say This" style={{ fontWeight: 600, color: "var(--accent)" }}>{p.phrase}</td>
+                    <td data-label="Sounds Like" style={{ fontStyle: "italic" }}>{p.pronunciation}</td>
+                    <td data-label="Nepali Hint" style={{ fontSize: 12, color: "var(--text-muted)" }}>{p.nepaliHint}</td>
                   </tr>
                 ))}
               </tbody>
@@ -2892,21 +2893,21 @@ export function SurvivalGuideView({ stop }) {
           Numbers for Ordering & Tickets
         </div>
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, fontFamily: "var(--sans)" }}>
+          <table className="comparison-table table-card-mobile pm-embedded">
             <thead>
-              <tr style={{ borderBottom: "1px solid var(--border)" }}>
+              <tr>
                 {["#", "Italian", "German", "Czech"].map(h => (
-                  <th key={h} style={{ padding: "8px 12px", textAlign: h === "#" ? "center" : "left", color: "var(--text-dim)", fontSize: 10, textTransform: "uppercase", fontWeight: 600 }}>{h}</th>
+                  <th key={h} style={h === "#" ? { textAlign: "center" } : undefined}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {SITUATION_PHRASES.numbers.list.map((n, i) => (
-                <tr key={i} style={{ borderBottom: "1px solid var(--border-light)", background: i % 2 === 1 ? "var(--bg-hover)" : "transparent" }}>
-                  <td style={{ padding: "7px 12px", textAlign: "center", fontWeight: 700, color: "var(--accent)" }}>{n.number}</td>
-                  <td style={{ padding: "7px 12px", color: "var(--text)" }}>{n.italian}</td>
-                  <td style={{ padding: "7px 12px", color: "var(--text)" }}>{n.german}</td>
-                  <td style={{ padding: "7px 12px", color: "var(--text)" }}>{n.czech}</td>
+                <tr key={i}>
+                  <td data-label="#" style={{ textAlign: "center", fontWeight: 700, color: "var(--accent)" }}>{n.number}</td>
+                  <td data-label="Italian">{n.italian}</td>
+                  <td data-label="German">{n.german}</td>
+                  <td data-label="Czech">{n.czech}</td>
                 </tr>
               ))}
             </tbody>
@@ -2941,10 +2942,11 @@ export function SurvivalGuideView({ stop }) {
       <h2 className="story-title">Survival Guide</h2>
 
       {/* Tab bar */}
-      <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: 6, marginBottom: 20, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         {tabs.map(t => (
           <button key={t.id} onClick={() => setGuideTab(t.id)} style={{
-            padding: "8px 14px", fontSize: 12, fontWeight: 600, fontFamily: "var(--sans)",
+            padding: "11px 14px", minHeight: 44, flexShrink: 0, whiteSpace: "nowrap",
+            fontSize: 12, fontWeight: 600, fontFamily: "var(--sans)",
             borderRadius: "var(--radius)", border: "1px solid",
             borderColor: guideTab === t.id ? "var(--accent)" : "var(--border)",
             background: guideTab === t.id ? "var(--accent-bg)" : "transparent",
@@ -3012,7 +3014,7 @@ export function CalendarDayDialog({ day, onClose, onGoToStop }) {
     <div className="caldlg-overlay" onClick={onClose}>
       <div className="caldlg" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="caldlg-head" style={{ background: s.glow, borderColor: s.dot }}>
+        <div className="caldlg-head" style={{ background: `linear-gradient(${s.glow}, ${s.glow}), var(--bg-raised)`, borderColor: s.dot }}>
           <div className="caldlg-datebox" style={{ borderColor: s.dot, color: s.dot }}>
             <div className="caldlg-datebox-dow">{dowShort}</div>
             <div className="caldlg-datebox-num">{dayNum}</div>
@@ -4333,10 +4335,8 @@ export function BookingTimelinePanel() {
         >
           {/* Header row */}
           <div
+            className="bt-head"
             style={{
-              display: "grid",
-              gridTemplateColumns: "48px 1.4fr 1fr 1fr 2fr",
-              gap: 0,
               padding: "10px 14px",
               background: "var(--bg-hover)",
               fontSize: 10,
@@ -4363,10 +4363,8 @@ export function BookingTimelinePanel() {
               }}
             >
               <summary
+                className="bt-row"
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "48px 1.4fr 1fr 1fr 2fr",
-                  gap: 0,
                   padding: "12px 14px",
                   cursor: "pointer",
                   alignItems: "start",
@@ -4500,7 +4498,7 @@ export function AltRoutesPanel() {
             {route.pitch}
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 18 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, marginBottom: 18 }}>
             <div
               style={{
                 padding: "14px 16px",
@@ -4607,10 +4605,8 @@ export function AltRoutesPanel() {
             {ALT_ROUTES.decisionMatrix.map((d, i) => (
               <div
                 key={i}
+                className="altmatrix-row"
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "1.2fr 1.2fr 2fr",
-                  gap: 12,
                   padding: "10px 14px",
                   borderBottom: i < ALT_ROUTES.decisionMatrix.length - 1 ? "1px solid var(--border-light)" : "none",
                   fontFamily: "var(--sans)",

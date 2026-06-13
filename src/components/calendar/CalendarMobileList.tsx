@@ -31,6 +31,8 @@ const MONTH_NAMES: Record<string, string> = {
 
 const resolveStop = (id: string) => (id === 'imst' ? 'innsbruck' : id);
 
+const monthOf = (day: CalendarDay) => day.date.split(/\s+/).find((t) => t in MONTH_NAMES);
+
 function chipStyle(color: string): CSSProperties {
   return { color, background: `${color}16`, borderColor: `${color}3a` };
 }
@@ -47,12 +49,20 @@ function summaryLine(day: CalendarDay): string | null {
 export function CalendarMobileList({ days, activeStopId, onOpenDay }: CalendarMobileListProps) {
   const sorted = useMemo(() => [...days].sort((a, b) => a.dayN - b.dayN), [days]);
 
+  const firstMonth = sorted.length > 0 ? monthOf(sorted[0]) : undefined;
+  const finalMonth = sorted.length > 0 ? monthOf(sorted[sorted.length - 1]) : undefined;
+  const title = firstMonth && finalMonth
+    ? firstMonth === finalMonth
+      ? `${MONTH_NAMES[firstMonth]} 2026`
+      : `${MONTH_NAMES[firstMonth]} – ${MONTH_NAMES[finalMonth]} 2026`
+    : 'Trip calendar';
+
   let lastMonth = '';
 
   return (
     <div className="calm">
       <header className="calm-head">
-        <h1 className="calm-title">June – July 2026</h1>
+        <h1 className="calm-title">{title}</h1>
         <p className="calm-sub">{sorted.length} days · tap any day for the full plan</p>
       </header>
 

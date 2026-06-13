@@ -20,7 +20,7 @@ export function DayNotes({ dayN, accent, collapsible = false }: { dayN: number; 
   const list = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
       {rows.map((r) => (
-        <div key={r.key} style={{ display: 'flex', gap: 6, fontSize: 11.5, lineHeight: 1.4, color: 'var(--text-muted)' }}>
+        <div key={r.key} style={{ display: 'flex', gap: 6, fontSize: 12.5, lineHeight: 1.4, color: 'var(--text-muted)' }}>
           <span aria-hidden style={{ flexShrink: 0 }}>{r.icon}</span>
           <span>{note[r.key]}</span>
         </div>
@@ -28,7 +28,7 @@ export function DayNotes({ dayN, accent, collapsible = false }: { dayN: number; 
     </div>
   );
 
-  const labelStyle = { fontSize: 10, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: accent } as const;
+  const labelStyle = { fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: accent } as const;
 
   if (collapsible) {
     return (

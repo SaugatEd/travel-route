@@ -95,7 +95,10 @@
   white-space: nowrap;
   transition: color 0.15s, background 0.15s, border-color 0.15s;
 }
-.ref-chip:hover { color: var(--text); border-color: var(--ref-accent); }
+@media (hover: hover) {
+  .ref-chip:hover { color: var(--text); border-color: var(--ref-accent); }
+}
+.ref-chip:active { color: var(--text); border-color: var(--ref-accent); }
 .ref-chip.is-active {
   color: var(--ref-accent);
   background: var(--ref-bg);
@@ -166,10 +169,12 @@
   border-left: 3px solid var(--ref-border);
   transition: transform 0.15s, box-shadow 0.15s, border-left-color 0.15s;
 }
-.ref-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-left-color: var(--ref-accent);
+@media (hover: hover) {
+  .ref-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-left-color: var(--ref-accent);
+  }
 }
 
 .ref-badge {
@@ -210,4 +215,6 @@
   .ref-title { font-size: 27px; }
   .ref-cards { grid-template-columns: 1fr; }
   .ref-group-cities { display: none; }
+  .ref-jump { padding: 6px 2px; }
+  .ref-chip { padding: 11px 14px; min-height: 44px; }
 }

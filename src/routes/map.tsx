@@ -9,6 +9,7 @@ import { STOP_COORDS, TRIP_ROUTE, DAY_TRIPS, minutesBetween, formatGap, type Rou
 import { LOCKERS } from '@/data/lockerData';
 import { OfflineMapControl } from '@/components/map/OfflineMapControl';
 import { useMapsProvider, useUiStore } from '@/store/useUiStore';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { directionsLink, PROVIDER_LABEL } from '@/lib/mapsProvider';
 
 export const Route = createFileRoute('/map')({
@@ -400,6 +401,9 @@ function MapPage() {
   const [dest, setDest] = useState<Place | null>(null);
   const [recenterTick, setRecenterTick] = useState(0);
   const [fitAllTick, setFitAllTick] = useState(0);
+  const isTouch = useMediaQuery('(pointer: coarse)');
+  const [mapUnlocked, setMapUnlocked] = useState(false);
+  const mapLocked = isTouch && !mapUnlocked;
 
   useEffect(() => {
     if (typeof navigator === 'undefined' || !navigator.geolocation) {
@@ -447,7 +451,7 @@ function MapPage() {
           <div style={{ marginLeft: 'auto', display: 'inline-flex', border: '1px solid var(--border)', borderRadius: 999, overflow: 'hidden' }}>
             {(['google', 'apple'] as const).map((p) => (
               <button key={p} type="button" onClick={() => setMapsProvider(p)} aria-pressed={provider === p}
-                style={{ padding: '4px 11px', fontSize: 12, fontWeight: 800, cursor: 'pointer', border: 'none', background: provider === p ? 'var(--accent)' : 'transparent', color: provider === p ? '#fff' : 'var(--text-muted)' }}>
+                style={{ minHeight: 44, padding: '10px 14px', fontSize: 12.5, fontWeight: 800, cursor: 'pointer', border: 'none', background: provider === p ? 'var(--accent)' : 'transparent', color: provider === p ? '#fff' : 'var(--text-muted)' }}>
                 {p === 'google' ? '🟢 Google' : '🍎 Apple'}
               </button>
             ))}
@@ -455,7 +459,7 @@ function MapPage() {
         </div>
 
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-          <select aria-label="Navigate to" value={dest?.id ?? ''} onChange={(e) => setDest(ALL_DESTS.find((d) => d.id === e.target.value) ?? null)} style={selectStyle}>
+          <select aria-label="Navigate to" value={dest?.id ?? ''} onChange={(e) => setDest(ALL_DESTS.find((d) => d.id === e.target.value) ?? null)} style={isTouch ? { ...selectStyle, fontSize: 16, minHeight: 44 } : selectStyle}>
             <option value="">Navigate to…</option>
             {DEST_GROUPS.map((g) => (
               <optgroup key={g.group} label={g.group}>
@@ -471,7 +475,7 @@ function MapPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', fontSize: 12.5 }}>
             <span style={{ color: 'var(--text-muted)' }}>To <strong style={{ color: 'var(--text)' }}>{dest.label}</strong>{distLabel ? ` · ${distLabel}` : ''}</span>
             <a href={externalUrl} target="_blank" rel="noreferrer" style={{ fontWeight: 800, color: 'var(--accent)', textDecoration: 'none' }}>Turn-by-turn in {PROVIDER_LABEL[provider]} ↗</a>
-            <button type="button" onClick={() => setDest(null)} style={{ ...pillBtn, padding: '3px 9px' }}>✕ Clear</button>
+            <button type="button" onClick={() => setDest(null)} style={pillBtn}>✕ Clear</button>
           </div>
         )}
         {geoError && <div style={{ fontSize: 11.5, color: 'var(--text-dim)' }}>{geoError} — you can still pick a destination for directions in {PROVIDER_LABEL[provider]}.</div>}
@@ -522,6 +526,38 @@ function MapPage() {
           <FitBounds stops={stops} />
           <MapController userPos={userPos} route={route} recenterTick={recenterTick} fitAllTick={fitAllTick} allPoints={allPoints} />
         </MapContainer>
+
+        {mapLocked && (
+          <button
+            type="button"
+            aria-label="Enable map panning"
+            onClick={() => setMapUnlocked(true)}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 1001,
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+              padding: '0 0 14px',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              touchAction: 'pan-y',
+            }}
+          >
+            <span style={{ ...mapLockHint, pointerEvents: 'none' }}>🖐 Tap to enable the map</span>
+          </button>
+        )}
+        {isTouch && mapUnlocked && (
+          <button
+            type="button"
+            onClick={() => setMapUnlocked(false)}
+            style={{ ...pillBtn, position: 'absolute', top: 10, right: 10, zIndex: 1001, boxShadow: 'var(--shadow)' }}
+          >
+            ✕ Lock map
+          </button>
+        )}
       </div>
 
       <OfflineMapControl />
@@ -554,6 +590,7 @@ const pillBtn: CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   gap: 6,
+  minHeight: 44,
   padding: '8px 13px',
   borderRadius: 10,
   border: '1px solid var(--border)',
@@ -563,6 +600,19 @@ const pillBtn: CSSProperties = {
   fontWeight: 800,
   cursor: 'pointer',
   whiteSpace: 'nowrap',
+};
+const mapLockHint: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 6,
+  padding: '10px 16px',
+  borderRadius: 999,
+  border: '1px solid var(--border)',
+  background: 'var(--bg-raised)',
+  color: 'var(--text)',
+  fontSize: 12.5,
+  fontWeight: 800,
+  boxShadow: 'var(--shadow)',
 };
 
 function StopPopup({ stop, onNavigate, onOpen }: { stop: ResolvedStop; onNavigate: () => void; onOpen: () => void }) {
@@ -617,10 +667,10 @@ function StopPopup({ stop, onNavigate, onOpen }: { stop: ResolvedStop; onNavigat
       )}
 
       <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-        <button type="button" onClick={onNavigate} style={{ flex: 1, padding: '7px 10px', borderRadius: 8, border: 'none', background: '#2563EB', color: '#fff', fontSize: 12.5, fontWeight: 700, cursor: 'pointer' }}>
+        <button type="button" onClick={onNavigate} style={{ flex: 1, minHeight: 44, padding: '12px 10px', borderRadius: 8, border: 'none', background: '#2563EB', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
           Navigate here
         </button>
-        <button type="button" onClick={onOpen} style={{ flex: 1, padding: '7px 10px', borderRadius: 8, border: '1px solid #ddd', background: '#fff', color: '#222', fontSize: 12.5, fontWeight: 700, cursor: 'pointer' }}>
+        <button type="button" onClick={onOpen} style={{ flex: 1, minHeight: 44, padding: '12px 10px', borderRadius: 8, border: '1px solid #ddd', background: '#fff', color: '#222', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
           Open stop →
         </button>
       </div>

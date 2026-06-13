@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import type { CSSProperties } from 'react';
 import { Link } from '@tanstack/react-router';
 import { parseCalDate } from '@/lib/dates';
@@ -31,8 +31,8 @@ const linkBtn: CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   gap: 6,
-  minHeight: 42,
-  padding: '9px 12px',
+  minHeight: 44,
+  padding: '10px 12px',
   borderRadius: 10,
   border: '1px solid var(--border)',
   background: 'var(--bg-raised)',
@@ -47,17 +47,31 @@ const resolveStop = (id: string) => (id === 'imst' ? 'innsbruck' : id);
 
 export function CalendarDayDialog({ day, bookings, onClose }: CalendarDayDialogProps) {
   const s = TYPE_STYLE[day.type] ?? TYPE_STYLE.explore;
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prev;
-    };
+    return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
+
+  useEffect(() => {
+    closeRef.current?.focus();
+    const y = window.scrollY;
+    const { position, top, left, right, width, overflow } = document.body.style;
+    Object.assign(document.body.style, {
+      position: 'fixed',
+      top: `-${y}px`,
+      left: '0',
+      right: '0',
+      width: '100%',
+      overflow: 'hidden',
+    });
+    return () => {
+      Object.assign(document.body.style, { position, top, left, right, width, overflow });
+      window.scrollTo({ top: y, behavior: 'instant' });
+    };
+  }, []);
 
   const bookingsById = useMemo(() => {
     const m = new Map<string, Booking>();
@@ -77,9 +91,18 @@ export function CalendarDayDialog({ day, bookings, onClose }: CalendarDayDialogP
 
   return (
     <div className="caldlg-overlay" onClick={onClose}>
-      <div className="caldlg" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="caldlg"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Day ${day.dayN} — ${day.city}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header — date + from → to */}
-        <div className="caldlg-head" style={{ background: s.glow, borderColor: s.dot }}>
+        <div
+          className="caldlg-head"
+          style={{ background: `linear-gradient(${s.glow}, ${s.glow}), var(--bg-raised)`, borderColor: s.dot }}
+        >
           <div className="caldlg-datebox" style={{ borderColor: s.dot, color: s.dot }}>
             <div className="caldlg-datebox-dow">{dowShort}</div>
             <div className="caldlg-datebox-num">{dayNum}</div>
@@ -98,7 +121,7 @@ export function CalendarDayDialog({ day, bookings, onClose }: CalendarDayDialogP
               <span>{day.city}</span>
             </div>
           </div>
-          <button onClick={onClose} aria-label="Close" className="caldlg-close">✕</button>
+          <button ref={closeRef} onClick={onClose} aria-label="Close" className="caldlg-close">✕</button>
         </div>
 
         <div className="caldlg-body">

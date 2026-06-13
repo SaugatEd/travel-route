@@ -37,8 +37,7 @@ export function DayCard({ day, journeys, tint, stopLinkId = null, hideJourneys =
 
   return (
     <article
-      onMouseEnter={stopLinkId ? (e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; } : undefined}
-      onMouseLeave={stopLinkId ? (e) => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none'; } : undefined}
+      className={stopLinkId ? 'day-card day-card--link' : 'day-card'}
       style={{
         position: 'relative',
         height: '100%',
@@ -46,7 +45,6 @@ export function DayCard({ day, journeys, tint, stopLinkId = null, hideJourneys =
         borderRadius: 14,
         background: 'var(--bg)',
         overflow: 'hidden',
-        transition: 'transform 0.15s, box-shadow 0.15s',
       }}
     >
       {/* Stretched link — clicking anywhere on the card opens this stop (inner links opt out via z-index). */}
@@ -237,7 +235,7 @@ function JourneyStrip({ journey: j, divider = false }: { journey: Journey; divid
         <span
           style={{
             flexShrink: 0,
-            fontSize: 9.5,
+            fontSize: 10.5,
             fontWeight: 800,
             letterSpacing: '0.06em',
             color: '#fff',
@@ -273,13 +271,13 @@ function JourneyStrip({ journey: j, divider = false }: { journey: Journey; divid
             href={directionsUrl}
             target="_blank"
             rel="noreferrer"
-            style={{ flexShrink: 0, fontSize: 11.5, fontWeight: 700, color: '#2563EB', textDecoration: 'none', whiteSpace: 'nowrap' }}
+            style={{ flexShrink: 0, fontSize: 12, fontWeight: 700, color: '#2563EB', textDecoration: 'none', whiteSpace: 'nowrap', padding: '8px 4px', margin: '-8px -4px' }}
           >
             Directions ↗
           </a>
         )}
       </div>
-      <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 3, lineHeight: 1.4 }}>
+      <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 3, lineHeight: 1.4 }}>
         {j.from} → {j.to} · {j.dur} · {j.cost}
       </div>
     </div>

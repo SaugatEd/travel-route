@@ -17,6 +17,9 @@ export function AppShell({ children }: AppShellProps) {
   // Activate the (already-authored) light/dark token sets on the document.
   useLayoutEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--bg').trim());
   }, [theme]);
 
   // Elevate the sticky nav once the brand header has scrolled past it.

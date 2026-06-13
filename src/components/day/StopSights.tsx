@@ -77,7 +77,7 @@ export function StopSights({ stopId, city }: StopSightsProps) {
                     position: 'absolute',
                     top: 8,
                     left: 8,
-                    fontSize: 9.5,
+                    fontSize: 10.5,
                     fontWeight: 800,
                     letterSpacing: '0.06em',
                     textTransform: 'uppercase',

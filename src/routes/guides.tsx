@@ -39,7 +39,7 @@ function GuidesPage() {
   return (
     <div style={{ maxWidth: 980, margin: '0 auto' }}>
       <header style={{ marginBottom: 22 }}>
-        <h1 style={{ fontFamily: 'var(--serif)', fontSize: 34, margin: '0 0 4px', color: 'var(--text)' }}>
+        <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(25px, 7vw, 34px)', margin: '0 0 4px', color: 'var(--text)' }}>
           Europe Trip Packing List
         </h1>
         <p style={{ fontSize: 14, color: 'var(--text-muted)', margin: 0, lineHeight: 1.5 }}>
@@ -164,13 +164,13 @@ function ItemList({ items, tone }: { items: string[]; tone: string }) {
   return (
     <ul style={{ listStyle: 'none', margin: 0, padding: '8px 0 0' }}>
       {items.map((item, i) => (
-        <li key={i} style={{ marginBottom: 6 }}>
-          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', fontSize: 14, lineHeight: 1.5 }}>
+        <li key={i}>
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', fontSize: 14, lineHeight: 1.5, padding: '12px 0' }}>
             <input
               type="checkbox"
               checked={!!checked[i]}
               onChange={() => toggle(i)}
-              style={{ marginTop: 4, accentColor: tone }}
+              style={{ width: 18, height: 18, marginTop: 2, flexShrink: 0, accentColor: tone }}
             />
             <span style={{ color: checked[i] ? 'var(--text-faint)' : 'var(--text)', textDecoration: checked[i] ? 'line-through' : 'none' }}>
               {item}
@@ -201,13 +201,13 @@ function TaskList({ tasks, tone }: { tasks: PreTripTask[]; tone: string }) {
   return (
     <ul style={{ listStyle: 'none', margin: 0, padding: '8px 0 0' }}>
       {tasks.map((t, i) => (
-        <li key={i} style={{ marginBottom: 10 }}>
-          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer' }}>
+        <li key={i}>
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', padding: '10px 0' }}>
             <input
               type="checkbox"
               checked={!!checked[i]}
               onChange={() => toggle(i)}
-              style={{ marginTop: 4, accentColor: tone }}
+              style={{ width: 18, height: 18, marginTop: 2, flexShrink: 0, accentColor: tone }}
             />
             <span style={{ flex: 1 }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: checked[i] ? 'var(--text-faint)' : 'var(--text)', textDecoration: checked[i] ? 'line-through' : 'none', lineHeight: 1.4 }}>

@@ -122,7 +122,7 @@ function Fact({ label, children }: { label: string; children: ReactNode }) {
     <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 8, padding: '7px 9px' }}>
       <div
         style={{
-          fontSize: 9.5,
+          fontSize: 10.5,
           fontWeight: 800,
           letterSpacing: '0.06em',
           textTransform: 'uppercase',
