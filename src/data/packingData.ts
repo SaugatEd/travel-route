@@ -69,6 +69,46 @@ export const PACKING: PackGroup[] = [
     ],
   },
   {
+    id: 'documents',
+    title: 'Documents to carry',
+    hint: 'printed + saved offline on the phone',
+    items: [
+      {
+        id: 'doc-passport-copy',
+        head: '📕 Passport + Schengen visa copy',
+        qty: '×3',
+        detail: 'Printed copy of the photo page and the visa sticker, plus a photo saved on each phone. Kept separate from the original passport.',
+      },
+      {
+        id: 'doc-flight-pdf',
+        head: '✈️ Round-trip flight ticket (PDF)',
+        qty: '×3',
+        detail: 'KTM → Rome and Amsterdam → KTM e-tickets. Print one set and save the PDFs offline — needed at check-in and sometimes at the Schengen border.',
+      },
+      {
+        id: 'doc-insurance',
+        head: '🩺 Travel insurance certificate',
+        qty: '×3',
+        detail: 'The policy certificate showing dates and coverage. Schengen entry can ask for proof of insurance.',
+      },
+      {
+        id: 'doc-itinerary',
+        head: '🗺 Full day-by-day itinerary',
+        detail: 'Download the Day Guide PDF and save it offline — also the document that proves your travel plan at the border.',
+      },
+      {
+        id: 'doc-accommodation',
+        head: '🏠 Accommodation confirmations',
+        detail: 'Every stay confirmation with address and check-in details. Save the PDFs offline so they open without internet on arrival.',
+      },
+      {
+        id: 'doc-bookings',
+        head: '🎟 Train & attraction bookings',
+        detail: 'Train tickets, museum and Reichstag passes — saved offline in one place so they load on a dead phone signal.',
+      },
+    ],
+  },
+  {
     id: 'toiletries',
     title: 'Toiletries',
     hint: 'liquids ≤100 ml — cabin bags only',
@@ -269,12 +309,6 @@ export const PACKING: PackGroup[] = [
         qty: '~5–6 each',
         detail: 'Pack for ~6 days and plan one sink-wash mid-trip — chasing a full 21-day wardrobe blows the 7 kg limit. Quick-dry fabrics wash and dry overnight.',
       },
-      {
-        id: 'sleep-kit',
-        head: '😴 Eye mask + earplugs',
-        qty: '×3',
-        detail: 'The Berlin → Amsterdam night FlixBus and early-morning trains are far easier to sleep through with these.',
-      },
     ],
   },
   {
@@ -286,18 +320,6 @@ export const PACKING: PackGroup[] = [
         head: '🍜 Wai Wai / dry snacks',
         detail: 'Saves real money on long travel days — hot water is easy to find, Nepali food is not.',
       },
-      {
-        id: 'no-meat',
-        head: '🚫 NO meat or dairy items',
-        detail:
-          'EU customs bans meat and milk products from outside Europe — no sukuti, no ghee, no khuwa. Fines at the airport are real, so do not let relatives pack any.',
-      },
-      {
-        id: 'achar',
-        head: '🫙 Achar counts as a liquid',
-        detail: 'Pickle in oil falls under the 100 ml rule in cabin bags — tiny jar or skip it.',
-      },
-      { id: 'tea', head: '🍵 Black tea bags', detail: 'Hotel-room tea costs nothing; café tea costs €4.' },
       {
         id: 'spices',
         head: '🫙 Salt, ground masala & besar',

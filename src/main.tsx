@@ -31,13 +31,11 @@ createRoot(rootEl).render(
   </StrictMode>
 );
 
-// Offline map tiles — caches only tile images (see public/sw.js). Best-effort.
+// Offline support — caches the app shell + map tiles (see public/sw.js) so the
+// installed PWA loads with no internet. Best-effort; the app still works online
+// if registration fails.
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register(`${import.meta.env.BASE_URL}sw.js`)
-      .catch(() => {
-        /* offline tiles unavailable — app still works online */
-      });
+    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => {});
   });
 }
