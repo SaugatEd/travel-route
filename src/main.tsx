@@ -31,11 +31,16 @@ createRoot(rootEl).render(
   </StrictMode>
 );
 
-// Offline support — caches the app shell + map tiles (see public/sw.js) so the
-// installed PWA loads with no internet. Best-effort; the app still works online
-// if registration fails.
+// Offline support — register the app-shell + tile cache in production only.
+// In dev the cache would serve a stale bundle over the dev server, so instead we
+// tear down any service worker still controlling localhost.
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => {});
-  });
+  if (import.meta.env.PROD) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => {});
+    });
+  } else {
+    navigator.serviceWorker.getRegistrations().then((regs) => regs.forEach((r) => r.unregister()));
+    if ('caches' in window) caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));
+  }
 }

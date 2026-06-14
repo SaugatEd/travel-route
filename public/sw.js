@@ -13,6 +13,10 @@ const APP_CACHE = 'jamnata-app-v1';
 const TILE_CACHE = 'jamnata-tiles-v1';
 const KEEP = new Set([APP_CACHE, TILE_CACHE]);
 
+// On localhost the cache would shadow the Vite dev server with a stale build, so
+// the dev service worker self-destructs: wipe caches, unregister, reload tabs.
+const IS_DEV = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(self.location.hostname);
+
 const SCOPE_URL = new URL('./', self.location).href;
 const SCOPE_PATH = new URL('./', self.location).pathname;
 const INDEX_URL = new URL('index.html', self.location).href;
@@ -35,6 +39,10 @@ function tileKey(rawUrl) {
 }
 
 self.addEventListener('install', (event) => {
+  if (IS_DEV) {
+    event.waitUntil(self.skipWaiting());
+    return;
+  }
   event.waitUntil(
     (async () => {
       const cache = await caches.open(APP_CACHE);
@@ -49,6 +57,13 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
       const keys = await caches.keys();
+      if (IS_DEV) {
+        await Promise.all(keys.map((k) => caches.delete(k)));
+        await self.registration.unregister();
+        const clients = await self.clients.matchAll({ type: 'window' });
+        clients.forEach((c) => c.navigate(c.url));
+        return;
+      }
       await Promise.all(keys.filter((k) => !KEEP.has(k)).map((k) => caches.delete(k)));
       await self.clients.claim();
     })(),
@@ -92,6 +107,7 @@ async function tileStrategy(request) {
 }
 
 self.addEventListener('fetch', (event) => {
+  if (IS_DEV) return; // dev: never intercept — let Vite serve everything fresh
   const req = event.request;
   if (req.method !== 'GET') return;
 
