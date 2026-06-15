@@ -727,6 +727,17 @@ function StoryContent({ stop }) {
           <p className="story-text">{stop.story}</p>
           <h2 className="story-title">History</h2>
           <p className="history-text">{stop.history}</p>
+          {stop.facts?.length > 0 && (
+            <>
+              <h2 className="story-title">Did You Know?</h2>
+              {stop.facts.map((f, i) => (
+                <div key={i} className="must-item">
+                  <span className="must-num" aria-hidden>💡</span>
+                  <span className="must-text">{f}</span>
+                </div>
+              ))}
+            </>
+          )}
           <h2 className="story-title">Must Do</h2>
           {stop.must.map((m, i) => (
             <div key={i} className="must-item">

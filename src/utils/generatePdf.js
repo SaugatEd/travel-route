@@ -970,7 +970,7 @@ export function generateFullTripPdf(stops, calendar, opts = {}) {
       doc.text("Pronunciation", LM + 120, y + 3);
       y += 7;
 
-      info.phrases.slice(0, 10).forEach((p) => {
+      info.phrases.forEach((p) => {
         y = checkPage(doc, y, 6);
         doc.setFontSize(8);
         doc.setFont("helvetica", "normal");
@@ -1169,6 +1169,10 @@ function aboutCity(doc, y, stop, nth) {
     if (stop.history) {
       y = subheading(doc, "A Little History", y);
       y = bodyText(doc, tx(stop.history), y);
+    }
+    if (stop.facts?.length) {
+      y = subheading(doc, "Did You Know?", y);
+      stop.facts.forEach((f) => { y = bodyText(doc, `- ${tx(f)}`, y); });
     }
     if (stop.weather?.tip) y = tipBox(doc, tx(stop.weather.tip), y);
     return y;

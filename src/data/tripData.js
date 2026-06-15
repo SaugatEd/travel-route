@@ -2,6 +2,14 @@ export const STOPS = [
   /* 1 ─ ROME (arrival + city) */
   {
     id:"rome", flag:"🇮🇹", city:"Rome", country:"Italy",
+    facts:[
+      "The Pantheon's dome is still the world's largest unreinforced concrete dome — nearly 1,900 years after it was built.",
+      "Vatican City, in the middle of Rome, is the world's smallest country at about 0.49 km².",
+      "An estimated €1.5 million in coins is thrown into the Trevi Fountain each year — it's collected and given to charity.",
+      "The Colosseum could be flooded in its early years to stage mock naval battles.",
+      "At Largo di Torre Argentina — the ruins where Julius Caesar was assassinated — a protected cat sanctuary now lives among the temples.",
+      "Rome has hundreds of free public drinking fountains called nasoni ('big noses') with cold, clean water.",
+    ],
     duration:"2 nights · Tue 16 – Thu 18 Jun",
     tagline:"Land at FCO, sleep in Testaccio, eat where Romans eat",
     color:"#C62828", bg:"#FFF8F8", currency:"EUR", budget:"€95–125/night",
@@ -105,6 +113,13 @@ export const STOPS = [
   /* 4 ─ COMO */
   {
     id:"como", flag:"🇮🇹", city:"Lake Como", country:"Italy",
+    facts:[
+      "At about 410 m deep, Como is one of the deepest lakes in Europe — deeper than much of the surrounding land is high.",
+      "Its upside-down 'Y' shape, with three branches, is one of the most distinctive lake outlines in the world.",
+      "Alessandro Volta, inventor of the electric battery, was born here — the unit 'volt' is named after him.",
+      "Como silk historically supplied much of Europe's finest silk, and the mills still operate today.",
+      "Villa del Balbianello on the lake appeared in Star Wars: Attack of the Clones and the James Bond film Casino Royale.",
+    ],
     duration:"1 night · Thu 18 – Fri 19 Jun",
     tagline:"Where the Alps meet the Mediterranean",
     color:"#1565C0", bg:"#F0F7FF", currency:"EUR", budget:"€55–80/night",
@@ -201,6 +216,13 @@ export const STOPS = [
   /* 5 ─ LUCERNE */
   {
     id:"lucerne", flag:"🇨🇭", city:"Lucerne", country:"Switzerland",
+    facts:[
+      "The Chapel Bridge (Kapellbrücke, 1333) is the oldest surviving wooden covered bridge in Europe.",
+      "Mark Twain called the Lion Monument 'the most mournful and moving piece of stone in the world.'",
+      "Nearby Mt. Pilatus has the steepest cogwheel railway in the world, with gradients up to 48%.",
+      "Local legend says a dragon once lived on Mt. Pilatus — dragons still appear on the region's emblems.",
+      "Lake Lucerne's official name, Vierwaldstättersee, means 'Lake of the Four Forested Cantons.'",
+    ],
     duration:"1 night · Fri 19 – Sat 20 Jun",
     tagline:"Chapel Bridge, Lion Monument, lake under the Alps",
     color:"#7B1717", bg:"#FFF5F5", currency:"CHF", budget:"CHF 110–160/night",
@@ -297,6 +319,12 @@ export const STOPS = [
   /* 6 ─ LAUTERBRUNNEN */
   {
     id:"lauterbrunnen", flag:"💧", city:"Lauterbrunnen", country:"Switzerland",
+    facts:[
+      "The valley has 72 waterfalls — its name means 'many fountains.'",
+      "Staubbach Falls drops about 300 m in a single free fall, one of the highest in Europe.",
+      "J.R.R. Tolkien hiked here in 1911, and the valley is widely believed to have inspired Rivendell in The Lord of the Rings.",
+      "The Trümmelbach Falls are glacial waterfalls hidden inside the mountain, draining up to 20,000 litres of water per second.",
+    ],
     duration:"Day-trip · Sat 20 Jun · 12:55–15:35",
     tagline:"The valley J.R.R. Tolkien drew in his notebook — he called it Rivendell",
     color:"#1A237E", bg:"#ECEFF1", currency:"CHF", budget:"No overnight — sleep in Interlaken",
@@ -361,6 +389,12 @@ export const STOPS = [
   /* 7 ─ INTERLAKEN */
   {
     id:"interlaken", flag:"🇨🇭", city:"Interlaken", country:"Switzerland",
+    facts:[
+      "The name means 'between lakes' — the town sits between Lake Thun and Lake Brienz.",
+      "Lake Brienz's vivid turquoise colour comes from fine glacial 'rock flour' suspended in the water.",
+      "The nearby Jungfraujoch is the 'Top of Europe,' home to the continent's highest railway station at 3,454 m.",
+      "Harder Kulm, the local viewpoint above town, is reached by a funicular running since 1908.",
+    ],
     duration:"Day-trip transit · Sat 20 Jun · 12:15–16:30",
     tagline:"Between two lakes, beneath three 4,000m peaks",
     color:"#283593", bg:"#F0F4FF", currency:"CHF", budget:"CHF 80–120/night",
@@ -444,6 +478,13 @@ export const STOPS = [
   /* 8 ─ ZÜRICH */
   {
     id:"zurich", flag:"🇨🇭", city:"Zürich", country:"Switzerland",
+    facts:[
+      "Switzerland's largest city — but not its capital; that's Bern.",
+      "The Dada art movement was founded here at Cabaret Voltaire in 1916.",
+      "Zürich has more than 1,200 public fountains, and the water in most is clean and drinkable.",
+      "It regularly ranks among the world's cities with the highest quality of life.",
+      "Bahnhofstrasse is one of the most expensive shopping streets in the world.",
+    ],
     duration:"~1 hr transit · Sat 20 Jun · 18:30–19:30 (change of trains only)",
     tagline:"The most beautiful bank in the world — Chagall, lake, chocolate",
     color:"#B71C1C", bg:"#FFF5F5", currency:"CHF", budget:"Day visit only",
@@ -510,6 +551,13 @@ export const STOPS = [
   /* 9 ─ INNSBRUCK */
   {
     id:"innsbruck", flag:"🇦🇹", city:"Innsbruck", country:"Austria",
+    facts:[
+      "Innsbruck hosted the Winter Olympics twice — in 1964 and 1976.",
+      "The Golden Roof (Goldenes Dachl) is covered with 2,657 fire-gilded copper tiles, built around 1500 for Emperor Maximilian I.",
+      "The Nordkette funicular rises from the old town to 2,256 m, so you can go from café to alpine ridge in about 20 minutes.",
+      "The Swarovski crystal company is headquartered just outside the city, in Wattens.",
+      "Its name means 'bridge over the Inn,' the river that runs through the city.",
+    ],
     duration:"90-min stopover · Mon 22 Jun · 13:00–14:30",
     tagline:"Quick lunch + Old Town stop on the Bregenz → Salzburg train",
     color:"#7B1FA2", bg:"#FAF0FF", currency:"EUR", budget:"€70–95/night",
@@ -612,6 +660,13 @@ export const STOPS = [
   /* 11 ─ SALZBURG */
   {
     id:"salzburg", flag:"🇦🇹", city:"Salzburg", country:"Austria",
+    facts:[
+      "Salzburg is the birthplace of Mozart (1756); his family home on Getreidegasse is now a museum.",
+      "The name means 'Salt Castle' — the city grew rich on salt mined nearby, once called 'white gold.'",
+      "The Sound of Music (1965) was filmed in and around the city.",
+      "Hohensalzburg Fortress (begun 1077) is one of the largest fully preserved medieval castles in Europe and was never taken by force.",
+      "The Augustiner Bräustübl, the city's famous monastery beer hall, has been pouring since 1621.",
+    ],
     duration:"2 nights · Mon 22 – Wed 24 Jun",
     tagline:"Mozart was born here. Schafbergbahn 1,783m. Hallstatt UNESCO village day-trip.",
     color:"#E65100", bg:"#FFF8F0", currency:"EUR", budget:"€65–90/night",
@@ -722,6 +777,14 @@ export const STOPS = [
   /* 12 ─ VIENNA */
   {
     id:"vienna", flag:"🇦🇹", city:"Vienna", country:"Austria",
+    facts:[
+      "Vienna is repeatedly ranked the world's most liveable city.",
+      "Its tap water flows straight from Alpine springs through 19th-century mountain pipelines.",
+      "The Wiener Riesenrad at the Prater (1897) is one of the world's oldest still-operating Ferris wheels.",
+      "Viennese coffee-house culture is recognised by UNESCO as intangible cultural heritage.",
+      "The Vienna State Opera stages a different production almost every night of its long season.",
+      "Beethoven, Mozart, Schubert, Brahms and Mahler all lived and worked in the city.",
+    ],
     duration:"2 nights · Wed 24 – Fri 26 Jun",
     tagline:"The Habsburg Empire's greatest gift — 640 years of art, music and coffee",
     color:"#C62828", bg:"#FFF5F5", currency:"EUR", budget:"€80–110/night",
@@ -831,6 +894,13 @@ export const STOPS = [
   /* 12 ─ PRAGUE */
   {
     id:"prague", flag:"🇨🇿", city:"Prague", country:"Czechia",
+    facts:[
+      "The Astronomical Clock (1410) is the oldest astronomical clock still in operation.",
+      "Prague Castle is the largest ancient castle complex in the world by area (~70,000 m²).",
+      "Largely spared from WWII bombing, the medieval old town survives remarkably intact.",
+      "Legend says egg yolks were mixed into the mortar of Charles Bridge (1357) to make it stronger.",
+      "Czechs drink more beer per person than any other nation on earth.",
+    ],
     duration:"2 nights · Fri 26 – Sun 28 Jun",
     tagline:"The most beautiful city in Europe that nobody bombed in WWII",
     color:"#283593", bg:"#F0F4FF", currency:"CZK", budget:"CZK 2,500–3,800/night",
@@ -927,6 +997,14 @@ export const STOPS = [
   /* 13 ─ BERLIN */
   {
     id:"berlin", flag:"🇩🇪", city:"Berlin", country:"Germany",
+    facts:[
+      "Berlin has more bridges than Venice — around 1,700 of them.",
+      "Roughly a third of the city is parks, forests, rivers and lakes.",
+      "The Berlin Wall divided the city from 1961 to 1989; the East Side Gallery is the longest surviving stretch, covered in murals.",
+      "Currywurst was invented here in 1949 and even has its own museum.",
+      "The Reichstag's glass dome lets visitors look down into the parliament chamber — a deliberate symbol of political transparency.",
+      "Berlin is about nine times the land area of Paris.",
+    ],
     duration:"5 nights · Sun 28 Jun – Fri 3 Jul",
     tagline:"History happened here — and the city refuses to look away from it",
     color:"#212121", bg:"#FAFAFA", currency:"EUR", budget:"Sponsored · €4,415.37 total",
@@ -1027,6 +1105,14 @@ export const STOPS = [
   /* 14 ─ AMSTERDAM */
   {
     id:"amsterdam", flag:"🇳🇱", city:"Amsterdam", country:"Netherlands",
+    facts:[
+      "The whole city is built on millions of wooden piles driven into marshy ground — the Royal Palace alone stands on 13,659 of them.",
+      "There are more bikes than people: over 880,000 bicycles in the city.",
+      "The 17th-century canal ring (grachtengordel) is a UNESCO World Heritage site.",
+      "Many canal houses lean forward on purpose, with a hoist beam in the gable to haul furniture up past the famously steep, narrow staircases.",
+      "The narrowest house front in the city is only about 2 metres wide.",
+      "Amsterdam has around 1,500 bridges crossing its 165 canals.",
+    ],
     duration:"2 nights · Sat 4 – Mon 6 Jul",
     tagline:"A city of canals, tolerance, and the most important diary ever written",
     color:"#1B5E20", bg:"#F1F8E9", currency:"EUR", budget:"€130–185/night",
