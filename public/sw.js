@@ -1,28 +1,31 @@
 /* Jamnata offline service worker.
  *
- * Two jobs:
- *  1. App shell — make the whole app load with no internet. Navigations are
- *     network-first (so a fresh deploy is picked up the moment you're online),
- *     falling back to the cached index.html; hashed build assets and same-origin
- *     files are cache-first (their content never changes for a given URL, so this
- *     can't serve a stale app). This is why bumping the build can't strand users.
- *  2. Map tiles — CARTO / OpenStreetMap tile images you've viewed keep working
- *     offline (unchanged behaviour from before).
+ * Goal: the deployed app works with ZERO network after one online visit.
+ *  - PRECACHE_ASSETS (the whole build — every route chunk, css, icon, font) is
+ *    injected at build time by scripts/inject-sw-precache.mjs, so even sections
+ *    you never opened while online still load offline.
+ *  - Navigations are network-first (fresh deploys win) → cached index.html.
+ *  - Same-origin assets, Google Fonts and Unsplash images are cache-first, so
+ *    they keep working offline once seen.
+ *
+ * On localhost the worker self-destructs so it can't shadow the Vite dev server.
  */
-const APP_CACHE = 'jamnata-app-v1';
-const TILE_CACHE = 'jamnata-tiles-v1';
-const KEEP = new Set([APP_CACHE, TILE_CACHE]);
+const BUILD = '__BUILD__';
+const PRECACHE_ASSETS = [];
 
-// On localhost the cache would shadow the Vite dev server with a stale build, so
-// the dev service worker self-destructs: wipe caches, unregister, reload tabs.
+const APP_CACHE = `jamnata-app-${BUILD}`;
+const IMG_CACHE = 'jamnata-img-v1';
+const FONT_CACHE = 'jamnata-fonts-v1';
+const TILE_CACHE = 'jamnata-tiles-v1';
+const KEEP = new Set([APP_CACHE, IMG_CACHE, FONT_CACHE, TILE_CACHE]);
+
 const IS_DEV = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(self.location.hostname);
 
 const SCOPE_URL = new URL('./', self.location).href;
 const SCOPE_PATH = new URL('./', self.location).pathname;
 const INDEX_URL = new URL('index.html', self.location).href;
 
-// Best-effort offline copies of the booking/ticket PDFs travellers need at the
-// border. Missing files are skipped rather than failing the whole install.
+// Best-effort offline copies of border-day PDFs. Missing files are skipped.
 const DOC_ASSETS = [
   'tickets/turkish-airlines-tca424.pdf',
   'tickets/india-booking-le-premier.pdf',
@@ -32,8 +35,8 @@ const DOC_ASSETS = [
 
 const TILE_HOST = /(^|\.)basemaps\.cartocdn\.com$|(^|\.)tile\.openstreetmap\.org$/;
 const FONT_HOST = /(^|\.)fonts\.googleapis\.com$|(^|\.)fonts\.gstatic\.com$/;
+const IMG_HOST = /(^|\.)images\.unsplash\.com$|(^|\.)upload\.wikimedia\.org$/;
 
-// CARTO serves the same tile from subdomains a/b/c/d — normalise to one cache key.
 function tileKey(rawUrl) {
   return rawUrl.replace(/^https:\/\/[a-d]\.basemaps\.cartocdn\.com/, 'https://t.basemaps.cartocdn.com');
 }
@@ -46,7 +49,12 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     (async () => {
       const cache = await caches.open(APP_CACHE);
-      await cache.addAll([SCOPE_URL, INDEX_URL]).catch(() => {});
+      const core = [SCOPE_URL, INDEX_URL, ...PRECACHE_ASSETS.map((p) => new URL(p, self.location).href)];
+      try {
+        await cache.addAll([...new Set(core)]);
+      } catch {
+        await cache.add(INDEX_URL).catch(() => {});
+      }
       await Promise.allSettled(DOC_ASSETS.map((u) => cache.add(new URL(u, self.location))));
       await self.skipWaiting();
     })(),
@@ -123,7 +131,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   if (FONT_HOST.test(url.hostname)) {
-    event.respondWith(cacheFirst(req, APP_CACHE));
+    event.respondWith(cacheFirst(req, FONT_CACHE));
+    return;
+  }
+  if (IMG_HOST.test(url.hostname)) {
+    event.respondWith(cacheFirst(req, IMG_CACHE));
     return;
   }
 
